@@ -1,0 +1,93 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { FOOTER_LINKS, NAV_ITEMS, SITE } from "@/lib/site";
+
+export function Container({ children }: { children: ReactNode }) {
+  return <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">{children}</div>;
+}
+
+export function SiteHeader() {
+  return (
+    <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur">
+      <Container>
+        <div className="flex min-h-16 items-center justify-between gap-4 py-3">
+          <Link href="/" className="flex flex-col no-underline">
+            <span className="text-base font-bold tracking-normal text-ink">{SITE.name}</span>
+            <span className="text-xs text-muted">投稿者の申告に基づく注意情報</span>
+          </Link>
+          <nav aria-label="主要ナビゲーション" className="hidden items-center gap-2 md:flex">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={
+                  item.emphasis
+                    ? "rounded-md bg-action px-3 py-2 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+                    : "rounded-md px-3 py-2 text-sm font-medium text-ink no-underline transition hover:bg-paper"
+                }
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <nav
+          aria-label="モバイル主要ナビゲーション"
+          className="flex gap-2 overflow-x-auto pb-3 md:hidden"
+        >
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={
+                item.emphasis
+                  ? "shrink-0 rounded-md bg-action px-3 py-2 text-sm font-semibold text-white no-underline"
+                  : "shrink-0 rounded-md border border-line px-3 py-2 text-sm font-medium text-ink no-underline"
+              }
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </Container>
+    </header>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer className="border-t border-line bg-ink text-white">
+      <Container>
+        <div className="grid gap-6 py-8 md:grid-cols-[1.3fr_1fr]">
+          <div>
+            <p className="text-base font-bold">{SITE.name}</p>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/75">
+              掲載内容は投稿者の申告に基づく注意情報です。店舗や個人への攻撃、事実断定、個人情報の公開を目的としたサービスではありません。
+            </p>
+          </div>
+          <nav aria-label="補助ナビゲーション" className="flex flex-wrap gap-3 md:justify-end">
+            {FOOTER_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-md px-2 py-1 text-sm text-white/85 no-underline hover:bg-white/10"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </Container>
+    </footer>
+  );
+}
+
+export function AppShell({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex min-h-screen flex-col bg-paper text-ink">
+      <SiteHeader />
+      <main className="flex-1">{children}</main>
+      <SiteFooter />
+    </div>
+  );
+}

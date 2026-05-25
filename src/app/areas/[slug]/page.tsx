@@ -1,0 +1,84 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { EmptyState } from "@/components/empty-state";
+import { LeafletMap } from "@/components/leaflet-map";
+import { PageHeader, Section } from "@/components/page-blocks";
+import { PlaceCard } from "@/components/place-card";
+import { PublicNotice } from "@/components/public-notice";
+import {
+  getAreaCenter,
+  getPublicAreaSummary,
+  getPublicPlaceSummaries,
+} from "@/lib/public-data";
+import { INITIAL_AREAS } from "@/lib/site";
+
+type AreaPageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export function generateStaticParams() {
+  return INITIAL_AREAS.map((area) => ({ slug: area.slug }));
+}
+
+export async function generateMetadata({ params }: AreaPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const area = await getPublicAreaSummary(slug);
+
+  if (!area) {
+    return {
+      title: "対象エリア",
+    };
+  }
+
+  return {
+    title: area.name,
+    description: `${area.name}の承認済み注意報告を確認するページです。`,
+  };
+}
+
+export default async function AreaDetailPage({ params }: AreaPageProps) {
+  const { slug } = await params;
+  const area = await getPublicAreaSummary(slug);
+
+  if (!area) {
+    notFound();
+  }
+
+  const places = await getPublicPlaceSummaries({ areaSlug: slug });
+  const markerPlaces = places.filter(
+    (place) => place.latitude !== null && place.longitude !== null,
+  );
+
+  return (
+    <>
+      <PageHeader
+        eyebrow="Area"
+        title={area.name}
+        description={`${area.centerLabel}の承認済み注意報告を表示します。一般公開できない情報は表示しません。`}
+        primaryAction={{ href: "/map", label: "地図を見る" }}
+      />
+
+      <Section
+        title="エリア地図"
+        description="承認済み投稿があり、公開可能な位置情報がある場所のみを表示します。"
+      >
+        <LeafletMap center={getAreaCenter(slug)} places={markerPlaces} zoom={14} />
+        <div className="mt-6">
+          <PublicNotice />
+        </div>
+      </Section>
+
+      <Section title="このエリアの公開情報">
+        {places.length > 0 ? (
+          <div className="grid gap-4">
+            {places.map((place) => (
+              <PlaceCard key={place.id} place={place} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState message="このエリアには、現在一般公開できる承認済み投稿がありません。" />
+        )}
+      </Section>
+    </>
+  );
+}

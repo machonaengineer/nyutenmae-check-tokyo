@@ -1,0 +1,138 @@
+import Link from "next/link";
+import {
+  DefinitionList,
+  PolicyNote,
+  Section,
+  SimpleList,
+} from "@/components/page-blocks";
+import { Container } from "@/components/site-shell";
+import {
+  EVIDENCE_LEVELS,
+  INITIAL_AREAS,
+  PUBLICATION_RULES,
+  REPORT_CATEGORIES,
+  SITE,
+  TONE_GUIDELINES,
+} from "@/lib/site";
+
+const servicePrinciples = [
+  {
+    title: "星評価は使いません",
+    text: "味や通常接客ではなく、料金説明、会計確認、明細提示、退店時対応に関わる報告を扱います。",
+  },
+  {
+    title: "自動公開しません",
+    text: "投稿は管理者が表現、個人情報、証拠レベルを確認してから公開判断します。",
+  },
+  {
+    title: "証拠は分けて管理します",
+    text: "証拠画像と投稿者メールアドレスは一般公開せず、管理確認用の情報として扱います。",
+  },
+] as const;
+
+export default function Home() {
+  return (
+    <>
+      <section className="bg-surface">
+        <Container>
+          <div className="grid gap-10 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-action">都内繁華街の入店前確認</p>
+              <h1 className="mt-4 text-4xl font-bold leading-tight text-ink sm:text-5xl">
+                {SITE.name}
+              </h1>
+              <p className="mt-5 max-w-2xl text-xl leading-9 text-muted">
+                {SITE.description}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/map"
+                  className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+                >
+                  地図を見る
+                </Link>
+                <Link
+                  href="/reports/new"
+                  className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                >
+                  注意報告を送る
+                </Link>
+              </div>
+            </div>
+            <div className="rounded-md border border-line bg-map p-4">
+              <div className="relative min-h-[280px] overflow-hidden rounded border border-action/25 bg-map-light">
+                <div className="absolute left-0 top-1/2 h-2 w-full -rotate-6 bg-white/80" />
+                <div className="absolute left-1/3 top-0 h-full w-2 rotate-12 bg-white/75" />
+                <div className="absolute bottom-10 left-0 h-2 w-full rotate-3 bg-white/80" />
+                {INITIAL_AREAS.map((area, index) => (
+                  <div
+                    key={area.name}
+                    className="absolute rounded-md border border-action/30 bg-surface px-3 py-2 text-xs font-semibold text-ink shadow-sm"
+                    style={{
+                      left: `${12 + (index % 2) * 46}%`,
+                      top: `${18 + index * 17}%`,
+                    }}
+                  >
+                    {area.name}
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-xs leading-6 text-muted">
+                地図上に表示する情報は、承認済みの注意報告に限定する設計です。
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <Section
+        title="このサービスで扱う情報"
+        description="投稿者の申告に基づく注意情報として、入店前に確認しやすい形式へ整理します。"
+      >
+        <div className="grid gap-4 md:grid-cols-3">
+          {servicePrinciples.map((principle) => (
+            <article key={principle.title} className="rounded-md border border-line bg-surface p-5">
+              <h2 className="text-lg font-bold text-ink">{principle.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted">{principle.text}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section title="初期対象エリア">
+        <div className="grid gap-4 md:grid-cols-2">
+          {INITIAL_AREAS.map((area) => (
+            <article key={area.name} className="rounded-md border border-line bg-surface p-5">
+              <p className="text-sm font-semibold text-action">{area.center}</p>
+              <h2 className="mt-2 text-xl font-bold text-ink">{area.name}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted">{area.summary}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section title="報告カテゴリ">
+        <SimpleList items={REPORT_CATEGORIES} />
+      </Section>
+
+      <Section title="公開と表現の方針">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <SimpleList items={PUBLICATION_RULES} />
+          <SimpleList items={TONE_GUIDELINES} />
+        </div>
+        <div className="mt-6">
+          <PolicyNote>
+            掲載内容は店舗や個人への評価ではなく、投稿者の申告に基づく注意情報です。公開時は断定を避け、確認状況と証拠レベルを分けて表示します。
+          </PolicyNote>
+        </div>
+      </Section>
+
+      <Section
+        title="証拠レベル"
+        description="次工程のDB実装では、公開本文と非公開証拠を分離して管理します。"
+      >
+        <DefinitionList items={EVIDENCE_LEVELS} />
+      </Section>
+    </>
+  );
+}
