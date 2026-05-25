@@ -47,6 +47,7 @@
 4. `supabase/migrations/0003_mvp_release_hardening.sql` を適用する。
 5. `supabase/migrations/0004_submission_hardening.sql` を適用する。
 6. `supabase/migrations/0005_browser_rate_limit_key.sql` を適用する。
+7. `supabase/migrations/0006_service_role_privileges.sql` を適用する。
 6. `supabase/verification/non_admin_visibility_checks.sql` を実行して結果を記録する。
 7. Supabase Authで管理者ユーザーを作成する。
 8. Vercelに環境変数を設定する。

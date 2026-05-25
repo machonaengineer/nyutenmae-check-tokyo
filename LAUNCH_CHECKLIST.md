@@ -10,6 +10,7 @@
 - [ ] `0003_mvp_release_hardening.sql` を本番DBへ適用した。
 - [ ] `0004_submission_hardening.sql` を本番DBへ適用した。
 - [ ] `0005_browser_rate_limit_key.sql` を本番DBへ適用した。
+- [ ] `0006_service_role_privileges.sql` を本番DBへ適用した。
 - [ ] `supabase/verification/non_admin_visibility_checks.sql` を実行し、期待値を確認した。
 - [ ] `report-evidence-files` bucket が private であることをSupabase画面でも確認した。
 - [ ] `reports`, `report_evidence_files`, `objections`, `admin_actions` を匿名ユーザーが直接読めないことを確認した。
@@ -18,6 +19,7 @@
 - [ ] 管理者が承認した投稿だけが `/map`, `/areas`, `/places/[id]` に表示されることを確認した。
 - [ ] 管理画面に `ADMIN_EMAILS` 設定済みメールだけが入れることを確認した。
 - [ ] Service Role Key がVercelのサーバー環境変数だけに設定され、`NEXT_PUBLIC_` が付いていないことを確認した。
+- [ ] `service_role` がServer Actionに必要なDB権限を持ち、anon/authenticatedに非公開テーブルの直接読み取り権限がないことを確認した。
 - [ ] `RATE_LIMIT_SECRET` がVercelのサーバー環境変数に設定されていることを確認した。
 - [ ] `.next/static` にService Role関連文字列が混入していないことを確認した。
 - [ ] 投稿フォームと異議申立てフォームにhoneypot項目があり、通常利用者には表示されないことを確認した。

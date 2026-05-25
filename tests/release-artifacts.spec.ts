@@ -15,6 +15,7 @@ const requiredReleaseFiles = [
   "supabase/migrations/0003_mvp_release_hardening.sql",
   "supabase/migrations/0004_submission_hardening.sql",
   "supabase/migrations/0005_browser_rate_limit_key.sql",
+  "supabase/migrations/0006_service_role_privileges.sql",
 ] as const;
 
 const initialDataColumns = [
@@ -62,6 +63,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0003_mvp_release_hardening.sql");
     expect(readme).toContain("0004_submission_hardening.sql");
     expect(readme).toContain("0005_browser_rate_limit_key.sql");
+    expect(readme).toContain("0006_service_role_privileges.sql");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {
@@ -163,6 +165,19 @@ test.describe("リリース準備資料", () => {
 
     expect(migration).toContain("submission_rate_limits_key_type_check");
     expect(migration).toContain("'browser'");
+    expect(migration).not.toContain("disable row level security");
+  });
+
+  test("service role migrationがanon/authenticatedを緩めずserver権限だけを付ける", async () => {
+    const migration = await readFile(
+      path.join(rootDir, "supabase/migrations/0006_service_role_privileges.sql"),
+      "utf8",
+    );
+
+    expect(migration).toContain("to service_role");
+    expect(migration).toContain("storage.objects");
+    expect(migration).not.toContain("to anon");
+    expect(migration).not.toContain("to authenticated");
     expect(migration).not.toContain("disable row level security");
   });
 

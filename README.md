@@ -40,9 +40,10 @@ npm run test:e2e
 4. `supabase/migrations/0003_mvp_release_hardening.sql` をSQL Editorで実行する
 5. `supabase/migrations/0004_submission_hardening.sql` をSQL Editorで実行する
 6. `supabase/migrations/0005_browser_rate_limit_key.sql` をSQL Editorで実行する
-7. `.env.local` にSupabaseの値を設定する
-8. 管理者ユーザーをSupabase Authで作成する
-9. 管理者メールを `profiles` でadminに更新する
+7. `supabase/migrations/0006_service_role_privileges.sql` をSQL Editorで実行する
+8. `.env.local` にSupabaseの値を設定する
+9. 管理者ユーザーをSupabase Authで作成する
+10. 管理者メールを `profiles` でadminに更新する
 
 ```sql
 update public.profiles
@@ -131,6 +132,7 @@ RATE_LIMIT_SECRET=
 
 - RLSを有効化し、公開読み取りは承認済みデータだけに限定する
 - Service Role Keyはサーバー専用にし、ブラウザバンドルへ含めない
+- `service_role` にはServer Actionと管理処理に必要なDB権限を付与し、anon/authenticatedには非公開テーブルの直接読み取り権限を付与しない
 - 証拠画像と投稿者メールアドレスは一般公開しない
 - 投稿内容は公開前に個人情報、断定表現、攻撃表現を審査する
 - アップロードはサイズ、拡張子、MIME Typeを検証する
@@ -152,7 +154,7 @@ RATE_LIMIT_SECRET=
 
 詳細は `LAUNCH_CHECKLIST.md` を参照してください。最低限、次の項目が未完了の場合は公開しないでください。
 
-- Supabase本番DBに5本のマイグレーションを適用している
+- Supabase本番DBに6本のマイグレーションを適用している
 - `supabase/verification/non_admin_visibility_checks.sql` の期待値を確認している
 - 投稿が `pending` / `Hidden` で保存されることを確認している
 - 承認済み投稿だけが公開ページに表示されることを確認している
