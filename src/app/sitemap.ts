@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
 import { INITIAL_AREAS, SITE } from "@/lib/site";
+import { TOPIC_GUIDES } from "@/lib/topic-content";
 
 const staticRoutes = [
   { path: "/", priority: 1 },
   { path: "/map", priority: 0.9 },
   { path: "/areas", priority: 0.8 },
   { path: "/checklists", priority: 0.8 },
+  { path: "/topics", priority: 0.7 },
   { path: "/reports/new", priority: 0.7 },
   { path: "/objection", priority: 0.6 },
   { path: "/support", priority: 0.6 },
@@ -27,6 +29,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...INITIAL_AREAS.map((area) => ({
       path: `/areas/${area.slug}/checklist`,
       priority: 0.7,
+    })),
+    ...TOPIC_GUIDES.map((topic) => ({
+      path: `/topics/${topic.slug}`,
+      priority: 0.6,
     })),
   ];
 

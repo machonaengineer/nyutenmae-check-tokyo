@@ -111,7 +111,7 @@ NEXT_PUBLIC_SUPPORT_URL=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/places/[id]`, `/checklists`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/places/[id]`, `/checklists`, `/topics`, `/topics/[slug]`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -128,6 +128,7 @@ NEXT_PUBLIC_SUPPORT_URL=
 - 環境変数OFFがデフォルトのVercel Web Analytics読み込み口と収益化枠
 - 管理概況ダッシュボードと初期データCSVのブラウザ内検証画面
 - 収益化と掲載独立性の公開方針ページ
+- トラブル種別別のSEO向け安全確認ガイド
 
 ## DB設計
 

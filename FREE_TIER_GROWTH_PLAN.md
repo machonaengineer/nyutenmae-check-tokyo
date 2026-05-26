@@ -14,6 +14,7 @@
 - `/admin`: 管理概況ダッシュボード
 - `/admin/data`: 初期データCSVのブラウザ内検証
 - `/monetization-policy`: 収益化と掲載独立性の公開方針
+- `/topics`, `/topics/[slug]`: トラブル種別別の安全確認ガイド
 
 ## 無料枠での運用
 

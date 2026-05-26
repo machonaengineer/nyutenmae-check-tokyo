@@ -314,6 +314,25 @@ test.describe("リリース準備資料", () => {
     expect(adminDataPage).toContain("DBには保存しません");
   });
 
+  test("トラブル種別別ガイドは断定ではなく確認項目として実装する", async () => {
+    const topicContent = await readFile(
+      path.join(rootDir, "src/lib/topic-content.ts"),
+      "utf8",
+    );
+    const topicPage = await readFile(
+      path.join(rootDir, "src/app/topics/[slug]/page.tsx"),
+      "utf8",
+    );
+
+    expect(topicContent).toContain("料金説明の確認");
+    expect(topicContent).toContain("明細提示の確認");
+    expect(topicContent).toContain("客引き経由の来店前確認");
+    expect(topicContent).toContain("安全確保を優先");
+    expect(topicPage).toContain("事実を断定");
+    expect(topicPage).not.toContain("reporter_email");
+    expect(topicPage).not.toContain("storage_path");
+  });
+
   test("submission protectionがHTTP-only Cookieでブラウザ相当の連投制限を行う", async () => {
     const source = await readFile(
       path.join(rootDir, "src/lib/submission-protection.ts"),

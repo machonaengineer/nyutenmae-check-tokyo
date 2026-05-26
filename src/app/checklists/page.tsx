@@ -98,6 +98,18 @@ export default function ChecklistsPage() {
       </Section>
 
       <Section
+        title="トラブル種別別ガイド"
+        description="料金説明、明細提示、客引き経由の来店など、確認テーマ別にも整理しています。"
+      >
+        <Link
+          href="/topics"
+          className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+        >
+          種別ガイドを見る
+        </Link>
+      </Section>
+
+      <Section
         title="表示方針"
         description={`${SITE.name}は店舗や個人への攻撃ではなく、入店前確認に役立つ注意情報を扱います。`}
       >

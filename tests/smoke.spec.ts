@@ -10,6 +10,8 @@ const publicRoutes = [
     path: "/areas/shinjuku-kabukicho/checklist",
     heading: "新宿・歌舞伎町の入店前チェックリスト",
   },
+  { path: "/topics", heading: "トラブル種別別ガイド" },
+  { path: "/topics/price-confirmation", heading: "料金説明の確認" },
   { path: "/reports/new", heading: "注意報告を送る" },
   { path: "/reports/thanks", heading: "投稿を受け付けました" },
   { path: "/objection", heading: "異議申立て" },
@@ -138,6 +140,8 @@ test.describe("公開ページ", () => {
       "/map",
       "/checklists",
       "/areas/shinjuku-kabukicho/checklist",
+      "/topics",
+      "/topics/price-confirmation",
     ]) {
       await page.goto(route);
       const hasHorizontalOverflow = await page.evaluate(
@@ -204,6 +208,8 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/</loc>");
     expect(body).toContain("<loc>http://localhost:3000/map</loc>");
     expect(body).toContain("<loc>http://localhost:3000/checklists</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/topics</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/topics/price-confirmation</loc>");
     expect(body).toContain("<loc>http://localhost:3000/monetization-policy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
     expect(body).toContain(
