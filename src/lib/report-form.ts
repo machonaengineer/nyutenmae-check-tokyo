@@ -13,6 +13,8 @@ import {
 export const EVIDENCE_BUCKET = "report-evidence-files";
 export const MAX_EVIDENCE_FILES = 5;
 export const DEFAULT_MAX_UPLOAD_MB = 5;
+export const REPORT_CONTACT_EMAIL_FIELD = "contact_email";
+export const REPORT_SUPPLEMENTAL_NOTE_FIELD = "supplemental_note";
 
 export const FEE_EXPLANATION_OPTIONS = [
   { value: "", label: "未選択" },
@@ -95,6 +97,17 @@ function pushError(errors: ReportFormErrors, field: string, message: string) {
 function getText(formData: FormData, field: string) {
   const value = formData.get(field);
   return typeof value === "string" ? value.trim() : "";
+}
+
+function getTextFromFields(formData: FormData, fields: string[]) {
+  for (const field of fields) {
+    const value = getText(formData, field);
+    if (value) {
+      return value;
+    }
+  }
+
+  return "";
 }
 
 function getNullableText(formData: FormData, field: string) {
@@ -224,7 +237,10 @@ export function validateReportFormData(
   const areaSlug = getText(formData, "area_slug");
   const riskTagSlugs = getStringList(formData, "risk_tags");
   const shopName = getText(formData, "shop_name");
-  const reporterEmail = getText(formData, "reporter_email");
+  const reporterEmail = getTextFromFields(formData, [
+    REPORT_CONTACT_EMAIL_FIELD,
+    "reporter_email",
+  ]);
   const publicSummary = getText(formData, "public_summary");
   const googleMapsUrl = getNullableText(formData, "google_maps_url");
   const visitedAt = getNullableText(formData, "visited_at");
@@ -239,7 +255,11 @@ export function validateReportFormData(
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(reporterEmail)) {
-    pushError(errors, "reporter_email", "連絡可能なメールアドレスを入力してください。");
+    pushError(
+      errors,
+      REPORT_CONTACT_EMAIL_FIELD,
+      "連絡可能なメールアドレスを入力してください。",
+    );
   }
 
   if (publicSummary.length < 30 || publicSummary.length > 2000) {
@@ -342,7 +362,9 @@ export function validateReportFormData(
       consultedCardCompany: getNullableBoolean(formData, "consulted_card_company"),
       reporterEmail,
       publicSummary,
-      privateNote: getNullableText(formData, "private_note"),
+      privateNote:
+        getNullableText(formData, REPORT_SUPPLEMENTAL_NOTE_FIELD) ??
+        getNullableText(formData, "private_note"),
       files,
     },
   };

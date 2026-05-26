@@ -181,4 +181,17 @@ test.describe("公開ページ", () => {
     expect(manifest.display).toBe("standalone");
     expect(manifest.theme_color).toBe("#1f3a5f");
   });
+
+  test("公開フォームHTMLに非公開DBカラム名を埋め込まない", async ({ request }) => {
+    for (const path of ["/reports/new", "/objection"]) {
+      const response = await request.get(path);
+      const body = await response.text();
+
+      expect(response.ok()).toBe(true);
+      expect(body).not.toContain("reporter_email");
+      expect(body).not.toContain("private_note");
+      expect(body).not.toContain("storage_path");
+      expect(body).not.toContain("report-evidence-files");
+    }
+  });
 });

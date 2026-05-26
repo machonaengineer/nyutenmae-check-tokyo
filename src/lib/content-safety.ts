@@ -27,7 +27,7 @@ export const REPORT_TEXT_FIELD_LABELS = {
   checkout_response: "会計時対応",
   exit_response: "退店時対応",
   public_summary: "公開用の報告概要",
-  private_note: "管理者向け補足",
+  supplemental_note: "管理者向け補足",
 } as const;
 
 export const OBJECTION_TEXT_FIELD_LABELS = {
@@ -35,7 +35,7 @@ export const OBJECTION_TEXT_FIELD_LABELS = {
   requester_name: "申立て者名",
   requester_relationship: "関係性",
   details: "申立て内容",
-  private_note: "補足",
+  supplemental_note: "補足",
 } as const;
 
 type FieldLabelMap = Record<string, string>;

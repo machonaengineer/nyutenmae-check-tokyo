@@ -13,6 +13,8 @@ import {
   getEvidenceAcceptAttribute,
   MAX_EVIDENCE_FILES,
   PAYMENT_METHOD_OPTIONS,
+  REPORT_CONTACT_EMAIL_FIELD,
+  REPORT_SUPPLEMENTAL_NOTE_FIELD,
 } from "@/lib/report-form";
 import type { FormOption } from "@/lib/report-options";
 import { submitReportAction } from "./actions";
@@ -379,7 +381,7 @@ export function ReportForm({ areas, riskTags, maxUploadMb }: ReportFormProps) {
         />
         <TextArea
           label="管理者向け補足"
-          name="private_note"
+          name={REPORT_SUPPLEMENTAL_NOTE_FIELD}
           placeholder="公開しない補足があれば記入してください。"
           state={state}
         />
@@ -456,7 +458,7 @@ export function ReportForm({ areas, riskTags, maxUploadMb }: ReportFormProps) {
       <section className="grid gap-5">
         <TextInput
           label="連絡用メールアドレス"
-          name="reporter_email"
+          name={REPORT_CONTACT_EMAIL_FIELD}
           placeholder="公開されません"
           required
           state={state}

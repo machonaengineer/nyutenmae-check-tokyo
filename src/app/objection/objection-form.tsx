@@ -8,7 +8,10 @@ import {
   SAFE_EXPRESSION_EXAMPLES,
 } from "@/lib/content-safety";
 import { HONEYPOT_FIELD_NAME } from "@/lib/form-protection";
-import { OBJECTION_REASON_OPTIONS } from "@/lib/objection-form";
+import {
+  OBJECTION_REASON_OPTIONS,
+  OBJECTION_SUPPLEMENTAL_NOTE_FIELD,
+} from "@/lib/objection-form";
 import { submitObjectionAction } from "./actions";
 import {
   createInitialObjectionFormState,
@@ -235,7 +238,7 @@ export function ObjectionForm({
 
       <TextArea
         label="補足"
-        name="private_note"
+        name={OBJECTION_SUPPLEMENTAL_NOTE_FIELD}
         placeholder="公開を希望しない補足があれば記入してください。"
         state={state}
       />

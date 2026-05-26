@@ -12,6 +12,8 @@ export const OBJECTION_REASON_OPTIONS = [
   { value: "other", label: "その他" },
 ] as const;
 
+export const OBJECTION_SUPPLEMENTAL_NOTE_FIELD = "supplemental_note";
+
 export type ObjectionFormErrors = Record<string, string[]>;
 
 export type ObjectionFormSnapshot = {
@@ -42,6 +44,17 @@ function getText(formData: FormData, field: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function getTextFromFields(formData: FormData, fields: string[]) {
+  for (const field of fields) {
+    const value = getText(formData, field);
+    if (value) {
+      return value;
+    }
+  }
+
+  return "";
+}
+
 function buildSnapshot(formData: FormData): ObjectionFormSnapshot {
   const fields = [
     "report_id",
@@ -51,7 +64,7 @@ function buildSnapshot(formData: FormData): ObjectionFormSnapshot {
     "requester_relationship",
     "reason_category",
     "details",
-    "private_note",
+    OBJECTION_SUPPLEMENTAL_NOTE_FIELD,
   ];
 
   return Object.fromEntries(fields.map((field) => [field, getText(formData, field)]));
@@ -86,7 +99,10 @@ export function validateObjectionFormData(formData: FormData): ObjectionValidati
   const requesterRelationship = getText(formData, "requester_relationship");
   const reasonCategory = getText(formData, "reason_category");
   const details = getText(formData, "details");
-  const privateNote = getText(formData, "private_note");
+  const privateNote = getTextFromFields(formData, [
+    OBJECTION_SUPPLEMENTAL_NOTE_FIELD,
+    "private_note",
+  ]);
 
   if (reportId && !isUuid(reportId)) {
     pushError(errors, "report_id", "投稿IDの形式を確認してください。");
@@ -121,7 +137,7 @@ export function validateObjectionFormData(formData: FormData): ObjectionValidati
   }
 
   if (privateNote.length > 1000) {
-    pushError(errors, "private_note", "補足は1000文字以内で入力してください。");
+    pushError(errors, OBJECTION_SUPPLEMENTAL_NOTE_FIELD, "補足は1000文字以内で入力してください。");
   }
 
   for (const field of Object.keys(OBJECTION_TEXT_FIELD_LABELS)) {

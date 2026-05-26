@@ -21,7 +21,7 @@ export function createInitialObjectionFormState(
       requester_relationship: "",
       reason_category: "fact_check",
       details: "",
-      private_note: "",
+      supplemental_note: "",
       ...values,
     },
   };
