@@ -91,6 +91,7 @@
 
 - 週1回: `pending` と `needs_review` の滞留確認
 - 週1回: 異議申立て未対応確認
+- 週1回: `/healthz` が `status: ok` を返すこと、Vercel本番デプロイが `Ready` であることを確認する
 - 月1回: RLS/Storage private設定確認
 - 月1回: `npm audit --audit-level=moderate`
 - 月1回: 禁止表現と危険表現検知リストの見直し

@@ -27,6 +27,8 @@
 - [ ] 投稿または異議申立て送信後、HTTP-only Cookie `nt_submission_client_id` が発行されることをPreviewで確認した。
 - [ ] 証拠画像は許可拡張子、MIME type、ファイル内容が一致しない場合に保存されないことを確認した。
 - [ ] 証拠画像のStorage保存名がUUIDベースで、元ファイル名を使っていないことを確認した。
+- [ ] `/healthz` が `{"status":"ok"}` を返し、監視用URLとして利用できることを確認した。
+- [ ] `/admin`, `/reports/thanks`, `/healthz` に `X-Robots-Tag: noindex` が付くことを確認した。
 - [ ] JPEG、PNG、WebPのメタデータ削除を確認し、HEIC/HEIFは公開前に手動で個人情報を確認した。
 - [ ] 禁止表現が公開UIに表示されていないことを確認した。
 - [ ] 利用規約、プライバシーポリシー、投稿ガイドラインを人間が確認した。

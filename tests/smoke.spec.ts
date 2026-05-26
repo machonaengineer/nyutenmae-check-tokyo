@@ -157,7 +157,29 @@ test.describe("公開ページ", () => {
     expect(response.ok()).toBe(true);
     expect(body).toContain("Disallow: /admin");
     expect(body).toContain("Disallow: /reports/thanks");
+    expect(body).toContain("Disallow: /healthz");
     expect(body).toContain("Sitemap:");
+  });
+
+  test("healthzは監視用JSONを返しクロール対象外ヘッダーを付ける", async ({
+    request,
+  }) => {
+    const response = await request.get("/healthz");
+    const body = await response.json();
+
+    expect(response.ok()).toBe(true);
+    expect(body.status).toBe("ok");
+    expect(body.service).toBe("nyutenmae-check-tokyo");
+    expect(response.headers()["cache-control"]).toContain("no-store");
+    expect(response.headers()["x-robots-tag"]).toContain("noindex");
+  });
+
+  test("管理系と投稿完了ページにnoindexヘッダーを付ける", async ({ request }) => {
+    const thanks = await request.get("/reports/thanks");
+    const admin = await request.get("/admin/reports", { maxRedirects: 0 });
+
+    expect(thanks.headers()["x-robots-tag"]).toContain("noindex");
+    expect(admin.headers()["x-robots-tag"]).toContain("noindex");
   });
 
   test("sitemap.xmlに公開主要ページと初期エリアを含める", async ({ request }) => {
@@ -170,6 +192,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
     expect(body).not.toContain("/admin");
     expect(body).not.toContain("/reports/thanks");
+    expect(body).not.toContain("/healthz");
   });
 
   test("manifest.webmanifestでサイト名とテーマ色を返す", async ({ request }) => {

@@ -19,6 +19,13 @@ const securityHeaders = [
   },
 ];
 
+const noindexHeaders = [
+  {
+    key: "X-Robots-Tag",
+    value: "noindex, nofollow, noarchive",
+  },
+];
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
@@ -31,6 +38,24 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+      {
+        source: "/admin/:path*",
+        headers: noindexHeaders,
+      },
+      {
+        source: "/reports/thanks",
+        headers: noindexHeaders,
+      },
+      {
+        source: "/healthz",
+        headers: [
+          ...noindexHeaders,
+          {
+            key: "Cache-Control",
+            value: "no-store",
+          },
+        ],
       },
     ];
   },
