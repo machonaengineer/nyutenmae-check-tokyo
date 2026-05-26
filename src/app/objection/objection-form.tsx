@@ -130,7 +130,7 @@ export function ObjectionForm({
   return (
     <form
       action={formAction}
-      className="grid gap-6 rounded-md border border-line bg-surface p-5"
+      className="grid gap-6 rounded-md border border-line bg-white p-5 shadow-[0_12px_30px_rgb(23_32_42/0.05)]"
       onChange={(event) => updateDangerousExpressionNotice(event.currentTarget)}
       onInput={(event) => updateDangerousExpressionNotice(event.currentTarget)}
     >

@@ -6,7 +6,7 @@ export function PlaceCard({ place }: { place: PublicPlaceSummary }) {
   const displayName = getPlaceDisplayName(place);
 
   return (
-    <article className="rounded-md border border-line bg-surface p-5">
+    <article className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgb(23_32_42/0.08)]">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="text-sm font-semibold text-action">{place.areaName}</p>
@@ -19,7 +19,7 @@ export function PlaceCard({ place }: { place: PublicPlaceSummary }) {
             <p className="mt-2 text-sm leading-6 text-muted">{place.address}</p>
           ) : null}
         </div>
-        <div className="rounded-md border border-line bg-paper px-3 py-2 text-sm text-muted">
+        <div className="rounded-md border border-line bg-paper px-3 py-2 text-sm font-semibold text-ink">
           報告{place.approvedReportCount}件
         </div>
       </div>
@@ -34,7 +34,7 @@ export function PlaceCard({ place }: { place: PublicPlaceSummary }) {
           {place.riskTags.map((tag) => (
             <span
               key={tag}
-              className="rounded-md border border-line bg-paper px-2 py-1 text-xs text-muted"
+              className="rounded-md border border-action/20 bg-action/5 px-2 py-1 text-xs font-medium text-action"
             >
               {tag}
             </span>

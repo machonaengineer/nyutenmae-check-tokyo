@@ -34,7 +34,7 @@ export function AdminLoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-5 rounded-md border border-line bg-surface p-5">
+    <form onSubmit={handleSubmit} className="grid gap-5 rounded-md border border-line bg-white p-5 shadow-[0_12px_30px_rgb(23_32_42/0.05)]">
       {message ? (
         <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
           {message}

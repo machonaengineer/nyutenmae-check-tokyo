@@ -2,8 +2,8 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #f6f3ed;
-  --foreground: #111827;
+  --background: #f4f7f5;
+  --foreground: #17202a;
   --font-system: "Hiragino Sans", "Yu Gothic", "Meiryo", "Noto Sans JP", Arial,
     sans-serif;
 }
@@ -11,17 +11,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-paper: #f6f3ed;
-  --color-surface: #fffdf8;
-  --color-ink: #111827;
-  --color-muted: #5b6472;
-  --color-line: #d8d4ca;
-  --color-action: #0f766e;
-  --color-action-dark: #115e59;
-  --color-caution: #b45309;
-  --color-caution-soft: #fff7ed;
-  --color-map: #dbe8de;
-  --color-map-light: #edf6ef;
+  --color-paper: #f4f7f5;
+  --color-surface: #ffffff;
+  --color-ink: #17202a;
+  --color-muted: #5f6c78;
+  --color-line: #d9e2dc;
+  --color-action: #0c7c72;
+  --color-action-dark: #075f58;
+  --color-caution: #9a5b00;
+  --color-caution-soft: #fff8eb;
+  --color-map: #dcebe4;
+  --color-map-light: #eff7f2;
   --font-sans: var(--font-system);
 }
 
@@ -31,9 +31,12 @@
 
 body {
   margin: 0;
-  background: var(--background);
+  background:
+    linear-gradient(180deg, #fbfcfb 0%, var(--background) 34rem),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-system);
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -61,4 +64,8 @@ a {
   box-shadow: 0 6px 18px rgb(17 24 39 / 0.22);
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.leaflet-container a {
+  color: #0c7c72;
 }

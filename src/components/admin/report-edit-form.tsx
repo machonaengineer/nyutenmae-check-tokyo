@@ -11,7 +11,7 @@ export function ReportEditForm({
   riskTags: AdminRiskTag[];
 }) {
   return (
-    <form action={updateReportAction} className="grid gap-5 rounded-md border border-line bg-surface p-5">
+    <form action={updateReportAction} className="grid gap-5 rounded-md border border-line bg-white p-5 shadow-[0_10px_28px_rgb(23_32_42/0.05)]">
       <input name="report_id" type="hidden" value={report.id} />
 
       <label className="grid gap-2 text-sm font-semibold text-ink">
@@ -62,7 +62,7 @@ export function ReportEditForm({
           {riskTags.map((tag) => (
             <label
               key={tag.id}
-              className="flex items-start gap-3 rounded-md border border-line bg-white px-3 py-3 text-sm leading-6"
+              className="flex items-start gap-3 rounded-md border border-line bg-white px-3 py-3 text-sm leading-6 transition hover:border-action/40 hover:bg-action/5"
             >
               <input
                 className="mt-1"

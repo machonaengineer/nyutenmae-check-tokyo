@@ -19,9 +19,9 @@ export function PageHeader({
   primaryAction,
 }: PageHeaderProps) {
   return (
-    <section className="border-b border-line bg-surface">
+    <section className="border-b border-line bg-white">
       <Container>
-        <div className="grid gap-6 py-12 md:grid-cols-[1fr_auto] md:items-end">
+        <div className="grid gap-6 py-11 md:grid-cols-[1fr_auto] md:items-end">
           <div className="max-w-3xl">
             {eyebrow ? (
               <p className="mb-3 text-sm font-semibold text-action">{eyebrow}</p>
@@ -34,7 +34,7 @@ export function PageHeader({
           {primaryAction ? (
             <Link
               href={primaryAction.href}
-              className="inline-flex h-11 items-center justify-center rounded-md bg-action px-4 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-action px-4 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
             >
               {primaryAction.label}
             </Link>
@@ -71,7 +71,7 @@ export function Section({
 
 export function PolicyNote({ children }: { children: ReactNode }) {
   return (
-    <div className="border-l-4 border-caution bg-caution-soft px-4 py-3 text-sm leading-7 text-ink">
+    <div className="rounded-md border border-amber-200 bg-caution-soft px-4 py-3 text-sm leading-7 text-ink shadow-[0_1px_2px_rgb(23_32_42/0.04)]">
       {children}
     </div>
   );
@@ -81,7 +81,7 @@ export function SimpleList({ items }: { items: readonly string[] }) {
   return (
     <ul className="grid gap-3">
       {items.map((item) => (
-        <li key={item} className="rounded-md border border-line bg-surface px-4 py-3 text-sm leading-6">
+        <li key={item} className="rounded-md border border-line bg-white px-4 py-3 text-sm leading-6 shadow-[0_1px_2px_rgb(23_32_42/0.04)]">
           {item}
         </li>
       ))}
@@ -97,7 +97,7 @@ export function DefinitionList({
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {items.map((item) => (
-        <article key={item.label} className="rounded-md border border-line bg-surface p-5">
+        <article key={item.label} className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
           <h3 className="text-base font-bold text-ink">{item.label}</h3>
           <p className="mt-3 text-sm leading-7 text-muted">{item.description}</p>
         </article>

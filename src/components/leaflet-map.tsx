@@ -112,7 +112,7 @@ export function LeafletMap({ center, places, zoom = 13 }: LeafletMapProps) {
   }, [center.latitude, center.longitude, places, zoom]);
 
   return (
-    <div className="overflow-hidden rounded-md border border-line bg-map-light">
+    <div className="overflow-hidden rounded-md border border-line bg-white shadow-[0_14px_34px_rgb(23_32_42/0.07)]">
       <div ref={elementRef} className="h-[520px] w-full" data-testid="leaflet-map" />
     </div>
   );

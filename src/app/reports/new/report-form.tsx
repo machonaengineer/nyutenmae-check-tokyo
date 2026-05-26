@@ -164,7 +164,7 @@ export function ReportForm({ areas, riskTags, maxUploadMb }: ReportFormProps) {
   return (
     <form
       action={formAction}
-      className="grid gap-8 rounded-md border border-line bg-surface p-5"
+      className="grid gap-8 rounded-md border border-line bg-white p-5 shadow-[0_12px_30px_rgb(23_32_42/0.05)]"
       encType="multipart/form-data"
       onChange={(event) => updateDangerousExpressionNotice(event.currentTarget)}
       onInput={(event) => updateDangerousExpressionNotice(event.currentTarget)}
@@ -423,7 +423,7 @@ export function ReportForm({ areas, riskTags, maxUploadMb }: ReportFormProps) {
             {riskTags.map((tag) => (
               <label
                 key={tag.value}
-                className="flex items-start gap-3 rounded-md border border-line bg-white px-3 py-3 text-sm leading-6"
+                className="flex items-start gap-3 rounded-md border border-line bg-white px-3 py-3 text-sm leading-6 transition hover:border-action/40 hover:bg-action/5"
               >
                 <input
                   className="mt-1"

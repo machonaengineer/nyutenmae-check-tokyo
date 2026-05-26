@@ -8,12 +8,15 @@ export function Container({ children }: { children: ReactNode }) {
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-line bg-white/90 shadow-[0_1px_0_rgb(23_32_42/0.03)] backdrop-blur">
       <Container>
         <div className="flex min-h-16 items-center justify-between gap-4 py-3">
-          <Link href="/" className="flex flex-col no-underline">
-            <span className="text-base font-bold tracking-normal text-ink">{SITE.name}</span>
-            <span className="text-xs text-muted">投稿者の申告に基づく注意情報</span>
+          <Link href="/" className="flex items-center gap-3 no-underline">
+            <span aria-hidden="true" className="h-9 w-1.5 rounded-full bg-action" />
+            <span className="flex flex-col">
+              <span className="text-base font-bold tracking-normal text-ink">{SITE.name}</span>
+              <span className="text-xs text-muted">投稿者の申告に基づく注意情報</span>
+            </span>
           </Link>
           <nav aria-label="主要ナビゲーション" className="hidden items-center gap-2 md:flex">
             {NAV_ITEMS.map((item) => (
@@ -22,8 +25,8 @@ export function SiteHeader() {
                 href={item.href}
                 className={
                   item.emphasis
-                    ? "rounded-md bg-action px-3 py-2 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
-                    : "rounded-md px-3 py-2 text-sm font-medium text-ink no-underline transition hover:bg-paper"
+                    ? "rounded-md bg-action px-3.5 py-2 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
+                    : "rounded-md px-3 py-2 text-sm font-medium text-muted no-underline transition hover:bg-paper hover:text-ink"
                 }
               >
                 {item.label}
@@ -42,7 +45,7 @@ export function SiteHeader() {
               className={
                 item.emphasis
                   ? "shrink-0 rounded-md bg-action px-3 py-2 text-sm font-semibold text-white no-underline"
-                  : "shrink-0 rounded-md border border-line px-3 py-2 text-sm font-medium text-ink no-underline"
+                  : "shrink-0 rounded-md border border-line bg-white px-3 py-2 text-sm font-medium text-muted no-underline"
               }
             >
               {item.label}
@@ -56,9 +59,9 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-ink text-white">
+    <footer className="border-t border-line bg-[#17241f] text-white">
       <Container>
-        <div className="grid gap-6 py-8 md:grid-cols-[1.3fr_1fr]">
+        <div className="grid gap-6 py-9 md:grid-cols-[1.3fr_1fr]">
           <div>
             <p className="text-base font-bold">{SITE.name}</p>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/75">
@@ -84,7 +87,7 @@ export function SiteFooter() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col bg-paper text-ink">
+    <div className="flex min-h-screen flex-col bg-background text-ink">
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />

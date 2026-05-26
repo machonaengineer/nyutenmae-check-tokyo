@@ -26,7 +26,12 @@ export default async function AdminReportsPage({ searchParams }: AdminReportsPag
   const query = await searchParams;
   const selectedStatus =
     query.status && isReportStatus(query.status) ? query.status : "all";
-  const reports = await getAdminReports(selectedStatus);
+  const allReports = await getAdminReports("all");
+  const reports =
+    selectedStatus === "all" ? allReports : await getAdminReports(selectedStatus);
+  const pendingCount = allReports.filter((report) => report.status === "pending").length;
+  const reviewCount = allReports.filter((report) => report.status === "needs_review").length;
+  const approvedCount = allReports.filter((report) => report.status === "approved").length;
 
   return (
     <AdminShell adminUser={adminUser}>
@@ -44,10 +49,28 @@ export default async function AdminReportsPage({ searchParams }: AdminReportsPag
             処理に失敗しました。
           </div>
         ) : null}
+        <div className="mb-5 grid gap-3 md:grid-cols-4">
+          {[
+            { label: "全投稿", value: allReports.length },
+            { label: "審査待ち", value: pendingCount },
+            { label: "差し戻し", value: reviewCount },
+            { label: "承認済み", value: approvedCount },
+          ].map((item) => (
+            <div key={item.label} className="rounded-md border border-line bg-white p-4 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
+              <p className="text-xs font-semibold text-muted">{item.label}</p>
+              <p className="mt-2 text-2xl font-bold text-ink">{item.value}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="mb-5 flex flex-wrap gap-2">
           <Link
             href="/admin/reports"
-            className="rounded-md border border-line bg-surface px-3 py-2 text-sm font-semibold text-ink no-underline hover:bg-paper"
+            className={`rounded-md border px-3 py-2 text-sm font-semibold no-underline transition ${
+              selectedStatus === "all"
+                ? "border-action bg-action text-white"
+                : "border-line bg-white text-ink hover:bg-paper"
+            }`}
           >
             すべて
           </Link>
@@ -55,7 +78,11 @@ export default async function AdminReportsPage({ searchParams }: AdminReportsPag
             <Link
               key={status}
               href={`/admin/reports?status=${status}`}
-              className="rounded-md border border-line bg-surface px-3 py-2 text-sm font-semibold text-ink no-underline hover:bg-paper"
+              className={`rounded-md border px-3 py-2 text-sm font-semibold no-underline transition ${
+                selectedStatus === status
+                  ? "border-action bg-action text-white"
+                  : "border-line bg-white text-ink hover:bg-paper"
+              }`}
             >
               {getStatusLabel(status)}
             </Link>
@@ -63,10 +90,10 @@ export default async function AdminReportsPage({ searchParams }: AdminReportsPag
         </div>
 
         {reports.length > 0 ? (
-          <div className="overflow-hidden rounded-md border border-line bg-surface">
+          <div className="overflow-hidden rounded-md border border-line bg-white shadow-[0_12px_30px_rgb(23_32_42/0.05)]">
             <div className="grid gap-0">
               {reports.map((report) => (
-                <article key={report.id} className="border-b border-line p-4 last:border-b-0">
+                <article key={report.id} className="border-b border-line p-4 transition hover:bg-paper/70 last:border-b-0">
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
@@ -91,7 +118,7 @@ export default async function AdminReportsPage({ searchParams }: AdminReportsPag
                         {report.publicSummary}
                       </p>
                     </div>
-                    <div className="text-sm leading-6 text-muted md:text-right">
+                    <div className="rounded-md bg-paper px-3 py-2 text-sm leading-6 text-muted md:text-right">
                       <p>{report.reporterEmail}</p>
                       <p>作成: {formatDate(report.createdAt)}</p>
                       <p>更新: {formatDate(report.updatedAt)}</p>

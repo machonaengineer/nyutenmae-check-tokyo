@@ -26,6 +26,9 @@ export default async function AdminObjectionsPage({
   const adminUser = await requireAdminUser();
   const query = await searchParams;
   const objections = await getAdminObjections();
+  const pendingCount = objections.filter((objection) => objection.status === "pending").length;
+  const reviewingCount = objections.filter((objection) => objection.status === "reviewing").length;
+  const resolvedCount = objections.filter((objection) => objection.status === "resolved").length;
 
   return (
     <AdminShell adminUser={adminUser}>
@@ -44,10 +47,24 @@ export default async function AdminObjectionsPage({
           </div>
         ) : null}
 
+        <div className="mb-5 grid gap-3 md:grid-cols-4">
+          {[
+            { label: "全申立て", value: objections.length },
+            { label: "未確認", value: pendingCount },
+            { label: "確認中", value: reviewingCount },
+            { label: "対応済み", value: resolvedCount },
+          ].map((item) => (
+            <div key={item.label} className="rounded-md border border-line bg-white p-4 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
+              <p className="text-xs font-semibold text-muted">{item.label}</p>
+              <p className="mt-2 text-2xl font-bold text-ink">{item.value}</p>
+            </div>
+          ))}
+        </div>
+
         {objections.length > 0 ? (
           <div className="grid gap-4">
             {objections.map((objection) => (
-              <article key={objection.id} className="rounded-md border border-line bg-surface p-5">
+              <article key={objection.id} className="rounded-md border border-line bg-white p-5 shadow-[0_10px_28px_rgb(23_32_42/0.05)]">
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
