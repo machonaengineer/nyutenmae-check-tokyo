@@ -13,6 +13,7 @@ const usagePurposes = [
   "証拠レベルの判断、個人情報や危険表現の確認、公開サマリーの調整",
   "不正投稿、虚偽投稿、競合嫌がらせ、スパムの抑止",
   "サービスの安全性、表示品質、運用フローの改善",
+  "広告やアクセス解析を有効化した場合の表示改善、配信品質確認、不正利用対策",
 ] as const;
 
 const publicationPolicy = [
@@ -26,6 +27,12 @@ const userRequests = [
   "削除、修正、開示、利用停止に関する問い合わせは異議申立てページから受け付けます。",
   "本人確認や対象投稿の特定に必要な情報を追加で確認する場合があります。",
   "法令上または安全運用上、一定期間ログや証拠情報を保存することがあります。",
+] as const;
+
+const thirdPartyServices = [
+  "Vercel Web AnalyticsやAdSense等の外部サービスは、環境変数で有効化した場合だけ読み込みます。",
+  "AdSenseを有効化した場合、広告配信や不正利用対策のためにGoogle等の広告事業者がCookie等を利用することがあります。",
+  "広告サービスは、証拠画像、投稿者メールアドレス、申立て者メールアドレス、管理者メモへアクセスしません。",
 ] as const;
 
 export const metadata: Metadata = {
@@ -51,6 +58,10 @@ export default function PrivacyPage() {
 
       <Section title="公開しない情報">
         <SimpleList items={publicationPolicy} />
+      </Section>
+
+      <Section title="外部サービスと広告Cookie">
+        <SimpleList items={thirdPartyServices} />
       </Section>
 
       <Section title="問い合わせと保存">

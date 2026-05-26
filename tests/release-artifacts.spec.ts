@@ -20,6 +20,7 @@ const requiredReleaseFiles = [
   "EXTERNAL_RATING_TEMPLATE.csv",
   "EXTERNAL_RATING_GUIDE.md",
   "FREE_TIER_GROWTH_PLAN.md",
+  "ADSENSE_SETUP_GUIDE.md",
 ] as const;
 
 const initialDataColumns = [
@@ -88,6 +89,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0007_external_rating_snapshots.sql");
     expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
     expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
+    expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {
@@ -283,11 +285,37 @@ test.describe("リリース準備資料", () => {
 
     expect(envExample).toContain("NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false");
     expect(envExample).toContain("NEXT_PUBLIC_MONETIZATION_ENABLED=false");
+    expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_ENABLED=false");
     expect(growthPlan).toContain("無料枠");
     expect(growthPlan).toContain("収益化を実際に開始する前");
     expect(analyticsGate).toContain('NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED !== "true"');
     expect(monetizationSlot).toContain('NEXT_PUBLIC_MONETIZATION_ENABLED !== "true"');
     expect(monetizationSlot).toContain("審査判断に影響しません");
+  });
+
+  test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
+    const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
+    const guide = await readFile(path.join(rootDir, "ADSENSE_SETUP_GUIDE.md"), "utf8");
+    const adsenseGate = await readFile(
+      path.join(rootDir, "src/components/adsense-gate.tsx"),
+      "utf8",
+    );
+    const adsenseLib = await readFile(path.join(rootDir, "src/lib/adsense.ts"), "utf8");
+    const adsTxtRoute = await readFile(
+      path.join(rootDir, "src/app/ads.txt/route.ts"),
+      "utf8",
+    );
+
+    expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_ENABLED=false");
+    expect(envExample).toContain("ADS_TXT_GOOGLE_PUBLISHER_ID=");
+    expect(adsenseGate).toContain("isAdsenseEnabled");
+    expect(adsenseLib).toContain('NEXT_PUBLIC_ADSENSE_ENABLED === "true"');
+    expect(adsenseLib).toContain("ca-pub-");
+    expect(adsenseLib).toContain("pub-");
+    expect(adsTxtRoute).toContain("google.com,");
+    expect(guide).toContain("広告クリックを促す文言を置かない");
+    expect(guide).toContain("管理画面、投稿フォーム、異議申立てフォーム");
+    expect(guide).toContain("How AdSense uses cookies");
   });
 
   test("初期データ検証はDB保存せずブラウザ内の投入前チェックに限定する", async () => {

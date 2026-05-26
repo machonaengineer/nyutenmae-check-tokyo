@@ -5,6 +5,7 @@ const publicRoutes = [
   { path: "/map", heading: "注意報告マップ" },
   { path: "/areas", heading: "初期対象エリア" },
   { path: "/areas/shinjuku-kabukicho", heading: "新宿・歌舞伎町" },
+  { path: "/search", heading: "店舗名・住所検索" },
   { path: "/checklists", heading: "入店前チェックリスト" },
   {
     path: "/areas/shinjuku-kabukicho/checklist",
@@ -54,21 +55,25 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("投稿者の申告に基づく情報です。")).toBeVisible();
   });
 
-  test("星評価UIを表示しない", async ({ page }) => {
+  test("星評価UIを表示しない", async ({ request }) => {
     for (const route of publicRoutes) {
-      await page.goto(route.path);
-      await expect(page.locator("body")).not.toContainText("★★★★★");
-      await expect(page.locator("body")).not.toContainText("★");
+      const response = await request.get(route.path);
+      const body = await response.text();
+
+      expect(response.ok()).toBe(true);
+      expect(body).not.toContain("★★★★★");
+      expect(body).not.toContain("★");
     }
   });
 
-  test("禁止表現を静的UIに表示しない", async ({ page }) => {
+  test("禁止表現を静的UIに表示しない", async ({ request }) => {
     for (const route of publicRoutes) {
-      await page.goto(route.path);
-      const bodyText = await page.locator("body").innerText();
+      const response = await request.get(route.path);
+      const body = await response.text();
 
+      expect(response.ok()).toBe(true);
       for (const term of prohibitedUiTerms) {
-        expect(bodyText).not.toContain(term);
+        expect(body).not.toContain(term);
       }
     }
   });
@@ -82,6 +87,21 @@ test.describe("公開ページ", () => {
     await expect(page.getByLabel("連絡用メールアドレス")).toBeVisible();
     await expect(page.getByLabel("証拠画像")).toBeVisible();
     await expect(page.getByRole("button", { name: "非公開で送信する" })).toBeVisible();
+  });
+
+  test("共通ヘッダーから店舗名や住所を検索できる", async ({ page }) => {
+    await page.goto("/");
+
+    const searchForm = page.locator('form[role="search"]:visible').first();
+    const searchInput = searchForm.locator('input[name="q"]');
+    await expect(searchInput).toBeVisible();
+    await searchInput.fill("新宿");
+    await searchForm.getByRole("button", { name: "検索" }).click();
+
+    await expect(page).toHaveURL(/\/search\?q=/);
+    await expect(
+      page.getByRole("heading", { name: "店舗名・住所検索", level: 1 }),
+    ).toBeVisible();
   });
 
   test("投稿フォームにhoneypotと画像accept制限がある", async ({ page }) => {
@@ -220,6 +240,16 @@ test.describe("公開ページ", () => {
     expect(body).not.toContain("/healthz");
   });
 
+  test("ads.txtはAdSense未設定時に安全なコメントを返す", async ({ request }) => {
+    const response = await request.get("/ads.txt");
+    const body = await response.text();
+
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toContain("text/plain");
+    expect(body).toContain("ads.txt is not configured");
+    expect(body).not.toContain("SUPABASE_SERVICE_ROLE_KEY");
+  });
+
   test("manifest.webmanifestでサイト名とテーマ色を返す", async ({ request }) => {
     const response = await request.get("/manifest.webmanifest");
     const manifest = await response.json();
@@ -231,7 +261,7 @@ test.describe("公開ページ", () => {
   });
 
   test("公開フォームHTMLに非公開DBカラム名を埋め込まない", async ({ request }) => {
-    for (const path of ["/reports/new", "/objection"]) {
+    for (const path of ["/reports/new", "/objection", "/search?q=test"]) {
       const response = await request.get(path);
       const body = await response.text();
 
@@ -252,6 +282,8 @@ test.describe("公開ページ", () => {
     expect(response.ok()).toBe(true);
     expect(body).not.toContain("支援リンクを開く");
     expect(body).not.toContain("/_vercel/insights");
+    expect(body).not.toContain("pagead2.googlesyndication.com");
+    expect(body).not.toContain("adsbygoogle");
   });
 
   test("収益化方針ページで掲載独立性を確認できる", async ({ page }) => {

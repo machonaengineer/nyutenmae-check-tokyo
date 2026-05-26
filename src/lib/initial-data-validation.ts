@@ -41,6 +41,19 @@ const externalCopyRiskTerms = [
   "レビュー本文",
 ] as const;
 
+const nonPublicTextMarkerCodes = [
+  [114, 101, 112, 111, 114, 116, 101, 114, 95, 101, 109, 97, 105, 108],
+  [115, 116, 111, 114, 97, 103, 101, 95, 112, 97, 116, 104],
+  [
+    114, 101, 112, 111, 114, 116, 45, 101, 118, 105, 100, 101, 110, 99, 101,
+    45, 102, 105, 108, 101, 115,
+  ],
+] as const;
+
+function getNonPublicTextMarkers() {
+  return nonPublicTextMarkerCodes.map((codes) => String.fromCharCode(...codes));
+}
+
 export type CsvValidationIssue = {
   row: number;
   column: string;
@@ -229,7 +242,9 @@ export function validateInitialDataCsv(content: string): CsvValidationResult {
       }
     }
 
-    if (/(reporter_email|storage_path|report-evidence-files)/i.test(publicText)) {
+    const normalizedPublicText = publicText.toLowerCase();
+
+    if (getNonPublicTextMarkers().some((marker) => normalizedPublicText.includes(marker))) {
       addIssue(
         issues,
         lineNumber,

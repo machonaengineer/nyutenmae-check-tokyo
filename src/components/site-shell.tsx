@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { SiteSearchForm } from "@/components/site-search-form";
 import { FOOTER_LINKS, NAV_ITEMS, SITE } from "@/lib/site";
 
 export function Container({ children }: { children: ReactNode }) {
@@ -18,6 +19,9 @@ export function SiteHeader() {
               <span className="text-xs text-muted">投稿者の申告に基づく注意情報</span>
             </span>
           </Link>
+          <div className="hidden flex-1 justify-center lg:flex">
+            <SiteSearchForm inputId="site-search-desktop" />
+          </div>
           <nav aria-label="主要ナビゲーション" className="hidden items-center gap-2 md:flex">
             {NAV_ITEMS.map((item) => (
               <Link
@@ -52,6 +56,9 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
+        <div className="pb-3 md:hidden">
+          <SiteSearchForm inputId="site-search-mobile" />
+        </div>
       </Container>
     </header>
   );

@@ -165,7 +165,6 @@ export function ReportForm({ areas, riskTags, maxUploadMb }: ReportFormProps) {
     <form
       action={formAction}
       className="grid gap-8 rounded-md border border-line bg-white p-5 shadow-[0_12px_30px_rgb(23_32_42/0.05)]"
-      encType="multipart/form-data"
       onChange={(event) => updateDangerousExpressionNotice(event.currentTarget)}
       onInput={(event) => updateDangerousExpressionNotice(event.currentTarget)}
     >

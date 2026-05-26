@@ -22,6 +22,12 @@ const moderationTerms = [
   "投稿内容に関する異議申立ては、専用ページから受け付けます。",
 ] as const;
 
+const monetizationTerms = [
+  "広告、スポンサー、支援リンクは、投稿審査、公開順位、リスクタグ、証拠レベルに影響しません。",
+  "広告表示を有効化する場合でも、投稿者メールアドレス、証拠画像、管理者メモを広告枠に含めません。",
+  "利用者に広告クリックや支援を依頼する表示は行いません。",
+] as const;
+
 const disclaimers = [
   "本サービスは法律相談、紛争解決、返金交渉、行政機関への申立てを代行するものではありません。",
   "利用者は、掲載情報だけでなく、入店前の料金確認、明細確認、公式相談窓口への相談などを組み合わせて判断してください。",
@@ -51,6 +57,10 @@ export default function TermsPage() {
 
       <Section title="公開審査と異議申立て">
         <SimpleList items={moderationTerms} />
+      </Section>
+
+      <Section title="収益化と掲載独立性">
+        <SimpleList items={monetizationTerms} />
       </Section>
 
       <Section title="免責">

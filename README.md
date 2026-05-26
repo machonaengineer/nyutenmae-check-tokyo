@@ -87,6 +87,12 @@ NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false
 NEXT_PUBLIC_MONETIZATION_ENABLED=false
 NEXT_PUBLIC_SPONSOR_INQUIRY_URL=
 NEXT_PUBLIC_SUPPORT_URL=
+NEXT_PUBLIC_ADSENSE_ENABLED=false
+NEXT_PUBLIC_ADSENSE_CLIENT=
+NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST=
+NEXT_PUBLIC_ADSENSE_SLOT_AREA=
+NEXT_PUBLIC_ADSENSE_SLOT_SUPPORT=
+ADS_TXT_GOOGLE_PUBLISHER_ID=
 ```
 
 | 変数 | 用途 |
@@ -103,6 +109,12 @@ NEXT_PUBLIC_SUPPORT_URL=
 | `NEXT_PUBLIC_MONETIZATION_ENABLED` | 任意。`true` の場合だけ収益化枠を表示する。初期値は必ず `false` |
 | `NEXT_PUBLIC_SPONSOR_INQUIRY_URL` | 任意。収益化枠の問い合わせ先URL |
 | `NEXT_PUBLIC_SUPPORT_URL` | 任意。支援リンクや外部支援ページのURL |
+| `NEXT_PUBLIC_ADSENSE_ENABLED` | 任意。`true` の場合だけAdSenseスクリプトと広告ユニットを読み込む。初期値は必ず `false` |
+| `NEXT_PUBLIC_ADSENSE_CLIENT` | 任意。AdSenseの `ca-pub-...` 形式client ID。公開値だが、アカウントログイン情報は保存しない |
+| `NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST` | 任意。`/checklists` 用のAdSense ad slot ID |
+| `NEXT_PUBLIC_ADSENSE_SLOT_AREA` | 任意。`/areas/[slug]/checklist` 用のAdSense ad slot ID |
+| `NEXT_PUBLIC_ADSENSE_SLOT_SUPPORT` | 任意。将来の支援ページ用AdSense ad slot ID |
+| `ADS_TXT_GOOGLE_PUBLISHER_ID` | 任意。`/ads.txt` で返す `pub-...` 形式publisher ID |
 
 ## 実装済み
 
@@ -111,7 +123,7 @@ NEXT_PUBLIC_SUPPORT_URL=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/places/[id]`, `/checklists`, `/topics`, `/topics/[slug]`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -128,6 +140,8 @@ NEXT_PUBLIC_SUPPORT_URL=
 - 環境変数OFFがデフォルトのVercel Web Analytics読み込み口と収益化枠
 - 管理概況ダッシュボードと初期データCSVのブラウザ内検証画面
 - 収益化と掲載独立性の公開方針ページ
+- 環境変数OFFがデフォルトのAdSense差し込み口と `/ads.txt`
+- 承認済みplaceだけを対象にした店舗名・住所検索
 - トラブル種別別のSEO向け安全確認ガイド
 
 ## DB設計
@@ -165,6 +179,7 @@ NEXT_PUBLIC_SUPPORT_URL=
 - 外部口コミ本文、投稿者名、画像、スクリーンショット、スクレイピングHTMLは保存しない
 - 外部評価は本サービスの評価ではなく、出典URLと確認日付きの集計参考値として扱う
 - 食べログなど規約確認や許諾が必要なソースは `display_allowed=false` のまま管理し、公開しない
+- AdSenseは `NEXT_PUBLIC_MONETIZATION_ENABLED=true` かつ `NEXT_PUBLIC_ADSENSE_ENABLED=true` の場合だけ読み込み、管理画面、投稿フォーム、異議申立てフォームには配置しない
 
 ## 法務・UX方針
 
@@ -189,6 +204,7 @@ NEXT_PUBLIC_SUPPORT_URL=
 - 将来のcaptcha導入方針は `CAPTCHA_FUTURE_NOTES.md` を参照する
 - 外部評価を使う場合は `0007_external_rating_snapshots.sql` を適用し、`EXTERNAL_RATING_GUIDE.md` に沿って転載禁止と公開可否を確認する
 - 収益化枠は `NEXT_PUBLIC_MONETIZATION_ENABLED=false` を初期値にし、法務・規約・ホスティングプラン確認後にだけ有効化する
+- AdSenseを使う場合は `ADSENSE_SETUP_GUIDE.md` に沿ってads.txt、広告配置、Cookie表示、無効クリック対策を確認する
 
 ## 運用資料
 
@@ -202,3 +218,4 @@ NEXT_PUBLIC_SUPPORT_URL=
 - `EXTERNAL_RATING_TEMPLATE.csv`: 外部評価スナップショット整理用CSV
 - `EXTERNAL_RATING_GUIDE.md`: 外部評価参考値の入力、公開、禁止事項
 - `FREE_TIER_GROWTH_PLAN.md`: 無料枠重視のSEO、計測、収益化準備方針
+- `ADSENSE_SETUP_GUIDE.md`: AdSense導入時の環境変数、ads.txt、ポリシーチェック

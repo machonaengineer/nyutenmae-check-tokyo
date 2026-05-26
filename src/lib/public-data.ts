@@ -293,6 +293,32 @@ export async function getPublicPlaceSummaries(options: { areaSlug?: string } = {
   }
 }
 
+export function filterPublicPlacesByQuery(places: PublicPlaceSummary[], query: string) {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  const terms = normalizedQuery.split(/\s+/).filter(Boolean);
+
+  return places.filter((place) => {
+    const searchableText = [
+      place.shopName,
+      place.address,
+      place.buildingName,
+      place.floor,
+      place.areaName,
+      ...place.riskTags,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return terms.every((term) => searchableText.includes(term));
+  });
+}
+
 export async function getPublicPlaceDetail(id: string): Promise<PublicPlaceDetail | null> {
   try {
     const supabase = createSupabaseServerClient();

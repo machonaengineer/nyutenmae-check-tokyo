@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AdsenseGate } from "@/components/adsense-gate";
 import { AnalyticsGate } from "@/components/analytics-gate";
 import { AppShell } from "@/components/site-shell";
 import { SITE } from "@/lib/site";
@@ -53,6 +54,7 @@ export default function RootLayout({
       <body>
         <AppShell>{children}</AppShell>
         <AnalyticsGate />
+        <AdsenseGate />
       </body>
     </html>
   );

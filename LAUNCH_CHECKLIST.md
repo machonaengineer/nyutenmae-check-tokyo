@@ -36,7 +36,11 @@
 - [ ] 食べログなど規約確認が必要な外部評価は、許諾確認まで `display_allowed=false` のまま公開されないことを確認した。
 - [ ] `NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED` は必要な場合だけ `true` にし、無料枠とプライバシー表示を確認した。
 - [ ] `NEXT_PUBLIC_MONETIZATION_ENABLED` は収益化開始前は `false` のままにした。
-- [ ] 収益化枠をONにする前に、Vercel/Supabase/広告サービスの商用利用条件と法務文面を確認した。
+- [ ] AdSenseを使う場合、`NEXT_PUBLIC_ADSENSE_ENABLED` は審査、ads.txt、広告配置確認が完了するまで `false` のままにした。
+- [ ] AdSenseを使う場合、`ADS_TXT_GOOGLE_PUBLISHER_ID` を設定し、`/ads.txt` が `google.com, pub-..., DIRECT, f08c47fec0942fa0` を返すことを確認した。
+- [ ] AdSenseを使う場合、`NEXT_PUBLIC_ADSENSE_CLIENT` は `ca-pub-...` 形式、ad slot IDは数字のみで設定した。
+- [ ] AdSenseを使う場合、広告クリックを促す文言、誤クリックを誘導する配置、コンテンツと誤認させる見出しがないことを確認した。
+- [ ] 収益化枠をONにする前に、Vercel/Supabase/広告サービスの商用利用条件、Cookie/プライバシー表示、法務文面を確認した。
 - [ ] 禁止表現が公開UIに表示されていないことを確認した。
 - [ ] 利用規約、プライバシーポリシー、投稿ガイドラインを人間が確認した。
 - [ ] トラブル時の相談導線ページの電話番号とリンクを確認した。
@@ -59,6 +63,7 @@ npm audit --audit-level=moderate
 - [ ] `/admin/reports` は未ログイン時にログイン画面へ誘導される。
 - [ ] `/checklists` と `/areas/shinjuku-kabukicho/checklist` が表示される。
 - [ ] `/monetization-policy` が表示され、掲載独立性の方針が確認できる。
+- [ ] `/ads.txt` が未設定時は設定漏れコメント、AdSense設定後はGoogle向けads.txt行を返す。
 - [ ] 管理者でログイン後、投稿の承認、非公開、差し戻し、却下ができる。
 - [ ] 管理者でログイン後、`/admin` の概況と `/admin/data` のCSV検証画面が表示される。
 - [ ] 証拠画像は管理画面だけで短時間の署名付きURLとして表示される。
@@ -76,4 +81,4 @@ npm audit --audit-level=moderate
 - Service Role Key露出確認
 - rate limit / ブラウザ識別Cookie / honeypot確認
 - 外部評価を公開する場合の規約、帰属表示、転載禁止確認
-- 収益化を開始する場合のホスティングプラン、広告ポリシー、法務レビュー
+- 収益化を開始する場合のホスティングプラン、広告ポリシー、Cookie/プライバシー表示、法務レビュー
