@@ -41,9 +41,10 @@ npm run test:e2e
 5. `supabase/migrations/0004_submission_hardening.sql` をSQL Editorで実行する
 6. `supabase/migrations/0005_browser_rate_limit_key.sql` をSQL Editorで実行する
 7. `supabase/migrations/0006_service_role_privileges.sql` をSQL Editorで実行する
-8. `.env.local` にSupabaseの値を設定する
-9. 管理者ユーザーをSupabase Authで作成する
-10. 管理者メールを `profiles` でadminに更新する
+8. `supabase/migrations/0007_external_rating_snapshots.sql` をSQL Editorで実行する
+9. `.env.local` にSupabaseの値を設定する
+10. 管理者ユーザーをSupabase Authで作成する
+11. 管理者メールを `profiles` でadminに更新する
 
 ```sql
 update public.profiles
@@ -81,6 +82,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ADMIN_EMAILS=
 MAX_UPLOAD_MB=5
 RATE_LIMIT_SECRET=
+GOOGLE_PLACES_API_KEY=
 ```
 
 | 変数 | 用途 |
@@ -92,6 +94,7 @@ RATE_LIMIT_SECRET=
 | `ADMIN_EMAILS` | 管理者メールアドレスのカンマ区切りリスト |
 | `MAX_UPLOAD_MB` | 証拠資料アップロードの最大サイズ |
 | `RATE_LIMIT_SECRET` | IP/メール/ブラウザ識別子のrate limitキーをハッシュするサーバー専用シークレット |
+| `GOOGLE_PLACES_API_KEY` | 任意。管理画面でGoogle Places APIから外部集計評価を取得する場合だけ使うサーバー専用キー |
 
 ## 実装済み
 
@@ -112,6 +115,7 @@ RATE_LIMIT_SECRET=
 - `.env.example`
 - Playwright初期設定と公開ページのスモークテスト
 - セキュリティ系レスポンスヘッダーの初期設定
+- 外部評価参考値の保存、管理画面入力、Google Places API任意同期、公開ページ表示
 
 ## DB設計
 
@@ -125,8 +129,11 @@ RATE_LIMIT_SECRET=
 - `objections`: 異議申立て、対象投稿、対応状態
 - `admin_actions`: 管理者操作ログ
 - `submission_rate_limits`: IP/メール/ブラウザ識別子をハッシュした簡易rate limit状態
+- `external_review_sources`: 外部評価ソースのマスタ
+- `place_external_refs`: 場所と外部サービス上の参照先の紐付け
+- `external_rating_snapshots`: 外部サービス上の集計評価スナップショット
 
-公開用データは `public_reports`、`public_report_risk_tags`、`public_area_summaries`、`public_place_summaries`、`public_place_reports` のビューで提供します。`reporter_email`、`private_note`、証拠ファイル情報は公開ビューに含めません。
+公開用データは `public_reports`、`public_report_risk_tags`、`public_area_summaries`、`public_place_summaries`、`public_place_reports`、`public_external_rating_snapshots` のビューで提供します。`reporter_email`、`private_note`、証拠ファイル情報、外部評価の非公開メモは公開ビューに含めません。
 
 ## セキュリティ方針
 
@@ -142,6 +149,9 @@ RATE_LIMIT_SECRET=
 - honeypot項目に値が入った送信は保存しない
 - 証拠画像の保存パスと保存ファイル名には元ファイル名を使わず、UUIDベースの名前を使う
 - JPEG、PNG、WebPは可能な範囲でメタデータを削除する。HEIC/HEIFは検証のみのため、公開前SOPで手動確認する
+- 外部口コミ本文、投稿者名、画像、スクリーンショット、スクレイピングHTMLは保存しない
+- 外部評価は本サービスの評価ではなく、出典URLと確認日付きの集計参考値として扱う
+- 食べログなど規約確認や許諾が必要なソースは `display_allowed=false` のまま管理し、公開しない
 
 ## 法務・UX方針
 
@@ -154,7 +164,7 @@ RATE_LIMIT_SECRET=
 
 詳細は `LAUNCH_CHECKLIST.md` を参照してください。最低限、次の項目が未完了の場合は公開しないでください。
 
-- Supabase本番DBに6本のマイグレーションを適用している
+- Supabase本番DBに7本のマイグレーションを適用している
 - `supabase/verification/non_admin_visibility_checks.sql` の期待値を確認している
 - 投稿が `pending` / `Hidden` で保存されることを確認している
 - 承認済み投稿だけが公開ページに表示されることを確認している
@@ -164,6 +174,7 @@ RATE_LIMIT_SECRET=
 - 法務文面、投稿ガイドライン、異議申立て運用を人間が確認している
 - 簡易rate limit、ブラウザ識別Cookie、honeypotを本番Previewで確認している
 - 将来のcaptcha導入方針は `CAPTCHA_FUTURE_NOTES.md` を参照する
+- 外部評価を使う場合は `0007_external_rating_snapshots.sql` を適用し、`EXTERNAL_RATING_GUIDE.md` に沿って転載禁止と公開可否を確認する
 
 ## 運用資料
 
@@ -174,3 +185,5 @@ RATE_LIMIT_SECRET=
 - `CAPTCHA_FUTURE_NOTES.md`: Cloudflare Turnstile/hCaptcha導入メモ
 - `INITIAL_DATA_TEMPLATE.csv`: 初期データ整理用CSV
 - `SEED_DATA_GUIDE.md`: 初期データ投入方針
+- `EXTERNAL_RATING_TEMPLATE.csv`: 外部評価スナップショット整理用CSV
+- `EXTERNAL_RATING_GUIDE.md`: 外部評価参考値の入力、公開、禁止事項

@@ -11,6 +11,7 @@
 - [ ] `0004_submission_hardening.sql` を本番DBへ適用した。
 - [ ] `0005_browser_rate_limit_key.sql` を本番DBへ適用した。
 - [ ] `0006_service_role_privileges.sql` を本番DBへ適用した。
+- [ ] `0007_external_rating_snapshots.sql` を本番DBへ適用した。
 - [ ] `supabase/verification/non_admin_visibility_checks.sql` を実行し、期待値を確認した。
 - [ ] `report-evidence-files` bucket が private であることをSupabase画面でも確認した。
 - [ ] `reports`, `report_evidence_files`, `objections`, `admin_actions` を匿名ユーザーが直接読めないことを確認した。
@@ -30,6 +31,9 @@
 - [ ] `/healthz` が `{"status":"ok"}` を返し、監視用URLとして利用できることを確認した。
 - [ ] `/admin`, `/reports/thanks`, `/healthz` に `X-Robots-Tag: noindex` が付くことを確認した。
 - [ ] JPEG、PNG、WebPのメタデータ削除を確認し、HEIC/HEIFは公開前に手動で個人情報を確認した。
+- [ ] 外部評価参考値を使う場合、`public_external_rating_snapshots` に `private_memo`、外部口コミ本文、投稿者名、スクリーンショットURLが含まれないことを確認した。
+- [ ] Google Places API同期を使う場合、`GOOGLE_PLACES_API_KEY` がVercelのサーバー環境変数だけに設定され、`NEXT_PUBLIC_` が付いていないことを確認した。
+- [ ] 食べログなど規約確認が必要な外部評価は、許諾確認まで `display_allowed=false` のまま公開されないことを確認した。
 - [ ] 禁止表現が公開UIに表示されていないことを確認した。
 - [ ] 利用規約、プライバシーポリシー、投稿ガイドラインを人間が確認した。
 - [ ] トラブル時の相談導線ページの電話番号とリンクを確認した。
@@ -52,6 +56,7 @@ npm audit --audit-level=moderate
 - [ ] `/admin/reports` は未ログイン時にログイン画面へ誘導される。
 - [ ] 管理者でログイン後、投稿の承認、非公開、差し戻し、却下ができる。
 - [ ] 証拠画像は管理画面だけで短時間の署名付きURLとして表示される。
+- [ ] 管理者でログイン後、外部評価スナップショットの追加ができ、公開ページでは集計値、出典URL、確認日だけが表示される。
 - [ ] スマホ幅で横スクロールやボタン欠けがない。
 
 ## 公開判断
@@ -64,3 +69,4 @@ npm audit --audit-level=moderate
 - 法務文面確認
 - Service Role Key露出確認
 - rate limit / ブラウザ識別Cookie / honeypot確認
+- 外部評価を公開する場合の規約、帰属表示、転載禁止確認

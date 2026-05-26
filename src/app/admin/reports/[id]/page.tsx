@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
+import { ExternalRatingPanel } from "@/components/admin/external-rating-form";
 import { ReportEditForm } from "@/components/admin/report-edit-form";
 import { ReportStatusActions } from "@/components/admin/report-status-actions";
 import { StatusBadge } from "@/components/admin/status-badge";
@@ -8,7 +9,11 @@ import { EmptyState } from "@/components/empty-state";
 import { Section } from "@/components/page-blocks";
 import { formatBoolean, formatCurrency, formatDate } from "@/lib/format";
 import { requireAdminUser } from "@/lib/admin/auth";
-import { getAdminReportDetail, getAdminRiskTags } from "@/lib/admin/data";
+import {
+  getAdminExternalReviewSources,
+  getAdminReportDetail,
+  getAdminRiskTags,
+} from "@/lib/admin/data";
 
 type AdminReportDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -38,9 +43,10 @@ export default async function AdminReportDetailPage({
   const adminUser = await requireAdminUser();
   const { id } = await params;
   const query = await searchParams;
-  const [report, riskTags] = await Promise.all([
+  const [report, riskTags, externalSources] = await Promise.all([
     getAdminReportDetail(id),
     getAdminRiskTags(),
+    getAdminExternalReviewSources(),
   ]);
 
   if (!report) {
@@ -128,6 +134,13 @@ export default async function AdminReportDetailPage({
             </div>
 
             <ReportEditForm report={report} riskTags={riskTags} />
+
+            <ExternalRatingPanel
+              placeId={report.placeId}
+              reportId={report.id}
+              snapshots={report.externalRatings}
+              sources={externalSources}
+            />
           </div>
 
           <aside className="grid content-start gap-6">

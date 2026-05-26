@@ -16,6 +16,9 @@ const requiredReleaseFiles = [
   "supabase/migrations/0004_submission_hardening.sql",
   "supabase/migrations/0005_browser_rate_limit_key.sql",
   "supabase/migrations/0006_service_role_privileges.sql",
+  "supabase/migrations/0007_external_rating_snapshots.sql",
+  "EXTERNAL_RATING_TEMPLATE.csv",
+  "EXTERNAL_RATING_GUIDE.md",
 ] as const;
 
 const initialDataColumns = [
@@ -36,6 +39,23 @@ const initialDataColumns = [
   "status",
   "reviewed_by_admin",
   "published_at",
+] as const;
+
+const externalRatingColumns = [
+  "place_id",
+  "source_slug",
+  "external_place_id",
+  "source_url",
+  "source_title",
+  "rating_value",
+  "rating_scale",
+  "rating_count",
+  "checked_at",
+  "collection_method",
+  "display_allowed",
+  "attribution_label",
+  "public_note",
+  "private_memo",
 ] as const;
 
 test.describe("リリース準備資料", () => {
@@ -64,6 +84,8 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0004_submission_hardening.sql");
     expect(readme).toContain("0005_browser_rate_limit_key.sql");
     expect(readme).toContain("0006_service_role_privileges.sql");
+    expect(readme).toContain("0007_external_rating_snapshots.sql");
+    expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {
@@ -91,6 +113,31 @@ test.describe("リリース準備資料", () => {
     expect(guide).toContain("出典URL");
     expect(guide).toContain("確認日");
     expect(guide).toContain("Google口コミ、食べログ、SNS、ニュース本文の転載は禁止");
+  });
+
+  test("外部評価CSVに必要な列がある", async () => {
+    const content = await readFile(
+      path.join(rootDir, "EXTERNAL_RATING_TEMPLATE.csv"),
+      "utf8",
+    );
+    const header = content.trim().split(/\r?\n/)[0].split(",");
+
+    expect(header).toEqual([...externalRatingColumns]);
+  });
+
+  test("外部評価ガイドが転載は禁止と公式API/許諾方針を明記している", async () => {
+    const guide = await readFile(path.join(rootDir, "EXTERNAL_RATING_GUIDE.md"), "utf8");
+
+    for (const keyword of [
+      "口コミ本文",
+      "投稿者名",
+      "スクレイピングHTML",
+      "食べログは許諾確認まで公開表示しない",
+      "Googleは公式API",
+      "外部評価と本サービスの注意報告は評価軸が異なります",
+    ]) {
+      expect(guide).toContain(keyword);
+    }
   });
 
   test("法務レビュー用メモが主要な法務論点を含む", async () => {
@@ -179,6 +226,42 @@ test.describe("リリース準備資料", () => {
     expect(migration).not.toContain("to anon");
     expect(migration).not.toContain("to authenticated");
     expect(migration).not.toContain("disable row level security");
+  });
+
+  test("外部評価migrationが公開ビューを限定し、直接読み取りを許可しない", async () => {
+    const migration = await readFile(
+      path.join(rootDir, "supabase/migrations/0007_external_rating_snapshots.sql"),
+      "utf8",
+    );
+
+    expect(migration).toContain("external_rating_snapshots");
+    expect(migration).toContain("force row level security");
+    expect(migration).toContain("public_external_rating_snapshots");
+    expect(migration).toContain("ers.display_allowed = true");
+    expect(migration).toContain("r.status = 'approved'");
+    expect(migration).toContain(
+      "revoke all on table public.external_rating_snapshots from anon, authenticated",
+    );
+    expect(migration).toContain(
+      "revoke all on table public.place_external_refs from anon, authenticated",
+    );
+    expect(migration).not.toContain(
+      "grant select on table public.external_rating_snapshots to anon",
+    );
+    expect(migration).not.toContain("disable row level security");
+  });
+
+  test("Google Places APIキーはサーバー専用環境変数として扱う", async () => {
+    const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
+    const googlePlaces = await readFile(
+      path.join(rootDir, "src/lib/google-places.ts"),
+      "utf8",
+    );
+
+    expect(envExample).toContain("GOOGLE_PLACES_API_KEY=");
+    expect(envExample).not.toContain("NEXT_PUBLIC_GOOGLE_PLACES_API_KEY");
+    expect(googlePlaces).toContain("process.env.GOOGLE_PLACES_API_KEY");
+    expect(googlePlaces).toContain("server-only");
   });
 
   test("submission protectionがHTTP-only Cookieでブラウザ相当の連投制限を行う", async () => {

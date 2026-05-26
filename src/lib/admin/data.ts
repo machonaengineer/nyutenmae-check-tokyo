@@ -37,8 +37,37 @@ export type AdminActionLog = {
   createdAt: string;
 };
 
+export type AdminExternalReviewSource = {
+  id: string;
+  slug: string;
+  label: string;
+  displayAllowedDefault: boolean;
+  requiresAttribution: boolean;
+  notes: string | null;
+};
+
+export type AdminExternalRatingSnapshot = {
+  id: string;
+  sourceId: string;
+  sourceSlug: string;
+  sourceLabel: string;
+  ratingValue: number | null;
+  ratingScale: number | null;
+  ratingCount: number | null;
+  checkedAt: string;
+  sourceUrl: string | null;
+  sourceTitle: string | null;
+  collectionMethod: string;
+  displayAllowed: boolean;
+  attributionLabel: string | null;
+  publicNote: string | null;
+  privateMemo: string | null;
+  createdAt: string;
+};
+
 export type AdminReportDetail = {
   id: string;
+  placeId: string;
   status: string;
   evidenceLevel: string;
   shopName: string;
@@ -73,6 +102,7 @@ export type AdminReportDetail = {
   areaName: string;
   selectedRiskTagIds: string[];
   evidenceFiles: AdminEvidenceFile[];
+  externalRatings: AdminExternalRatingSnapshot[];
   actionLogs: AdminActionLog[];
 };
 
@@ -94,6 +124,7 @@ export type AdminObjectionListItem = {
 type AreaRow = { id: string; name: string };
 type ReportListRow = {
   id: string;
+  place_id: string;
   status: string;
   evidence_level: string;
   shop_name: string;
@@ -131,6 +162,53 @@ type ReportDetailRow = ReportListRow & {
   private_note: string | null;
 };
 
+type ExternalReviewSourceRow = {
+  id: string;
+  slug: string;
+  label: string;
+  display_allowed_default: boolean;
+  requires_attribution: boolean;
+  notes: string | null;
+};
+
+type ExternalRatingSnapshotRow = {
+  id: string;
+  place_id: string;
+  source_id: string;
+  rating_value: number | string | null;
+  rating_scale: number | string | null;
+  rating_count: number | null;
+  checked_at: string;
+  source_url: string | null;
+  source_title: string | null;
+  collection_method: string;
+  display_allowed: boolean;
+  attribution_label: string | null;
+  public_note: string | null;
+  private_memo: string | null;
+  created_at: string;
+  external_review_sources:
+    | {
+        slug: string;
+        label: string;
+      }
+    | {
+        slug: string;
+        label: string;
+      }[]
+    | null;
+};
+
+function normalizeExternalReviewSource(
+  source: ExternalRatingSnapshotRow["external_review_sources"],
+) {
+  if (Array.isArray(source)) {
+    return source[0] ?? null;
+  }
+
+  return source;
+}
+
 function buildAreaMap(areas: AreaRow[]) {
   return new Map(areas.map((area) => [area.id, area.name]));
 }
@@ -146,7 +224,7 @@ export async function getAdminReports(status?: ReportStatus | "all") {
   let query = supabase
     .from("reports")
     .select(
-      "id,status,evidence_level,shop_name,address,reporter_email,public_summary,created_at,updated_at,area_id",
+      "id,place_id,status,evidence_level,shop_name,address,reporter_email,public_summary,created_at,updated_at,area_id",
     )
     .order("created_at", { ascending: false })
     .limit(200);
@@ -190,6 +268,78 @@ export async function getAdminRiskTags() {
   return (data ?? []) as AdminRiskTag[];
 }
 
+export async function getAdminExternalReviewSources() {
+  const supabase = createSupabaseAdminClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("external_review_sources")
+      .select("id,slug,label,display_allowed_default,requires_attribution,notes")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    return ((data ?? []) as ExternalReviewSourceRow[]).map((source) => ({
+      id: source.id,
+      slug: source.slug,
+      label: source.label,
+      displayAllowedDefault: source.display_allowed_default,
+      requiresAttribution: source.requires_attribution,
+      notes: source.notes,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function getAdminExternalRatingSnapshots(placeId: string) {
+  const supabase = createSupabaseAdminClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("external_rating_snapshots")
+      .select(
+        "id,place_id,source_id,rating_value,rating_scale,rating_count,checked_at,source_url,source_title,collection_method,display_allowed,attribution_label,public_note,private_memo,created_at,external_review_sources(slug,label)",
+      )
+      .eq("place_id", placeId)
+      .order("checked_at", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    return ((data ?? []) as ExternalRatingSnapshotRow[]).map((snapshot) => {
+      const source = normalizeExternalReviewSource(snapshot.external_review_sources);
+
+      return {
+        id: snapshot.id,
+        sourceId: snapshot.source_id,
+        sourceSlug: source?.slug ?? "unknown",
+        sourceLabel: source?.label ?? "外部ソース",
+        ratingValue:
+          snapshot.rating_value === null ? null : Number(snapshot.rating_value),
+        ratingScale:
+          snapshot.rating_scale === null ? null : Number(snapshot.rating_scale),
+        ratingCount: snapshot.rating_count,
+        checkedAt: snapshot.checked_at,
+        sourceUrl: snapshot.source_url,
+        sourceTitle: snapshot.source_title,
+        collectionMethod: snapshot.collection_method,
+        displayAllowed: snapshot.display_allowed,
+        attributionLabel: snapshot.attribution_label,
+        publicNote: snapshot.public_note,
+        privateMemo: snapshot.private_memo,
+        createdAt: snapshot.created_at,
+      };
+    });
+  } catch {
+    return [];
+  }
+}
+
 export async function getAdminReportDetail(id: string): Promise<AdminReportDetail | null> {
   const supabase = createSupabaseAdminClient();
 
@@ -221,6 +371,7 @@ export async function getAdminReportDetail(id: string): Promise<AdminReportDetai
   }
 
   const report = reportResult.data as ReportDetailRow;
+  const externalRatings = await getAdminExternalRatingSnapshots(report.place_id);
   const evidenceFiles = await Promise.all(
     ((evidenceRows.data ?? []) as {
       id: string;
@@ -245,6 +396,7 @@ export async function getAdminReportDetail(id: string): Promise<AdminReportDetai
 
   return {
     id: report.id,
+    placeId: report.place_id,
     status: report.status,
     evidenceLevel: report.evidence_level,
     shopName: report.shop_name,
@@ -281,6 +433,7 @@ export async function getAdminReportDetail(id: string): Promise<AdminReportDetai
       (tag) => tag.risk_tag_id,
     ),
     evidenceFiles,
+    externalRatings,
     actionLogs: ((actionRows.data ?? []) as {
       id: string;
       action: string;

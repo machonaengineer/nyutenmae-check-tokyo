@@ -52,9 +52,27 @@ export type PublicPlaceReport = {
   publicSummary: string;
 };
 
+export type PublicExternalRatingSnapshot = {
+  id: string;
+  placeId: string;
+  sourceSlug: string;
+  sourceLabel: string;
+  ratingValue: number | null;
+  ratingScale: number | null;
+  ratingCount: number | null;
+  checkedAt: string;
+  sourceUrl: string;
+  sourceTitle: string | null;
+  collectionMethod: string;
+  attributionLabel: string | null;
+  publicNote: string | null;
+  requiresAttribution: boolean;
+};
+
 export type PublicPlaceDetail = {
   place: PublicPlaceSummary;
   reports: PublicPlaceReport[];
+  externalRatings: PublicExternalRatingSnapshot[];
 };
 
 type PublicAreaSummaryRow = {
@@ -102,6 +120,23 @@ type PublicPlaceReportRow = {
   itemized_bill_available: boolean | null;
   payment_method: string | null;
   public_summary: string;
+};
+
+type PublicExternalRatingSnapshotRow = {
+  id: string;
+  place_id: string;
+  source_slug: string;
+  source_label: string;
+  rating_value: number | string | null;
+  rating_scale: number | string | null;
+  rating_count: number | null;
+  checked_at: string;
+  source_url: string;
+  source_title: string | null;
+  collection_method: string;
+  attribution_label: string | null;
+  public_note: string | null;
+  requires_attribution: boolean;
 };
 
 const TOKYO_CENTER = { latitude: 35.6895, longitude: 139.6917 };
@@ -175,6 +210,27 @@ function mapReport(row: PublicPlaceReportRow): PublicPlaceReport {
   };
 }
 
+function mapExternalRating(
+  row: PublicExternalRatingSnapshotRow,
+): PublicExternalRatingSnapshot {
+  return {
+    id: row.id,
+    placeId: row.place_id,
+    sourceSlug: row.source_slug,
+    sourceLabel: row.source_label,
+    ratingValue: toNumberOrNull(row.rating_value),
+    ratingScale: toNumberOrNull(row.rating_scale),
+    ratingCount: row.rating_count,
+    checkedAt: row.checked_at,
+    sourceUrl: row.source_url,
+    sourceTitle: row.source_title,
+    collectionMethod: row.collection_method,
+    attributionLabel: row.attribution_label,
+    publicNote: row.public_note,
+    requiresAttribution: row.requires_attribution,
+  };
+}
+
 function getStaticAreaSummaries(): PublicAreaSummary[] {
   return INITIAL_AREAS.map((area, index) => ({
     id: null,
@@ -240,13 +296,18 @@ export async function getPublicPlaceSummaries(options: { areaSlug?: string } = {
 export async function getPublicPlaceDetail(id: string): Promise<PublicPlaceDetail | null> {
   try {
     const supabase = createSupabaseServerClient();
-    const [placeResult, reportsResult] = await Promise.all([
+    const [placeResult, reportsResult, externalRatingsResult] = await Promise.all([
       supabase.from("public_place_summaries").select("*").eq("id", id).single(),
       supabase
         .from("public_place_reports")
         .select("*")
         .eq("place_id", id)
         .order("reported_at", { ascending: false }),
+      supabase
+        .from("public_external_rating_snapshots")
+        .select("*")
+        .eq("place_id", id)
+        .order("checked_at", { ascending: false }),
     ]);
 
     if (placeResult.error || reportsResult.error || !placeResult.data) {
@@ -256,6 +317,11 @@ export async function getPublicPlaceDetail(id: string): Promise<PublicPlaceDetai
     return {
       place: mapPlace(placeResult.data as PublicPlaceSummaryRow),
       reports: ((reportsResult.data ?? []) as PublicPlaceReportRow[]).map(mapReport),
+      externalRatings: externalRatingsResult.error
+        ? []
+        : ((externalRatingsResult.data ?? []) as PublicExternalRatingSnapshotRow[]).map(
+            mapExternalRating,
+          ),
     };
   } catch {
     return null;

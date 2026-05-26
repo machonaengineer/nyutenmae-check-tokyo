@@ -4,6 +4,11 @@ import { notFound } from "next/navigation";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader, Section } from "@/components/page-blocks";
 import { PublicNotice } from "@/components/public-notice";
+import {
+  formatExternalRating,
+  formatRatingCount,
+  getExternalCollectionMethodLabel,
+} from "@/lib/external-ratings";
 import { formatBoolean, formatCurrency, formatDate } from "@/lib/format";
 import { getPlaceDisplayName, getPublicPlaceDetail } from "@/lib/public-data";
 
@@ -35,7 +40,7 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
     notFound();
   }
 
-  const { place, reports } = detail;
+  const { place, reports, externalRatings } = detail;
   const displayName = getPlaceDisplayName(place);
 
   return (
@@ -84,6 +89,59 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
           <PublicNotice />
         </div>
       </Section>
+
+      {externalRatings.length > 0 ? (
+        <Section
+          title="外部評価参考値"
+          description="外部評価と本サービスの注意報告は評価軸が異なります。外部サービス上の集計参考値として表示しています。"
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            {externalRatings.map((rating) => (
+              <article key={rating.id} className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="text-lg font-bold text-ink">{rating.sourceLabel}</h2>
+                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
+                    参考値
+                  </span>
+                </div>
+                <dl className="mt-4 grid gap-3 text-sm leading-6 text-muted">
+                  <div>
+                    <dt className="font-semibold text-ink">外部集計評価</dt>
+                    <dd>
+                      {formatExternalRating(rating.ratingValue, rating.ratingScale)} /{" "}
+                      {formatRatingCount(rating.ratingCount)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-ink">確認日</dt>
+                    <dd>{formatDate(rating.checkedAt)}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-ink">取得方法</dt>
+                    <dd>{getExternalCollectionMethodLabel(rating.collectionMethod)}</dd>
+                  </div>
+                </dl>
+                {rating.publicNote ? (
+                  <p className="mt-4 text-sm leading-6 text-muted">{rating.publicNote}</p>
+                ) : null}
+                <a
+                  className="mt-4 inline-flex text-sm font-semibold text-action"
+                  href={rating.sourceUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  出典を確認する
+                </a>
+                {rating.requiresAttribution ? (
+                  <p className="mt-3 text-xs leading-5 text-muted">
+                    出典: {rating.attributionLabel ?? rating.sourceLabel}
+                  </p>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        </Section>
+      ) : null}
 
       <Section title="公開サマリー">
         {reports.length > 0 ? (
