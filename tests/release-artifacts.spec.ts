@@ -290,6 +290,30 @@ test.describe("リリース準備資料", () => {
     expect(monetizationSlot).toContain("審査判断に影響しません");
   });
 
+  test("初期データ検証はDB保存せずブラウザ内の投入前チェックに限定する", async () => {
+    const validator = await readFile(
+      path.join(rootDir, "src/components/admin/initial-data-validator.tsx"),
+      "utf8",
+    );
+    const validationLib = await readFile(
+      path.join(rootDir, "src/lib/initial-data-validation.ts"),
+      "utf8",
+    );
+    const adminDataPage = await readFile(
+      path.join(rootDir, "src/app/admin/data/page.tsx"),
+      "utf8",
+    );
+
+    expect(validator).toContain('"use client"');
+    expect(validator).toContain("validateInitialDataCsv");
+    expect(validator).not.toContain("createSupabase");
+    expect(validationLib).toContain("INITIAL_DATA_COLUMNS");
+    expect(validationLib).toContain("containsDangerousExpression");
+    expect(validationLib).toContain("Google口コミ");
+    expect(adminDataPage).toContain("requireAdminUser");
+    expect(adminDataPage).toContain("DBには保存しません");
+  });
+
   test("submission protectionがHTTP-only Cookieでブラウザ相当の連投制限を行う", async () => {
     const source = await readFile(
       path.join(rootDir, "src/lib/submission-protection.ts"),

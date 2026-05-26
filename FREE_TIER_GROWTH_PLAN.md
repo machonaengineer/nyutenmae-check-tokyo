@@ -11,6 +11,9 @@
 - `MonetizationSlot`: 環境変数OFFがデフォルトの収益化枠
 - `AnalyticsGate`: 環境変数ON時のみVercel Web Analyticsを読み込む
 - sitemapにチェックリストページを追加
+- `/admin`: 管理概況ダッシュボード
+- `/admin/data`: 初期データCSVのブラウザ内検証
+- `/monetization-policy`: 収益化と掲載独立性の公開方針
 
 ## 無料枠での運用
 

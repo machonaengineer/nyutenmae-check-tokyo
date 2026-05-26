@@ -121,6 +121,24 @@ export type AdminObjectionListItem = {
   updatedAt: string;
 };
 
+export type AdminDashboardMetrics = {
+  reportsTotal: number;
+  pendingReports: number;
+  needsReviewReports: number;
+  approvedReports: number;
+  hiddenReports: number;
+  rejectedReports: number;
+  stalePendingReports: number;
+  objectionsTotal: number;
+  pendingObjections: number;
+  publicPlaces: number;
+  evidenceFiles: number;
+  externalRatings: number;
+  externalRatingsPublic: number;
+  reportsByArea: { areaName: string; count: number }[];
+  latestActions: AdminActionLog[];
+};
+
 type AreaRow = { id: string; name: string };
 type ReportListRow = {
   id: string;
@@ -199,6 +217,31 @@ type ExternalRatingSnapshotRow = {
     | null;
 };
 
+type DashboardReportRow = {
+  status: string;
+  evidence_level: string;
+  area_id: string;
+  created_at: string;
+};
+
+type DashboardObjectionRow = {
+  status: string;
+  created_at: string;
+};
+
+type DashboardPlaceSummaryRow = {
+  id: string;
+};
+
+type DashboardEvidenceRow = {
+  id: string;
+};
+
+type DashboardExternalRatingRow = {
+  id: string;
+  display_allowed: boolean;
+};
+
 function normalizeExternalReviewSource(
   source: ExternalRatingSnapshotRow["external_review_sources"],
 ) {
@@ -251,6 +294,83 @@ export async function getAdminReports(status?: ReportStatus | "all") {
     updatedAt: report.updated_at,
     areaName: areaNameMap.get(report.area_id) ?? "未設定",
   }));
+}
+
+export async function getAdminDashboardMetrics(): Promise<AdminDashboardMetrics> {
+  const supabase = createSupabaseAdminClient();
+  const staleThreshold = Date.now() - 1000 * 60 * 60 * 24 * 7;
+
+  const [
+    reportsResult,
+    objectionsResult,
+    publicPlacesResult,
+    evidenceResult,
+    externalRatingsResult,
+    actionRows,
+    areaNameMap,
+  ] = await Promise.all([
+    supabase.from("reports").select("status,evidence_level,area_id,created_at"),
+    supabase.from("objections").select("status,created_at"),
+    supabase.from("public_place_summaries").select("id"),
+    supabase.from("report_evidence_files").select("id"),
+    supabase.from("external_rating_snapshots").select("id,display_allowed"),
+    supabase
+      .from("admin_actions")
+      .select("id,action,summary,created_at")
+      .order("created_at", { ascending: false })
+      .limit(8),
+    getAreaNameMap(),
+  ]);
+
+  const reports = ((reportsResult.data ?? []) as DashboardReportRow[]);
+  const objections = ((objectionsResult.data ?? []) as DashboardObjectionRow[]);
+  const publicPlaces = ((publicPlacesResult.data ?? []) as DashboardPlaceSummaryRow[]);
+  const evidenceFiles = ((evidenceResult.data ?? []) as DashboardEvidenceRow[]);
+  const externalRatings =
+    ((externalRatingsResult.data ?? []) as DashboardExternalRatingRow[]);
+  const byArea = new Map<string, number>();
+
+  for (const report of reports) {
+    const areaName = areaNameMap.get(report.area_id) ?? "未設定";
+    byArea.set(areaName, (byArea.get(areaName) ?? 0) + 1);
+  }
+
+  return {
+    reportsTotal: reports.length,
+    pendingReports: reports.filter((report) => report.status === "pending").length,
+    needsReviewReports: reports.filter((report) => report.status === "needs_review")
+      .length,
+    approvedReports: reports.filter((report) => report.status === "approved").length,
+    hiddenReports: reports.filter((report) => report.status === "hidden").length,
+    rejectedReports: reports.filter((report) => report.status === "rejected").length,
+    stalePendingReports: reports.filter(
+      (report) =>
+        report.status === "pending" &&
+        new Date(report.created_at).getTime() < staleThreshold,
+    ).length,
+    objectionsTotal: objections.length,
+    pendingObjections: objections.filter((objection) => objection.status === "pending")
+      .length,
+    publicPlaces: publicPlaces.length,
+    evidenceFiles: evidenceFiles.length,
+    externalRatings: externalRatings.length,
+    externalRatingsPublic: externalRatings.filter((rating) => rating.display_allowed)
+      .length,
+    reportsByArea: [...byArea.entries()]
+      .map(([areaName, count]) => ({ areaName, count }))
+      .sort((a, b) => b.count - a.count),
+    latestActions: ((actionRows.data ?? []) as {
+      id: string;
+      action: string;
+      summary: string | null;
+      created_at: string;
+    }[]).map((action) => ({
+      id: action.id,
+      action: action.action,
+      summary: action.summary,
+      createdAt: action.created_at,
+    })),
+  };
 }
 
 export async function getAdminRiskTags() {

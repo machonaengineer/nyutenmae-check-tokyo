@@ -15,6 +15,7 @@ const publicRoutes = [
   { path: "/objection", heading: "異議申立て" },
   { path: "/guidelines", heading: "投稿ガイドライン" },
   { path: "/support", heading: "トラブル時の相談先" },
+  { path: "/monetization-policy", heading: "収益化と掲載独立性" },
   { path: "/terms", heading: "利用規約" },
   { path: "/privacy", heading: "プライバシーポリシー" },
 ] as const;
@@ -203,6 +204,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/</loc>");
     expect(body).toContain("<loc>http://localhost:3000/map</loc>");
     expect(body).toContain("<loc>http://localhost:3000/checklists</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/monetization-policy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
     expect(body).toContain(
       "<loc>http://localhost:3000/areas/shinjuku-kabukicho/checklist</loc>",
@@ -244,5 +246,12 @@ test.describe("公開ページ", () => {
     expect(response.ok()).toBe(true);
     expect(body).not.toContain("支援リンクを開く");
     expect(body).not.toContain("/_vercel/insights");
+  });
+
+  test("収益化方針ページで掲載独立性を確認できる", async ({ page }) => {
+    await page.goto("/monetization-policy");
+
+    await expect(page.getByText("投稿審査、公開順位、リスクタグ、証拠レベルに影響しません")).toBeVisible();
+    await expect(page.getByText("現時点では、収益化枠は環境変数でOFF")).toBeVisible();
   });
 });

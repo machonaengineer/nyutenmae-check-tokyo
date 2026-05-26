@@ -25,6 +25,7 @@ export const FOOTER_LINKS = [
   { href: "/checklists", label: "確認リスト" },
   { href: "/support", label: "相談先" },
   { href: "/objection", label: "異議申立て" },
+  { href: "/monetization-policy", label: "収益化方針" },
 ] as const;
 
 export const INITIAL_AREAS = [
