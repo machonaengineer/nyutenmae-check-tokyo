@@ -147,4 +147,38 @@ test.describe("公開ページ", () => {
       page.getByRole("heading", { name: "管理画面ログイン", level: 1 }),
     ).toBeVisible();
   });
+
+  test("robots.txtで管理画面と投稿完了ページをクロール対象外にする", async ({
+    request,
+  }) => {
+    const response = await request.get("/robots.txt");
+    const body = await response.text();
+
+    expect(response.ok()).toBe(true);
+    expect(body).toContain("Disallow: /admin");
+    expect(body).toContain("Disallow: /reports/thanks");
+    expect(body).toContain("Sitemap:");
+  });
+
+  test("sitemap.xmlに公開主要ページと初期エリアを含める", async ({ request }) => {
+    const response = await request.get("/sitemap.xml");
+    const body = await response.text();
+
+    expect(response.ok()).toBe(true);
+    expect(body).toContain("<loc>http://localhost:3000/</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/map</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
+    expect(body).not.toContain("/admin");
+    expect(body).not.toContain("/reports/thanks");
+  });
+
+  test("manifest.webmanifestでサイト名とテーマ色を返す", async ({ request }) => {
+    const response = await request.get("/manifest.webmanifest");
+    const manifest = await response.json();
+
+    expect(response.ok()).toBe(true);
+    expect(manifest.name).toBe("入店前チェック東京");
+    expect(manifest.display).toBe("standalone");
+    expect(manifest.theme_color).toBe("#1f3a5f");
+  });
 });
