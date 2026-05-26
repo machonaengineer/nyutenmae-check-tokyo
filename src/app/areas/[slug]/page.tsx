@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EmptyState } from "@/components/empty-state";
 import { LeafletMap } from "@/components/leaflet-map";
@@ -69,6 +70,14 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
       </Section>
 
       <Section title="このエリアの公開情報">
+        <div className="mb-6">
+          <Link
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+            href={`/areas/${slug}/checklist`}
+          >
+            このエリアの確認リストを見る
+          </Link>
+        </div>
         {places.length > 0 ? (
           <div className="grid gap-4">
             {places.map((place) => (

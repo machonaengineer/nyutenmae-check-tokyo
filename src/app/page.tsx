@@ -126,9 +126,29 @@ export default function Home() {
               <p className="text-sm font-semibold text-action">{area.center}</p>
               <h2 className="mt-2 text-xl font-bold text-ink">{area.name}</h2>
               <p className="mt-3 text-sm leading-7 text-muted">{area.summary}</p>
+              <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                <Link className="text-action no-underline" href={`/areas/${area.slug}`}>
+                  公開情報を見る
+                </Link>
+                <Link className="text-action no-underline" href={`/areas/${area.slug}/checklist`}>
+                  確認リストを見る
+                </Link>
+              </div>
             </article>
           ))}
         </div>
+      </Section>
+
+      <Section
+        title="入店前チェックリスト"
+        description="入店前、会計前、退店後に確認したい項目を、公開ページとして整理しています。"
+      >
+        <Link
+          href="/checklists"
+          className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+        >
+          確認リストを見る
+        </Link>
       </Section>
 
       <Section title="報告カテゴリ">

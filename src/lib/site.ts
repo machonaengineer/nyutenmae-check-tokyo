@@ -11,6 +11,7 @@ export const NAV_ITEMS = [
   { href: "/", label: "ホーム", emphasis: false },
   { href: "/map", label: "地図", emphasis: false },
   { href: "/areas", label: "エリア", emphasis: false },
+  { href: "/checklists", label: "確認リスト", emphasis: false },
   { href: "/reports/new", label: "投稿する", emphasis: true },
   { href: "/guidelines", label: "投稿ガイド", emphasis: false },
   { href: "/support", label: "相談先", emphasis: false },
@@ -21,6 +22,7 @@ export const FOOTER_LINKS = [
   { href: "/terms", label: "利用規約" },
   { href: "/privacy", label: "プライバシー" },
   { href: "/guidelines", label: "投稿ガイドライン" },
+  { href: "/checklists", label: "確認リスト" },
   { href: "/support", label: "相談先" },
   { href: "/objection", label: "異議申立て" },
 ] as const;

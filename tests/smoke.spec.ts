@@ -5,6 +5,11 @@ const publicRoutes = [
   { path: "/map", heading: "注意報告マップ" },
   { path: "/areas", heading: "初期対象エリア" },
   { path: "/areas/shinjuku-kabukicho", heading: "新宿・歌舞伎町" },
+  { path: "/checklists", heading: "入店前チェックリスト" },
+  {
+    path: "/areas/shinjuku-kabukicho/checklist",
+    heading: "新宿・歌舞伎町の入店前チェックリスト",
+  },
   { path: "/reports/new", heading: "注意報告を送る" },
   { path: "/reports/thanks", heading: "投稿を受け付けました" },
   { path: "/objection", heading: "異議申立て" },
@@ -124,7 +129,15 @@ test.describe("公開ページ", () => {
   });
 
   test("主要ページで横スクロールが発生しない", async ({ page }) => {
-    for (const route of ["/", "/reports/new", "/objection", "/support", "/map"]) {
+    for (const route of [
+      "/",
+      "/reports/new",
+      "/objection",
+      "/support",
+      "/map",
+      "/checklists",
+      "/areas/shinjuku-kabukicho/checklist",
+    ]) {
       await page.goto(route);
       const hasHorizontalOverflow = await page.evaluate(
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
@@ -189,7 +202,11 @@ test.describe("公開ページ", () => {
     expect(response.ok()).toBe(true);
     expect(body).toContain("<loc>http://localhost:3000/</loc>");
     expect(body).toContain("<loc>http://localhost:3000/map</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/checklists</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
+    expect(body).toContain(
+      "<loc>http://localhost:3000/areas/shinjuku-kabukicho/checklist</loc>",
+    );
     expect(body).not.toContain("/admin");
     expect(body).not.toContain("/reports/thanks");
     expect(body).not.toContain("/healthz");
@@ -216,5 +233,16 @@ test.describe("公開ページ", () => {
       expect(body).not.toContain("storage_path");
       expect(body).not.toContain("report-evidence-files");
     }
+  });
+
+  test("収益化枠とVercel Analyticsはデフォルトでは公開HTMLに出さない", async ({
+    request,
+  }) => {
+    const response = await request.get("/checklists");
+    const body = await response.text();
+
+    expect(response.ok()).toBe(true);
+    expect(body).not.toContain("支援リンクを開く");
+    expect(body).not.toContain("/_vercel/insights");
   });
 });

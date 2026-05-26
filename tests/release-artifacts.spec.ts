@@ -19,6 +19,7 @@ const requiredReleaseFiles = [
   "supabase/migrations/0007_external_rating_snapshots.sql",
   "EXTERNAL_RATING_TEMPLATE.csv",
   "EXTERNAL_RATING_GUIDE.md",
+  "FREE_TIER_GROWTH_PLAN.md",
 ] as const;
 
 const initialDataColumns = [
@@ -86,6 +87,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0006_service_role_privileges.sql");
     expect(readme).toContain("0007_external_rating_snapshots.sql");
     expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
+    expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {
@@ -262,6 +264,30 @@ test.describe("リリース準備資料", () => {
     expect(envExample).not.toContain("NEXT_PUBLIC_GOOGLE_PLACES_API_KEY");
     expect(googlePlaces).toContain("process.env.GOOGLE_PLACES_API_KEY");
     expect(googlePlaces).toContain("server-only");
+  });
+
+  test("無料枠重視の計測と収益化枠はデフォルトOFFで管理する", async () => {
+    const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
+    const growthPlan = await readFile(
+      path.join(rootDir, "FREE_TIER_GROWTH_PLAN.md"),
+      "utf8",
+    );
+    const analyticsGate = await readFile(
+      path.join(rootDir, "src/components/analytics-gate.tsx"),
+      "utf8",
+    );
+    const monetizationSlot = await readFile(
+      path.join(rootDir, "src/components/growth/monetization-slot.tsx"),
+      "utf8",
+    );
+
+    expect(envExample).toContain("NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false");
+    expect(envExample).toContain("NEXT_PUBLIC_MONETIZATION_ENABLED=false");
+    expect(growthPlan).toContain("無料枠");
+    expect(growthPlan).toContain("収益化を実際に開始する前");
+    expect(analyticsGate).toContain('NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED !== "true"');
+    expect(monetizationSlot).toContain('NEXT_PUBLIC_MONETIZATION_ENABLED !== "true"');
+    expect(monetizationSlot).toContain("審査判断に影響しません");
   });
 
   test("submission protectionがHTTP-only Cookieでブラウザ相当の連投制限を行う", async () => {

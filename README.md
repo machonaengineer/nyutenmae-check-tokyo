@@ -83,6 +83,10 @@ ADMIN_EMAILS=
 MAX_UPLOAD_MB=5
 RATE_LIMIT_SECRET=
 GOOGLE_PLACES_API_KEY=
+NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false
+NEXT_PUBLIC_MONETIZATION_ENABLED=false
+NEXT_PUBLIC_SPONSOR_INQUIRY_URL=
+NEXT_PUBLIC_SUPPORT_URL=
 ```
 
 | 変数 | 用途 |
@@ -95,6 +99,10 @@ GOOGLE_PLACES_API_KEY=
 | `MAX_UPLOAD_MB` | 証拠資料アップロードの最大サイズ |
 | `RATE_LIMIT_SECRET` | IP/メール/ブラウザ識別子のrate limitキーをハッシュするサーバー専用シークレット |
 | `GOOGLE_PLACES_API_KEY` | 任意。管理画面でGoogle Places APIから外部集計評価を取得する場合だけ使うサーバー専用キー |
+| `NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED` | 任意。`true` の場合だけVercel Web Analyticsを読み込む |
+| `NEXT_PUBLIC_MONETIZATION_ENABLED` | 任意。`true` の場合だけ収益化枠を表示する。初期値は必ず `false` |
+| `NEXT_PUBLIC_SPONSOR_INQUIRY_URL` | 任意。収益化枠の問い合わせ先URL |
+| `NEXT_PUBLIC_SUPPORT_URL` | 任意。支援リンクや外部支援ページのURL |
 
 ## 実装済み
 
@@ -103,7 +111,7 @@ GOOGLE_PLACES_API_KEY=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/places/[id]`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/places/[id]`, `/checklists`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -116,6 +124,8 @@ GOOGLE_PLACES_API_KEY=
 - Playwright初期設定と公開ページのスモークテスト
 - セキュリティ系レスポンスヘッダーの初期設定
 - 外部評価参考値の保存、管理画面入力、Google Places API任意同期、公開ページ表示
+- `/checklists` と `/areas/[slug]/checklist` のSEO向け安全確認コンテンツ
+- 環境変数OFFがデフォルトのVercel Web Analytics読み込み口と収益化枠
 
 ## DB設計
 
@@ -175,6 +185,7 @@ GOOGLE_PLACES_API_KEY=
 - 簡易rate limit、ブラウザ識別Cookie、honeypotを本番Previewで確認している
 - 将来のcaptcha導入方針は `CAPTCHA_FUTURE_NOTES.md` を参照する
 - 外部評価を使う場合は `0007_external_rating_snapshots.sql` を適用し、`EXTERNAL_RATING_GUIDE.md` に沿って転載禁止と公開可否を確認する
+- 収益化枠は `NEXT_PUBLIC_MONETIZATION_ENABLED=false` を初期値にし、法務・規約・ホスティングプラン確認後にだけ有効化する
 
 ## 運用資料
 
@@ -187,3 +198,4 @@ GOOGLE_PLACES_API_KEY=
 - `SEED_DATA_GUIDE.md`: 初期データ投入方針
 - `EXTERNAL_RATING_TEMPLATE.csv`: 外部評価スナップショット整理用CSV
 - `EXTERNAL_RATING_GUIDE.md`: 外部評価参考値の入力、公開、禁止事項
+- `FREE_TIER_GROWTH_PLAN.md`: 無料枠重視のSEO、計測、収益化準備方針

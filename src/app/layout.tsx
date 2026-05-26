@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AnalyticsGate } from "@/components/analytics-gate";
 import { AppShell } from "@/components/site-shell";
 import { SITE } from "@/lib/site";
 import "./globals.css";
@@ -51,6 +52,7 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <AppShell>{children}</AppShell>
+        <AnalyticsGate />
       </body>
     </html>
   );
