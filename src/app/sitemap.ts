@@ -8,11 +8,13 @@ const staticRoutes = [
   { path: "/areas", priority: 0.8 },
   { path: "/checklists", priority: 0.8 },
   { path: "/topics", priority: 0.7 },
+  { path: "/contribute", priority: 0.7 },
   { path: "/reports/new", priority: 0.7 },
   { path: "/objection", priority: 0.6 },
   { path: "/support", priority: 0.6 },
   { path: "/guidelines", priority: 0.5 },
   { path: "/monetization-policy", priority: 0.4 },
+  { path: "/sponsor", priority: 0.4 },
   { path: "/terms", priority: 0.3 },
   { path: "/privacy", priority: 0.3 },
 ] as const;
@@ -34,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: `/topics/${topic.slug}`,
       priority: 0.6,
     })),
+    ...INITIAL_AREAS.flatMap((area) =>
+      TOPIC_GUIDES.map((topic) => ({
+        path: `/areas/${area.slug}/topics/${topic.slug}`,
+        priority: 0.6,
+      })),
+    ),
   ];
 
   return routes.map((route) => ({

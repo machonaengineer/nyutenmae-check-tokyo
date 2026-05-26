@@ -123,7 +123,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -142,6 +142,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 収益化と掲載独立性の公開方針ページ
 - 環境変数OFFがデフォルトのAdSense差し込み口と `/ads.txt`
 - 承認済みplaceだけを対象にした店舗名・住所検索
+- エリア×トラブル種別のSEO向け確認ページ
+- 情報提供募集ページとスポンサー問い合わせページ
 - トラブル種別別のSEO向け安全確認ガイド
 
 ## DB設計

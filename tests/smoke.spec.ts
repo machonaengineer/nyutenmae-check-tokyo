@@ -5,6 +5,10 @@ const publicRoutes = [
   { path: "/map", heading: "注意報告マップ" },
   { path: "/areas", heading: "初期対象エリア" },
   { path: "/areas/shinjuku-kabukicho", heading: "新宿・歌舞伎町" },
+  {
+    path: "/areas/shinjuku-kabukicho/topics/price-confirmation",
+    heading: "新宿・歌舞伎町の料金説明の確認",
+  },
   { path: "/search", heading: "店舗名・住所検索" },
   { path: "/checklists", heading: "入店前チェックリスト" },
   {
@@ -13,6 +17,8 @@ const publicRoutes = [
   },
   { path: "/topics", heading: "トラブル種別別ガイド" },
   { path: "/topics/price-confirmation", heading: "料金説明の確認" },
+  { path: "/contribute", heading: "情報提供のお願い" },
+  { path: "/sponsor", heading: "スポンサー・広告掲載について" },
   { path: "/reports/new", heading: "注意報告を送る" },
   { path: "/reports/thanks", heading: "投稿を受け付けました" },
   { path: "/objection", heading: "異議申立て" },
@@ -89,6 +95,15 @@ test.describe("公開ページ", () => {
     await expect(page.getByRole("button", { name: "非公開で送信する" })).toBeVisible();
   });
 
+  test("情報提供導線から投稿フォームを事前選択できる", async ({ page }) => {
+    await page.goto("/reports/new?area=shinjuku-kabukicho&tag=price-billing-mismatch");
+
+    await expect(page.getByLabel("対象エリア")).toHaveValue("shinjuku-kabukicho");
+    await expect(
+      page.locator('input[name="risk_tags"][value="price-billing-mismatch"]'),
+    ).toBeChecked();
+  });
+
   test("共通ヘッダーから店舗名や住所を検索できる", async ({ page }) => {
     await page.goto("/");
 
@@ -160,8 +175,11 @@ test.describe("公開ページ", () => {
       "/map",
       "/checklists",
       "/areas/shinjuku-kabukicho/checklist",
+      "/areas/shinjuku-kabukicho/topics/price-confirmation",
       "/topics",
       "/topics/price-confirmation",
+      "/contribute",
+      "/sponsor",
     ]) {
       await page.goto(route);
       const hasHorizontalOverflow = await page.evaluate(
@@ -230,10 +248,15 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/checklists</loc>");
     expect(body).toContain("<loc>http://localhost:3000/topics</loc>");
     expect(body).toContain("<loc>http://localhost:3000/topics/price-confirmation</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/contribute</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/sponsor</loc>");
     expect(body).toContain("<loc>http://localhost:3000/monetization-policy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
     expect(body).toContain(
       "<loc>http://localhost:3000/areas/shinjuku-kabukicho/checklist</loc>",
+    );
+    expect(body).toContain(
+      "<loc>http://localhost:3000/areas/shinjuku-kabukicho/topics/price-confirmation</loc>",
     );
     expect(body).not.toContain("/admin");
     expect(body).not.toContain("/reports/thanks");

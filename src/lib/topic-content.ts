@@ -1,9 +1,17 @@
+import { RISK_TAGS } from "@/lib/site";
+
 export const TOPIC_GUIDES = [
   {
     slug: "price-confirmation",
     title: "料金説明の確認",
     description:
       "入店前と注文前に、席料、サービス料、時間制、飲み放題条件、税の扱いを確認するためのガイドです。",
+    riskTagSlugs: [
+      "price-billing-mismatch",
+      "all-you-can-drink-condition-mismatch",
+      "seat-service-fee-insufficient-explanation",
+      "high-billing-trouble",
+    ],
     checks: [
       "入店前に総額の目安を確認する",
       "席料、サービス料、チャージ、税が別か込みか確認する",
@@ -16,6 +24,7 @@ export const TOPIC_GUIDES = [
     title: "明細提示の確認",
     description:
       "会計前後に明細、領収書、注文内容、人数、時間を確認し、資料を保存するためのガイドです。",
+    riskTagSlugs: ["itemized-bill-trouble"],
     checks: [
       "注文内容、人数、時間、席料、サービス料の内訳を確認する",
       "明細や領収書の提示を依頼する",
@@ -28,6 +37,7 @@ export const TOPIC_GUIDES = [
     title: "客引き経由の来店前確認",
     description:
       "客引き時の説明と店内説明の違いを避けるため、入店前に条件を整理するガイドです。",
+    riskTagSlugs: ["solicited-entry"],
     checks: [
       "客引き時の説明内容を同行者と共有する",
       "店内で同じ条件が適用されるか確認する",
@@ -40,6 +50,11 @@ export const TOPIC_GUIDES = [
     title: "会計時・退店時対応の確認",
     description:
       "会計時や退店時に不安を感じた場合に、安全確保と記録保存を優先するためのガイドです。",
+    riskTagSlugs: [
+      "checkout-response-attention",
+      "exit-response-attention",
+      "itemized-bill-trouble",
+    ],
     checks: [
       "身の危険を感じる場合は支払い交渉より安全確保を優先する",
       "同行者と合流し、人通りのある場所へ移動する",
@@ -51,4 +66,24 @@ export const TOPIC_GUIDES = [
 
 export function getTopicGuide(slug: string) {
   return TOPIC_GUIDES.find((topic) => topic.slug === slug) ?? null;
+}
+
+export function getTopicRiskTagLabels(slug: string) {
+  const topic = getTopicGuide(slug);
+
+  if (!topic) {
+    return [] as string[];
+  }
+
+  const labels: string[] = [];
+
+  for (const riskTagSlug of topic.riskTagSlugs) {
+    const label = RISK_TAGS.find((tag) => tag.slug === riskTagSlug)?.label;
+
+    if (label) {
+      labels.push(label);
+    }
+  }
+
+  return labels;
 }

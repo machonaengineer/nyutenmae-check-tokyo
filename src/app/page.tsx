@@ -68,6 +68,12 @@ export default function Home() {
                 >
                   注意報告を送る
                 </Link>
+                <Link
+                  href="/contribute"
+                  className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                >
+                  情報提供の方針を見る
+                </Link>
               </div>
             </div>
             <div className="rounded-md border border-line bg-white p-4 shadow-[0_18px_42px_rgb(23_32_42/0.08)]">
@@ -133,6 +139,12 @@ export default function Home() {
                 <Link className="text-action no-underline" href={`/areas/${area.slug}/checklist`}>
                   確認リストを見る
                 </Link>
+                <Link
+                  className="text-action no-underline"
+                  href={`/areas/${area.slug}/topics/price-confirmation`}
+                >
+                  料金確認を見る
+                </Link>
               </div>
             </article>
           ))}
@@ -153,6 +165,26 @@ export default function Home() {
 
       <Section title="報告カテゴリ">
         <SimpleList items={REPORT_CATEGORIES} />
+      </Section>
+
+      <Section
+        title="情報提供を募集しています"
+        description="公開情報が少ない初期段階のため、具体的な経緯、明細の有無、相談状況などの情報提供を受け付けています。"
+      >
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/contribute"
+            className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+          >
+            情報提供の方針を見る
+          </Link>
+          <Link
+            href="/reports/new"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+          >
+            注意報告を送る
+          </Link>
+        </div>
       </Section>
 
       <Section title="公開と表現の方針">

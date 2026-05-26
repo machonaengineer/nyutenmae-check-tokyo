@@ -18,10 +18,15 @@ import {
 } from "@/lib/report-form";
 import type { FormOption } from "@/lib/report-options";
 import { submitReportAction } from "./actions";
-import { initialReportFormState, type ReportFormState } from "./form-state";
+import {
+  createInitialReportFormState,
+  initialReportFormState,
+  type ReportFormState,
+} from "./form-state";
 
 type ReportFormProps = {
   areas: FormOption[];
+  defaultValues?: ReportFormState["values"];
   riskTags: FormOption[];
   maxUploadMb: number;
 };
@@ -148,10 +153,15 @@ function TextArea({
   );
 }
 
-export function ReportForm({ areas, riskTags, maxUploadMb }: ReportFormProps) {
+export function ReportForm({
+  areas,
+  defaultValues,
+  riskTags,
+  maxUploadMb,
+}: ReportFormProps) {
   const [state, formAction, isPending] = useActionState(
     submitReportAction,
-    initialReportFormState,
+    defaultValues ? createInitialReportFormState(defaultValues) : initialReportFormState,
   );
   const [dangerousFieldLabels, setDangerousFieldLabels] = useState<string[]>([]);
 

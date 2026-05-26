@@ -12,3 +12,13 @@ export const initialReportFormState: ReportFormState = {
   errors: {},
   values: {},
 };
+
+export function createInitialReportFormState(
+  values: ReportFormSnapshot = {},
+): ReportFormState {
+  return {
+    status: "idle",
+    errors: {},
+    values,
+  };
+}

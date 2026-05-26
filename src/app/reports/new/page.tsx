@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReportFormSnapshot } from "@/lib/report-form";
 import { DefinitionList, PageHeader, PolicyNote, Section } from "@/components/page-blocks";
 import { getMaxUploadMb } from "@/lib/report-form";
 import { getReportFormOptions } from "@/lib/report-options";
@@ -10,8 +11,29 @@ export const metadata: Metadata = {
   description: "入店前チェック東京へ注意報告を送るページです。",
 };
 
-export default async function NewReportPage() {
-  const formOptions = await getReportFormOptions();
+type NewReportPageProps = {
+  searchParams: Promise<{
+    area?: string;
+    tag?: string;
+  }>;
+};
+
+export default async function NewReportPage({ searchParams }: NewReportPageProps) {
+  const [{ area, tag }, formOptions] = await Promise.all([
+    searchParams,
+    getReportFormOptions(),
+  ]);
+  const defaultValues: ReportFormSnapshot = {};
+  const areaSlug = typeof area === "string" ? area : "";
+  const tagSlug = typeof tag === "string" ? tag : "";
+
+  if (formOptions.areas.some((option) => option.value === areaSlug)) {
+    defaultValues.area_slug = areaSlug;
+  }
+
+  if (formOptions.riskTags.some((option) => option.value === tagSlug)) {
+    defaultValues.risk_tags = [tagSlug];
+  }
 
   return (
     <>
@@ -27,6 +49,7 @@ export default async function NewReportPage() {
       >
         <ReportForm
           areas={formOptions.areas}
+          defaultValues={defaultValues}
           maxUploadMb={getMaxUploadMb()}
           riskTags={formOptions.riskTags}
         />

@@ -12,6 +12,7 @@ import {
   getPublicPlaceSummaries,
 } from "@/lib/public-data";
 import { INITIAL_AREAS } from "@/lib/site";
+import { TOPIC_GUIDES } from "@/lib/topic-content";
 
 type AreaPageProps = {
   params: Promise<{ slug: string }>;
@@ -87,6 +88,23 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
         ) : (
           <EmptyState message="このエリアには、現在一般公開できる承認済み投稿がありません。" />
         )}
+      </Section>
+
+      <Section
+        title="このエリアの種別別ガイド"
+        description="料金説明、明細提示、客引き経由の来店など、テーマ別に確認項目を整理しています。"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          {TOPIC_GUIDES.map((topic) => (
+            <Link
+              key={topic.slug}
+              className="rounded-md border border-line bg-white p-5 text-sm font-semibold text-ink no-underline shadow-[0_8px_22px_rgb(23_32_42/0.04)] transition hover:bg-paper"
+              href={`/areas/${slug}/topics/${topic.slug}`}
+            >
+              {topic.title}
+            </Link>
+          ))}
+        </div>
       </Section>
     </>
   );
