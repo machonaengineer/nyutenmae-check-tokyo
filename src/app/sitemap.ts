@@ -37,6 +37,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: `/areas/${area.slug}/checklist`,
       priority: 0.7,
     })),
+    ...INITIAL_AREAS.map((area) => ({
+      path: `/areas/${area.slug}/evidence`,
+      priority: 0.65,
+    })),
+    ...INITIAL_AREAS.map((area) => ({
+      path: `/areas/${area.slug}/contribute`,
+      priority: 0.65,
+    })),
     ...TOPIC_GUIDES.map((topic) => ({
       path: `/topics/${topic.slug}`,
       priority: 0.6,

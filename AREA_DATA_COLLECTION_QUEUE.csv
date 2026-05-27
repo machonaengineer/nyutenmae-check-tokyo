@@ -1,0 +1,49 @@
+area_slug,area_name,track,priority,research_question,acceptable_sources,non_public_fields,next_action
+shinjuku-kabukicho,新宿・歌舞伎町,official_source,high,客引き行為等防止や高額請求相談に関する公式確認先は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+shinjuku-kabukicho,新宿・歌舞伎町,user_report,high,客引き経由の来店で入店前説明と会計内容に差があった報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+shinjuku-kabukicho,新宿・歌舞伎町,building_review,high,同一住所または同一建物で類似報告が複数あるか,承認前DB・管理者メモ・公的住所確認,非公開メモ・未承認投稿・Storage上の保存パス,建物単位で類似候補を確認し公開可否を分ける
+shinjuku-kabukicho,新宿・歌舞伎町,content_depth,medium,入店前チェックリストに不足している具体項目はあるか,公式注意喚起・相談窓口・管理者レビュー,外部本文転載・個人情報,エリア別チェックリストへ一般化して反映する
+ikebukuro,池袋,official_source,high,池袋周辺の安全安心や相談導線の公式確認先は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+ikebukuro,池袋,user_report,high,案内地点と実際の店舗住所が分かる注意報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+ikebukuro,池袋,building_review,medium,建物名や階数が不足している候補はあるか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に建物名・階数・住所を補足確認する
+ikebukuro,池袋,content_depth,medium,時間制や飲み放題条件の確認項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,種別ガイドとエリア別チェックリストへ反映する
+shibuya-dogenzaka-udagawacho,渋谷・道玄坂・宇田川町,official_source,high,渋谷区の客引き抑止や安全対策に関する公式資料は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+shibuya-dogenzaka-udagawacho,渋谷・道玄坂・宇田川町,user_report,high,入店前説明と店内説明に差があった報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+shibuya-dogenzaka-udagawacho,渋谷・道玄坂・宇田川町,building_review,medium,道玄坂・宇田川町周辺の住所と建物名が特定できるか,承認前DB・管理者メモ・公的住所確認,非公開メモ・未承認投稿・Storage上の保存パス,建物単位で類似候補を確認し公開可否を分ける
+shibuya-dogenzaka-udagawacho,渋谷・道玄坂・宇田川町,content_depth,medium,短時間で入店判断する場面の確認項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,入店前確認項目へ一般化して反映する
+ueno-okachimachi-yushima,上野・御徒町・湯島,official_source,high,台東区・文京区の客引き防止や相談導線は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,区別に公式URLと確認日を整理する
+ueno-okachimachi-yushima,上野・御徒町・湯島,user_report,medium,住所が台東区側か文京区側か分かる報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+ueno-okachimachi-yushima,上野・御徒町・湯島,building_review,medium,建物名・階数・入口表示が整理されているか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に場所特定情報を確認する
+ueno-okachimachi-yushima,上野・御徒町・湯島,content_depth,medium,退店時対応と明細提示の保存項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,記録保存ガイドへ一般化して反映する
+roppongi-azabujuban,六本木・麻布十番,official_source,high,港区の六本木周辺に関する客引き防止公式情報は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+roppongi-azabujuban,六本木・麻布十番,user_report,high,深夜料金やサービス料の説明差に関する報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+roppongi-azabujuban,六本木・麻布十番,building_review,medium,ビル名・階数・入口表示まで確認できる候補はあるか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に場所特定情報を確認する
+roppongi-azabujuban,六本木・麻布十番,content_depth,medium,外国語説明と日本語明細の確認項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,エリア別ガイドへ一般化して反映する
+ginza-shimbashi-yurakucho,銀座・新橋・有楽町,official_source,high,中央区・港区・千代田区の公式確認先を区別できているか,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,区別に公式URLと確認日を整理する
+ginza-shimbashi-yurakucho,銀座・新橋・有楽町,user_report,high,駅周辺案内後の会計確認に関する報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+ginza-shimbashi-yurakucho,銀座・新橋・有楽町,building_review,medium,区をまたぐ住所表記と建物名が整理されているか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,区名と最寄り駅を分けて確認する
+ginza-shimbashi-yurakucho,銀座・新橋・有楽町,content_depth,medium,会社利用や複数人利用時の確認項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,会計前後の確認項目へ反映する
+akasaka-akasakamitsuke,赤坂・赤坂見附,official_source,high,港区の赤坂周辺に関する公式情報は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+akasaka-akasakamitsuke,赤坂・赤坂見附,user_report,medium,紹介・予約・案内経由の条件差に関する報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+akasaka-akasakamitsuke,赤坂・赤坂見附,building_review,medium,建物名・階数・入口表示が整理されているか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に場所特定情報を確認する
+akasaka-akasakamitsuke,赤坂・赤坂見附,content_depth,medium,時間制や飲み放題条件の確認項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,種別ガイドへ一般化して反映する
+kinshicho,錦糸町,official_source,high,墨田区の錦糸町周辺に関する客引き防止公式情報は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+kinshicho,錦糸町,user_report,medium,駅周辺案内後の明細提示や退店時対応の報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+kinshicho,錦糸町,building_review,medium,錦糸町駅周辺の建物名・階数まで確認できるか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に場所特定情報を確認する
+kinshicho,錦糸町,content_depth,medium,退店時対応と明細提示の保存項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,記録保存ガイドへ反映する
+gotanda,五反田,official_source,high,品川区の五反田周辺に関する客引き防止公式情報は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+gotanda,五反田,user_report,medium,東五反田・西五反田の住所区分が分かる報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+gotanda,五反田,building_review,medium,建物名・階数・入口表示が整理されているか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に住所区分と建物情報を確認する
+gotanda,五反田,content_depth,medium,カード決済後の照合や相談導線の項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,会計前後の確認項目へ反映する
+tachikawa,立川,official_source,high,立川市の迷惑行為防止やパトロール公式情報は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+tachikawa,立川,user_report,medium,立川駅周辺の入店前説明と会計内容の差に関する報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+tachikawa,立川,building_review,medium,駅周辺の住所・建物名・階数が整理されているか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に場所特定情報を確認する
+tachikawa,立川,content_depth,medium,多摩エリア向けの相談導線は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,相談導線とチェックリストへ反映する
+machida,町田,official_source,medium,町田駅周辺の協働パトロールや安全対策の公式情報は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+machida,町田,user_report,medium,町田駅周辺の案内経路と会計確認に関する報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+machida,町田,building_review,medium,住所・建物名・階数が確認できる候補はあるか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に場所特定情報を確認する
+machida,町田,content_depth,medium,町田駅周辺での安全確保と相談導線は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,サポート導線と記録保存ガイドへ反映する
+kichijoji,吉祥寺,official_source,high,武蔵野市の吉祥寺周辺に関する客引き行為等規制案内は最新か,自治体公式・警察公式・消費生活相談公式,電話番号・個人名・記事本文・口コミ本文,公式URLと確認日を更新し出典ページへ独自要約で反映する
+kichijoji,吉祥寺,user_report,medium,商店街や駅周辺での案内と料金説明に関する報告はあるか,本人投稿・証拠画像・レシート・明細,投稿者メール・証拠画像URL・店員個人名・顔写真,pending / Hiddenで保存し管理者審査へ回す
+kichijoji,吉祥寺,building_review,medium,通り名・建物名・階数まで確認できる候補はあるか,承認前DB・管理者メモ・住所確認,非公開メモ・未承認投稿・Storage上の保存パス,公開前に場所特定情報を確認する
+kichijoji,吉祥寺,content_depth,medium,最低注文条件や時間制の確認項目は十分か,公式注意喚起・投稿傾向・管理者レビュー,外部本文転載・個人情報,エリア別チェックリストへ反映する

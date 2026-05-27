@@ -250,6 +250,188 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
       "事例文の転載は禁止とし、個別店舗名や地域外情報を公開注意報告へ転用しない。",
   },
   {
+    id: "metropolitan-police-designated-waiting-areas",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "police",
+    sourceTitle: "警視庁の客引き等の相手方となるべき者を待つ行為の規制区域",
+    sourceUrl:
+      "https://www.keishicho.metro.tokyo.lg.jp/about_mpd/keiyaku_horei_kohyo/horei_jorei/kyaku_ku.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "警視庁が、東京都公安委員会の指定区域として、客引き等の相手方となるべき者を待つ行為の規制区域を案内しているページです。",
+    suggestedUse:
+      "都内共通の背景情報として参照し、個別店舗や個人への注意表示には使いません。",
+    nextAction:
+      "区域名は背景確認に限定し、個別報告として扱う場合は投稿、証拠、現在状況を別途確認する。",
+  },
+  {
+    id: "minato-solicitation-prevention-ordinance",
+    areaSlug: "roppongi-azabujuban",
+    areaName: "六本木・麻布十番",
+    sourceType: "municipality",
+    sourceTitle: "港区の客引き行為等の防止に関する条例案内",
+    sourceUrl: "https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "港区が、公共の場所における客引き行為等の防止に関する条例と取組を案内している公式ページです。",
+    suggestedUse:
+      "六本木・麻布十番周辺のエリア背景、入店前確認、相談導線の補足に使います。",
+    nextAction:
+      "条例や取組の趣旨を独自要約し、個別店舗や個人への断定には使わない。",
+  },
+  {
+    id: "minato-akasaka-solicitation-prevention",
+    areaSlug: "akasaka-akasakamitsuke",
+    areaName: "赤坂・赤坂見附",
+    sourceType: "municipality",
+    sourceTitle: "港区の赤坂地区を含む客引き行為等防止の取組",
+    sourceUrl: "https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "港区の客引き行為等防止に関する公式情報です。赤坂周辺の背景確認に使います。",
+    suggestedUse:
+      "赤坂・赤坂見附周辺の料金説明、案内経由の来店、相談導線の確認材料にします。",
+    nextAction:
+      "区の取組を背景情報として整理し、個別店舗公開は承認済み投稿に限定する。",
+  },
+  {
+    id: "minato-shimbashi-solicitation-prevention",
+    areaSlug: "ginza-shimbashi-yurakucho",
+    areaName: "銀座・新橋・有楽町",
+    sourceType: "municipality",
+    sourceTitle: "港区の新橋地区を含む客引き行為等防止の取組",
+    sourceUrl: "https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "港区が、新橋を含む区内繁華街の客引き行為等防止に関する取組を案内している公式ページです。",
+    suggestedUse:
+      "銀座・新橋・有楽町周辺のうち、新橋側の公式確認先として整理します。",
+    nextAction:
+      "港区側の公的情報として扱い、中央区・千代田区側の情報と混同しない。",
+  },
+  {
+    id: "chiyoda-solicitation-prevention-ordinance",
+    areaSlug: "ginza-shimbashi-yurakucho",
+    areaName: "銀座・新橋・有楽町",
+    sourceType: "municipality",
+    sourceTitle: "千代田区の公共の場所における客引き行為等防止条例案内",
+    sourceUrl: "https://www.city.chiyoda.lg.jp/koho/machizukuri/sekatsu/kyakuhiki.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "千代田区が、公共の場所における客引き行為等の防止に関する条例と取組を案内している公式ページです。",
+    suggestedUse:
+      "有楽町側の背景情報として参照し、区をまたぐエリア表記の確認に使います。",
+    nextAction:
+      "区別の情報を分けて記録し、個別店舗の公開材料には直接使わない。",
+  },
+  {
+    id: "chuo-consumer-center",
+    areaSlug: "ginza-shimbashi-yurakucho",
+    areaName: "銀座・新橋・有楽町",
+    sourceType: "consumer_center",
+    sourceTitle: "中央区消費生活センターの相談案内",
+    sourceUrl: "https://www.city.chuo.lg.jp/consumercenter/index.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "中央区の消費生活センター公式ページです。銀座側の相談導線確認に使います。",
+    suggestedUse:
+      "会計内容や支払いに不安がある場合の相談導線として整理します。",
+    nextAction:
+      "受付条件と最新情報を人間確認し、サポートページの定期点検対象にする。",
+  },
+  {
+    id: "sumida-kinshicho-solicitation-prevention",
+    areaSlug: "kinshicho",
+    areaName: "錦糸町",
+    sourceType: "municipality",
+    sourceTitle: "墨田区の客引き行為等の防止に関する条例案内",
+    sourceUrl:
+      "https://www.city.sumida.lg.jp/anzen_anshin/kurasinoanzen_ansin/kyakuhiki-bousi/kyakuhikikaisei.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "墨田区が、客引き行為等の防止に関する条例と錦糸町駅周辺を含む取組を案内している公式ページです。",
+    suggestedUse:
+      "錦糸町周辺のエリア背景、客引き経由の来店、相談導線の補足として参照します。",
+    nextAction:
+      "条例の趣旨を独自要約し、店舗や個人への注意表示には転用しない。",
+  },
+  {
+    id: "shinagawa-gotanda-solicitation-prevention",
+    areaSlug: "gotanda",
+    areaName: "五反田",
+    sourceType: "municipality",
+    sourceTitle: "品川区の公共の場所における客引き行為等防止条例案内",
+    sourceUrl:
+      "https://www.city.shinagawa.tokyo.jp/PC/bosai/bosai-bohan/hpg000025697.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "品川区が、公共の場所における客引き行為等の防止に関する条例を案内している公式ページです。",
+    suggestedUse:
+      "五反田周辺の住所、重点地区、入店前確認の背景情報として参照します。",
+    nextAction:
+      "東五反田などの地域情報は背景確認に限定し、個別公開は承認済み投稿だけにする。",
+  },
+  {
+    id: "tachikawa-safety-patrol",
+    areaSlug: "tachikawa",
+    areaName: "立川",
+    sourceType: "municipality",
+    sourceTitle: "立川市の安全・安心パトロール実施案内",
+    sourceUrl:
+      "https://www.city.tachikawa.lg.jp/bosai/bohan/1008438/1008446.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "立川市が、客引き、勧誘、客待ち、つきまとい等の迷惑行為防止とパトロールを案内している公式ページです。",
+    suggestedUse:
+      "立川駅周辺の入店前確認、相談導線、調査対象エリアの背景情報として使います。",
+    nextAction:
+      "パトロールや重点地区の趣旨を要約し、個別店舗評価に使わない。",
+  },
+  {
+    id: "machida-station-patrol-release",
+    areaSlug: "machida",
+    areaName: "町田",
+    sourceType: "municipality",
+    sourceTitle: "町田市の町田駅周辺における客引き防止協働パトロール発表資料",
+    sourceUrl:
+      "https://www.city.machida.tokyo.jp/shisei/koho/faxrelease/2023/202307.files/103.pdf",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "町田市が、町田駅周辺での客引き防止協働パトロールに関する発表資料を公開しています。",
+    suggestedUse:
+      "町田駅周辺の公的な取組確認に使い、個別店舗や個人への断定には使いません。",
+    nextAction:
+      "資料の趣旨を独自要約し、最新の公式案内があるか定期確認する。",
+  },
+  {
+    id: "musashino-kichijoji-blue-cap",
+    areaSlug: "kichijoji",
+    areaName: "吉祥寺",
+    sourceType: "municipality",
+    sourceTitle: "武蔵野市の安全パトロール隊と客引き行為等規制案内",
+    sourceUrl:
+      "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/bosai_anzen_center_web/bouhantaisaku_seido/patrol/1005987.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "武蔵野市が、吉祥寺駅周辺を含む安全パトロール隊と客引き行為等への指導・警告を案内している公式ページです。",
+    suggestedUse:
+      "吉祥寺周辺の公的取組、入店前確認、相談導線の補足に使います。",
+    nextAction:
+      "公式ページの内容を独自要約し、店舗名や個人情報は扱わない。",
+  },
+  {
     id: "news-kabukicho-chain-claim-touting-202401",
     areaSlug: "shinjuku-kabukicho",
     areaName: "新宿・歌舞伎町",

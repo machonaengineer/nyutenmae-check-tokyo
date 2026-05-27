@@ -139,7 +139,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/coverage`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/evidence`, `/areas/[slug]/contribute`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/coverage`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/quality`, `/admin/research`, `/admin/social`, `/admin/sponsors`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -171,6 +171,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - 管理画面の初期データ審査キューで、候補を `needs_review / Hidden` として非公開投入。実名入り候補CSVはGit管理せず、管理画面貼り付けまたはサーバー側環境変数だけで扱う
 - 管理画面の候補審査DBで、出典確認、独自要約確認、建物確認、法務・表現確認、非公開投入判断を追跡
 - 掲載対象エリアを12エリアへ拡大。承認済み投稿がないエリアは空状態と確認導線だけを表示
+- 12エリアごとの詳細ガイド、記録保存ガイド、情報提供ガイドを追加。投稿が少ない段階でも、入店前確認、会計前確認、証拠保存、相談導線の価値を提供
+- `AREA_DATA_COLLECTION_QUEUE.csv` で、エリアごとの公式ソース、ユーザー報告、建物確認、コンテンツ増強の調査トラックを管理
 - `/roadmap` でフェーズ13〜20の改善予定と公開情報の扱い方を表示
 - トップページでの掲載対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
@@ -266,6 +268,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
+- `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
 - `DATA_QUALITY_SOP.md`: 建物情報、同一住所・同一建物候補、初期データ審査の運用手順
@@ -275,3 +278,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_22_REVIEW_IMPORT_PLAN.md`: 審査キューから非公開投入までの短縮
 - `PHASE_23_REVIEW_WORKFLOW_PLAN.md`: 初期データ候補を管理者限定の審査DBで扱う運用
 - `PHASE_24_AREA_EXPANSION_PLAN.md`: 掲載エリア拡大と公開範囲の安全方針
+- `PHASE_25_CONTENT_DEPTH_PLAN.md`: エリア別コンテンツ増強と調査キューの安全方針

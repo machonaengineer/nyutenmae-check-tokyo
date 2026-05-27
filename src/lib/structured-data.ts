@@ -110,6 +110,12 @@ export function getLlmsText() {
   const areaLines = INITIAL_AREAS.map(
     (area) => `- ${area.name}: ${absoluteUrl(`/areas/${area.slug}`)}`,
   );
+  const areaEvidenceLines = INITIAL_AREAS.map(
+    (area) => `- ${area.name} 記録保存: ${absoluteUrl(`/areas/${area.slug}/evidence`)}`,
+  );
+  const areaContributeLines = INITIAL_AREAS.map(
+    (area) => `- ${area.name} 情報提供: ${absoluteUrl(`/areas/${area.slug}/contribute`)}`,
+  );
   const topicLines = TOPIC_GUIDES.map(
     (topic) => `- ${topic.title}: ${absoluteUrl(`/topics/${topic.slug}`)}`,
   );
@@ -136,6 +142,12 @@ export function getLlmsText() {
     "",
     "## Areas",
     ...areaLines,
+    "",
+    "## Area Evidence Guides",
+    ...areaEvidenceLines,
+    "",
+    "## Area Contribution Guides",
+    ...areaContributeLines,
     "",
     "## Topics",
     ...topicLines,

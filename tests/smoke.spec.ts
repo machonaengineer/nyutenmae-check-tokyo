@@ -15,6 +15,14 @@ const publicRoutes = [
     path: "/areas/shinjuku-kabukicho/checklist",
     heading: "新宿・歌舞伎町の入店前チェックリスト",
   },
+  {
+    path: "/areas/roppongi-azabujuban/evidence",
+    heading: "六本木・麻布十番の記録保存ガイド",
+  },
+  {
+    path: "/areas/roppongi-azabujuban/contribute",
+    heading: "六本木・麻布十番の情報提供",
+  },
   { path: "/topics", heading: "トラブル種別別ガイド" },
   { path: "/topics/price-confirmation", heading: "料金説明の確認" },
   { path: "/contribute", heading: "情報提供のお願い" },
@@ -296,6 +304,12 @@ test.describe("公開ページ", () => {
       "<loc>http://localhost:3000/areas/shinjuku-kabukicho/checklist</loc>",
     );
     expect(body).toContain(
+      "<loc>http://localhost:3000/areas/roppongi-azabujuban/evidence</loc>",
+    );
+    expect(body).toContain(
+      "<loc>http://localhost:3000/areas/roppongi-azabujuban/contribute</loc>",
+    );
+    expect(body).toContain(
       "<loc>http://localhost:3000/areas/shinjuku-kabukicho/topics/price-confirmation</loc>",
     );
     expect(body).not.toContain("/admin");
@@ -411,6 +425,8 @@ test.describe("公開ページ", () => {
       "/coverage",
       "/roadmap",
       "/areas/shinjuku-kabukicho",
+      "/areas/roppongi-azabujuban/evidence",
+      "/areas/roppongi-azabujuban/contribute",
     ]) {
       const response = await request.get(path);
       const body = await response.text();

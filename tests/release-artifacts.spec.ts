@@ -29,6 +29,7 @@ const requiredReleaseFiles = [
   "SNS_OPERATIONS_SOP.md",
   "SOCIAL_CONTENT_CALENDAR.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
+  "AREA_DATA_COLLECTION_QUEUE.csv",
   "INITIAL_DATA_REVIEW_QUEUE.csv",
   "DATA_COLLECTION_PLAYBOOK.md",
   "DATA_QUALITY_SOP.md",
@@ -38,6 +39,7 @@ const requiredReleaseFiles = [
   "PHASE_22_REVIEW_IMPORT_PLAN.md",
   "PHASE_23_REVIEW_WORKFLOW_PLAN.md",
   "PHASE_24_AREA_EXPANSION_PLAN.md",
+  "PHASE_25_CONTENT_DEPTH_PLAN.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/admin/initial-data-candidates.ts",
   "src/components/json-ld.tsx",
@@ -667,6 +669,69 @@ test.describe("リリース準備資料", () => {
     expect(reviewQueue).toContain("吉祥寺");
     expect(migration).not.toContain("public.reports");
     expect(migration).not.toContain("public_place_summaries");
+  });
+
+  test("フェーズ25はエリア別コンテンツを厚くしつつ非公開情報を守る", async () => {
+    const phase25 = await readFile(
+      path.join(rootDir, "PHASE_25_CONTENT_DEPTH_PLAN.md"),
+      "utf8",
+    );
+    const areaContent = await readFile(path.join(rootDir, "src/lib/area-content.ts"), "utf8");
+    const areaPage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/page.tsx"),
+      "utf8",
+    );
+    const evidencePage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/evidence/page.tsx"),
+      "utf8",
+    );
+    const contributePage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/contribute/page.tsx"),
+      "utf8",
+    );
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+    const queue = await readFile(path.join(rootDir, "AREA_DATA_COLLECTION_QUEUE.csv"), "utf8");
+    const sources = await readFile(path.join(rootDir, "SOURCE_RESEARCH_QUEUE.csv"), "utf8");
+    const researchLib = await readFile(
+      path.join(rootDir, "src/lib/research-sources.ts"),
+      "utf8",
+    );
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+
+    for (const slug of [
+      "shinjuku-kabukicho",
+      "ikebukuro",
+      "shibuya-dogenzaka-udagawacho",
+      "ueno-okachimachi-yushima",
+      "roppongi-azabujuban",
+      "ginza-shimbashi-yurakucho",
+      "akasaka-akasakamitsuke",
+      "kinshicho",
+      "gotanda",
+      "tachikawa",
+      "machida",
+      "kichijoji",
+    ]) {
+      expect(areaContent).toContain(slug);
+      expect(queue).toContain(slug);
+    }
+
+    expect(areaPage).toContain("getAreaDeepGuide");
+    expect(areaPage).toContain(`/areas/${"${slug}"}/evidence`);
+    expect(areaPage).toContain(`/areas/${"${slug}"}/contribute`);
+    expect(evidencePage).toContain("証拠画像は一般公開せず");
+    expect(contributePage).toContain("pending / Hidden");
+    expect(sitemap).toContain(`/areas/${"${area.slug}"}/evidence`);
+    expect(sitemap).toContain(`/areas/${"${area.slug}"}/contribute`);
+    expect(queue).toContain("official_source");
+    expect(queue).toContain("building_review");
+    expect(queue).toContain("content_depth");
+    expect(queue).toContain("記事本文・口コミ本文");
+    expect(sources).toContain("武蔵野市の安全パトロール隊");
+    expect(researchLib).toContain("musashino-kichijoji-blue-cap");
+    expect(phase25).toContain("店舗名や個人名を増やすのではなく");
+    expect(readme).toContain("AREA_DATA_COLLECTION_QUEUE.csv");
+    expect(areaContent).not.toContain("storage_path");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

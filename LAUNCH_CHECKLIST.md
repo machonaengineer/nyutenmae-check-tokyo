@@ -23,6 +23,8 @@
 - [ ] 投稿フォーム送信後の `reports.status` が `pending`、`evidence_level` が `Hidden` であることを確認した。
 - [ ] 管理者が承認した投稿だけが `/map`, `/areas`, `/places/[id]` に表示されることを確認した。
 - [ ] 新規掲載エリアで承認済み投稿がない場合、店舗情報ではなく空状態と確認導線だけが表示されることを確認した。
+- [ ] `/areas/[slug]/evidence` と `/areas/[slug]/contribute` が表示され、証拠画像、投稿者メール、非公開メモを公開しない方針が確認できる。
+- [ ] `AREA_DATA_COLLECTION_QUEUE.csv` が、公式ソース、ユーザー報告、建物確認、コンテンツ増強の調査キューであり、外部本文転載は禁止していないことを確認した。
 - [ ] 管理画面に `ADMIN_EMAILS` 設定済みメールだけが入れることを確認した。
 - [ ] Service Role Key がVercelのサーバー環境変数だけに設定され、`NEXT_PUBLIC_` が付いていないことを確認した。
 - [ ] `service_role` がServer Actionに必要なDB権限を持ち、anon/authenticatedに非公開テーブルの直接読み取り権限がないことを確認した。
@@ -83,6 +85,7 @@ npm audit --audit-level=moderate
 - [ ] `/objection` で異議申立てフォームが表示される。
 - [ ] `/admin/reports` は未ログイン時にログイン画面へ誘導される。
 - [ ] `/checklists` と `/areas/shinjuku-kabukicho/checklist` が表示される。
+- [ ] `/areas/roppongi-azabujuban/evidence` と `/areas/roppongi-azabujuban/contribute` が表示される。
 - [ ] `/social` が表示され、共有ボタンと注意文が確認できる。
 - [ ] `/sources` が表示され、公式ソースと転載禁止方針が確認できる。
 - [ ] `/coverage` が表示され、エリア別の蓄積状況と非公開方針が確認できる。

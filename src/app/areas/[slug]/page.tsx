@@ -8,6 +8,7 @@ import { PlaceCard } from "@/components/place-card";
 import { PublicNotice } from "@/components/public-notice";
 import { ResearchSourceCard } from "@/components/research-source-card";
 import { SocialShareActions } from "@/components/social-share-actions";
+import { getAreaDeepGuide } from "@/lib/area-content";
 import {
   getAreaCenter,
   getPublicAreaSummary,
@@ -55,6 +56,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
     (place) => place.latitude !== null && place.longitude !== null,
   );
   const researchSources = getResearchSourcesByArea(slug);
+  const guide = getAreaDeepGuide(slug);
 
   return (
     <>
@@ -83,6 +85,18 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           >
             このエリアの確認リストを見る
           </Link>
+          <Link
+            className="ml-0 mt-3 inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper sm:ml-3 sm:mt-0"
+            href={`/areas/${slug}/evidence`}
+          >
+            記録保存ガイドを見る
+          </Link>
+          <Link
+            className="ml-0 mt-3 inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper sm:ml-3 sm:mt-0"
+            href={`/areas/${slug}/contribute`}
+          >
+            情報提供の粒度を見る
+          </Link>
         </div>
         {places.length > 0 ? (
           <div className="grid gap-4">
@@ -94,6 +108,32 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           <EmptyState message="このエリアには、現在一般公開できる承認済み投稿がありません。" />
         )}
       </Section>
+
+      {guide ? (
+        <Section
+          title="このエリアで確認したいこと"
+          description={guide.profile}
+        >
+          <div className="grid gap-4 lg:grid-cols-2">
+            <article className="rounded-md border border-line bg-white p-5">
+              <h2 className="text-lg font-bold text-ink">入店前</h2>
+              <ul className="mt-4 grid gap-3 text-sm leading-7 text-muted">
+                {guide.preEntryChecks.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+            <article className="rounded-md border border-line bg-white p-5">
+              <h2 className="text-lg font-bold text-ink">会計前後</h2>
+              <ul className="mt-4 grid gap-3 text-sm leading-7 text-muted">
+                {guide.billingChecks.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
+        </Section>
+      ) : null}
 
       <Section
         title="このエリアの種別別ガイド"
