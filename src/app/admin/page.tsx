@@ -41,6 +41,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               { label: "未確認申立て", value: metrics.pendingObjections },
               { label: "証拠ファイル", value: metrics.evidenceFiles },
               { label: "外部評価公開候補", value: metrics.externalRatingsPublic },
+              { label: "スポンサー相談", value: metrics.sponsorInquiries },
             ].map((item) => (
               <div key={item.label} className="rounded-md border border-line bg-white p-4 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
                 <p className="text-xs font-semibold text-muted">{item.label}</p>
@@ -58,6 +59,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <AdminLink href="/admin/data" label="初期データCSVを検証する" />
                 <AdminLink href="/admin/research" label="調査キューを見る" />
                 <AdminLink href="/admin/social" label="SNS文面を確認する" />
+                <AdminLink href="/admin/sponsors" label="スポンサー問い合わせを見る" />
               </div>
             </div>
 

@@ -132,7 +132,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
 - `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/social`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
-- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/research`, `/admin/social`
+- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/research`, `/admin/social`, `/admin/sponsors`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
 - 異議申立てフォーム、管理者ログイン、投稿審査、証拠画像確認、異議申立て確認
@@ -155,6 +155,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - トラブル種別別のSEO向け安全確認ガイド
 - SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像
 - 公的・公式情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
+- スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
 
 ## DB設計
 
@@ -193,6 +194,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 食べログなど規約確認や許諾が必要なソースは `display_allowed=false` のまま管理し、公開しない
 - AdSenseは `NEXT_PUBLIC_MONETIZATION_ENABLED=true` かつ `NEXT_PUBLIC_ADSENSE_ENABLED=true` の場合だけ読み込み、管理画面、投稿フォーム、異議申立てフォームには配置しない
 - SNSには証拠画像、投稿者メールアドレス、非公開メモ、外部口コミ本文、スクリーンショットを載せない
+- スポンサー問い合わせは公開ページに表示せず、管理者だけが確認する
 
 ## 法務・UX方針
 

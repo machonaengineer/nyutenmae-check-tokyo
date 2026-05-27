@@ -158,6 +158,18 @@ test.describe("公開ページ", () => {
     ).toBeVisible();
   });
 
+  test("スポンサー問い合わせフォームを表示できる", async ({ page }) => {
+    await page.goto("/sponsor");
+
+    await expect(page.locator('input[name="company_website"]')).toHaveCount(1);
+    await expect(page.getByLabel("組織名")).toBeVisible();
+    await expect(page.getByLabel("連絡用メールアドレス")).toBeVisible();
+    await expect(page.getByLabel("相談種別")).toBeVisible();
+    await expect(page.getByLabel("想定予算")).toBeVisible();
+    await expect(page.getByLabel("相談内容")).toBeVisible();
+    await expect(page.getByRole("button", { name: "非公開で問い合わせる" })).toBeVisible();
+  });
+
   test("相談導線ページで主要な相談先を確認できる", async ({ page }) => {
     await page.goto("/support");
 
@@ -314,7 +326,7 @@ test.describe("公開ページ", () => {
   });
 
   test("公開フォームHTMLに非公開DBカラム名を埋め込まない", async ({ request }) => {
-    for (const path of ["/reports/new", "/objection", "/search?q=test", "/social", "/sources"]) {
+    for (const path of ["/reports/new", "/objection", "/sponsor", "/search?q=test", "/social", "/sources"]) {
       const response = await request.get(path);
       const body = await response.text();
 
@@ -323,6 +335,7 @@ test.describe("公開ページ", () => {
       expect(body).not.toContain("private_note");
       expect(body).not.toContain("storage_path");
       expect(body).not.toContain("report-evidence-files");
+      expect(body).not.toContain("sponsor_inquiry_submitted");
     }
   });
 

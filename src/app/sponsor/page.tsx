@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
+import { SponsorInquiryForm } from "./sponsor-inquiry-form";
 
 export const metadata: Metadata = {
   title: "スポンサー・広告掲載について",
@@ -72,6 +73,13 @@ export default function SponsorPage() {
             </Link>
           )}
         </div>
+      </Section>
+
+      <Section
+        title="非公開問い合わせフォーム"
+        description="スポンサー、広告掲載、連携、支援の相談を非公開で受け付けます。送信内容は公開ページに表示しません。"
+      >
+        <SponsorInquiryForm />
       </Section>
     </>
   );

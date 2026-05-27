@@ -8,6 +8,7 @@ import {
   OBJECTION_SUPPLEMENTAL_NOTE_FIELD,
   validateObjectionFormData,
 } from "../src/lib/objection-form";
+import { validateSponsorInquiryFormData } from "../src/lib/sponsor-inquiry";
 
 test.describe("公開フォームの入力名変換", () => {
   test("投稿フォームの公開nameをDB保存用データへ変換できる", () => {
@@ -41,6 +42,26 @@ test.describe("公開フォームの入力名変換", () => {
     if (result.ok) {
       expect(result.data.requesterEmail).toBe("requester@example.com");
       expect(result.data.privateNote).toBe("公開しない補足です。");
+    }
+  });
+
+  test("スポンサー問い合わせフォームの公開nameを管理ログ保存用データへ変換できる", () => {
+    const formData = new FormData();
+    formData.set("organization_name", "確認用支援企業");
+    formData.set("contact_name", "確認担当");
+    formData.set("contact_email", "sponsor@example.com");
+    formData.set("website_url", "https://example.com");
+    formData.set("sponsor_type", "sponsor");
+    formData.set("budget_range", "10000_30000");
+    formData.set("message", "掲載独立性を前提に、入店前確認の情報整備を支援したいという相談内容です。");
+
+    const result = validateSponsorInquiryFormData(formData);
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.data.organizationName).toBe("確認用支援企業");
+      expect(result.data.contactEmail).toBe("sponsor@example.com");
+      expect(result.data.websiteUrl).toBe("https://example.com");
     }
   });
 });

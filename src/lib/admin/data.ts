@@ -1,5 +1,6 @@
 import "server-only";
 import { EVIDENCE_BUCKET } from "@/lib/report-form";
+import { SPONSOR_INQUIRY_ACTION } from "@/lib/sponsor-inquiry";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import type { ReportStatus } from "./types";
 
@@ -121,6 +122,18 @@ export type AdminObjectionListItem = {
   updatedAt: string;
 };
 
+export type AdminSponsorInquiry = {
+  id: string;
+  organizationName: string;
+  contactName: string | null;
+  contactEmail: string;
+  websiteUrl: string | null;
+  sponsorType: string;
+  budgetRange: string;
+  message: string;
+  createdAt: string;
+};
+
 export type AdminDashboardMetrics = {
   reportsTotal: number;
   pendingReports: number;
@@ -135,6 +148,7 @@ export type AdminDashboardMetrics = {
   evidenceFiles: number;
   externalRatings: number;
   externalRatingsPublic: number;
+  sponsorInquiries: number;
   reportsByArea: { areaName: string; count: number }[];
   latestActions: AdminActionLog[];
 };
@@ -242,6 +256,12 @@ type DashboardExternalRatingRow = {
   display_allowed: boolean;
 };
 
+type SponsorInquiryActionRow = {
+  id: string;
+  metadata: Record<string, unknown>;
+  created_at: string;
+};
+
 function normalizeExternalReviewSource(
   source: ExternalRatingSnapshotRow["external_review_sources"],
 ) {
@@ -306,6 +326,7 @@ export async function getAdminDashboardMetrics(): Promise<AdminDashboardMetrics>
     publicPlacesResult,
     evidenceResult,
     externalRatingsResult,
+    sponsorInquiriesResult,
     actionRows,
     areaNameMap,
   ] = await Promise.all([
@@ -314,6 +335,10 @@ export async function getAdminDashboardMetrics(): Promise<AdminDashboardMetrics>
     supabase.from("public_place_summaries").select("id"),
     supabase.from("report_evidence_files").select("id"),
     supabase.from("external_rating_snapshots").select("id,display_allowed"),
+    supabase
+      .from("admin_actions")
+      .select("id")
+      .eq("action", SPONSOR_INQUIRY_ACTION),
     supabase
       .from("admin_actions")
       .select("id,action,summary,created_at")
@@ -328,6 +353,7 @@ export async function getAdminDashboardMetrics(): Promise<AdminDashboardMetrics>
   const evidenceFiles = ((evidenceResult.data ?? []) as DashboardEvidenceRow[]);
   const externalRatings =
     ((externalRatingsResult.data ?? []) as DashboardExternalRatingRow[]);
+  const sponsorInquiries = ((sponsorInquiriesResult.data ?? []) as { id: string }[]);
   const byArea = new Map<string, number>();
 
   for (const report of reports) {
@@ -356,6 +382,7 @@ export async function getAdminDashboardMetrics(): Promise<AdminDashboardMetrics>
     externalRatings: externalRatings.length,
     externalRatingsPublic: externalRatings.filter((rating) => rating.display_allowed)
       .length,
+    sponsorInquiries: sponsorInquiries.length,
     reportsByArea: [...byArea.entries()]
       .map(([areaName, count]) => ({ areaName, count }))
       .sort((a, b) => b.count - a.count),
@@ -386,6 +413,37 @@ export async function getAdminRiskTags() {
   }
 
   return (data ?? []) as AdminRiskTag[];
+}
+
+function readMetadataString(metadata: Record<string, unknown>, key: string) {
+  const value = metadata[key];
+  return typeof value === "string" ? value : "";
+}
+
+export async function getAdminSponsorInquiries(): Promise<AdminSponsorInquiry[]> {
+  const supabase = createSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from("admin_actions")
+    .select("id,metadata,created_at")
+    .eq("action", SPONSOR_INQUIRY_ACTION)
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  if (error) {
+    throw error;
+  }
+
+  return ((data ?? []) as SponsorInquiryActionRow[]).map((row) => ({
+    id: row.id,
+    organizationName: readMetadataString(row.metadata, "organization_name"),
+    contactName: readMetadataString(row.metadata, "contact_name") || null,
+    contactEmail: readMetadataString(row.metadata, "contact_email"),
+    websiteUrl: readMetadataString(row.metadata, "website_url") || null,
+    sponsorType: readMetadataString(row.metadata, "sponsor_type"),
+    budgetRange: readMetadataString(row.metadata, "budget_range"),
+    message: readMetadataString(row.metadata, "message"),
+    createdAt: row.created_at,
+  }));
 }
 
 export async function getAdminExternalReviewSources() {

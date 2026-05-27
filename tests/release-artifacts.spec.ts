@@ -320,6 +320,32 @@ test.describe("リリース準備資料", () => {
     expect(envExample).not.toContain("SOCIAL_ACCESS_TOKEN");
   });
 
+  test("スポンサー問い合わせは公開ページに出さず管理ログで確認する", async () => {
+    const sponsorAction = await readFile(
+      path.join(rootDir, "src/app/sponsor/actions.ts"),
+      "utf8",
+    );
+    const sponsorForm = await readFile(
+      path.join(rootDir, "src/app/sponsor/sponsor-inquiry-form.tsx"),
+      "utf8",
+    );
+    const adminSponsors = await readFile(
+      path.join(rootDir, "src/app/admin/sponsors/page.tsx"),
+      "utf8",
+    );
+    const adminData = await readFile(path.join(rootDir, "src/lib/admin/data.ts"), "utf8");
+
+    expect(sponsorAction).toContain("isHoneypotFilled");
+    expect(sponsorAction).toContain("SPONSOR_INQUIRY_ACTION");
+    expect(sponsorAction).toContain('target_table: "sponsor_inquiries"');
+    expect(sponsorAction).toContain("admin_actions");
+    expect(sponsorForm).toContain('name="contact_email"');
+    expect(sponsorForm).toContain("非公開で問い合わせる");
+    expect(adminSponsors).toContain("requireAdminUser");
+    expect(adminSponsors).toContain("getAdminSponsorInquiries");
+    expect(adminData).toContain("getAdminSponsorInquiries");
+  });
+
   test("公的・公式ソース調査キューは転載禁止と非公開デフォルト運用を明記する", async () => {
     const queue = await readFile(path.join(rootDir, "SOURCE_RESEARCH_QUEUE.csv"), "utf8");
     const playbook = await readFile(path.join(rootDir, "DATA_COLLECTION_PLAYBOOK.md"), "utf8");
