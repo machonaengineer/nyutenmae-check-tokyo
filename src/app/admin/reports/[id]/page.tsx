@@ -218,6 +218,25 @@ export default async function AdminReportDetailPage({
             </div>
 
             <div className="rounded-md border border-line bg-surface p-5">
+              <h2 className="text-lg font-bold text-ink">公開前チェックリスト</h2>
+              <ul className="mt-4 grid gap-3 text-sm leading-6 text-muted">
+                {[
+                  "投稿者メール、証拠画像URL、非公開メモが公開サマリーに入っていない",
+                  "断定、攻撃、個人情報、外部本文の転載がない",
+                  "住所、建物名、階数を分かる範囲で確認した",
+                  "同一住所・同一建物候補を確認し、同一運営とは断定していない",
+                  "異議申立てや削除依頼がある場合は確認を優先した",
+                  "承認する場合は証拠レベルとリスクタグを人間が確認した",
+                ].map((item) => (
+                  <li className="flex gap-2" key={item}>
+                    <span aria-hidden="true" className="mt-2 h-2 w-2 shrink-0 rounded-full bg-action" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-md border border-line bg-surface p-5">
               <h2 className="text-lg font-bold text-ink">証拠画像</h2>
               <p className="mt-2 text-xs leading-5 text-muted">
                 署名付きURLを管理者画面だけで発行します。URLは短時間で期限切れになります。

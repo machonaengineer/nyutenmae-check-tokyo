@@ -114,6 +114,7 @@ export function getLlmsText() {
     `- Map: ${absoluteUrl("/map")}`,
     `- Search: ${absoluteUrl("/search")}`,
     `- Sources: ${absoluteUrl("/sources")}`,
+    `- Roadmap: ${absoluteUrl("/roadmap")}`,
     `- Guidelines: ${absoluteUrl("/guidelines")}`,
     `- Support: ${absoluteUrl("/support")}`,
     `- Objection: ${absoluteUrl("/objection")}`,

@@ -28,6 +28,9 @@ const requiredReleaseFiles = [
   "SOCIAL_CONTENT_CALENDAR.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
   "DATA_COLLECTION_PLAYBOOK.md",
+  "DATA_QUALITY_SOP.md",
+  "BACKUP_AND_MONITORING_RUNBOOK.md",
+  "PHASE_13_20_ROADMAP.md",
   "src/components/json-ld.tsx",
   "src/lib/structured-data.ts",
   "src/app/llms.txt/route.ts",
@@ -105,6 +108,11 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("SOCIAL_GROWTH_PLAN.md");
     expect(readme).toContain("SOURCE_RESEARCH_QUEUE.csv");
     expect(readme).toContain("DATA_COLLECTION_PLAYBOOK.md");
+    expect(readme).toContain("DATA_QUALITY_SOP.md");
+    expect(readme).toContain("BACKUP_AND_MONITORING_RUNBOOK.md");
+    expect(readme).toContain("PHASE_13_20_ROADMAP.md");
+    expect(readme).toContain("/roadmap");
+    expect(readme).toContain("/admin/quality");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {
@@ -544,6 +552,69 @@ test.describe("リリース準備資料", () => {
     expect(adminData).toContain("building_name,floor");
     expect(adminReportDetailPage).toContain("同一住所・同一建物の確認候補");
     expect(adminReportDetailPage).toContain("同一運営や同一店舗であることは断定せず");
+  });
+
+  test("品質キューは管理者限定で公開前確認を集約する", async () => {
+    const qualityPage = await readFile(
+      path.join(rootDir, "src/app/admin/quality/page.tsx"),
+      "utf8",
+    );
+    const adminData = await readFile(path.join(rootDir, "src/lib/admin/data.ts"), "utf8");
+    const adminShell = await readFile(
+      path.join(rootDir, "src/components/admin/admin-shell.tsx"),
+      "utf8",
+    );
+
+    expect(qualityPage).toContain("requireAdminUser");
+    expect(qualityPage).toContain("getAdminQualityQueues");
+    expect(qualityPage).toContain("建物名不足");
+    expect(qualityPage).toContain("同一住所・同一建物の候補");
+    expect(qualityPage).toContain("同一運営や同一店舗であることは断定せず");
+    expect(adminData).toContain("getAdminQualityQueues");
+    expect(adminData).toContain("missingBuildingReports");
+    expect(adminData).toContain("similarBuildingGroups");
+    expect(adminShell).toContain("/admin/quality");
+  });
+
+  test("公開ロードマップはフェーズ13から20と安全方針だけを表示する", async () => {
+    const roadmapPage = await readFile(
+      path.join(rootDir, "src/app/roadmap/page.tsx"),
+      "utf8",
+    );
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+    const structuredData = await readFile(
+      path.join(rootDir, "src/lib/structured-data.ts"),
+      "utf8",
+    );
+
+    expect(roadmapPage).toContain("フェーズ13");
+    expect(roadmapPage).toContain("フェーズ20");
+    expect(roadmapPage).toContain("同一運営や同一店舗であることを断定するものではありません");
+    expect(roadmapPage).toContain("外部口コミやニュース本文は転載は禁止");
+    expect(sitemap).toContain("/roadmap");
+    expect(structuredData).toContain("Roadmap:");
+    expect(roadmapPage).not.toContain("reporter_email");
+    expect(roadmapPage).not.toContain("storage_path");
+  });
+
+  test("フェーズ13〜20資料が品質、監視、収益化、操作ログの確認手順を含む", async () => {
+    const qualitySop = await readFile(path.join(rootDir, "DATA_QUALITY_SOP.md"), "utf8");
+    const runbook = await readFile(
+      path.join(rootDir, "BACKUP_AND_MONITORING_RUNBOOK.md"),
+      "utf8",
+    );
+    const roadmap = await readFile(path.join(rootDir, "PHASE_13_20_ROADMAP.md"), "utf8");
+    const operations = await readFile(path.join(rootDir, "OPERATIONS_SOP.md"), "utf8");
+
+    expect(qualitySop).toContain("/admin/quality");
+    expect(qualitySop).toContain("同一住所・同一建物");
+    expect(runbook).toContain("RLS");
+    expect(runbook).toContain("Storage private");
+    expect(runbook).toContain("Service Role Key");
+    expect(runbook).toContain("supabase/verification/non_admin_visibility_checks.sql");
+    expect(roadmap).toContain("フェーズ20");
+    expect(roadmap).toContain("AdSense");
+    expect(operations).toContain("admin_actions");
   });
 
   test("トラブル種別別ガイドは断定ではなく確認項目として実装する", async () => {

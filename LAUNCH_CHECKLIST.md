@@ -13,6 +13,7 @@
 - [ ] `0006_service_role_privileges.sql` を本番DBへ適用した。
 - [ ] `0007_external_rating_snapshots.sql` を本番DBへ適用した。
 - [ ] `0008_report_source_attribution.sql` を本番DBへ適用した。
+- [ ] `0009_building_level_place_tracking.sql` を本番DBへ適用した。
 - [ ] `supabase/verification/non_admin_visibility_checks.sql` を実行し、期待値を確認した。
 - [ ] `report-evidence-files` bucket が private であることをSupabase画面でも確認した。
 - [ ] `reports`, `report_evidence_files`, `objections`, `admin_actions` を匿名ユーザーが直接読めないことを確認した。
@@ -86,6 +87,8 @@ npm audit --audit-level=moderate
 - [ ] 管理者でログイン後、`/admin/social` のSNS文面テンプレートを確認できる。
 - [ ] 管理者でログイン後、`/admin/research` の調査キューを確認できる。
 - [ ] 管理者でログイン後、`/admin/sponsors` の問い合わせ一覧を確認できる。
+- [ ] 管理者でログイン後、`/admin/quality` で建物情報不足、出典確認待ち、未対応異議、同一住所・同一建物候補を確認できる。
+- [ ] `/roadmap` が表示され、フェーズ13〜20と公開情報の扱い方が確認できる。
 - [ ] スマホ幅で横スクロールやボタン欠けがない。
 
 ## 公開判断

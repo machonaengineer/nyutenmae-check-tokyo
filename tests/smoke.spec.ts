@@ -21,6 +21,7 @@ const publicRoutes = [
   { path: "/sources", heading: "情報ソース" },
   { path: "/social", heading: "SNS共有・情報提供" },
   { path: "/sponsor", heading: "スポンサー・広告掲載について" },
+  { path: "/roadmap", heading: "改善ロードマップ" },
   { path: "/reports/new", heading: "注意報告を送る" },
   { path: "/reports/thanks", heading: "投稿を受け付けました" },
   { path: "/objection", heading: "異議申立て" },
@@ -211,6 +212,7 @@ test.describe("公開ページ", () => {
       "/sources",
       "/social",
       "/sponsor",
+      "/roadmap",
     ]) {
       await page.goto(route);
       const hasHorizontalOverflow = await page.evaluate(
@@ -283,6 +285,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/sources</loc>");
     expect(body).toContain("<loc>http://localhost:3000/social</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sponsor</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/roadmap</loc>");
     expect(body).toContain("<loc>http://localhost:3000/llms.txt</loc>");
     expect(body).toContain("<loc>http://localhost:3000/monetization-policy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
@@ -392,6 +395,7 @@ test.describe("公開ページ", () => {
       "/search?q=test",
       "/social",
       "/sources",
+      "/roadmap",
       "/areas/shinjuku-kabukicho",
     ]) {
       const response = await request.get(path);

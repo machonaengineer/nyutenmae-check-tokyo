@@ -18,6 +18,7 @@ export const NAV_ITEMS = [
   { href: "/contribute", label: "情報提供", emphasis: false },
   { href: "/sources", label: "情報ソース", emphasis: false },
   { href: "/social", label: "SNS共有", emphasis: false },
+  { href: "/roadmap", label: "ロードマップ", emphasis: false },
   { href: "/support", label: "相談先", emphasis: false },
   { href: "/objection", label: "異議申立て", emphasis: false },
 ] as const;
@@ -31,6 +32,7 @@ export const FOOTER_LINKS = [
   { href: "/contribute", label: "情報提供" },
   { href: "/sources", label: "情報ソース" },
   { href: "/social", label: "SNS共有" },
+  { href: "/roadmap", label: "改善ロードマップ" },
   { href: "/support", label: "相談先" },
   { href: "/objection", label: "異議申立て" },
   { href: "/monetization-policy", label: "収益化方針" },

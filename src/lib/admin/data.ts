@@ -172,6 +172,22 @@ export type AdminDashboardMetrics = {
   latestActions: AdminActionLog[];
 };
 
+export type AdminSimilarBuildingGroup = {
+  key: string;
+  address: string;
+  buildingName: string;
+  reports: AdminReportListItem[];
+};
+
+export type AdminQualityQueues = {
+  missingBuildingReports: AdminReportListItem[];
+  missingFloorReports: AdminReportListItem[];
+  stalePendingReports: AdminReportListItem[];
+  sourceNeedsReviewReports: AdminReportListItem[];
+  openObjections: AdminObjectionListItem[];
+  similarBuildingGroups: AdminSimilarBuildingGroup[];
+};
+
 type AreaRow = { id: string; name: string };
 type ReportListRow = {
   id: string;
@@ -457,6 +473,76 @@ export async function getAdminDashboardMetrics(): Promise<AdminDashboardMetrics>
       summary: action.summary,
       createdAt: action.created_at,
     })),
+  };
+}
+
+function getReportAgeDays(createdAt: string) {
+  return Math.floor((Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24));
+}
+
+function getSimilarBuildingKey(report: AdminReportListItem) {
+  if (!report.address || !report.buildingName) {
+    return null;
+  }
+
+  return `${report.address.trim().toLowerCase()}::${report.buildingName.trim().toLowerCase()}`;
+}
+
+export async function getAdminQualityQueues(): Promise<AdminQualityQueues> {
+  const [reports, objections] = await Promise.all([
+    getAdminReports("all"),
+    getAdminObjections(),
+  ]);
+  const buildingGroups = new Map<
+    string,
+    { address: string; buildingName: string; reports: AdminReportListItem[] }
+  >();
+
+  for (const report of reports) {
+    const groupKey = getSimilarBuildingKey(report);
+
+    if (!groupKey) {
+      continue;
+    }
+
+    const current = buildingGroups.get(groupKey) ?? {
+      address: report.address ?? "",
+      buildingName: report.buildingName ?? "",
+      reports: [],
+    };
+    current.reports.push(report);
+    buildingGroups.set(groupKey, current);
+  }
+
+  return {
+    missingBuildingReports: reports.filter(
+      (report) => Boolean(report.address) && !report.buildingName,
+    ),
+    missingFloorReports: reports.filter(
+      (report) => Boolean(report.buildingName) && !report.floor,
+    ),
+    stalePendingReports: reports.filter(
+      (report) =>
+        (report.status === "pending" || report.status === "needs_review") &&
+        getReportAgeDays(report.createdAt) >= 7,
+    ),
+    sourceNeedsReviewReports: reports.filter(
+      (report) =>
+        report.sourceType !== "user_report" &&
+        (!report.sourceUrl || !report.sourceCheckedAt || report.status !== "approved"),
+    ),
+    openObjections: objections.filter(
+      (objection) => objection.status === "pending" || objection.status === "reviewing",
+    ),
+    similarBuildingGroups: [...buildingGroups.entries()]
+      .map(([key, value]) => ({
+        key,
+        address: value.address,
+        buildingName: value.buildingName,
+        reports: value.reports,
+      }))
+      .filter((group) => group.reports.length > 1)
+      .sort((left, right) => right.reports.length - left.reports.length),
   };
 }
 

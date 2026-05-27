@@ -50,6 +50,12 @@ export function AdminShell({
               </Link>
               <Link
                 className="rounded-md px-3 py-2 text-sm font-semibold text-white no-underline transition hover:bg-white/10"
+                href="/admin/quality"
+              >
+                品質
+              </Link>
+              <Link
+                className="rounded-md px-3 py-2 text-sm font-semibold text-white no-underline transition hover:bg-white/10"
                 href="/admin/research"
               >
                 調査

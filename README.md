@@ -135,8 +135,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/social`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
-- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/research`, `/admin/social`, `/admin/sponsors`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/quality`, `/admin/research`, `/admin/social`, `/admin/sponsors`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
 - 異議申立てフォーム、管理者ログイン、投稿審査、証拠画像確認、異議申立て確認
@@ -162,6 +162,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - エリア詳細ページでの公的・公式確認先表示
 - 検索結果ゼロ時の関連エリア、公式確認先表示
 - 管理画面での店舗名・住所・建物名・階数検索と、同一住所・同一建物の確認候補表示
+- 管理画面の品質キューで、建物情報不足、未審査、出典確認待ち、未対応異議、同一住所・同一建物候補を確認
+- `/roadmap` でフェーズ13〜20の改善予定と公開情報の扱い方を表示
 - トップページでの初期対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
 - WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
@@ -209,6 +211,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - スポンサー問い合わせは公開ページに表示せず、管理者だけが確認する
 - 構造化データ、sitemap、`/llms.txt` には公開方針と公開ページURLだけを載せ、非公開DBカラムや証拠ファイルパスを含めない
 - 公的情報や報道由来の公開候補は、出典種別、出典URL、出典タイトル、確認日を分けて保存し、本文転載は禁止した独自要約だけを公開審査対象にする
+- 同一住所・同一建物候補は管理者確認用であり、同一運営や同一店舗と断定しない
 
 ## 法務・UX方針
 
@@ -221,7 +224,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 
 詳細は `LAUNCH_CHECKLIST.md` を参照してください。最低限、次の項目が未完了の場合は公開しないでください。
 
-- Supabase本番DBに8本のマイグレーションを適用している
+- Supabase本番DBに9本のマイグレーションを適用している
 - `supabase/verification/non_admin_visibility_checks.sql` の期待値を確認している
 - 投稿が `pending` / `Hidden` で保存されることを確認している
 - 承認済み投稿だけが公開ページに表示されることを確認している
@@ -255,3 +258,6 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
+- `DATA_QUALITY_SOP.md`: 建物情報、同一住所・同一建物候補、初期データ審査の運用手順
+- `BACKUP_AND_MONITORING_RUNBOOK.md`: 本番公開後の監視、バックアップ、障害時対応
+- `PHASE_13_20_ROADMAP.md`: フェーズ13〜20の実施方針
