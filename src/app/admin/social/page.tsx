@@ -3,7 +3,11 @@ import { AdminShell } from "@/components/admin/admin-shell";
 import { SocialTemplateBoard } from "@/components/admin/social-template-board";
 import { Section, SimpleList } from "@/components/page-blocks";
 import { requireAdminUser } from "@/lib/admin/auth";
-import { buildSocialPostTemplates } from "@/lib/social";
+import {
+  buildSocialPostTemplates,
+  SOCIAL_OPERATION_PILLARS,
+  SOCIAL_WEEKLY_ROUTINE,
+} from "@/lib/social";
 
 export const metadata: Metadata = {
   title: "SNS運用",
@@ -31,6 +35,23 @@ export default async function AdminSocialPage() {
       >
         <div className="mb-6">
           <SimpleList items={operationRules} />
+        </div>
+        <div className="mb-6 grid gap-4 md:grid-cols-2">
+          {SOCIAL_OPERATION_PILLARS.map((pillar) => (
+            <article key={pillar.title} className="rounded-md border border-line bg-white p-5">
+              <h2 className="text-lg font-bold text-ink">{pillar.title}</h2>
+              <p className="mt-2 text-sm leading-7 text-muted">{pillar.goal}</p>
+              <ul className="mt-3 grid gap-2 text-sm leading-6 text-muted">
+                {pillar.examples.map((example) => (
+                  <li key={example}>{example}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <div className="mb-6">
+          <h2 className="mb-3 text-lg font-bold text-ink">毎日の運用型</h2>
+          <SimpleList items={SOCIAL_WEEKLY_ROUTINE} />
         </div>
         <SocialTemplateBoard templates={templates} />
       </Section>

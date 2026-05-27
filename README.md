@@ -241,5 +241,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `FREE_TIER_GROWTH_PLAN.md`: 無料枠重視のSEO、計測、収益化準備方針
 - `ADSENSE_SETUP_GUIDE.md`: AdSense導入時の環境変数、ads.txt、ポリシーチェック
 - `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動連携前の運用方針
+- `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
+- `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順

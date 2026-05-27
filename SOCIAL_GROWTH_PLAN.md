@@ -12,6 +12,8 @@ SNSは、個別店舗や個人への断定ではなく、入店前確認、相�
 - Open Graph画像生成
 - Twitter Cardを `summary_large_image` に設定
 - SNSプロフィールURLの環境変数差し込み
+- `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
+- `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
 
 ## 運用ルール
 

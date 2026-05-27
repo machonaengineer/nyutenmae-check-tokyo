@@ -356,6 +356,14 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("外部口コミ本文、ニュース本文、スクリーンショット")).toBeVisible();
   });
 
+  test("未ログインではSNS管理画面ログインに誘導される", async ({ page }) => {
+    await page.goto("/admin/social");
+
+    await expect(
+      page.getByRole("heading", { name: "管理画面ログイン", level: 1 }),
+    ).toBeVisible();
+  });
+
   test("公的・公式情報ソースページで転載禁止方針を確認できる", async ({ page }) => {
     await page.goto("/sources");
 

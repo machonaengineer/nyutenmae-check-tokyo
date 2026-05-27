@@ -22,6 +22,8 @@ const requiredReleaseFiles = [
   "FREE_TIER_GROWTH_PLAN.md",
   "ADSENSE_SETUP_GUIDE.md",
   "SOCIAL_GROWTH_PLAN.md",
+  "SNS_OPERATIONS_SOP.md",
+  "SOCIAL_CONTENT_CALENDAR.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
   "DATA_COLLECTION_PLAYBOOK.md",
   "src/components/json-ld.tsx",
@@ -313,14 +315,34 @@ test.describe("リリース準備資料", () => {
     const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
 
     expect(guide).toContain("自動投稿API連携はMVPでは行わず");
+    expect(guide).toContain("SOCIAL_CONTENT_CALENDAR.csv");
+    expect(guide).toContain("SNS_OPERATIONS_SOP.md");
     expect(guide).toContain("証拠画像、投稿者メールアドレス、非公開メモをSNSに載せない");
     expect(socialLib).toContain("NEXT_PUBLIC_X_PROFILE_URL");
     expect(socialLib).toContain("buildSocialPostTemplates");
+    expect(socialLib).toContain("SOCIAL_OPERATION_PILLARS");
     expect(socialPage).toContain("SocialShareActions");
     expect(adminSocial).toContain("requireAdminUser");
     expect(adminSocial).toContain("SocialTemplateBoard");
     expect(envExample).toContain("NEXT_PUBLIC_X_PROFILE_URL=");
     expect(envExample).not.toContain("SOCIAL_ACCESS_TOKEN");
+  });
+
+  test("SNS運用資料は自然拡散と投稿前チェックを前提にしている", async () => {
+    const sop = await readFile(path.join(rootDir, "SNS_OPERATIONS_SOP.md"), "utf8");
+    const calendar = await readFile(
+      path.join(rootDir, "SOCIAL_CONTENT_CALENDAR.csv"),
+      "utf8",
+    );
+
+    expect(sop).toContain("自動いいね、自動フォロー、自動リプライ");
+    expect(sop).toContain("複数アカウントを使った不自然な拡散");
+    expect(sop).toContain("未承認投稿の紹介");
+    expect(sop).toContain("投稿前チェック");
+    expect(calendar).toContain("day,slot,platform,post_type");
+    expect(calendar).toContain("証拠画像と投稿者メールアドレスは一般公開しません");
+    expect(calendar).not.toContain("reporter_email");
+    expect(calendar).not.toContain("storage_path");
   });
 
   test("スポンサー問い合わせは公開ページに出さず管理ログで確認する", async () => {
