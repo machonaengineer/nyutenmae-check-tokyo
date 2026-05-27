@@ -147,6 +147,22 @@ test.describe("公開ページ", () => {
     ).toBeVisible();
   });
 
+  test("共通ヘッダーの主要導線を絞って表示する", async ({ page }) => {
+    await page.goto("/");
+
+    const headerLinks = page.locator('nav[aria-label="主要ナビゲーション"] a');
+
+    await expect(headerLinks).toHaveCount(6);
+    await expect(headerLinks).toContainText([
+      "ホーム",
+      "地図",
+      "エリア",
+      "実用ガイド",
+      "相談先",
+      "投稿する",
+    ]);
+  });
+
   test("検索結果ゼロでも関連エリアと公式確認先を表示できる", async ({ page }) => {
     await page.goto("/search?q=%E6%96%B0%E5%AE%BF");
 
@@ -250,6 +266,16 @@ test.describe("公開ページ", () => {
     await page.goto("/map");
 
     await expect(page.getByTestId("leaflet-map")).toBeVisible();
+  });
+
+  test("公開報告ゼロでも公式確認情報と投稿導線を表示する", async ({ page }) => {
+    await page.goto("/map");
+
+    await expect(
+      page.getByText("承認済み投稿はまだありません。公式確認先と情報提供導線は公開中です。"),
+    ).toBeVisible();
+    await expect(page.getByText("公式確認先:").first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "情報提供する" }).first()).toBeVisible();
   });
 
   test("未ログインでは管理画面ログインに誘導される", async ({ page }) => {
@@ -441,8 +467,10 @@ test.describe("公開ページ", () => {
     await expect(
       page.getByRole("heading", { name: "このエリアの公式確認先", level: 2 }),
     ).toBeVisible();
-    await expect(page.getByText("警視庁が、新宿周辺で飲食店を利用する際")).toBeVisible();
-    await expect(page.getByText("東京都の消費生活相談窓口案内です。")).toBeVisible();
+    await expect(
+      page.getByText("警視庁が、新宿周辺で飲食店を利用する際").first(),
+    ).toBeVisible();
+    await expect(page.getByText("東京都の消費生活相談窓口案内です。").first()).toBeVisible();
   });
 
   test("公開フォームHTMLに非公開DBカラム名を埋め込まない", async ({ request }) => {

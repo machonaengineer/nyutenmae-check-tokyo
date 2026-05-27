@@ -18,7 +18,10 @@ import {
   getPublicAreaSummary,
   getPublicPlaceSummaries,
 } from "@/lib/public-data";
-import { getResearchSourcesByArea } from "@/lib/research-sources";
+import {
+  getResearchSourceIntakeStatus,
+  getResearchSourcesByArea,
+} from "@/lib/research-sources";
 import { SEARCH_GUIDES } from "@/lib/search-guides";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 import { INITIAL_AREAS } from "@/lib/site";
@@ -61,6 +64,12 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
     (place) => place.latitude !== null && place.longitude !== null,
   );
   const researchSources = getResearchSourcesByArea(slug);
+  const officialSourceCount = researchSources.filter(
+    (source) => source.sourceType !== "news",
+  ).length;
+  const reviewCandidateCount = researchSources.filter(
+    (source) => getResearchSourceIntakeStatus(source) === "candidate_needs_review",
+  ).length;
   const guide = getAreaDeepGuide(slug);
   const growthPlan = getAreaGrowthPlan(slug);
 
@@ -111,7 +120,58 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
             ))}
           </div>
         ) : (
-          <EmptyState message="このエリアには、現在一般公開できる承認済み投稿がありません。" />
+          <>
+            <EmptyState message="このエリアは承認済み投稿がまだありません。公式確認先と確認項目を先に表示しています。" />
+            <div className="mt-5 rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
+              <div className="grid gap-3 text-sm text-muted sm:grid-cols-3">
+                <p>承認済み報告: 0件</p>
+                <p>公式確認先: {officialSourceCount}件</p>
+                <p>審査中の確認候補: {reviewCandidateCount}件</p>
+              </div>
+              <p className="mt-4 text-sm leading-7 text-muted">
+                報告情報を空のままに見せないため、個別店舗の断定ではなく、
+                公的機関や確認済み出典への導線、入店前の確認項目、非公開の情報提供導線を表示しています。
+              </p>
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
+                {researchSources.slice(0, 3).map((source) => (
+                  <article
+                    key={source.id}
+                    className="rounded-md border border-line bg-surface p-4"
+                  >
+                    <p className="text-xs font-semibold text-action">
+                      確認日: {source.sourceCheckedAt}
+                    </p>
+                    <h3 className="mt-2 text-sm font-bold leading-6 text-ink">
+                      {source.sourceTitle}
+                    </h3>
+                    <p className="mt-2 text-xs leading-6 text-muted">
+                      {source.publicSummary}
+                    </p>
+                  </article>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md bg-action px-4 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+                  href={`/reports/quick?area=${slug}`}
+                >
+                  情報提供する
+                </Link>
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                  href={`/areas/${slug}/guides/before-entry-price-check`}
+                >
+                  料金確認ガイドを見る
+                </Link>
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                  href="/support"
+                >
+                  相談先を見る
+                </Link>
+              </div>
+            </div>
+          </>
         )}
       </Section>
 

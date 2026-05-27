@@ -5,6 +5,10 @@ import { getPublicAreaSummaries } from "@/lib/public-data";
 import { PageHeader, Section } from "@/components/page-blocks";
 import { PublicNotice } from "@/components/public-notice";
 import { SocialShareActions } from "@/components/social-share-actions";
+import {
+  getResearchSourceIntakeStatus,
+  getResearchSourcesByArea,
+} from "@/lib/research-sources";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 
 export const metadata: Metadata = {
@@ -14,6 +18,18 @@ export const metadata: Metadata = {
 
 export default async function AreasPage() {
   const areas = await getPublicAreaSummaries();
+  const areaRows = areas.map((area) => {
+    const sources = getResearchSourcesByArea(area.slug);
+
+    return {
+      ...area,
+      officialSourceCount: sources.filter((source) => source.sourceType !== "news")
+        .length,
+      reviewCandidateCount: sources.filter(
+        (source) => getResearchSourceIntakeStatus(source) === "candidate_needs_review",
+      ).length,
+    };
+  });
 
   return (
     <>
@@ -25,7 +41,7 @@ export default async function AreasPage() {
 
       <Section title="エリア一覧">
         <div className="grid gap-4 md:grid-cols-2">
-          {areas.map((area) => (
+          {areaRows.map((area) => (
             <article key={area.slug} className="rounded-md border border-line bg-surface p-5">
               <p className="text-sm font-semibold text-action">{area.centerLabel}</p>
               <h2 className="mt-2 text-xl font-bold text-ink">
@@ -34,11 +50,19 @@ export default async function AreasPage() {
                 </Link>
               </h2>
               <p className="mt-3 text-sm leading-7 text-muted">{area.description}</p>
-              <div className="mt-4 grid gap-2 text-sm text-muted sm:grid-cols-3">
-                <p>場所: {area.approvedPlaceCount}件</p>
-                <p>報告: {area.approvedReportCount}件</p>
+              <div className="mt-4 grid gap-2 text-sm text-muted sm:grid-cols-2">
+                <p>承認済み場所: {area.approvedPlaceCount}件</p>
+                <p>承認済み報告: {area.approvedReportCount}件</p>
+                <p>公式確認先: {area.officialSourceCount}件</p>
+                <p>確認候補: {area.reviewCandidateCount}件</p>
                 <p>最新: {formatDate(area.latestReportedAt)}</p>
               </div>
+              {area.approvedReportCount === 0 ? (
+                <p className="mt-4 rounded-md border border-line bg-white px-3 py-2 text-xs leading-6 text-muted">
+                  個別の注意表示はまだありません。公式確認先と入店前確認項目を先に公開し、
+                  投稿は承認後だけ表示します。
+                </p>
+              ) : null}
             </article>
           ))}
         </div>

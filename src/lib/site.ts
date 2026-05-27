@@ -11,20 +11,9 @@ export const NAV_ITEMS = [
   { href: "/", label: "ホーム", emphasis: false },
   { href: "/map", label: "地図", emphasis: false },
   { href: "/areas", label: "エリア", emphasis: false },
-  { href: "/checklists", label: "確認リスト", emphasis: false },
   { href: "/guides", label: "実用ガイド", emphasis: false },
-  { href: "/topics", label: "種別ガイド", emphasis: false },
-  { href: "/reports/new", label: "投稿する", emphasis: true },
-  { href: "/reports/quick", label: "30秒投稿", emphasis: false },
-  { href: "/guidelines", label: "投稿ガイド", emphasis: false },
-  { href: "/contribute", label: "情報提供", emphasis: false },
-  { href: "/sources", label: "情報ソース", emphasis: false },
-  { href: "/coverage", label: "蓄積状況", emphasis: false },
-  { href: "/trust", label: "透明性", emphasis: false },
-  { href: "/social", label: "SNS共有", emphasis: false },
-  { href: "/roadmap", label: "ロードマップ", emphasis: false },
   { href: "/support", label: "相談先", emphasis: false },
-  { href: "/objection", label: "異議申立て", emphasis: false },
+  { href: "/reports/quick", label: "投稿する", emphasis: true },
 ] as const;
 
 export const FOOTER_LINKS = [

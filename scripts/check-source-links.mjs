@@ -74,12 +74,35 @@ async function fetchWithTimeout(url, method) {
   }
 }
 
+async function fetchWithRetry(url, method) {
+  let lastError;
+
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      return await fetchWithTimeout(url, method);
+    } catch (error) {
+      lastError = error;
+      await new Promise((resolve) => {
+        setTimeout(resolve, 500);
+      });
+    }
+  }
+
+  throw lastError;
+}
+
 async function checkUrl(url) {
   try {
-    let response = await fetchWithTimeout(url, "HEAD");
+    let response;
+
+    try {
+      response = await fetchWithRetry(url, "HEAD");
+    } catch {
+      response = await fetchWithRetry(url, "GET");
+    }
 
     if (response.status === 405 || response.status === 403) {
-      response = await fetchWithTimeout(url, "GET");
+      response = await fetchWithRetry(url, "GET");
     }
 
     return {

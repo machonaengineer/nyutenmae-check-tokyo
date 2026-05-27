@@ -6,6 +6,12 @@ import { PageHeader, Section } from "@/components/page-blocks";
 import { PlaceCard } from "@/components/place-card";
 import { PublicNotice } from "@/components/public-notice";
 import { getAreaCenter, getPublicPlaceSummaries } from "@/lib/public-data";
+import {
+  getResearchSourceIntakeStatus,
+  getResearchSourcePipelineMetrics,
+  getResearchSourcesByArea,
+} from "@/lib/research-sources";
+import { INITIAL_AREAS } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "地図",
@@ -17,6 +23,21 @@ export default async function MapPage() {
   const markerPlaces = places.filter(
     (place) => place.latitude !== null && place.longitude !== null,
   );
+  const sourceMetrics = getResearchSourcePipelineMetrics();
+  const areaSignals = INITIAL_AREAS.map((area) => {
+    const sources = getResearchSourcesByArea(area.slug);
+
+    return {
+      slug: area.slug,
+      name: area.name,
+      center: area.center,
+      officialSourceCount: sources.filter((source) => source.sourceType !== "news")
+        .length,
+      reviewCandidateCount: sources.filter(
+        (source) => getResearchSourceIntakeStatus(source) === "candidate_needs_review",
+      ).length,
+    };
+  });
 
   return (
     <>
@@ -42,6 +63,8 @@ export default async function MapPage() {
             <div className="mt-5 grid gap-3 text-sm text-muted">
               <p>地図表示: {markerPlaces.length}件</p>
               <p>承認済み投稿のある場所: {places.length}件</p>
+              <p>公式確認先: {sourceMetrics.officialSources}件</p>
+              <p>審査中の確認候補: {sourceMetrics.candidateNeedsReviewSources}件</p>
             </div>
             <Link
               href="/areas"
@@ -65,7 +88,39 @@ export default async function MapPage() {
             ))}
           </div>
         ) : (
-          <EmptyState message="現在、一般公開できる承認済み投稿はありません。" />
+          <>
+            <EmptyState message="承認済み投稿はまだありません。公式確認先と情報提供導線は公開中です。" />
+            <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {areaSignals.map((area) => (
+                <article
+                  key={area.slug}
+                  className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+                >
+                  <p className="text-xs font-semibold text-action">{area.center}</p>
+                  <h3 className="mt-2 text-lg font-bold text-ink">{area.name}</h3>
+                  <div className="mt-4 grid gap-2 text-sm text-muted">
+                    <p>承認済み報告: 0件</p>
+                    <p>公式確認先: {area.officialSourceCount}件</p>
+                    <p>審査中の確認候補: {area.reviewCandidateCount}件</p>
+                  </div>
+                  <p className="mt-4 text-xs leading-6 text-muted">
+                    個別の注意表示は承認済み投稿に限定し、未承認情報や証拠画像は公開しません。
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                    <Link className="text-action no-underline" href={`/areas/${area.slug}`}>
+                      エリアを見る
+                    </Link>
+                    <Link
+                      className="text-action no-underline"
+                      href={`/reports/quick?area=${area.slug}`}
+                    >
+                      情報提供する
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </>
         )}
       </Section>
     </>
