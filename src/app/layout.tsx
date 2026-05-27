@@ -62,11 +62,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <AdsenseGate />
+      </head>
       <body>
         <JsonLd data={getSiteStructuredData()} />
         <AppShell>{children}</AppShell>
         <AnalyticsGate />
-        <AdsenseGate />
       </body>
     </html>
   );
