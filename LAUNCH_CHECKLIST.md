@@ -14,6 +14,7 @@
 - [ ] `0007_external_rating_snapshots.sql` を本番DBへ適用した。
 - [ ] `0008_report_source_attribution.sql` を本番DBへ適用した。
 - [ ] `0009_building_level_place_tracking.sql` を本番DBへ適用した。
+- [ ] `0010_initial_data_review_workflow.sql` を本番DBへ適用した。
 - [ ] `supabase/verification/non_admin_visibility_checks.sql` を実行し、期待値を確認した。
 - [ ] `report-evidence-files` bucket が private であることをSupabase画面でも確認した。
 - [ ] `reports`, `report_evidence_files`, `objections`, `admin_actions` を匿名ユーザーが直接読めないことを確認した。
@@ -52,6 +53,8 @@
 - [ ] `/coverage` に表示される情報蓄積状況が、未承認投稿や個別店舗の断定表示になっていないことを確認した。
 - [ ] `INITIAL_DATA_REVIEW_QUEUE.csv` に沿って、候補ごとの出典確認、現在状況、建物情報、公開可否を人間が確認した。
 - [ ] 実名入り初期データ候補CSVがGit管理、公開ページ、クライアントバンドルに含まれていないことを確認した。
+- [ ] `0010_initial_data_review_workflow.sql` 適用後、`initial_data_review_candidates` がRLS有効かつ一般ユーザーから直接読めないことを確認した。
+- [ ] `/admin/data` の候補審査DBで、出典確認、独自要約確認、建物確認、法務確認が完了していない候補を `import_private` にできないことを確認した。
 - [ ] `/admin/data` の候補一括投入を使った場合、作成された投稿が `needs_review`、`evidence_level=Hidden`、投稿者メールが内部seed用メールで保存されることを確認した。
 - [ ] SNSプロフィールURLを設定する場合、`NEXT_PUBLIC_X_PROFILE_URL` など公開してよいURLだけを入れ、ログイン情報やトークンを入れていないことを確認した。
 - [ ] スポンサー問い合わせフォームの送信内容が公開ページに表示されず、管理者画面だけで確認できることを確認した。

@@ -4,6 +4,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/admin/auth";
 import { getInitialDataCandidateCsv } from "@/lib/admin/initial-data-candidates";
+import {
+  isInitialDataLegalReviewStatus,
+  isInitialDataPublishDecision,
+  isInitialDataReviewPriority,
+} from "@/lib/admin/types";
 import { containsDangerousExpression } from "@/lib/content-safety";
 import {
   containsExternalCopyRiskText,
@@ -18,6 +23,14 @@ export type InitialDataImportState = {
   status: "idle" | "success" | "error";
   message: string;
   importedCount: number;
+  skippedCount: number;
+  errors: string[];
+};
+
+export type InitialDataCandidateStageState = {
+  status: "idle" | "success" | "error";
+  message: string;
+  stagedCount: number;
   skippedCount: number;
   errors: string[];
 };
@@ -39,6 +52,15 @@ type InitialDataRow = Record<string, string>;
 const INTERNAL_SEED_EMAIL = "seed-data@nyutenmae-check.local";
 const IMPORTABLE_STATUSES = new Set(["pending", "needs_review"]);
 const IMPORT_EVIDENCE_LEVEL = "Hidden";
+
+function getFormText(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function getFormCheckbox(formData: FormData, key: string) {
+  return getFormText(formData, key) === "on";
+}
 
 function getText(row: InitialDataRow, key: string) {
   return (row[key] ?? "").trim();
@@ -235,6 +257,232 @@ async function hasDuplicateSeedReport(options: {
     .maybeSingle();
 
   return Boolean(data?.id);
+}
+
+async function hasDuplicateReviewCandidate(options: {
+  sourceUrl: string | null;
+  placeName: string;
+  publicSummary: string;
+}) {
+  const supabase = createSupabaseAdminClient();
+  let query = supabase
+    .from("initial_data_review_candidates")
+    .select("id")
+    .eq("place_name", options.placeName)
+    .eq("public_summary", options.publicSummary)
+    .limit(1);
+
+  if (options.sourceUrl) {
+    query = query.eq("source_url", options.sourceUrl);
+  }
+
+  const { data } = await query.maybeSingle();
+  return Boolean(data?.id);
+}
+
+async function writeDataAdminAction(options: {
+  adminUserId: string;
+  action: string;
+  targetTable: string;
+  targetId: string | null;
+  summary: string;
+  metadata?: Record<string, unknown>;
+}) {
+  const supabase = createSupabaseAdminClient();
+  await supabase.from("admin_actions").insert({
+    admin_user_id: options.adminUserId,
+    action: options.action,
+    target_table: options.targetTable,
+    target_id: options.targetId,
+    summary: options.summary,
+    metadata: options.metadata ?? {},
+  });
+}
+
+export async function stageInitialDataCandidatesAction(
+  _prevState: InitialDataCandidateStageState,
+  formData: FormData,
+): Promise<InitialDataCandidateStageState> {
+  const adminUser = await requireAdminUser();
+  const csv = getFormText(formData, "csv");
+  const reviewPriority = getFormText(formData, "review_priority") || "medium";
+
+  if (!isInitialDataReviewPriority(reviewPriority)) {
+    return {
+      status: "error",
+      message: "優先度が不正です。",
+      stagedCount: 0,
+      skippedCount: 0,
+      errors: ["review_priority は low / medium / high から選んでください。"],
+    };
+  }
+
+  if (!csv.trim()) {
+    return {
+      status: "error",
+      message: "CSVを入力してください。",
+      stagedCount: 0,
+      skippedCount: 0,
+      errors: ["CSVが空です。"],
+    };
+  }
+
+  const validation = validateInitialDataCsv(csv);
+  const structuralErrors = validation.issues
+    .filter((issue) => issue.severity === "error")
+    .map((issue) => `${issue.row}行目 ${issue.column}: ${issue.message}`);
+  const { rows } = parseCsv(csv);
+
+  if (rows.length === 0) {
+    structuralErrors.push("登録対象のデータ行がありません。");
+  }
+
+  if (structuralErrors.length > 0) {
+    return {
+      status: "error",
+      message: "CSVのエラーを修正してから審査DBへ登録してください。",
+      stagedCount: 0,
+      skippedCount: 0,
+      errors: structuralErrors.slice(0, 20),
+    };
+  }
+
+  const supabase = createSupabaseAdminClient();
+  const [areasResult, riskTagsResult] = await Promise.all([
+    supabase
+      .from("areas")
+      .select("id,slug,name")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true }),
+    supabase
+      .from("risk_tags")
+      .select("id,slug,label")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true }),
+  ]);
+
+  if (areasResult.error || riskTagsResult.error) {
+    return {
+      status: "error",
+      message: "管理用マスタを取得できませんでした。",
+      stagedCount: 0,
+      skippedCount: 0,
+      errors: ["areas または risk_tags の取得に失敗しました。"],
+    };
+  }
+
+  const areas = (areasResult.data ?? []) as AreaRow[];
+  const riskTags = (riskTagsResult.data ?? []) as RiskTagRow[];
+  const riskTagMap = new Map<string, RiskTagRow>();
+
+  for (const tag of riskTags) {
+    riskTagMap.set(tag.slug, tag);
+    riskTagMap.set(tag.label, tag);
+  }
+
+  const rowErrors = rows.flatMap((row, index) => {
+    const riskTagLabels = splitRiskTags(getText(row, "risk_tags"));
+
+    return buildRowErrors({
+      row,
+      lineNumber: index + 2,
+      area: findArea(row, areas),
+      riskTagLabels,
+      riskTagMap,
+    });
+  });
+
+  if (rowErrors.length > 0) {
+    return {
+      status: "error",
+      message: "審査DB登録の条件を満たさない行があります。",
+      stagedCount: 0,
+      skippedCount: 0,
+      errors: rowErrors.slice(0, 30),
+    };
+  }
+
+  let stagedCount = 0;
+  let skippedCount = 0;
+
+  try {
+    for (const row of rows) {
+      const placeName =
+        getText(row, "place_name") || getText(row, "address") || "名称未確認";
+      const sourceUrl = getText(row, "source_url") || null;
+      const publicSummary = getText(row, "public_summary");
+
+      const isDuplicate = await hasDuplicateReviewCandidate({
+        sourceUrl,
+        placeName,
+        publicSummary,
+      });
+
+      if (isDuplicate) {
+        skippedCount += 1;
+        continue;
+      }
+
+      const { error } = await supabase.from("initial_data_review_candidates").insert({
+        source_type: getText(row, "source_type") || "other",
+        source_url: sourceUrl,
+        source_title: getText(row, "source_title") || null,
+        source_checked_at: getText(row, "source_checked_at"),
+        observed_area: getText(row, "observed_area"),
+        place_name: placeName,
+        address: getText(row, "address") || null,
+        building_name: getText(row, "building_name") || null,
+        floor: getText(row, "floor") || null,
+        incident_type: getText(row, "incident_type"),
+        risk_tags: splitRiskTags(getText(row, "risk_tags")),
+        evidence_level: IMPORT_EVIDENCE_LEVEL,
+        public_summary: publicSummary,
+        private_memo: getText(row, "private_memo") || null,
+        proposed_status: getText(row, "status") || "needs_review",
+        review_priority: reviewPriority,
+        created_by_admin: adminUser.id,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      stagedCount += 1;
+    }
+  } catch {
+    return {
+      status: "error",
+      message:
+        "審査DBへの登録中にエラーが発生しました。0010 migration の適用状況を確認してください。",
+      stagedCount,
+      skippedCount,
+      errors: ["一部の候補だけ登録されている可能性があります。重複候補は次回登録時にスキップされます。"],
+    };
+  }
+
+  await writeDataAdminAction({
+    adminUserId: adminUser.id,
+    action: "initial_data_candidates_staged",
+    targetTable: "initial_data_review_candidates",
+    targetId: null,
+    summary: `初期データ候補を審査DBへ${stagedCount}件登録しました。`,
+    metadata: {
+      staged_count: stagedCount,
+      skipped_count: skippedCount,
+      review_priority: reviewPriority,
+    },
+  });
+
+  revalidatePath("/admin/data");
+  revalidatePath("/admin/quality");
+
+  return {
+    status: "success",
+    message: `初期データ候補を審査DBへ${stagedCount}件登録しました。重複スキップ: ${skippedCount}件。`,
+    stagedCount,
+    skippedCount,
+    errors: [],
+  };
 }
 
 export async function importInitialDataAction(
@@ -474,4 +722,75 @@ export async function importInitialDataCandidatesAction() {
   });
 
   redirect(`/admin/data?${params.toString()}`);
+}
+
+export async function updateInitialDataReviewCandidateAction(formData: FormData) {
+  const adminUser = await requireAdminUser();
+  const candidateId = getFormText(formData, "candidate_id");
+  const reviewPriority = getFormText(formData, "review_priority");
+  const legalReviewStatus = getFormText(formData, "legal_review_status");
+  const publishDecision = getFormText(formData, "publish_decision");
+  const reviewNote = getFormText(formData, "review_note") || null;
+  const sourceVerified = getFormCheckbox(formData, "source_verified");
+  const publicSummaryChecked = getFormCheckbox(formData, "public_summary_checked");
+  const buildingChecked = getFormCheckbox(formData, "building_checked");
+
+  if (
+    !candidateId ||
+    !isInitialDataReviewPriority(reviewPriority) ||
+    !isInitialDataLegalReviewStatus(legalReviewStatus) ||
+    !isInitialDataPublishDecision(publishDecision)
+  ) {
+    redirect("/admin/data?candidate_review_error=invalid");
+  }
+
+  if (
+    publishDecision === "import_private" &&
+    (!sourceVerified ||
+      !publicSummaryChecked ||
+      !buildingChecked ||
+      legalReviewStatus !== "approved_for_import")
+  ) {
+    redirect("/admin/data?candidate_review_error=not_ready");
+  }
+
+  const supabase = createSupabaseAdminClient();
+  const { error } = await supabase
+    .from("initial_data_review_candidates")
+    .update({
+      review_priority: reviewPriority,
+      source_verified: sourceVerified,
+      public_summary_checked: publicSummaryChecked,
+      building_checked: buildingChecked,
+      legal_review_status: legalReviewStatus,
+      publish_decision: publishDecision,
+      review_note: reviewNote,
+      reviewed_by_admin: adminUser.id,
+      reviewed_at: new Date().toISOString(),
+    })
+    .eq("id", candidateId);
+
+  if (error) {
+    redirect("/admin/data?candidate_review_error=update_failed");
+  }
+
+  await writeDataAdminAction({
+    adminUserId: adminUser.id,
+    action: "initial_data_candidate_reviewed",
+    targetTable: "initial_data_review_candidates",
+    targetId: candidateId,
+    summary: `初期データ候補を更新しました。判断: ${publishDecision}`,
+    metadata: {
+      review_priority: reviewPriority,
+      source_verified: sourceVerified,
+      public_summary_checked: publicSummaryChecked,
+      building_checked: buildingChecked,
+      legal_review_status: legalReviewStatus,
+      publish_decision: publishDecision,
+    },
+  });
+
+  revalidatePath("/admin/data");
+  revalidatePath("/admin/quality");
+  redirect("/admin/data?candidate_review_saved=1");
 }

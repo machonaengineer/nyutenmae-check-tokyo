@@ -188,6 +188,47 @@ export type AdminQualityQueues = {
   similarBuildingGroups: AdminSimilarBuildingGroup[];
 };
 
+export type AdminInitialDataReviewCandidate = {
+  id: string;
+  sourceType: string;
+  sourceUrl: string | null;
+  sourceTitle: string | null;
+  sourceCheckedAt: string;
+  observedArea: string;
+  placeName: string | null;
+  address: string | null;
+  buildingName: string | null;
+  floor: string | null;
+  incidentType: string;
+  riskTags: string[];
+  evidenceLevel: string;
+  publicSummary: string;
+  proposedStatus: string;
+  reviewPriority: string;
+  sourceVerified: boolean;
+  publicSummaryChecked: boolean;
+  buildingChecked: boolean;
+  legalReviewStatus: string;
+  publishDecision: string;
+  reviewNote: string | null;
+  linkedReportId: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminInitialDataReviewWorkflow = {
+  available: boolean;
+  candidates: AdminInitialDataReviewCandidate[];
+  metrics: {
+    total: number;
+    highPriority: number;
+    sourceUnverified: number;
+    legalPending: number;
+    importReady: number;
+    rejected: number;
+  };
+};
+
 type AreaRow = { id: string; name: string };
 type ReportListRow = {
   id: string;
@@ -301,6 +342,34 @@ type SponsorInquiryActionRow = {
   id: string;
   metadata: Record<string, unknown>;
   created_at: string;
+};
+
+type InitialDataReviewCandidateRow = {
+  id: string;
+  source_type: string;
+  source_url: string | null;
+  source_title: string | null;
+  source_checked_at: string;
+  observed_area: string;
+  place_name: string | null;
+  address: string | null;
+  building_name: string | null;
+  floor: string | null;
+  incident_type: string;
+  risk_tags: string[] | null;
+  evidence_level: string;
+  public_summary: string;
+  proposed_status: string;
+  review_priority: string;
+  source_verified: boolean;
+  public_summary_checked: boolean;
+  building_checked: boolean;
+  legal_review_status: string;
+  publish_decision: string;
+  review_note: string | null;
+  linked_report_id: string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 function normalizeExternalReviewSource(
@@ -544,6 +613,107 @@ export async function getAdminQualityQueues(): Promise<AdminQualityQueues> {
       .filter((group) => group.reports.length > 1)
       .sort((left, right) => right.reports.length - left.reports.length),
   };
+}
+
+function emptyInitialDataReviewWorkflow(
+  available: boolean,
+): AdminInitialDataReviewWorkflow {
+  return {
+    available,
+    candidates: [],
+    metrics: {
+      total: 0,
+      highPriority: 0,
+      sourceUnverified: 0,
+      legalPending: 0,
+      importReady: 0,
+      rejected: 0,
+    },
+  };
+}
+
+function mapInitialDataReviewCandidate(
+  candidate: InitialDataReviewCandidateRow,
+): AdminInitialDataReviewCandidate {
+  return {
+    id: candidate.id,
+    sourceType: candidate.source_type,
+    sourceUrl: candidate.source_url,
+    sourceTitle: candidate.source_title,
+    sourceCheckedAt: candidate.source_checked_at,
+    observedArea: candidate.observed_area,
+    placeName: candidate.place_name,
+    address: candidate.address,
+    buildingName: candidate.building_name,
+    floor: candidate.floor,
+    incidentType: candidate.incident_type,
+    riskTags: candidate.risk_tags ?? [],
+    evidenceLevel: candidate.evidence_level,
+    publicSummary: candidate.public_summary,
+    proposedStatus: candidate.proposed_status,
+    reviewPriority: candidate.review_priority,
+    sourceVerified: candidate.source_verified,
+    publicSummaryChecked: candidate.public_summary_checked,
+    buildingChecked: candidate.building_checked,
+    legalReviewStatus: candidate.legal_review_status,
+    publishDecision: candidate.publish_decision,
+    reviewNote: candidate.review_note,
+    linkedReportId: candidate.linked_report_id,
+    createdAt: candidate.created_at,
+    updatedAt: candidate.updated_at,
+  };
+}
+
+export async function getAdminInitialDataReviewWorkflow(): Promise<AdminInitialDataReviewWorkflow> {
+  const supabase = createSupabaseAdminClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("initial_data_review_candidates")
+      .select(
+        "id,source_type,source_url,source_title,source_checked_at,observed_area,place_name,address,building_name,floor,incident_type,risk_tags,evidence_level,public_summary,proposed_status,review_priority,source_verified,public_summary_checked,building_checked,legal_review_status,publish_decision,review_note,linked_report_id,created_at,updated_at",
+      )
+      .order("created_at", { ascending: false })
+      .limit(200);
+
+    if (error) {
+      throw error;
+    }
+
+    const candidates = ((data ?? []) as InitialDataReviewCandidateRow[]).map(
+      mapInitialDataReviewCandidate,
+    );
+
+    return {
+      available: true,
+      candidates,
+      metrics: {
+        total: candidates.length,
+        highPriority: candidates.filter((candidate) => candidate.reviewPriority === "high")
+          .length,
+        sourceUnverified: candidates.filter((candidate) => !candidate.sourceVerified)
+          .length,
+        legalPending: candidates.filter(
+          (candidate) =>
+            candidate.legalReviewStatus === "not_started" ||
+            candidate.legalReviewStatus === "in_review",
+        ).length,
+        importReady: candidates.filter(
+          (candidate) =>
+            candidate.publishDecision === "import_private" &&
+            candidate.legalReviewStatus === "approved_for_import" &&
+            !candidate.linkedReportId,
+        ).length,
+        rejected: candidates.filter(
+          (candidate) =>
+            candidate.publishDecision === "reject" ||
+            candidate.legalReviewStatus === "rejected",
+        ).length,
+      },
+    };
+  } catch {
+    return emptyInitialDataReviewWorkflow(false);
+  }
 }
 
 export async function getAdminRiskTags() {

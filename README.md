@@ -44,6 +44,7 @@ npm run test:e2e
 8. `supabase/migrations/0007_external_rating_snapshots.sql` をSQL Editorで実行する
 9. `supabase/migrations/0008_report_source_attribution.sql` をSQL Editorで実行する
 10. `supabase/migrations/0009_building_level_place_tracking.sql` をSQL Editorで実行する
+11. `supabase/migrations/0010_initial_data_review_workflow.sql` をSQL Editorで実行する
 11. `.env.local` にSupabaseの値を設定する
 12. 管理者ユーザーをSupabase Authで作成する
 13. 管理者メールを `profiles` でadminに更新する
@@ -167,6 +168,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - 管理画面での店舗名・住所・建物名・階数検索と、同一住所・同一建物の確認候補表示
 - 管理画面の品質キューで、建物情報不足、未審査、出典確認待ち、未対応異議、同一住所・同一建物候補を確認
 - 管理画面の初期データ審査キューで、候補を `needs_review / Hidden` として非公開投入。実名入り候補CSVはGit管理せず、管理画面貼り付けまたはサーバー側環境変数だけで扱う
+- 管理画面の候補審査DBで、出典確認、独自要約確認、建物確認、法務・表現確認、非公開投入判断を追跡
 - `/roadmap` でフェーズ13〜20の改善予定と公開情報の扱い方を表示
 - トップページでの初期対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
@@ -269,3 +271,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_13_20_ROADMAP.md`: フェーズ13〜20の実施方針
 - `PHASE_21_DATA_INTAKE_PLAN.md`: 初期データ投入とSEO流入の土台作り
 - `PHASE_22_REVIEW_IMPORT_PLAN.md`: 審査キューから非公開投入までの短縮
+- `PHASE_23_REVIEW_WORKFLOW_PLAN.md`: 初期データ候補を管理者限定の審査DBで扱う運用

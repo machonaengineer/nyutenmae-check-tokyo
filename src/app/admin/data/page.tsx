@@ -1,8 +1,19 @@
 import type { Metadata } from "next";
-import { importInitialDataCandidatesAction } from "@/app/admin/data/actions";
+import Link from "next/link";
+import {
+  importInitialDataCandidatesAction,
+  updateInitialDataReviewCandidateAction,
+} from "@/app/admin/data/actions";
 import { AdminShell } from "@/components/admin/admin-shell";
+import { InitialDataCandidateStager } from "@/components/admin/initial-data-candidate-stager";
 import { InitialDataValidator } from "@/components/admin/initial-data-validator";
+import { EmptyState } from "@/components/empty-state";
 import { Section, SimpleList } from "@/components/page-blocks";
+import type {
+  AdminInitialDataReviewCandidate,
+  AdminInitialDataReviewWorkflow,
+} from "@/lib/admin/data";
+import { getAdminInitialDataReviewWorkflow } from "@/lib/admin/data";
 import {
   getInitialDataReviewMetrics,
   getInitialDataReviewQueue,
@@ -10,6 +21,15 @@ import {
   type InitialDataReviewQueueItem,
 } from "@/lib/admin/initial-data-candidates";
 import { requireAdminUser } from "@/lib/admin/auth";
+import {
+  getInitialDataLegalReviewStatusLabel,
+  getInitialDataPriorityLabel,
+  getInitialDataPublishDecisionLabel,
+  INITIAL_DATA_LEGAL_REVIEW_STATUSES,
+  INITIAL_DATA_PUBLISH_DECISIONS,
+  INITIAL_DATA_REVIEW_PRIORITIES,
+} from "@/lib/admin/types";
+import { formatDate } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "初期データ検証",
@@ -31,6 +51,8 @@ type AdminDataPageProps = {
     candidate_import?: string;
     candidate_imported?: string;
     candidate_skipped?: string;
+    candidate_review_saved?: string;
+    candidate_review_error?: string;
   }>;
 };
 
@@ -40,6 +62,7 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
   const reviewQueue = getInitialDataReviewQueue();
   const reviewMetrics = getInitialDataReviewMetrics();
   const candidateCsvConfigured = hasInitialDataCandidateCsv();
+  const reviewWorkflow = await getAdminInitialDataReviewWorkflow();
   const candidateImportMessage =
     query.candidate_import === "success"
       ? "候補データを非公開投入しました。"
@@ -72,12 +95,27 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
             </p>
           </div>
         ) : null}
+        {query.candidate_review_saved ? (
+          <div className="mb-6 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm leading-6 text-green-800">
+            初期データ候補の審査状態を更新しました。
+          </div>
+        ) : null}
+        {query.candidate_review_error ? (
+          <div className="mb-6 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800">
+            候補審査の更新に失敗しました。非公開投入へ進める場合は、出典確認、公開サマリー確認、建物確認、法務確認を完了してください。
+          </div>
+        ) : null}
 
         <InitialDataReviewQueuePanel
           candidateCsvConfigured={candidateCsvConfigured}
           metrics={reviewMetrics}
           queue={reviewQueue}
         />
+
+        <div className="mb-6 grid gap-6">
+          <InitialDataCandidateStager />
+          <InitialDataReviewWorkflowPanel workflow={reviewWorkflow} />
+        </div>
 
         <InitialDataValidator />
       </Section>
@@ -188,5 +226,235 @@ function InitialDataReviewQueuePanel({
         </div>
       </div>
     </div>
+  );
+}
+
+function InitialDataReviewWorkflowPanel({
+  workflow,
+}: {
+  workflow: AdminInitialDataReviewWorkflow;
+}) {
+  if (!workflow.available) {
+    return (
+      <div className="rounded-md border border-amber-200 bg-amber-50 p-5 text-sm leading-7 text-amber-900">
+        <h2 className="text-lg font-bold">候補審査DB</h2>
+        <p className="mt-2">
+          `initial_data_review_candidates` テーブルがまだ利用できません。Supabaseで `supabase/migrations/0010_initial_data_review_workflow.sql` を適用すると、候補ごとの審査状態を保存できます。
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-md border border-line bg-white p-5">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <h2 className="text-lg font-bold text-ink">候補審査DB</h2>
+          <p className="mt-2 text-sm leading-7 text-muted">
+            CSV候補を公開前の審査タスクとして管理します。ここでの「非公開投入へ」は公開承認ではなく、既存の投稿審査フローへ進める判断です。
+          </p>
+        </div>
+        <Link
+          className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-bold text-action no-underline"
+          href="/admin/quality"
+        >
+          品質キューを見る
+        </Link>
+      </div>
+
+      <div className="mt-5 grid gap-3 md:grid-cols-3 lg:grid-cols-6">
+        {[
+          { label: "候補", value: workflow.metrics.total },
+          { label: "優先高", value: workflow.metrics.highPriority },
+          { label: "出典未確認", value: workflow.metrics.sourceUnverified },
+          { label: "法務未完了", value: workflow.metrics.legalPending },
+          { label: "非公開投入待ち", value: workflow.metrics.importReady },
+          { label: "不採用", value: workflow.metrics.rejected },
+        ].map((item) => (
+          <div className="rounded-md border border-line bg-surface p-3" key={item.label}>
+            <p className="text-xs font-semibold text-muted">{item.label}</p>
+            <p className="mt-2 text-xl font-bold text-ink">{item.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-5 grid gap-4">
+        {workflow.candidates.length > 0 ? (
+          workflow.candidates.slice(0, 30).map((candidate) => (
+            <InitialDataReviewCandidateCard
+              candidate={candidate}
+              key={candidate.id}
+            />
+          ))
+        ) : (
+          <EmptyState message="審査DBに登録された候補はまだありません。" />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function InitialDataReviewCandidateCard({
+  candidate,
+}: {
+  candidate: AdminInitialDataReviewCandidate;
+}) {
+  return (
+    <article className="rounded-md border border-line bg-surface p-4">
+      <div className="grid gap-4 lg:grid-cols-[1fr_360px]">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-md border border-line bg-white px-2 py-1 text-xs font-semibold text-muted">
+              優先 {getInitialDataPriorityLabel(candidate.reviewPriority)}
+            </span>
+            <span className="rounded-md border border-line bg-white px-2 py-1 text-xs font-semibold text-muted">
+              {candidate.observedArea}
+            </span>
+            <span className="rounded-md border border-line bg-white px-2 py-1 text-xs font-semibold text-muted">
+              {getInitialDataLegalReviewStatusLabel(candidate.legalReviewStatus)}
+            </span>
+            <span className="rounded-md border border-line bg-white px-2 py-1 text-xs font-semibold text-muted">
+              {getInitialDataPublishDecisionLabel(candidate.publishDecision)}
+            </span>
+          </div>
+          <h3 className="mt-3 text-base font-bold text-ink">
+            {candidate.placeName ?? candidate.address ?? "名称未確認"}
+          </h3>
+          <p className="mt-1 text-sm text-muted">{candidate.address ?? "住所未入力"}</p>
+          <p className="mt-1 text-sm text-muted">
+            {[candidate.buildingName, candidate.floor].filter(Boolean).join(" ") ||
+              "建物・階数未確認"}
+          </p>
+          <p className="mt-3 text-sm leading-7 text-ink">{candidate.publicSummary}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {candidate.riskTags.map((tag) => (
+              <span
+                className="rounded-md border border-line bg-white px-2 py-1 text-xs text-muted"
+                key={tag}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted">
+            <span>出典確認日: {candidate.sourceCheckedAt}</span>
+            <span>更新: {formatDate(candidate.updatedAt)}</span>
+            {candidate.sourceUrl ? (
+              <a
+                className="font-semibold text-action"
+                href={candidate.sourceUrl}
+                rel="noreferrer"
+                target="_blank"
+              >
+                出典を開く
+              </a>
+            ) : null}
+            {candidate.linkedReportId ? (
+              <Link
+                className="font-semibold text-action"
+                href={`/admin/reports/${candidate.linkedReportId}`}
+              >
+                作成済み投稿
+              </Link>
+            ) : null}
+          </div>
+        </div>
+
+        <form
+          action={updateInitialDataReviewCandidateAction}
+          className="grid gap-3 rounded-md border border-line bg-white p-3 text-sm"
+        >
+          <input name="candidate_id" type="hidden" value={candidate.id} />
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-1">
+            <label className="grid gap-1 font-semibold text-ink">
+              優先度
+              <select
+                className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+                defaultValue={candidate.reviewPriority}
+                name="review_priority"
+              >
+                {INITIAL_DATA_REVIEW_PRIORITIES.map((priority) => (
+                  <option key={priority} value={priority}>
+                    {getInitialDataPriorityLabel(priority)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-1 font-semibold text-ink">
+              法務・表現確認
+              <select
+                className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+                defaultValue={candidate.legalReviewStatus}
+                name="legal_review_status"
+              >
+                {INITIAL_DATA_LEGAL_REVIEW_STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {getInitialDataLegalReviewStatusLabel(status)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-1 font-semibold text-ink">
+              判断
+              <select
+                className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+                defaultValue={candidate.publishDecision}
+                name="publish_decision"
+              >
+                {INITIAL_DATA_PUBLISH_DECISIONS.map((decision) => (
+                  <option key={decision} value={decision}>
+                    {getInitialDataPublishDecisionLabel(decision)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          {[
+            {
+              checked: candidate.sourceVerified,
+              label: "出典URL・確認日を確認",
+              name: "source_verified",
+            },
+            {
+              checked: candidate.publicSummaryChecked,
+              label: "公開サマリーが独自要約",
+              name: "public_summary_checked",
+            },
+            {
+              checked: candidate.buildingChecked,
+              label: "住所・建物・階数を確認",
+              name: "building_checked",
+            },
+          ].map((item) => (
+            <label className="flex items-start gap-2 text-sm text-ink" key={item.name}>
+              <input
+                className="mt-1"
+                defaultChecked={item.checked}
+                name={item.name}
+                type="checkbox"
+              />
+              <span>{item.label}</span>
+            </label>
+          ))}
+
+          <label className="grid gap-1 font-semibold text-ink">
+            審査メモ
+            <textarea
+              className="min-h-24 rounded-md border border-line bg-white px-3 py-2 font-normal leading-6"
+              defaultValue={candidate.reviewNote ?? ""}
+              name="review_note"
+            />
+          </label>
+
+          <button
+            className="h-10 rounded-md bg-action px-4 text-sm font-bold text-white"
+            type="submit"
+          >
+            審査状態を保存
+          </button>
+        </form>
+      </div>
+    </article>
   );
 }

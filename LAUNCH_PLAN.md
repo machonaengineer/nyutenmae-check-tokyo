@@ -53,6 +53,8 @@
 7. `supabase/migrations/0006_service_role_privileges.sql` を適用する。
 8. `supabase/migrations/0007_external_rating_snapshots.sql` を適用する。
 9. `supabase/migrations/0008_report_source_attribution.sql` を適用する。
+10. `supabase/migrations/0009_building_level_place_tracking.sql` を適用する。
+11. `supabase/migrations/0010_initial_data_review_workflow.sql` を適用する。
 10. `supabase/verification/non_admin_visibility_checks.sql` を実行して結果を記録する。
 11. Supabase Authで管理者ユーザーを作成する。
 12. Vercelに環境変数を設定する。

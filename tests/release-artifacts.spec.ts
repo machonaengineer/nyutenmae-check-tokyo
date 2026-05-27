@@ -19,6 +19,7 @@ const requiredReleaseFiles = [
   "supabase/migrations/0007_external_rating_snapshots.sql",
   "supabase/migrations/0008_report_source_attribution.sql",
   "supabase/migrations/0009_building_level_place_tracking.sql",
+  "supabase/migrations/0010_initial_data_review_workflow.sql",
   "EXTERNAL_RATING_TEMPLATE.csv",
   "EXTERNAL_RATING_GUIDE.md",
   "FREE_TIER_GROWTH_PLAN.md",
@@ -34,6 +35,7 @@ const requiredReleaseFiles = [
   "PHASE_13_20_ROADMAP.md",
   "PHASE_21_DATA_INTAKE_PLAN.md",
   "PHASE_22_REVIEW_IMPORT_PLAN.md",
+  "PHASE_23_REVIEW_WORKFLOW_PLAN.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/admin/initial-data-candidates.ts",
   "src/components/json-ld.tsx",
@@ -107,6 +109,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0007_external_rating_snapshots.sql");
     expect(readme).toContain("0008_report_source_attribution.sql");
     expect(readme).toContain("0009_building_level_place_tracking.sql");
+    expect(readme).toContain("0010_initial_data_review_workflow.sql");
     expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
     expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
     expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
@@ -119,6 +122,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("PHASE_13_20_ROADMAP.md");
     expect(readme).toContain("PHASE_21_DATA_INTAKE_PLAN.md");
     expect(readme).toContain("PHASE_22_REVIEW_IMPORT_PLAN.md");
+    expect(readme).toContain("PHASE_23_REVIEW_WORKFLOW_PLAN.md");
     expect(readme).toContain("PRODUCT_GOAL_AND_ARCHITECTURE.md");
     expect(readme).toContain("INITIAL_DATA_CANDIDATES_CSV");
     expect(readme).toContain("/roadmap");
@@ -565,6 +569,51 @@ test.describe("リリース準備資料", () => {
     expect(actions).toContain("getInitialDataCandidateCsv");
     expect(actions).toContain("candidate_import");
     expect(validator).not.toContain("INITIAL_DATA_CANDIDATE_CSV_ENV");
+  });
+
+  test("フェーズ23は初期データ候補を管理者限定の審査DBで扱う", async () => {
+    const migration = await readFile(
+      path.join(rootDir, "supabase/migrations/0010_initial_data_review_workflow.sql"),
+      "utf8",
+    );
+    const phase23 = await readFile(
+      path.join(rootDir, "PHASE_23_REVIEW_WORKFLOW_PLAN.md"),
+      "utf8",
+    );
+    const adminDataPage = await readFile(
+      path.join(rootDir, "src/app/admin/data/page.tsx"),
+      "utf8",
+    );
+    const actions = await readFile(
+      path.join(rootDir, "src/app/admin/data/actions.ts"),
+      "utf8",
+    );
+    const stager = await readFile(
+      path.join(rootDir, "src/components/admin/initial-data-candidate-stager.tsx"),
+      "utf8",
+    );
+    const verification = await readFile(
+      path.join(rootDir, "supabase/verification/non_admin_visibility_checks.sql"),
+      "utf8",
+    );
+
+    expect(migration).toContain("create table if not exists public.initial_data_review_candidates");
+    expect(migration).toContain("enable row level security");
+    expect(migration).toContain("force row level security");
+    expect(migration).toContain("revoke all on table public.initial_data_review_candidates from anon, authenticated");
+    expect(migration).toContain("grant select, insert, update, delete on table public.initial_data_review_candidates to service_role");
+    expect(migration).not.toContain("create policy");
+    expect(phase23).toContain("実名入り候補CSVは公開リポジトリへコミットしない");
+    expect(phase23).toContain("`import_private` は公開承認ではなく");
+    expect(adminDataPage).toContain("InitialDataReviewWorkflowPanel");
+    expect(adminDataPage).toContain("候補審査DB");
+    expect(actions).toContain("stageInitialDataCandidatesAction");
+    expect(actions).toContain("updateInitialDataReviewCandidateAction");
+    expect(actions).toContain('publishDecision === "import_private"');
+    expect(stager).toContain('"use client"');
+    expect(stager).toContain("stageInitialDataCandidatesAction");
+    expect(stager).not.toContain("createSupabase");
+    expect(verification).toContain("initial_data_review_candidates");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

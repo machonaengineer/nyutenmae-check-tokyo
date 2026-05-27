@@ -7,6 +7,7 @@
 -- 4. 公開ビューには approved 以外の投稿が出ない。
 -- 5. anon/authenticated は reports / evidence / objections / admin_actions を直接読めない。
 -- 6. submission_rate_limits はRLS有効で、一般ユーザーが直接読めない。
+-- 7. initial_data_review_candidates はRLS有効で、一般ユーザーが直接読めない。
 
 select
   c.relname as table_name,
@@ -25,7 +26,8 @@ where n.nspname = 'public'
     'report_risk_tags',
     'objections',
     'admin_actions',
-    'submission_rate_limits'
+    'submission_rate_limits',
+    'initial_data_review_candidates'
   )
 order by c.relname;
 
@@ -90,4 +92,9 @@ where status <> 'approved';
 -- begin;
 -- set local role anon;
 -- select * from public.submission_rate_limits limit 1;
+-- rollback;
+--
+-- begin;
+-- set local role anon;
+-- select * from public.initial_data_review_candidates limit 1;
 -- rollback;
