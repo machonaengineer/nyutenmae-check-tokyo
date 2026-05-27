@@ -1,7 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/admin/auth";
+import { INITIAL_DATA_CANDIDATE_CSV } from "@/lib/admin/initial-data-candidates";
 import { containsDangerousExpression } from "@/lib/content-safety";
 import {
   containsExternalCopyRiskText,
@@ -442,4 +444,27 @@ export async function importInitialDataAction(
     skippedCount,
     errors: [],
   };
+}
+
+export async function importInitialDataCandidatesAction() {
+  const formData = new FormData();
+  formData.set("csv", INITIAL_DATA_CANDIDATE_CSV);
+
+  const result = await importInitialDataAction(
+    {
+      status: "idle",
+      message: "",
+      importedCount: 0,
+      skippedCount: 0,
+      errors: [],
+    },
+    formData,
+  );
+  const params = new URLSearchParams({
+    candidate_import: result.status,
+    candidate_imported: String(result.importedCount),
+    candidate_skipped: String(result.skippedCount),
+  });
+
+  redirect(`/admin/data?${params.toString()}`);
 }

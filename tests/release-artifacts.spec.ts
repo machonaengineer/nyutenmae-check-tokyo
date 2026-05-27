@@ -33,7 +33,9 @@ const requiredReleaseFiles = [
   "BACKUP_AND_MONITORING_RUNBOOK.md",
   "PHASE_13_20_ROADMAP.md",
   "PHASE_21_DATA_INTAKE_PLAN.md",
+  "PHASE_22_REVIEW_IMPORT_PLAN.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
+  "src/lib/admin/initial-data-candidates.ts",
   "src/components/json-ld.tsx",
   "src/lib/structured-data.ts",
   "src/app/llms.txt/route.ts",
@@ -116,6 +118,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("BACKUP_AND_MONITORING_RUNBOOK.md");
     expect(readme).toContain("PHASE_13_20_ROADMAP.md");
     expect(readme).toContain("PHASE_21_DATA_INTAKE_PLAN.md");
+    expect(readme).toContain("PHASE_22_REVIEW_IMPORT_PLAN.md");
     expect(readme).toContain("PRODUCT_GOAL_AND_ARCHITECTURE.md");
     expect(readme).toContain("/roadmap");
     expect(readme).toContain("/coverage");
@@ -523,6 +526,41 @@ test.describe("リリース準備資料", () => {
     expect(reviewQueue).not.toContain("approved");
   });
 
+  test("フェーズ22はserver-onlyの候補投入と管理者審査を前提にしている", async () => {
+    const phase22 = await readFile(
+      path.join(rootDir, "PHASE_22_REVIEW_IMPORT_PLAN.md"),
+      "utf8",
+    );
+    const candidateLib = await readFile(
+      path.join(rootDir, "src/lib/admin/initial-data-candidates.ts"),
+      "utf8",
+    );
+    const adminDataPage = await readFile(
+      path.join(rootDir, "src/app/admin/data/page.tsx"),
+      "utf8",
+    );
+    const actions = await readFile(
+      path.join(rootDir, "src/app/admin/data/actions.ts"),
+      "utf8",
+    );
+    const validator = await readFile(
+      path.join(rootDir, "src/components/admin/initial-data-validator.tsx"),
+      "utf8",
+    );
+
+    expect(phase22).toContain("needs_review / Hidden");
+    expect(phase22).toContain("クライアントコンポーネントへ候補CSVを渡さない");
+    expect(candidateLib).toContain("server-only");
+    expect(candidateLib).toContain("INITIAL_DATA_CANDIDATE_CSV");
+    expect(candidateLib).toContain("getInitialDataReviewQueue");
+    expect(adminDataPage).toContain("importInitialDataCandidatesAction");
+    expect(adminDataPage).toContain("初期データ審査キュー");
+    expect(actions).toContain("importInitialDataCandidatesAction");
+    expect(actions).toContain("INITIAL_DATA_CANDIDATE_CSV");
+    expect(actions).toContain("candidate_import");
+    expect(validator).not.toContain("INITIAL_DATA_CANDIDATE_CSV");
+  });
+
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
     const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
     const guide = await readFile(path.join(rootDir, "ADSENSE_SETUP_GUIDE.md"), "utf8");
@@ -572,6 +610,7 @@ test.describe("リリース準備資料", () => {
     expect(validator).toContain("validateInitialDataCsv");
     expect(validator).toContain("importInitialDataAction");
     expect(validator).not.toContain("createSupabase");
+    expect(validator).not.toContain("INITIAL_DATA_CANDIDATE_CSV");
     expect(actions).toContain("requireAdminUser");
     expect(actions).toContain('const IMPORT_EVIDENCE_LEVEL = "Hidden"');
     expect(actions).toContain('new Set(["pending", "needs_review"])');
