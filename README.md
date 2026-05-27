@@ -278,6 +278,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `OFFICIAL_SOURCE_SEED_CANDIDATES.csv`: 12エリア分の公式ソース由来の非公開審査候補CSV
 - `PHASE_26_AREA_OPERATIONS_PLAN.md`: エリア別情報蓄積オペレーション管理の実装方針
 - `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース安全候補を審査DBへ登録する運用方針
+- `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBの審査ワークフロー適用と公式候補12件登録の実行記録
+- `supabase/verification/phase28_official_seed_candidate_checks.sql`: フェーズ28登録後のRLSと候補状態確認SQL
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
 - `DATA_QUALITY_SOP.md`: 建物情報、同一住所・同一建物候補、初期データ審査の運用手順
@@ -290,3 +292,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_25_CONTENT_DEPTH_PLAN.md`: エリア別コンテンツ増強と調査キューの安全方針
 - `PHASE_26_AREA_OPERATIONS_PLAN.md`: 管理画面でのエリア別運用キュー、ソース鮮度、リンク確認の方針
 - `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース由来のエリア単位候補を非公開審査DBへ登録する方針
+- `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBへ0010/0011を適用し、公式候補12件を非公開審査DBに登録した記録

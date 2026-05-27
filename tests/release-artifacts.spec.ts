@@ -43,6 +43,7 @@ const requiredReleaseFiles = [
   "PHASE_25_CONTENT_DEPTH_PLAN.md",
   "PHASE_26_AREA_OPERATIONS_PLAN.md",
   "PHASE_27_SAFE_SEEDING_PLAN.md",
+  "PHASE_28_PRODUCTION_SEED_RUN.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/admin/initial-data-candidates.ts",
   "src/lib/admin/official-area-seed-candidates.ts",
@@ -53,6 +54,7 @@ const requiredReleaseFiles = [
   "src/app/llms.txt/route.ts",
   "scripts/check-source-links.mjs",
   "scripts/validate-official-seed-candidates.mjs",
+  "supabase/verification/phase28_official_seed_candidate_checks.sql",
 ] as const;
 
 const initialDataColumns = [
@@ -868,6 +870,41 @@ test.describe("リリース準備資料", () => {
     expect(playbook).toContain("公式ソース安全候補");
     expect(phase27).toContain("候補審査DBへの登録は公開承認ではない");
     expect(phase27).toContain("個別店舗の注意報告を根拠なしに作らない");
+  });
+
+  test("フェーズ28は本番DBの公式候補登録を非公開状態で検証する", async () => {
+    const phase28 = await readFile(
+      path.join(rootDir, "PHASE_28_PRODUCTION_SEED_RUN.md"),
+      "utf8",
+    );
+    const verification = await readFile(
+      path.join(rootDir, "supabase/verification/phase28_official_seed_candidate_checks.sql"),
+      "utf8",
+    );
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+    const playbook = await readFile(
+      path.join(rootDir, "DATA_COLLECTION_PLAYBOOK.md"),
+      "utf8",
+    );
+
+    expect(phase28).toContain("official_seed=success&official_staged=12&official_skipped=0");
+    expect(phase28).toContain("公開投稿ではない");
+    expect(phase28).toContain("個別店舗の注意報告ではない");
+    expect(phase28).toContain("needs_review");
+    expect(phase28).toContain("Hidden");
+    expect(phase28).toContain("RLS有効");
+    expect(verification).toContain("candidate_table_exists");
+    expect(verification).toContain("expanded_area_count");
+    expect(verification).toContain("needs_review_count");
+    expect(verification).toContain("hidden_count");
+    expect(verification).toContain("anon_cannot_select");
+    expect(verification).toContain("authenticated_cannot_select");
+    expect(verification).toContain("service_role_can_select");
+    expect(verification).not.toContain("reporter_email");
+    expect(verification).not.toContain("storage_path");
+    expect(readme).toContain("PHASE_28_PRODUCTION_SEED_RUN.md");
+    expect(readme).toContain("phase28_official_seed_candidate_checks.sql");
+    expect(playbook).toContain("phase28_official_seed_candidate_checks.sql");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
