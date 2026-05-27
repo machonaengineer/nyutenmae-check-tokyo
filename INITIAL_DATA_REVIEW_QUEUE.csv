@@ -1,0 +1,6 @@
+candidate_file,row_number,review_priority,source_url,observed_area,place_name,address_precision,building_name_status,floor_status,source_verified,public_summary_checked,legal_review_status,recommended_status,next_action
+INITIAL_DATA_CANDIDATES_2026-05-27.csv,2,high,https://www.tokyo-sports.co.jp/articles/-/290541?page=1,新宿・歌舞伎町,報道上の店名表記あり,町域まで,未確認,未確認,no,no,not_started,needs_review,出典URLと現在状況を確認し、住所・建物名が確認できるまで公開承認しない
+INITIAL_DATA_CANDIDATES_2026-05-27.csv,3,high,https://mezamashi.media/articles/-/20624,新宿・歌舞伎町,店名要確認,町域まで,未確認,未確認,no,no,not_started,needs_review,個別店舗公開ではなくエリア注意喚起に回すか、追加出典を確認する
+INITIAL_DATA_CANDIDATES_2026-05-27.csv,4,high,https://news.tv-asahi.co.jp/news_society/articles/000246210.html,池袋,店名未確認,町域まで,未確認,未確認,no,no,not_started,needs_review,店名未確認のため追加出典が得られるまで個別公開しない
+INITIAL_DATA_CANDIDATES_2026-05-27.csv,5,medium,https://s.mxtv.jp/mxnews/article/chiiki/1etqjlg0fa1utasu2.html,新宿・歌舞伎町,報道上の店名表記あり,町域まで,未確認,未確認,no,no,not_started,needs_review,当サービス対象外の論点を混ぜず料金説明・会計確認の範囲に限定できるか確認する
+INITIAL_DATA_CANDIDATES_2026-05-27.csv,6,medium,https://www.asahi.com/articles/ASR5K76S8R5KUTIL007.html,新宿・歌舞伎町,店名未確認,町域まで,未確認,未確認,no,no,not_started,needs_review,店名未確認のため個別店舗公開ではなく確認項目と相談導線の改善材料として扱う

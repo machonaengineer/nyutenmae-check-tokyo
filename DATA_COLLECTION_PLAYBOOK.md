@@ -14,14 +14,15 @@
 ## 初期データ化の手順
 
 1. `SOURCE_RESEARCH_QUEUE.csv` の `priority=high` から確認する。
-2. 公式ページを開き、URLと確認日を記録する。
-3. 本文をコピーせず、20文字以上の独自要約を作る。
-4. 店舗名や住所が確認できない場合は、`reports` へ入れず、エリアページや相談導線の改善に使う。
-5. 店名変更の可能性がある場合は、住所、建物名、階数を優先して記録し、同一運営や同一店舗とは断定しない。
-6. 個別の注意報告として扱える根拠がある場合のみ、`INITIAL_DATA_TEMPLATE.csv` に転記する。
-7. `source_type`、`source_url`、`source_title`、`source_checked_at` を入力し、`source_title` も公開用に丸める。
-8. `/admin/data` から投入する場合、`status=pending` または `needs_review`、`evidence_level=Hidden` にする。
-9. 公開は `/admin/reports/[id]` で人間が審査してから行う。
+2. `INITIAL_DATA_REVIEW_QUEUE.csv` に候補がある場合は、出典確認、現在状況、建物情報、公開可否を上から確認する。
+3. 公式ページを開き、URLと確認日を記録する。
+4. 本文をコピーせず、20文字以上の独自要約を作る。
+5. 店舗名や住所が確認できない場合は、`reports` へ入れず、エリアページや相談導線の改善に使う。
+6. 店名変更の可能性がある場合は、住所、建物名、階数を優先して記録し、同一運営や同一店舗とは断定しない。
+7. 個別の注意報告として扱える根拠がある場合のみ、`INITIAL_DATA_TEMPLATE.csv` に転記する。
+8. `source_type`、`source_url`、`source_title`、`source_checked_at` を入力し、`source_title` も公開用に丸める。
+9. `/admin/data` から投入する場合、`status=pending` または `needs_review`、`evidence_level=Hidden` にする。
+10. 公開は `/admin/reports/[id]` で人間が審査してから行う。
 
 ## 禁止事項
 

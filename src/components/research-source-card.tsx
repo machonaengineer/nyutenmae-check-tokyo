@@ -1,4 +1,8 @@
-import type { ResearchSource } from "@/lib/research-sources";
+import {
+  getResearchSourceIntakeStatus,
+  type ResearchSource,
+  type ResearchSourceIntakeStatus,
+} from "@/lib/research-sources";
 
 const sourceTypeLabels: Record<ResearchSource["sourceType"], string> = {
   public_agency: "公的機関",
@@ -14,6 +18,11 @@ const priorityLabels: Record<ResearchSource["priority"], string> = {
   low: "低",
 };
 
+const intakeStatusLabels: Record<ResearchSourceIntakeStatus, string> = {
+  source_only: "出典確認用",
+  candidate_needs_review: "候補審査中",
+};
+
 export function ResearchSourceCard({
   source,
   showNextAction = false,
@@ -21,6 +30,8 @@ export function ResearchSourceCard({
   source: ResearchSource;
   showNextAction?: boolean;
 }) {
+  const intakeStatus = getResearchSourceIntakeStatus(source);
+
   return (
     <article className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
       <div className="flex flex-wrap items-center gap-2">
@@ -29,6 +40,9 @@ export function ResearchSourceCard({
         </span>
         <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
           {priorityLabels[source.priority]}
+        </span>
+        <span className="rounded-md border border-line bg-white px-2 py-1 text-xs font-semibold text-muted">
+          {intakeStatusLabels[intakeStatus]}
         </span>
         <span className="text-xs text-muted">確認日: {source.sourceCheckedAt}</span>
       </div>

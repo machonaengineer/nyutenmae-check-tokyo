@@ -135,7 +135,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/coverage`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/quality`, `/admin/research`, `/admin/social`, `/admin/sponsors`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -159,6 +159,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - トラブル種別別のSEO向け安全確認ガイド
 - SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像
 - 情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
+- 情報蓄積状況ページで、調査ソース、公式・公的情報、報道、審査待ち候補、エリア別の次アクションを表示
 - エリア詳細ページでの公的・公式確認先表示
 - 検索結果ゼロ時の関連エリア、公式確認先表示
 - 管理画面での店舗名・住所・建物名・階数検索と、同一住所・同一建物の確認候補表示
@@ -242,6 +243,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 
 ## 運用資料
 
+- `PRODUCT_GOAL_AND_ARCHITECTURE.md`: 最終目標、非目標、データライフサイクル
 - `LAUNCH_CHECKLIST.md`: 本番公開前チェックリスト
 - `LAUNCH_PLAN.md`: MVPリリース手順とロールバック方針
 - `OPERATIONS_SOP.md`: 投稿審査、異議申立て、事故時対応
@@ -257,7 +259,9 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
+- `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
 - `DATA_QUALITY_SOP.md`: 建物情報、同一住所・同一建物候補、初期データ審査の運用手順
 - `BACKUP_AND_MONITORING_RUNBOOK.md`: 本番公開後の監視、バックアップ、障害時対応
 - `PHASE_13_20_ROADMAP.md`: フェーズ13〜20の実施方針
+- `PHASE_21_DATA_INTAKE_PLAN.md`: 初期データ投入とSEO流入の土台作り

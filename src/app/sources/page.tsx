@@ -3,7 +3,10 @@ import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
 import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
 import { ResearchSourceCard } from "@/components/research-source-card";
-import { RESEARCH_SOURCES } from "@/lib/research-sources";
+import {
+  getResearchSourcePipelineMetrics,
+  RESEARCH_SOURCES,
+} from "@/lib/research-sources";
 import { getPublicSourcesStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
@@ -16,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function SourcesPage() {
+  const metrics = getResearchSourcePipelineMetrics();
+
   return (
     <>
       <JsonLd data={getPublicSourcesStructuredData()} />
@@ -30,6 +35,27 @@ export default function SourcesPage() {
         <PolicyNote>
           ここに掲載するのは調査元へのリンクと独自要約です。本文、口コミ、画像、スクリーンショット、電話番号、個人情報は転載せず、出典URL、確認日、公開前審査の材料として扱います。
         </PolicyNote>
+      </Section>
+
+      <Section title="調査ソースの状況">
+        <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-6">
+          {[
+            { label: "調査ソース", value: metrics.totalSources },
+            { label: "公式・公的", value: metrics.officialSources },
+            { label: "報道", value: metrics.newsSources },
+            { label: "優先確認", value: metrics.highPrioritySources },
+            { label: "出典整理中", value: metrics.sourceOnlySources },
+            { label: "審査待ち候補", value: metrics.candidateNeedsReviewSources },
+          ].map((item) => (
+            <div key={item.label} className="rounded-md border border-line bg-white p-4">
+              <p className="text-xs font-semibold text-muted">{item.label}</p>
+              <p className="mt-2 text-2xl font-bold text-ink">{item.value}</p>
+            </div>
+          ))}
+        </div>
+        <Link className="mt-4 inline-flex text-sm font-semibold text-action" href="/coverage">
+          エリア別の蓄積状況を見る
+        </Link>
       </Section>
 
       <Section title="調査中の情報ソース">

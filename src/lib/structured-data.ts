@@ -79,6 +79,20 @@ export function getPublicSourcesStructuredData() {
   };
 }
 
+export function getCoverageStructuredData() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "情報蓄積状況",
+    url: absoluteUrl("/coverage"),
+    description:
+      "入店前チェック東京の情報ソース、初期データ候補、エリア別の蓄積方針を公開します。",
+    isPartOf: {
+      "@id": `${SITE.url}/#website`,
+    },
+  };
+}
+
 export function getBreadcrumbStructuredData(items: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",
@@ -114,6 +128,7 @@ export function getLlmsText() {
     `- Map: ${absoluteUrl("/map")}`,
     `- Search: ${absoluteUrl("/search")}`,
     `- Sources: ${absoluteUrl("/sources")}`,
+    `- Coverage: ${absoluteUrl("/coverage")}`,
     `- Roadmap: ${absoluteUrl("/roadmap")}`,
     `- Guidelines: ${absoluteUrl("/guidelines")}`,
     `- Support: ${absoluteUrl("/support")}`,

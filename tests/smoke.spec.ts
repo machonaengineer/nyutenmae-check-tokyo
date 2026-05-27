@@ -19,6 +19,7 @@ const publicRoutes = [
   { path: "/topics/price-confirmation", heading: "料金説明の確認" },
   { path: "/contribute", heading: "情報提供のお願い" },
   { path: "/sources", heading: "情報ソース" },
+  { path: "/coverage", heading: "情報蓄積状況" },
   { path: "/social", heading: "SNS共有・情報提供" },
   { path: "/sponsor", heading: "スポンサー・広告掲載について" },
   { path: "/roadmap", heading: "改善ロードマップ" },
@@ -210,6 +211,7 @@ test.describe("公開ページ", () => {
       "/topics/price-confirmation",
       "/contribute",
       "/sources",
+      "/coverage",
       "/social",
       "/sponsor",
       "/roadmap",
@@ -283,6 +285,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/topics/price-confirmation</loc>");
     expect(body).toContain("<loc>http://localhost:3000/contribute</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sources</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/coverage</loc>");
     expect(body).toContain("<loc>http://localhost:3000/social</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sponsor</loc>");
     expect(body).toContain("<loc>http://localhost:3000/roadmap</loc>");
@@ -319,6 +322,7 @@ test.describe("公開ページ", () => {
     expect(response.headers()["content-type"]).toContain("text/plain");
     expect(body).toContain("入店前チェック東京");
     expect(body).toContain("承認済み投稿だけを公開します");
+    expect(body).toContain("Coverage:");
     expect(body).not.toContain("reporter_email");
     expect(body).not.toContain("private_note");
     expect(body).not.toContain("storage_path");
@@ -375,6 +379,15 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("本文、口コミ、画像、スクリーンショット")).toBeVisible();
     await expect(page.getByText("公式情報を確認する").first()).toBeVisible();
     await expect(page.getByText("確認日: 2026-05-27").first()).toBeVisible();
+    await expect(page.getByText("エリア別の蓄積状況を見る")).toBeVisible();
+  });
+
+  test("情報蓄積状況ページで未承認情報の非公開方針を確認できる", async ({ page }) => {
+    await page.goto("/coverage");
+
+    await expect(page.getByText("未承認投稿、投稿者メール、証拠画像、非公開メモ")).toBeVisible();
+    await expect(page.getByText("審査待ち候補").first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "情報ソースを見る" })).toBeVisible();
   });
 
   test("エリアページで公式確認先を確認できる", async ({ page }) => {
@@ -395,6 +408,7 @@ test.describe("公開ページ", () => {
       "/search?q=test",
       "/social",
       "/sources",
+      "/coverage",
       "/roadmap",
       "/areas/shinjuku-kabukicho",
     ]) {

@@ -1,4 +1,4 @@
-import { SITE } from "@/lib/site";
+import { INITIAL_AREAS, SITE } from "@/lib/site";
 
 export type ResearchSource = {
   id: string;
@@ -18,6 +18,35 @@ export type ResearchSource = {
   suggestedUse: string;
   nextAction: string;
 };
+
+export type ResearchSourceIntakeStatus = "source_only" | "candidate_needs_review";
+
+export type ResearchSourcePipelineMetrics = {
+  totalSources: number;
+  officialSources: number;
+  newsSources: number;
+  highPrioritySources: number;
+  sourceOnlySources: number;
+  candidateNeedsReviewSources: number;
+};
+
+export type ResearchSourceCoverageMetric = {
+  areaSlug: string;
+  areaName: string;
+  areaSpecificSources: number;
+  commonSources: number;
+  highPrioritySources: number;
+  candidateNeedsReviewSources: number;
+  nextAction: string;
+};
+
+const initialDataCandidateSourceIds = new Set([
+  "news-kabukicho-chain-claim-touting-202401",
+  "news-kabukicho-billing-gap-202401",
+  "news-ikebukuro-solicitation-billing-202202",
+  "news-kabukicho-host-billing-202311",
+  "news-kabukicho-app-bar-billing-202305",
+]);
 
 export const RESEARCH_SOURCES: ResearchSource[] = [
   {
@@ -308,6 +337,66 @@ export function getResearchSourcesByArea(areaSlug: string) {
   );
 }
 
+export function getResearchSourceIntakeStatus(
+  source: ResearchSource,
+): ResearchSourceIntakeStatus {
+  return initialDataCandidateSourceIds.has(source.id)
+    ? "candidate_needs_review"
+    : "source_only";
+}
+
+export function getResearchSourcePipelineMetrics(): ResearchSourcePipelineMetrics {
+  return RESEARCH_SOURCES.reduce<ResearchSourcePipelineMetrics>(
+    (metrics, source) => {
+      const status = getResearchSourceIntakeStatus(source);
+
+      metrics.totalSources += 1;
+      metrics.highPrioritySources += source.priority === "high" ? 1 : 0;
+      metrics.newsSources += source.sourceType === "news" ? 1 : 0;
+      metrics.officialSources += source.sourceType === "news" ? 0 : 1;
+      metrics.sourceOnlySources += status === "source_only" ? 1 : 0;
+      metrics.candidateNeedsReviewSources +=
+        status === "candidate_needs_review" ? 1 : 0;
+
+      return metrics;
+    },
+    {
+      totalSources: 0,
+      officialSources: 0,
+      newsSources: 0,
+      highPrioritySources: 0,
+      sourceOnlySources: 0,
+      candidateNeedsReviewSources: 0,
+    },
+  );
+}
+
+export function getResearchSourceCoverageMetrics(): ResearchSourceCoverageMetric[] {
+  const commonSources = RESEARCH_SOURCES.filter((source) => source.areaSlug === "all");
+
+  return INITIAL_AREAS.map((area) => {
+    const areaSources = RESEARCH_SOURCES.filter((source) => source.areaSlug === area.slug);
+    const allAreaSources = [...areaSources, ...commonSources];
+    const candidateNeedsReviewSources = areaSources.filter(
+      (source) => getResearchSourceIntakeStatus(source) === "candidate_needs_review",
+    ).length;
+
+    return {
+      areaSlug: area.slug,
+      areaName: area.name,
+      areaSpecificSources: areaSources.length,
+      commonSources: commonSources.length,
+      highPrioritySources: allAreaSources.filter((source) => source.priority === "high")
+        .length,
+      candidateNeedsReviewSources,
+      nextAction:
+        candidateNeedsReviewSources > 0
+          ? "候補化済みの出典を、pending / Hidden のまま審査します。"
+          : "公式確認先と投稿導線を整え、個別報告は根拠確認後に候補化します。",
+    };
+  });
+}
+
 export function filterResearchSourcesByQuery(query: string) {
   const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
@@ -349,7 +438,9 @@ export function getResearchSourceCsv() {
     source.sourceTitle,
     source.sourceCheckedAt,
     source.areaName,
-    "not_started",
+    getResearchSourceIntakeStatus(source) === "candidate_needs_review"
+      ? "imported_needs_review"
+      : "not_started",
     source.priority,
     source.suggestedUse,
     "本文、口コミ、画像、スクリーンショット、電話番号、個人情報は転載しない",

@@ -27,10 +27,13 @@ const requiredReleaseFiles = [
   "SNS_OPERATIONS_SOP.md",
   "SOCIAL_CONTENT_CALENDAR.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
+  "INITIAL_DATA_REVIEW_QUEUE.csv",
   "DATA_COLLECTION_PLAYBOOK.md",
   "DATA_QUALITY_SOP.md",
   "BACKUP_AND_MONITORING_RUNBOOK.md",
   "PHASE_13_20_ROADMAP.md",
+  "PHASE_21_DATA_INTAKE_PLAN.md",
+  "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/components/json-ld.tsx",
   "src/lib/structured-data.ts",
   "src/app/llms.txt/route.ts",
@@ -107,11 +110,15 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
     expect(readme).toContain("SOCIAL_GROWTH_PLAN.md");
     expect(readme).toContain("SOURCE_RESEARCH_QUEUE.csv");
+    expect(readme).toContain("INITIAL_DATA_REVIEW_QUEUE.csv");
     expect(readme).toContain("DATA_COLLECTION_PLAYBOOK.md");
     expect(readme).toContain("DATA_QUALITY_SOP.md");
     expect(readme).toContain("BACKUP_AND_MONITORING_RUNBOOK.md");
     expect(readme).toContain("PHASE_13_20_ROADMAP.md");
+    expect(readme).toContain("PHASE_21_DATA_INTAKE_PLAN.md");
+    expect(readme).toContain("PRODUCT_GOAL_AND_ARCHITECTURE.md");
     expect(readme).toContain("/roadmap");
+    expect(readme).toContain("/coverage");
     expect(readme).toContain("/admin/quality");
   });
 
@@ -463,6 +470,57 @@ test.describe("リリース準備資料", () => {
     expect(sourcesPage).toContain("ResearchSourceCard");
     expect(adminResearch).toContain("requireAdminUser");
     expect(adminResearch).toContain("getResearchSourceCsv");
+    expect(adminResearch).toContain("審査待ち候補");
+    expect(researchLib).toContain("getResearchSourcePipelineMetrics");
+    expect(researchLib).toContain("getResearchSourceCoverageMetrics");
+  });
+
+  test("情報蓄積状況ページは公開情報だけでフェーズ21の進捗を表示する", async () => {
+    const coveragePage = await readFile(
+      path.join(rootDir, "src/app/coverage/page.tsx"),
+      "utf8",
+    );
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+    const structuredData = await readFile(
+      path.join(rootDir, "src/lib/structured-data.ts"),
+      "utf8",
+    );
+
+    expect(coveragePage).toContain("情報蓄積状況");
+    expect(coveragePage).toContain("未承認投稿、投稿者メール、証拠画像、非公開メモ");
+    expect(coveragePage).toContain("getResearchSourceCoverageMetrics");
+    expect(coveragePage).toContain("審査待ち候補");
+    expect(sitemap).toContain("/coverage");
+    expect(structuredData).toContain("Coverage:");
+    expect(structuredData).toContain("getCoverageStructuredData");
+    expect(coveragePage).not.toContain("reporter_email");
+    expect(coveragePage).not.toContain("storage_path");
+  });
+
+  test("最終目標とフェーズ21資料は非公開デフォルトと審査制を前提にしている", async () => {
+    const goal = await readFile(
+      path.join(rootDir, "PRODUCT_GOAL_AND_ARCHITECTURE.md"),
+      "utf8",
+    );
+    const phase21 = await readFile(
+      path.join(rootDir, "PHASE_21_DATA_INTAKE_PLAN.md"),
+      "utf8",
+    );
+    const reviewQueue = await readFile(
+      path.join(rootDir, "INITIAL_DATA_REVIEW_QUEUE.csv"),
+      "utf8",
+    );
+
+    expect(goal).toContain("入店前に15秒で確認");
+    expect(goal).toContain("未承認投稿、証拠画像、投稿者メール、非公開メモを公開しない");
+    expect(goal).toContain("Service Role Key、RLS、Storage private");
+    expect(phase21).toContain("pending");
+    expect(phase21).toContain("Hidden");
+    expect(phase21).toContain("本文転載は禁止");
+    expect(reviewQueue).toContain("review_priority");
+    expect(reviewQueue).toContain("legal_review_status");
+    expect(reviewQueue).toContain("needs_review");
+    expect(reviewQueue).not.toContain("approved");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
