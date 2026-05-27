@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/admin/auth";
 import { getInitialDataCandidateCsv } from "@/lib/admin/initial-data-candidates";
+import { getOfficialAreaSeedCandidateCsv } from "@/lib/admin/official-area-seed-candidates";
 import {
   isInitialDataLegalReviewStatus,
   isInitialDataPublishDecision,
@@ -719,6 +720,30 @@ export async function importInitialDataCandidatesAction() {
     candidate_import: result.status,
     candidate_imported: String(result.importedCount),
     candidate_skipped: String(result.skippedCount),
+  });
+
+  redirect(`/admin/data?${params.toString()}`);
+}
+
+export async function stageOfficialAreaSeedCandidatesAction() {
+  const formData = new FormData();
+  formData.set("csv", getOfficialAreaSeedCandidateCsv());
+  formData.set("review_priority", "high");
+
+  const result = await stageInitialDataCandidatesAction(
+    {
+      status: "idle",
+      message: "",
+      stagedCount: 0,
+      skippedCount: 0,
+      errors: [],
+    },
+    formData,
+  );
+  const params = new URLSearchParams({
+    official_seed: result.status,
+    official_staged: String(result.stagedCount),
+    official_skipped: String(result.skippedCount),
   });
 
   redirect(`/admin/data?${params.toString()}`);

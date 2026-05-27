@@ -1,0 +1,34 @@
+import "server-only";
+import { parseCsv } from "@/lib/initial-data-validation";
+
+export const OFFICIAL_AREA_SEED_CANDIDATES_CSV = `source_type,source_url,source_title,source_checked_at,observed_area,place_name,address,building_name,floor,incident_type,risk_tags,evidence_level,public_summary,private_memo,status,reviewed_by_admin,published_at
+municipality,https://www.city.shinjuku.lg.jp/seikatsu/shohi01_000300.html,新宿区の高額請求トラブル相談案内,2026-05-27,新宿・歌舞伎町,エリア注意情報（新宿・歌舞伎町）,,,,エリア単位の公式確認先,確認中,Hidden,新宿区の公式相談案内を確認対象とするエリア単位候補です。公開時は個別店舗の報告ではなく料金説明と会計確認の相談導線として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。公開承認前に現在状況と表現を確認する。,needs_review,,
+municipality,https://www.city.toshima.lg.jp/048/chian/1812031128.html,豊島区の安全・安心に関する取組,2026-05-27,池袋,エリア注意情報（池袋）,,,,エリア単位の公式確認先,確認中,Hidden,豊島区の安全安心に関する公式情報を確認対象とするエリア単位候補です。公開時は池袋周辺の入店前確認と相談導線の補足として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。建物単位の候補化は別途確認する。,needs_review,,
+municipality,https://files.city.shibuya.tokyo.jp/assets/12995aba8b194961be709ba879857f70/c5172093828b4b44b6d3b59d0875ceee/20240305kannkyoujyoukatennpo.pdf,渋谷区の客引きしない宣言店資料,2026-05-27,渋谷・道玄坂・宇田川町,エリア注意情報（渋谷・道玄坂・宇田川町）,,,,エリア単位の公式確認先,確認中,Hidden,渋谷区の客引き抑止に関する公式資料を確認対象とするエリア単位候補です。公開時は店舗一覧を転載せず入店前確認の補足として扱います。,公式ソース由来の非公開審査候補。資料内の店舗名や電話番号は転載しない。個別店舗の公開候補にしない。,needs_review,,
+municipality,https://www.city.taito.lg.jp/bosai/bohantaisaku/anzentaisaku/kyakuhiki/kyakuhiki.html,台東区の客引き行為等の防止に関する案内,2026-05-27,上野・御徒町・湯島,エリア注意情報（上野・御徒町・湯島）,,,,エリア単位の公式確認先,確認中,Hidden,台東区の客引き行為等防止に関する公式情報を確認対象とするエリア単位候補です。公開時は上野・御徒町周辺の確認観点として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず湯島側の情報と混同しない。個別店舗の断定に使わない。,needs_review,,
+municipality,https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html,港区の客引き行為等の防止に関する条例案内,2026-05-27,六本木・麻布十番,エリア注意情報（六本木・麻布十番）,,,,エリア単位の公式確認先,確認中,Hidden,港区の客引き行為等防止に関する公式情報を確認対象とするエリア単位候補です。公開時は深夜帯の料金確認と相談導線の補足として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。外国語説明や深夜料金は別途投稿で確認する。,needs_review,,
+municipality,https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html,港区の新橋地区を含む客引き行為等防止の取組,2026-05-27,銀座・新橋・有楽町,エリア注意情報（銀座・新橋・有楽町）,,,,エリア単位の公式確認先,確認中,Hidden,港区の新橋地区を含む公式情報を確認対象とするエリア単位候補です。公開時は区をまたぐエリアの確認先として扱います。,公式ソース由来の非公開審査候補。中央区や千代田区側の情報と分けて扱う。個別店舗の断定に使わない。,needs_review,,
+municipality,https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html,港区の赤坂地区を含む客引き行為等防止の取組,2026-05-27,赤坂・赤坂見附,エリア注意情報（赤坂・赤坂見附）,,,,エリア単位の公式確認先,確認中,Hidden,港区の赤坂地区を含む公式情報を確認対象とするエリア単位候補です。公開時は紹介経由や時間制条件の確認観点として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。公開前に表現を再確認する。,needs_review,,
+municipality,https://www.city.sumida.lg.jp/anzen_anshin/kurasinoanzen_ansin/kyakuhiki-bousi/kyakuhikikaisei.html,墨田区の客引き行為等の防止に関する条例案内,2026-05-27,錦糸町,エリア注意情報（錦糸町）,,,,エリア単位の公式確認先,確認中,Hidden,墨田区の客引き行為等防止に関する公式情報を確認対象とするエリア単位候補です。公開時は錦糸町周辺の入店前確認として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。建物情報は別途確認する。,needs_review,,
+municipality,https://www.city.shinagawa.tokyo.jp/PC/bosai/bosai-bohan/hpg000025697.html,品川区の公共の場所における客引き行為等防止条例案内,2026-05-27,五反田,エリア注意情報（五反田）,,,,エリア単位の公式確認先,確認中,Hidden,品川区の客引き行為等防止に関する公式情報を確認対象とするエリア単位候補です。公開時は五反田周辺の住所確認と会計前確認の補足として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず東五反田と西五反田の住所区分を確認して扱う。,needs_review,,
+municipality,https://www.city.tachikawa.lg.jp/bosai/bohan/1008438/1008446.html,立川市の安全・安心パトロール実施案内,2026-05-27,立川,エリア注意情報（立川）,,,,エリア単位の公式確認先,確認中,Hidden,立川市の安全安心パトロールに関する公式情報を確認対象とするエリア単位候補です。公開時は立川駅周辺の確認観点として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。相談導線として一般化する。,needs_review,,
+municipality,https://www.city.machida.tokyo.jp/shisei/koho/faxrelease/2023/202307.files/103.pdf,町田市の町田駅周辺における客引き防止協働パトロール発表資料,2026-05-27,町田,エリア注意情報（町田）,,,,エリア単位の公式確認先,確認中,Hidden,町田市の協働パトロール発表資料を確認対象とするエリア単位候補です。公開時は町田駅周辺の入店前確認と相談導線の補足として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず最新の公式案内があるか再確認する。個別店舗の断定に使わない。,needs_review,,
+municipality,https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/bosai_anzen_center_web/bouhantaisaku_seido/patrol/1005987.html,武蔵野市の安全パトロール隊と客引き行為等規制案内,2026-05-27,吉祥寺,エリア注意情報（吉祥寺）,,,,エリア単位の公式確認先,確認中,Hidden,武蔵野市の安全パトロール隊と客引き行為等規制に関する公式情報を確認対象とするエリア単位候補です。公開時は吉祥寺周辺の確認観点として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。通り名や建物確認は別途投稿で確認する。,needs_review,,`;
+
+export function getOfficialAreaSeedCandidateCsv() {
+  return OFFICIAL_AREA_SEED_CANDIDATES_CSV;
+}
+
+export function getOfficialAreaSeedCandidateMetrics() {
+  const { rows } = parseCsv(OFFICIAL_AREA_SEED_CANDIDATES_CSV);
+  const areas = new Set(rows.map((row) => row.observed_area).filter(Boolean));
+  const sourceUrls = new Set(rows.map((row) => row.source_url).filter(Boolean));
+
+  return {
+    total: rows.length,
+    areas: areas.size,
+    sourceUrls: sourceUrls.size,
+    needsReview: rows.filter((row) => row.status === "needs_review").length,
+    hiddenEvidence: rows.filter((row) => row.evidence_level === "Hidden").length,
+  };
+}

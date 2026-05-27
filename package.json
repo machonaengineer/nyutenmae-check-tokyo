@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "check:sources": "node scripts/check-source-links.mjs",
     "check:sources:dry": "node scripts/check-source-links.mjs --dry-run",
+    "check:official-seed": "node scripts/validate-official-seed-candidates.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },

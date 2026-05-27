@@ -56,6 +56,8 @@
 - [ ] `/sources` と `/admin/research` に掲載する報道・公的情報ソースは、出典URL、確認日、独自要約として扱い、記事本文や口コミ本文をコピーしていないことを確認した。
 - [ ] `/admin/area-ops` でエリア別の公式ソース、投稿導線、建物確認、コンテンツ増強タスクを確認した。
 - [ ] `npm run check:sources:dry` を実行し、`SOURCE_RESEARCH_QUEUE.csv` のURL一覧が読み込めることを確認した。
+- [ ] `npm run check:official-seed` を実行し、`OFFICIAL_SOURCE_SEED_CANDIDATES.csv` が `needs_review / Hidden` 固定であることを確認した。
+- [ ] `/admin/data` の `公式ソース安全候補` は候補審査DBへの登録であり、公開承認や承認済み投稿作成ではないことを確認した。
 - [ ] `/coverage` に表示される情報蓄積状況が、未承認投稿や個別店舗の断定表示になっていないことを確認した。
 - [ ] `INITIAL_DATA_REVIEW_QUEUE.csv` に沿って、候補ごとの出典確認、現在状況、建物情報、公開可否を人間が確認した。
 - [ ] 実名入り初期データ候補CSVがGit管理、公開ページ、クライアントバンドルに含まれていないことを確認した。
@@ -76,6 +78,7 @@
 npm run lint
 npm run typecheck
 npm run build
+npm run check:official-seed
 npx playwright test
 npm audit --audit-level=moderate
 ```
@@ -96,6 +99,7 @@ npm audit --audit-level=moderate
 - [ ] `/ads.txt` が未設定時は設定漏れコメント、AdSense設定後はGoogle向けads.txt行を返す。
 - [ ] 管理者でログイン後、投稿の承認、非公開、差し戻し、却下ができる。
 - [ ] 管理者でログイン後、`/admin` の概況と `/admin/data` のCSV検証、非公開デフォルト投入画面が表示される。
+- [ ] 管理者でログイン後、`/admin/data` の公式ソース安全候補パネルから審査DB登録ボタンを確認できる。
 - [ ] `/admin/data` から初期データを投入した場合、`reports.status` は `pending` または `needs_review`、`evidence_level` は `Hidden` のまま保存される。
 - [ ] 証拠画像は管理画面だけで短時間の署名付きURLとして表示される。
 - [ ] 管理者でログイン後、外部評価スナップショットの追加ができ、公開ページでは集計値、出典URL、確認日だけが表示される。

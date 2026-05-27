@@ -30,6 +30,7 @@ npm run build
 npm run lint
 npm run typecheck
 npm run check:sources:dry
+npm run check:official-seed
 npm run test:e2e
 ```
 
@@ -176,6 +177,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `AREA_DATA_COLLECTION_QUEUE.csv` で、エリアごとの公式ソース、ユーザー報告、建物確認、コンテンツ増強の調査トラックを管理
 - `/admin/area-ops` で、エリアごとの公式ソース、投稿導線、建物確認、コンテンツ増強、ソース再確認目安を管理
 - `npm run check:sources` で、`SOURCE_RESEARCH_QUEUE.csv` の公式URLを無料範囲で手動確認
+- `OFFICIAL_SOURCE_SEED_CANDIDATES.csv` と `/admin/data` の公式ソース安全候補パネルで、12エリア分の公式ソース由来候補を非公開審査DBへ登録
+- `npm run check:official-seed` で、公式ソース安全候補CSVの非公開デフォルト、Hidden固定、禁止表現、非公開情報マーカーを検査
 - `/roadmap` でフェーズ13〜20の改善予定と公開情報の扱い方を表示
 - トップページでの掲載対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
@@ -272,7 +275,9 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー
+- `OFFICIAL_SOURCE_SEED_CANDIDATES.csv`: 12エリア分の公式ソース由来の非公開審査候補CSV
 - `PHASE_26_AREA_OPERATIONS_PLAN.md`: エリア別情報蓄積オペレーション管理の実装方針
+- `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース安全候補を審査DBへ登録する運用方針
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
 - `DATA_QUALITY_SOP.md`: 建物情報、同一住所・同一建物候補、初期データ審査の運用手順
@@ -284,3 +289,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_24_AREA_EXPANSION_PLAN.md`: 掲載エリア拡大と公開範囲の安全方針
 - `PHASE_25_CONTENT_DEPTH_PLAN.md`: エリア別コンテンツ増強と調査キューの安全方針
 - `PHASE_26_AREA_OPERATIONS_PLAN.md`: 管理画面でのエリア別運用キュー、ソース鮮度、リンク確認の方針
+- `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース由来のエリア単位候補を非公開審査DBへ登録する方針

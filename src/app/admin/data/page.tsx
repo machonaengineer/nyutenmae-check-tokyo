@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   importInitialDataCandidatesAction,
+  stageOfficialAreaSeedCandidatesAction,
   updateInitialDataReviewCandidateAction,
 } from "@/app/admin/data/actions";
 import { AdminShell } from "@/components/admin/admin-shell";
@@ -20,6 +21,10 @@ import {
   hasInitialDataCandidateCsv,
   type InitialDataReviewQueueItem,
 } from "@/lib/admin/initial-data-candidates";
+import {
+  getOfficialAreaSeedCandidateCsv,
+  getOfficialAreaSeedCandidateMetrics,
+} from "@/lib/admin/official-area-seed-candidates";
 import { requireAdminUser } from "@/lib/admin/auth";
 import {
   getInitialDataLegalReviewStatusLabel,
@@ -53,6 +58,9 @@ type AdminDataPageProps = {
     candidate_skipped?: string;
     candidate_review_saved?: string;
     candidate_review_error?: string;
+    official_seed?: string;
+    official_staged?: string;
+    official_skipped?: string;
   }>;
 };
 
@@ -62,6 +70,8 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
   const reviewQueue = getInitialDataReviewQueue();
   const reviewMetrics = getInitialDataReviewMetrics();
   const candidateCsvConfigured = hasInitialDataCandidateCsv();
+  const officialSeedCsv = getOfficialAreaSeedCandidateCsv();
+  const officialSeedMetrics = getOfficialAreaSeedCandidateMetrics();
   const reviewWorkflow = await getAdminInitialDataReviewWorkflow();
   const candidateImportMessage =
     query.candidate_import === "success"
@@ -95,6 +105,25 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
             </p>
           </div>
         ) : null}
+        {query.official_seed ? (
+          <div
+            className={
+              query.official_seed === "success"
+                ? "mb-6 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm leading-6 text-green-800"
+                : "mb-6 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
+            }
+          >
+            <p className="font-bold">
+              {query.official_seed === "success"
+                ? "公式ソース由来のエリア候補を審査DBへ登録しました。"
+                : "公式ソース由来のエリア候補登録に失敗しました。"}
+            </p>
+            <p className="mt-1">
+              登録: {query.official_staged ?? "0"}件 / 重複スキップ:{" "}
+              {query.official_skipped ?? "0"}件
+            </p>
+          </div>
+        ) : null}
         {query.candidate_review_saved ? (
           <div className="mb-6 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm leading-6 text-green-800">
             初期データ候補の審査状態を更新しました。
@@ -110,6 +139,12 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
           candidateCsvConfigured={candidateCsvConfigured}
           metrics={reviewMetrics}
           queue={reviewQueue}
+        />
+
+        <OfficialAreaSeedPanel
+          candidateTableAvailable={reviewWorkflow.available}
+          csv={officialSeedCsv}
+          metrics={officialSeedMetrics}
         />
 
         <div className="mb-6 grid gap-6">
@@ -225,6 +260,64 @@ function InitialDataReviewQueuePanel({
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function OfficialAreaSeedPanel({
+  candidateTableAvailable,
+  csv,
+  metrics,
+}: {
+  candidateTableAvailable: boolean;
+  csv: string;
+  metrics: ReturnType<typeof getOfficialAreaSeedCandidateMetrics>;
+}) {
+  return (
+    <div className="mb-6 rounded-md border border-line bg-white p-5">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <h2 className="text-lg font-bold text-ink">公式ソース安全候補</h2>
+          <p className="mt-2 text-sm leading-7 text-muted">
+            公的・公式ソースだけを使ったエリア単位の非公開審査候補です。個別店舗の公開候補ではなく、エリア別の確認観点、相談導線、情報提供導線を厚くするために使います。
+          </p>
+          <p className="mt-2 text-sm leading-7 text-muted">
+            登録先は候補審査DBです。公開ページには出ず、承認済み投稿にもなりません。
+          </p>
+        </div>
+        <form action={stageOfficialAreaSeedCandidatesAction}>
+          <button
+            className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-bold text-white transition hover:bg-action-strong disabled:cursor-not-allowed disabled:bg-muted"
+            disabled={!candidateTableAvailable}
+            type="submit"
+          >
+            公式候補を審査DBへ登録
+          </button>
+          {!candidateTableAvailable ? (
+            <p className="mt-2 max-w-64 text-xs leading-5 text-muted">
+              先に `0010_initial_data_review_workflow.sql` を適用してください。
+            </p>
+          ) : null}
+        </form>
+      </div>
+
+      <div className="mt-5 grid gap-3 md:grid-cols-4">
+        {[
+          { label: "候補", value: metrics.total },
+          { label: "対象エリア", value: metrics.areas },
+          { label: "公式URL", value: metrics.sourceUrls },
+          { label: "Hidden固定", value: metrics.hiddenEvidence },
+        ].map((item) => (
+          <div className="rounded-md border border-line bg-surface p-3" key={item.label}>
+            <p className="text-xs font-semibold text-muted">{item.label}</p>
+            <p className="mt-2 text-xl font-bold text-ink">{item.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <pre className="mt-5 max-h-72 overflow-auto rounded-md border border-line bg-surface p-4 text-xs leading-6 text-ink">
+        {csv}
+      </pre>
     </div>
   );
 }

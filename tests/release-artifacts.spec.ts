@@ -30,6 +30,7 @@ const requiredReleaseFiles = [
   "SOCIAL_CONTENT_CALENDAR.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
   "AREA_DATA_COLLECTION_QUEUE.csv",
+  "OFFICIAL_SOURCE_SEED_CANDIDATES.csv",
   "INITIAL_DATA_REVIEW_QUEUE.csv",
   "DATA_COLLECTION_PLAYBOOK.md",
   "DATA_QUALITY_SOP.md",
@@ -41,14 +42,17 @@ const requiredReleaseFiles = [
   "PHASE_24_AREA_EXPANSION_PLAN.md",
   "PHASE_25_CONTENT_DEPTH_PLAN.md",
   "PHASE_26_AREA_OPERATIONS_PLAN.md",
+  "PHASE_27_SAFE_SEEDING_PLAN.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/admin/initial-data-candidates.ts",
+  "src/lib/admin/official-area-seed-candidates.ts",
   "src/lib/area-operations.ts",
   "src/app/admin/area-ops/page.tsx",
   "src/components/json-ld.tsx",
   "src/lib/structured-data.ts",
   "src/app/llms.txt/route.ts",
   "scripts/check-source-links.mjs",
+  "scripts/validate-official-seed-candidates.mjs",
 ] as const;
 
 const initialDataColumns = [
@@ -796,6 +800,74 @@ test.describe("リリース準備資料", () => {
     expect(phase26).toContain("同一運営や同一店舗とは断定しない");
     expect(adminAreaOps).not.toContain("storage_path");
     expect(areaOperations).not.toContain("reporter_email");
+  });
+
+  test("フェーズ27は公式ソース安全候補を非公開審査DBへ登録できる", async () => {
+    const phase27 = await readFile(
+      path.join(rootDir, "PHASE_27_SAFE_SEEDING_PLAN.md"),
+      "utf8",
+    );
+    const seedCsv = await readFile(
+      path.join(rootDir, "OFFICIAL_SOURCE_SEED_CANDIDATES.csv"),
+      "utf8",
+    );
+    const seedLib = await readFile(
+      path.join(rootDir, "src/lib/admin/official-area-seed-candidates.ts"),
+      "utf8",
+    );
+    const adminDataPage = await readFile(
+      path.join(rootDir, "src/app/admin/data/page.tsx"),
+      "utf8",
+    );
+    const adminDataActions = await readFile(
+      path.join(rootDir, "src/app/admin/data/actions.ts"),
+      "utf8",
+    );
+    const packageJson = await readFile(path.join(rootDir, "package.json"), "utf8");
+    const validatorScript = await readFile(
+      path.join(rootDir, "scripts/validate-official-seed-candidates.mjs"),
+      "utf8",
+    );
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+    const launchChecklist = await readFile(
+      path.join(rootDir, "LAUNCH_CHECKLIST.md"),
+      "utf8",
+    );
+    const playbook = await readFile(
+      path.join(rootDir, "DATA_COLLECTION_PLAYBOOK.md"),
+      "utf8",
+    );
+
+    const rows = seedCsv.trim().split(/\r?\n/);
+
+    expect(rows[0].split(",")).toEqual([...initialDataColumns]);
+    expect(rows).toHaveLength(13);
+    expect(seedCsv).toContain("エリア注意情報（新宿・歌舞伎町）");
+    expect(seedCsv).toContain("エリア注意情報（吉祥寺）");
+    expect(seedCsv).toContain("needs_review");
+    expect(seedCsv).toContain("Hidden");
+    expect(seedCsv).not.toContain("approved");
+    expect(seedCsv).not.toContain("Google口コミ");
+    expect(seedCsv).not.toContain("食べログ");
+    expect(seedCsv).not.toContain("storage_path");
+    expect(seedLib).toContain("server-only");
+    expect(seedLib).toContain("getOfficialAreaSeedCandidateCsv");
+    expect(seedLib).toContain("getOfficialAreaSeedCandidateMetrics");
+    expect(adminDataPage).toContain("公式ソース安全候補");
+    expect(adminDataPage).toContain("stageOfficialAreaSeedCandidatesAction");
+    expect(adminDataPage).toContain("公開ページには出ず");
+    expect(adminDataActions).toContain("stageOfficialAreaSeedCandidatesAction");
+    expect(adminDataActions).toContain("stageInitialDataCandidatesAction");
+    expect(adminDataActions).toContain("official_seed");
+    expect(packageJson).toContain("check:official-seed");
+    expect(validatorScript).toContain("OFFICIAL_SOURCE_SEED_CANDIDATES.csv");
+    expect(validatorScript).toContain("needs_review");
+    expect(validatorScript).toContain("Hidden");
+    expect(readme).toContain("OFFICIAL_SOURCE_SEED_CANDIDATES.csv");
+    expect(launchChecklist).toContain("npm run check:official-seed");
+    expect(playbook).toContain("公式ソース安全候補");
+    expect(phase27).toContain("候補審査DBへの登録は公開承認ではない");
+    expect(phase27).toContain("個別店舗の注意報告を根拠なしに作らない");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
