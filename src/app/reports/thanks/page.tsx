@@ -42,6 +42,12 @@ export default function ReportThanksPage() {
           >
             投稿ガイドラインを見る
           </Link>
+          <Link
+            href="/social"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+          >
+            安全な共有文を見る
+          </Link>
         </div>
       </Section>
     </>

@@ -1,0 +1,69 @@
+import type { Metadata } from "next";
+import type { ReportFormSnapshot } from "@/lib/report-form";
+import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
+import { getReportFormOptions } from "@/lib/report-options";
+import { QuickReportForm } from "./quick-report-form";
+
+export const metadata: Metadata = {
+  title: "30秒で情報提供",
+  description:
+    "入店前チェック東京へ、場所の手がかりと会計確認に関する情報を短時間で送るフォームです。",
+  alternates: {
+    canonical: "/reports/quick",
+  },
+};
+
+type QuickReportPageProps = {
+  searchParams: Promise<{
+    area?: string;
+  }>;
+};
+
+const quickRules = [
+  "送信内容は自動公開されません。",
+  "管理者が表現、個人情報、公開可否を確認します。",
+  "証拠画像や投稿者メールアドレスは一般公開しません。",
+  "画像や詳細な時系列がある場合は、詳細フォームから送信してください。",
+] as const;
+
+export default async function QuickReportPage({
+  searchParams,
+}: QuickReportPageProps) {
+  const [{ area }, formOptions] = await Promise.all([
+    searchParams,
+    getReportFormOptions(),
+  ]);
+  const defaultValues: ReportFormSnapshot = {};
+  const areaSlug = typeof area === "string" ? area : "";
+
+  if (formOptions.areas.some((option) => option.value === areaSlug)) {
+    defaultValues.area_slug = areaSlug;
+  }
+
+  return (
+    <>
+      <PageHeader
+        eyebrow="Quick Report"
+        title="30秒で情報提供"
+        description="店名が曖昧でも、住所、建物名、階数、料金説明、明細提示の手がかりを非公開で送れます。"
+      />
+
+      <Section title="簡易投稿フォーム">
+        <QuickReportForm
+          areas={formOptions.areas}
+          defaultValues={defaultValues}
+          riskTags={formOptions.riskTags}
+        />
+        <div className="mt-6">
+          <PolicyNote>
+            簡易投稿も `pending / Hidden` の非公開状態で保存します。承認済み投稿だけが一般公開されます。
+          </PolicyNote>
+        </div>
+      </Section>
+
+      <Section title="送信前の確認">
+        <SimpleList items={quickRules} />
+      </Section>
+    </>
+  );
+}

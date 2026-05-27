@@ -7,6 +7,7 @@ import {
   AREA_GROWTH_PRIORITY_LABELS,
   getPrioritySortedAreaGrowthPlans,
 } from "@/lib/area-growth";
+import { getSocialRecognitionPosts } from "@/lib/social-campaigns";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 import { INITIAL_AREAS, SITE } from "@/lib/site";
 
@@ -28,6 +29,7 @@ const shareRules = [
 
 export default function SocialPage() {
   const growthPlans = getPrioritySortedAreaGrowthPlans();
+  const recognitionPosts = getSocialRecognitionPosts();
 
   return (
     <>
@@ -92,6 +94,34 @@ export default function SocialPage() {
                   情報提供
                 </Link>
               </div>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="30日分の投稿企画"
+        description="自動投稿は行わず、投稿前チェックを前提に使える安全な文面素材です。"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          {recognitionPosts.map((post) => (
+            <article
+              className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+              key={`${post.day}-${post.title}`}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm font-bold text-ink">Day {post.day}: {post.title}</p>
+                <span className="rounded-md border border-line bg-surface px-2 py-1 text-xs font-semibold text-muted">
+                  {post.slot}
+                </span>
+              </div>
+              <p className="mt-3 text-sm leading-7 text-muted">{post.body}</p>
+              <Link
+                className="mt-4 inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                href={post.targetPath}
+              >
+                配布先ページ
+              </Link>
             </article>
           ))}
         </div>

@@ -182,6 +182,12 @@ export default function CoveragePage() {
           >
             情報提供の方針を見る
           </Link>
+          <Link
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+            href="/coverage/candidates"
+          >
+            公開候補化を見る
+          </Link>
         </div>
       </Section>
     </>

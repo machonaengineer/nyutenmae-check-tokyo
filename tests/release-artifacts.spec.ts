@@ -48,10 +48,22 @@ const requiredReleaseFiles = [
   "PHASE_29_50_EXECUTION_MATRIX.csv",
   "PHASE_51_DEEP_REVIEW_WORKFLOW.md",
   "PHASE_52_ZERO_TO_SIGNAL_PLAN.md",
+  "PHASE_53_57_GROWTH_SPRINT.md",
   "AREA_TRACTION_MATRIX.csv",
+  "SOCIAL_POST_TEMPLATES.csv",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/phase-roadmap.ts",
   "src/lib/area-growth.ts",
+  "src/lib/search-guides.ts",
+  "src/lib/social-campaigns.ts",
+  "src/lib/publication-candidates.ts",
+  "src/lib/analytics-events.ts",
+  "src/components/tracked-link.tsx",
+  "src/app/guides/page.tsx",
+  "src/app/guides/[slug]/page.tsx",
+  "src/app/areas/[slug]/guides/[guideSlug]/page.tsx",
+  "src/app/reports/quick/page.tsx",
+  "src/app/coverage/candidates/page.tsx",
   "src/lib/admin/initial-data-candidates.ts",
   "src/lib/admin/official-area-seed-candidates.ts",
   "src/lib/area-operations.ts",
@@ -1064,6 +1076,64 @@ test.describe("リリース準備資料", () => {
     expect(officialSeed).not.toContain("1005987.html");
     expect(officialSeedCsv).not.toContain("1005987.html");
     expect(readme).toContain("AREA_TRACTION_MATRIX.csv");
+  });
+
+  test("フェーズ53〜57は認知、コンテンツ、投稿獲得、公開候補化、無料計測を追加する", async () => {
+    const phase = await readFile(
+      path.join(rootDir, "PHASE_53_57_GROWTH_SPRINT.md"),
+      "utf8",
+    );
+    const searchGuides = await readFile(
+      path.join(rootDir, "src/lib/search-guides.ts"),
+      "utf8",
+    );
+    const socialCampaigns = await readFile(
+      path.join(rootDir, "src/lib/social-campaigns.ts"),
+      "utf8",
+    );
+    const socialCsv = await readFile(
+      path.join(rootDir, "SOCIAL_POST_TEMPLATES.csv"),
+      "utf8",
+    );
+    const quickReport = await readFile(
+      path.join(rootDir, "src/app/reports/quick/page.tsx"),
+      "utf8",
+    );
+    const quickForm = await readFile(
+      path.join(rootDir, "src/app/reports/quick/quick-report-form.tsx"),
+      "utf8",
+    );
+    const candidatesPage = await readFile(
+      path.join(rootDir, "src/app/coverage/candidates/page.tsx"),
+      "utf8",
+    );
+    const trackedLink = await readFile(
+      path.join(rootDir, "src/components/tracked-link.tsx"),
+      "utf8",
+    );
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+
+    expect(phase).toContain("Phase 53-57");
+    expect(searchGuides).toContain("before-entry-price-check");
+    expect(searchGuides).toContain("card-payment-dispute");
+    expect(searchGuides).toContain("consumer-center-consultation");
+    expect(socialCampaigns).toContain("SOCIAL_RECOGNITION_POSTS");
+    expect(socialCsv).toContain("day,slot,pillar,title,body,target_path");
+    expect(socialCsv).toContain("/reports/quick");
+    expect(quickReport).toContain("30秒で情報提供");
+    expect(quickForm).toContain("submitReportAction");
+    expect(quickForm).toContain("HONEYPOT_FIELD_NAME");
+    expect(quickReport).toContain("pending / Hidden");
+    expect(candidatesPage).toContain("公開候補化の流れ");
+    expect(candidatesPage).toContain("未承認投稿や証拠画像を公開するものではありません");
+    expect(trackedLink).toContain("NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED");
+    expect(trackedLink).toContain("track(eventName");
+    expect(sitemap).toContain("/guides");
+    expect(sitemap).toContain("/reports/quick");
+    expect(sitemap).toContain("/coverage/candidates");
+    expect(readme).toContain("PHASE_53_57_GROWTH_SPRINT.md");
+    expect(readme).toContain("SOCIAL_POST_TEMPLATES.csv");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

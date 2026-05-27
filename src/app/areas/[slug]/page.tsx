@@ -19,6 +19,7 @@ import {
   getPublicPlaceSummaries,
 } from "@/lib/public-data";
 import { getResearchSourcesByArea } from "@/lib/research-sources";
+import { SEARCH_GUIDES } from "@/lib/search-guides";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 import { INITIAL_AREAS } from "@/lib/site";
 import { TOPIC_GUIDES } from "@/lib/topic-content";
@@ -189,6 +190,26 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           </div>
         </Section>
       ) : null}
+
+      <Section
+        title="このエリアの実用ガイド"
+        description="検索されやすい場面別に、入店前確認、資料保存、相談準備を確認できます。"
+      >
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {SEARCH_GUIDES.map((guide) => (
+            <Link
+              className="rounded-md border border-line bg-white p-5 text-sm font-semibold text-ink no-underline shadow-[0_8px_22px_rgb(23_32_42/0.04)] transition hover:bg-paper"
+              href={`/areas/${slug}/guides/${guide.slug}`}
+              key={guide.slug}
+            >
+              {guide.shortTitle}
+              <span className="mt-2 block font-normal leading-6 text-muted">
+                {guide.description}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
 
       <Section
         title="このエリアの種別別ガイド"

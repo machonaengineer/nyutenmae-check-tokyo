@@ -12,7 +12,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-20 border-b border-line bg-white/90 shadow-[0_1px_0_rgb(23_32_42/0.03)] backdrop-blur">
       <Container>
         <div className="flex min-h-16 items-center justify-between gap-4 py-3">
-          <Link href="/" className="flex items-center gap-3 no-underline">
+          <Link href="/" className="flex shrink-0 items-center gap-3 no-underline">
             <span aria-hidden="true" className="h-9 w-1.5 rounded-full bg-action" />
             <span className="flex flex-col">
               <span className="text-base font-bold tracking-normal text-ink">{SITE.name}</span>
@@ -22,15 +22,15 @@ export function SiteHeader() {
           <div className="hidden flex-1 justify-center lg:flex">
             <SiteSearchForm inputId="site-search-desktop" />
           </div>
-          <nav aria-label="主要ナビゲーション" className="hidden items-center gap-2 xl:flex">
+          <nav aria-label="主要ナビゲーション" className="hidden items-center gap-1 2xl:flex">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={
                   item.emphasis
-                    ? "rounded-md bg-action px-3.5 py-2 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
-                    : "rounded-md px-3 py-2 text-sm font-medium text-muted no-underline transition hover:bg-paper hover:text-ink"
+                    ? "whitespace-nowrap rounded-md bg-action px-3.5 py-2 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
+                    : "whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted no-underline transition hover:bg-paper hover:text-ink"
                 }
               >
                 {item.label}
@@ -40,7 +40,7 @@ export function SiteHeader() {
         </div>
         <nav
           aria-label="モバイル主要ナビゲーション"
-          className="flex gap-2 overflow-x-auto pb-3 xl:hidden"
+          className="flex gap-2 overflow-x-auto pb-3 2xl:hidden"
         >
           {NAV_ITEMS.map((item) => (
             <Link

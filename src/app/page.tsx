@@ -16,6 +16,8 @@ import {
   TONE_GUIDELINES,
 } from "@/lib/site";
 import { SocialShareActions } from "@/components/social-share-actions";
+import { TrackedLink } from "@/components/tracked-link";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 import { RESEARCH_SOURCES } from "@/lib/research-sources";
 import { getHomeFaqStructuredData } from "@/lib/structured-data";
@@ -92,23 +94,27 @@ export default function Home() {
                 ))}
               </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
+                <TrackedLink
                   href="/map"
+                  eventName={ANALYTICS_EVENTS.guideCta}
+                  eventProperties={{ placement: "home", target: "map" }}
                   className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
                 >
                   地図を見る
-                </Link>
-                <Link
-                  href="/reports/new"
+                </TrackedLink>
+                <TrackedLink
+                  href="/reports/quick"
+                  eventName={ANALYTICS_EVENTS.quickReportCta}
+                  eventProperties={{ placement: "home" }}
                   className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
                 >
-                  注意報告を送る
-                </Link>
+                  30秒で情報提供
+                </TrackedLink>
                 <Link
-                  href="/contribute"
+                  href="/guides"
                   className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
                 >
-                  情報提供の方針を見る
+                  実用ガイドを見る
                 </Link>
               </div>
             </div>
@@ -196,12 +202,20 @@ export default function Home() {
         title="入店前チェックリスト"
         description="入店前、会計前、退店後に確認したい項目を、公開ページとして整理しています。"
       >
-        <Link
-          href="/checklists"
-          className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
-        >
-          確認リストを見る
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/checklists"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+          >
+            確認リストを見る
+          </Link>
+          <Link
+            href="/guides"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+          >
+            実用ガイドを見る
+          </Link>
+        </div>
       </Section>
 
       <Section title="報告カテゴリ">
@@ -219,12 +233,14 @@ export default function Home() {
           >
             情報提供の方針を見る
           </Link>
-          <Link
-            href="/reports/new"
+          <TrackedLink
+            href="/reports/quick"
+            eventName={ANALYTICS_EVENTS.quickReportCta}
+            eventProperties={{ placement: "home_information_request" }}
             className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
           >
-            注意報告を送る
-          </Link>
+            30秒で情報提供
+          </TrackedLink>
           <Link
             href="/sources"
             className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
