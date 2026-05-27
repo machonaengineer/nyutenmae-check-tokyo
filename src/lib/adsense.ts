@@ -14,6 +14,14 @@ export function isAdsenseEnabled() {
   return process.env.NEXT_PUBLIC_ADSENSE_ENABLED === "true";
 }
 
+export function isAdsenseVerificationEnabled() {
+  return process.env.NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED === "true";
+}
+
+export function shouldLoadAdsenseScript() {
+  return isAdsenseEnabled() || isAdsenseVerificationEnabled();
+}
+
 export function getAdsenseClient() {
   const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim();
 

@@ -92,6 +92,7 @@ NEXT_PUBLIC_X_PROFILE_URL=
 NEXT_PUBLIC_INSTAGRAM_PROFILE_URL=
 NEXT_PUBLIC_TIKTOK_PROFILE_URL=
 NEXT_PUBLIC_LINE_PROFILE_URL=
+NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=false
 NEXT_PUBLIC_ADSENSE_ENABLED=false
 NEXT_PUBLIC_ADSENSE_CLIENT=
 NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST=
@@ -118,7 +119,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 | `NEXT_PUBLIC_INSTAGRAM_PROFILE_URL` | 任意。公式InstagramプロフィールURL |
 | `NEXT_PUBLIC_TIKTOK_PROFILE_URL` | 任意。公式TikTokプロフィールURL |
 | `NEXT_PUBLIC_LINE_PROFILE_URL` | 任意。公式LINEまたはLINE関連URL |
-| `NEXT_PUBLIC_ADSENSE_ENABLED` | 任意。`true` の場合だけAdSenseスクリプトと広告ユニットを読み込む。初期値は必ず `false` |
+| `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED` | 任意。AdSenseの所有権確認コードだけを読み込む。広告枠表示前の審査用で、初期値は `false` |
+| `NEXT_PUBLIC_ADSENSE_ENABLED` | 任意。`true` の場合だけAdSense広告ユニットを表示する。審査通過前は必ず `false` |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | 任意。AdSenseの `ca-pub-...` 形式client ID。公開値だが、アカウントログイン情報は保存しない |
 | `NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST` | 任意。`/checklists` 用のAdSense ad slot ID |
 | `NEXT_PUBLIC_ADSENSE_SLOT_AREA` | 任意。`/areas/[slug]/checklist` 用のAdSense ad slot ID |
@@ -199,7 +201,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 外部口コミ本文、投稿者名、画像、スクリーンショット、スクレイピングHTMLは保存しない
 - 外部評価は本サービスの評価ではなく、出典URLと確認日付きの集計参考値として扱う
 - 食べログなど規約確認や許諾が必要なソースは `display_allowed=false` のまま管理し、公開しない
-- AdSenseは `NEXT_PUBLIC_MONETIZATION_ENABLED=true` かつ `NEXT_PUBLIC_ADSENSE_ENABLED=true` の場合だけ読み込み、管理画面、投稿フォーム、異議申立てフォームには配置しない
+- AdSense広告ユニットは `NEXT_PUBLIC_MONETIZATION_ENABLED=true` かつ `NEXT_PUBLIC_ADSENSE_ENABLED=true` の場合だけ表示し、管理画面、投稿フォーム、異議申立てフォームには配置しない
+- 所有権確認だけが必要な場合は `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=true` と `NEXT_PUBLIC_ADSENSE_CLIENT` を設定し、広告ユニット用slotは未設定のままにする
 - SNSには証拠画像、投稿者メールアドレス、非公開メモ、外部口コミ本文、スクリーンショットを載せない
 - スポンサー問い合わせは公開ページに表示せず、管理者だけが確認する
 - 構造化データ、sitemap、`/llms.txt` には公開方針と公開ページURLだけを載せ、非公開DBカラムや証拠ファイルパスを含めない

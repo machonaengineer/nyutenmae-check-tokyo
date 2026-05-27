@@ -15,6 +15,7 @@
 
 ```bash
 NEXT_PUBLIC_MONETIZATION_ENABLED=false
+NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=false
 NEXT_PUBLIC_ADSENSE_ENABLED=false
 NEXT_PUBLIC_ADSENSE_CLIENT=
 NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST=
@@ -26,7 +27,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 | 変数 | 用途 |
 | --- | --- |
 | `NEXT_PUBLIC_MONETIZATION_ENABLED` | 収益化枠全体の表示スイッチ |
-| `NEXT_PUBLIC_ADSENSE_ENABLED` | AdSenseスクリプトと広告ユニットの表示スイッチ |
+| `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED` | AdSenseの所有権確認コードだけを読み込む審査用スイッチ |
+| `NEXT_PUBLIC_ADSENSE_ENABLED` | AdSense広告ユニットの表示スイッチ。審査通過前は `false` |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | `ca-pub-0000000000000000` 形式のAdSense client ID |
 | `NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST` | `/checklists` 用ad slot ID |
 | `NEXT_PUBLIC_ADSENSE_SLOT_AREA` | `/areas/[slug]/checklist` 用ad slot ID |
@@ -39,10 +41,11 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 2. Vercelに `ADS_TXT_GOOGLE_PUBLISHER_ID` を設定し、再デプロイする。
 3. `https://nyutenmae-check-tokyo.vercel.app/ads.txt` が `google.com, pub-..., DIRECT, f08c47fec0942fa0` を返すことを確認する。
 4. AdSense管理画面でads.txtの再確認を実行する。
-5. AdSense審査が通るまで `NEXT_PUBLIC_MONETIZATION_ENABLED=false` と `NEXT_PUBLIC_ADSENSE_ENABLED=false` を維持する。
-6. 審査通過後、client IDとad slot IDをVercelに設定する。
-7. Preview環境で広告枠の表示位置、誤クリック誘導がないこと、プライバシーポリシー表示を確認する。
-8. 本番環境で `NEXT_PUBLIC_MONETIZATION_ENABLED=true`、`NEXT_PUBLIC_ADSENSE_ENABLED=true` に変更し、再デプロイする。
+5. 所有権確認が必要な場合だけ `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=true` と `NEXT_PUBLIC_ADSENSE_CLIENT` を設定し、ad slot IDは未設定のまま再デプロイする。
+6. AdSense審査が通るまで `NEXT_PUBLIC_MONETIZATION_ENABLED=false` と `NEXT_PUBLIC_ADSENSE_ENABLED=false` を維持する。
+7. 審査通過後、ad slot IDをVercelに設定する。
+8. Preview環境で広告枠の表示位置、誤クリック誘導がないこと、プライバシーポリシー表示を確認する。
+9. 本番環境で `NEXT_PUBLIC_MONETIZATION_ENABLED=true`、`NEXT_PUBLIC_ADSENSE_ENABLED=true` に変更し、再デプロイする。
 
 ## ポリシーチェック
 
@@ -58,7 +61,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `/sources` の報道・公的情報は、出典URL、確認日、独自要約として扱い、記事本文、口コミ本文、画像、スクリーンショットを転載していない。
 - 公開ページに投稿者メールアドレス、非公開メモ、証拠画像URL、Storage pathが含まれていない。
 - 収益化枠は管理画面、投稿フォーム、異議申立てフォーム、証拠画像確認画面には表示しない。
-- AdSenseサイト審査が `Ready` になるまで、`NEXT_PUBLIC_ADSENSE_ENABLED=false` を維持する。
+- AdSenseサイト審査が `Ready` になるまで、`NEXT_PUBLIC_ADSENSE_ENABLED=false` を維持する。所有権確認コードだけが必要な場合は `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=true` を使う。
 - ads.txtはルートの `/ads.txt` でHTTP 200を返し、robots.txtでブロックしない。
 
 ## 公式確認先

@@ -40,6 +40,7 @@
 - [ ] 食べログなど規約確認が必要な外部評価は、許諾確認まで `display_allowed=false` のまま公開されないことを確認した。
 - [ ] `NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED` は必要な場合だけ `true` にし、無料枠とプライバシー表示を確認した。
 - [ ] `NEXT_PUBLIC_MONETIZATION_ENABLED` は収益化開始前は `false` のままにした。
+- [ ] AdSense所有権確認だけを行う場合、`NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=true`、`NEXT_PUBLIC_ADSENSE_ENABLED=false`、ad slot未設定で再デプロイした。
 - [ ] AdSenseを使う場合、`NEXT_PUBLIC_ADSENSE_ENABLED` は審査、ads.txt、広告配置確認が完了するまで `false` のままにした。
 - [ ] AdSenseを使う場合、`ADS_TXT_GOOGLE_PUBLISHER_ID` を設定し、`/ads.txt` が `google.com, pub-..., DIRECT, f08c47fec0942fa0` を返すことを確認した。
 - [ ] AdSenseを使う場合、`NEXT_PUBLIC_ADSENSE_CLIENT` は `ca-pub-...` 形式、ad slot IDは数字のみで設定した。

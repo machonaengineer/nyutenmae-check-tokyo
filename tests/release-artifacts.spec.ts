@@ -315,6 +315,7 @@ test.describe("リリース準備資料", () => {
 
     expect(envExample).toContain("NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false");
     expect(envExample).toContain("NEXT_PUBLIC_MONETIZATION_ENABLED=false");
+    expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=false");
     expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_ENABLED=false");
     expect(growthPlan).toContain("無料枠");
     expect(growthPlan).toContain("収益化を実際に開始する前");
@@ -455,8 +456,10 @@ test.describe("リリース準備資料", () => {
     );
 
     expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_ENABLED=false");
+    expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=false");
     expect(envExample).toContain("ADS_TXT_GOOGLE_PUBLISHER_ID=");
-    expect(adsenseGate).toContain("isAdsenseEnabled");
+    expect(adsenseGate).toContain("shouldLoadAdsenseScript");
+    expect(adsenseLib).toContain('NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED === "true"');
     expect(adsenseLib).toContain('NEXT_PUBLIC_ADSENSE_ENABLED === "true"');
     expect(adsenseLib).toContain("ca-pub-");
     expect(adsenseLib).toContain("pub-");

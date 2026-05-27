@@ -1,10 +1,10 @@
 import Script from "next/script";
-import { getAdsenseClient, isAdsenseEnabled } from "@/lib/adsense";
+import { getAdsenseClient, shouldLoadAdsenseScript } from "@/lib/adsense";
 
 export function AdsenseGate() {
   const client = getAdsenseClient();
 
-  if (!isAdsenseEnabled() || !client) {
+  if (!shouldLoadAdsenseScript() || !client) {
     return null;
   }
 
