@@ -23,7 +23,7 @@
 
 | 列 | 入力方針 |
 | --- | --- |
-| `source_type` | `public`, `news`, `internal_tip`, `external_review_trend` など |
+| `source_type` | `user_report`, `public_agency`, `police`, `consumer_center`, `municipality`, `news`, `internal_tip`, `external_review_trend`, `other` のいずれか |
 | `source_url` | 出典URL。自社タレコミなどURLがない場合は空欄 |
 | `source_title` | 出典のタイトルや内部受付名 |
 | `source_checked_at` | 確認日。`YYYY-MM-DD` |
@@ -47,7 +47,8 @@
 2. `public_summary` に禁止表現や個人情報がないこと。
 3. `private_memo` に証拠情報や投稿者連絡先を入れる場合、一般公開しない運用であること。
 4. 外部情報は出典URLと確認日を残し、本文転載は禁止していないこと。
-5. 管理者が公開サマリー、リスクタグ、証拠レベルを確認していること。
+5. `source_title` は公開される可能性があるため、強い断定、個人情報、外部本文のコピーを含めないこと。
+6. 管理者が公開サマリー、リスクタグ、証拠レベルを確認していること。
 
 ## 管理画面からの投入
 

@@ -42,9 +42,10 @@ npm run test:e2e
 6. `supabase/migrations/0005_browser_rate_limit_key.sql` をSQL Editorで実行する
 7. `supabase/migrations/0006_service_role_privileges.sql` をSQL Editorで実行する
 8. `supabase/migrations/0007_external_rating_snapshots.sql` をSQL Editorで実行する
-9. `.env.local` にSupabaseの値を設定する
-10. 管理者ユーザーをSupabase Authで作成する
-11. 管理者メールを `profiles` でadminに更新する
+9. `supabase/migrations/0008_report_source_attribution.sql` をSQL Editorで実行する
+10. `.env.local` にSupabaseの値を設定する
+11. 管理者ユーザーをSupabase Authで作成する
+12. 管理者メールを `profiles` でadminに更新する
 
 ```sql
 update public.profiles
@@ -154,7 +155,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 情報提供募集ページとスポンサー問い合わせページ
 - トラブル種別別のSEO向け安全確認ガイド
 - SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像
-- 公的・公式情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
+- 情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
 - エリア詳細ページでの公的・公式確認先表示
 - 検索結果ゼロ時の関連エリア、公式確認先表示
 - トップページでの初期対象エリア数、公式確認先数、公開前審査方針の表示
@@ -176,6 +177,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `external_review_sources`: 外部評価ソースのマスタ
 - `place_external_refs`: 場所と外部サービス上の参照先の紐付け
 - `external_rating_snapshots`: 外部サービス上の集計評価スナップショット
+
+`reports` は投稿者申告以外の公開候補も扱えるように、`source_type`、`source_url`、`source_title`、`source_checked_at` を持ちます。公的情報、報道、外部傾向を使う場合も、本文転載は禁止し、公開サマリーは独自要約として審査します。
 
 公開用データは `public_reports`、`public_report_risk_tags`、`public_area_summaries`、`public_place_summaries`、`public_place_reports`、`public_external_rating_snapshots` のビューで提供します。`reporter_email`、`private_note`、証拠ファイル情報、外部評価の非公開メモは公開ビューに含めません。
 
@@ -200,6 +203,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - SNSには証拠画像、投稿者メールアドレス、非公開メモ、外部口コミ本文、スクリーンショットを載せない
 - スポンサー問い合わせは公開ページに表示せず、管理者だけが確認する
 - 構造化データ、sitemap、`/llms.txt` には公開方針と公開ページURLだけを載せ、非公開DBカラムや証拠ファイルパスを含めない
+- 公的情報や報道由来の公開候補は、出典種別、出典URL、出典タイトル、確認日を分けて保存し、本文転載は禁止した独自要約だけを公開審査対象にする
 
 ## 法務・UX方針
 
@@ -212,7 +216,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 
 詳細は `LAUNCH_CHECKLIST.md` を参照してください。最低限、次の項目が未完了の場合は公開しないでください。
 
-- Supabase本番DBに7本のマイグレーションを適用している
+- Supabase本番DBに8本のマイグレーションを適用している
 - `supabase/verification/non_admin_visibility_checks.sql` の期待値を確認している
 - 投稿が `pending` / `Hidden` で保存されることを確認している
 - 承認済み投稿だけが公開ページに表示されることを確認している
@@ -226,6 +230,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 収益化枠は `NEXT_PUBLIC_MONETIZATION_ENABLED=false` を初期値にし、法務・規約・ホスティングプラン確認後にだけ有効化する
 - AdSenseを使う場合は `ADSENSE_SETUP_GUIDE.md` に沿ってads.txt、広告配置、Cookie表示、無効クリック対策を確認する
 - `/llms.txt` と構造化データに、投稿者メールアドレス、非公開メモ、証拠ファイルパス、外部本文転載が含まれていないことを確認する
+- 出典付き公開候補を承認する前に、出典URL、確認日、独自要約、禁止表現、非公開情報の混入がないことを確認する
 
 ## 運用資料
 

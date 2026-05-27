@@ -8,6 +8,10 @@ export type AdminReportListItem = {
   id: string;
   status: string;
   evidenceLevel: string;
+  sourceType: string;
+  sourceUrl: string | null;
+  sourceTitle: string | null;
+  sourceCheckedAt: string | null;
   shopName: string;
   address: string | null;
   reporterEmail: string;
@@ -71,6 +75,10 @@ export type AdminReportDetail = {
   placeId: string;
   status: string;
   evidenceLevel: string;
+  sourceType: string;
+  sourceUrl: string | null;
+  sourceTitle: string | null;
+  sourceCheckedAt: string | null;
   shopName: string;
   address: string | null;
   googleMapsUrl: string | null;
@@ -159,6 +167,10 @@ type ReportListRow = {
   place_id: string;
   status: string;
   evidence_level: string;
+  source_type: string | null;
+  source_url: string | null;
+  source_title: string | null;
+  source_checked_at: string | null;
   shop_name: string;
   address: string | null;
   reporter_email: string;
@@ -287,7 +299,7 @@ export async function getAdminReports(status?: ReportStatus | "all") {
   let query = supabase
     .from("reports")
     .select(
-      "id,place_id,status,evidence_level,shop_name,address,reporter_email,public_summary,created_at,updated_at,area_id",
+      "id,place_id,status,evidence_level,source_type,source_url,source_title,source_checked_at,shop_name,address,reporter_email,public_summary,created_at,updated_at,area_id",
     )
     .order("created_at", { ascending: false })
     .limit(200);
@@ -306,6 +318,10 @@ export async function getAdminReports(status?: ReportStatus | "all") {
     id: report.id,
     status: report.status,
     evidenceLevel: report.evidence_level,
+    sourceType: report.source_type ?? "user_report",
+    sourceUrl: report.source_url,
+    sourceTitle: report.source_title,
+    sourceCheckedAt: report.source_checked_at,
     shopName: report.shop_name,
     address: report.address,
     reporterEmail: report.reporter_email,
@@ -577,6 +593,10 @@ export async function getAdminReportDetail(id: string): Promise<AdminReportDetai
     placeId: report.place_id,
     status: report.status,
     evidenceLevel: report.evidence_level,
+    sourceType: report.source_type ?? "user_report",
+    sourceUrl: report.source_url,
+    sourceTitle: report.source_title,
+    sourceCheckedAt: report.source_checked_at,
     shopName: report.shop_name,
     address: report.address,
     googleMapsUrl: report.google_maps_url,

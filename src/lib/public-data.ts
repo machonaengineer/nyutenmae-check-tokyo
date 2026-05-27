@@ -40,6 +40,10 @@ export type PublicPlaceReport = {
   id: string;
   placeId: string;
   evidenceLevel: string;
+  sourceType: string;
+  sourceUrl: string | null;
+  sourceTitle: string | null;
+  sourceCheckedAt: string | null;
   visitedAt: string | null;
   createdAt: string;
   reportedAt: string;
@@ -110,6 +114,10 @@ type PublicPlaceReportRow = {
   id: string;
   place_id: string;
   evidence_level: string;
+  source_type: string | null;
+  source_url: string | null;
+  source_title: string | null;
+  source_checked_at: string | null;
   visited_at: string | null;
   created_at: string;
   reported_at: string;
@@ -197,6 +205,10 @@ function mapReport(row: PublicPlaceReportRow): PublicPlaceReport {
     id: row.id,
     placeId: row.place_id,
     evidenceLevel: row.evidence_level,
+    sourceType: row.source_type ?? "user_report",
+    sourceUrl: row.source_url,
+    sourceTitle: row.source_title,
+    sourceCheckedAt: row.source_checked_at,
     visitedAt: row.visited_at,
     createdAt: row.created_at,
     reportedAt: row.reported_at,

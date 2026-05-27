@@ -8,6 +8,7 @@ import { StatusBadge } from "@/components/admin/status-badge";
 import { EmptyState } from "@/components/empty-state";
 import { Section } from "@/components/page-blocks";
 import { formatBoolean, formatCurrency, formatDate } from "@/lib/format";
+import { getReportSourceTypeLabel, isSourceBackedReport } from "@/lib/report-sources";
 import { requireAdminUser } from "@/lib/admin/auth";
 import {
   getAdminExternalReviewSources,
@@ -78,6 +79,14 @@ export default async function AdminReportDetailPage({
                 <span className="rounded-md border border-line bg-paper px-2 py-1 text-xs text-muted">
                   証拠 {report.evidenceLevel}
                 </span>
+                <span className="rounded-md border border-line bg-paper px-2 py-1 text-xs text-muted">
+                  {getReportSourceTypeLabel(report.sourceType)}
+                </span>
+                {isSourceBackedReport(report.sourceType) ? (
+                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
+                    投稿者申告ではない出典確認候補
+                  </span>
+                ) : null}
                 <span className="text-xs text-muted">{report.areaName}</span>
               </div>
               <h2 className="mt-3 text-2xl font-bold text-ink">{report.shopName}</h2>
@@ -93,6 +102,19 @@ export default async function AdminReportDetailPage({
                 />
                 <DetailItem label="会計金額" value={formatCurrency(report.actualBilledAmount)} />
                 <DetailItem label="投稿者メール" value={report.reporterEmail} />
+              </dl>
+            </div>
+
+            <div className="rounded-md border border-line bg-surface p-5">
+              <h2 className="text-lg font-bold text-ink">出典確認</h2>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                報道・公的情報・外部傾向を元にした候補は、公開前に出典URL、確認日、現在状況、表現を確認してください。
+              </p>
+              <dl className="mt-5 grid gap-4 md:grid-cols-2">
+                <DetailItem label="出典種別" value={getReportSourceTypeLabel(report.sourceType)} />
+                <DetailItem label="出典確認日" value={formatDate(report.sourceCheckedAt)} />
+                <DetailItem label="出典タイトル" value={report.sourceTitle} />
+                <DetailItem label="出典URL" value={report.sourceUrl} />
               </dl>
             </div>
 

@@ -9,11 +9,17 @@ import {
   isReportStatus,
 } from "@/lib/admin/types";
 import {
+  containsDangerousExpression,
+  DANGEROUS_EXPRESSION_NOTICE,
+} from "@/lib/content-safety";
+import {
   isExternalCollectionMethod,
   parseNullableInteger,
   parseNullableNumber,
 } from "@/lib/external-ratings";
 import { fetchGooglePlaceRatingSnapshot } from "@/lib/google-places";
+import { containsNonPublicTextMarker } from "@/lib/initial-data-validation";
+import { isReportSourceType, isSourceBackedReport } from "@/lib/report-sources";
 import { createSupabaseAdminClient, createSupabaseCookieServerClient } from "@/lib/supabase/server";
 
 function getText(formData: FormData, field: string) {
@@ -68,6 +74,10 @@ export async function updateReportAction(formData: FormData) {
   const publicSummary = getText(formData, "public_summary");
   const evidenceLevel = getText(formData, "evidence_level");
   const status = getText(formData, "status");
+  const sourceType = getText(formData, "source_type") || "user_report";
+  const sourceTitle = getText(formData, "source_title") || null;
+  const sourceUrl = getText(formData, "source_url") || null;
+  const sourceCheckedAt = getText(formData, "source_checked_at") || null;
   const riskTagIds = getStringList(formData, "risk_tag_ids");
 
   if (!reportId || publicSummary.length < 10) {
@@ -78,6 +88,38 @@ export async function updateReportAction(formData: FormData) {
     redirect(`/admin/reports/${reportId}?error=invalid`);
   }
 
+  if (
+    !isReportSourceType(sourceType) ||
+    (sourceUrl && !/^https?:\/\/.+/i.test(sourceUrl)) ||
+    (sourceCheckedAt && !/^\d{4}-\d{2}-\d{2}$/.test(sourceCheckedAt))
+  ) {
+    redirect(`/admin/reports/${reportId}?error=source_invalid`);
+  }
+
+  if (
+    containsDangerousExpression(publicSummary) ||
+    containsDangerousExpression(sourceTitle ?? "")
+  ) {
+    redirect(
+      `/admin/reports/${reportId}?error=${encodeURIComponent(DANGEROUS_EXPRESSION_NOTICE)}`,
+    );
+  }
+
+  if (
+    containsNonPublicTextMarker(publicSummary) ||
+    containsNonPublicTextMarker(sourceTitle ?? "")
+  ) {
+    redirect(`/admin/reports/${reportId}?error=private_marker`);
+  }
+
+  if (
+    status === "approved" &&
+    isSourceBackedReport(sourceType) &&
+    (!sourceTitle || !sourceUrl || !sourceCheckedAt)
+  ) {
+    redirect(`/admin/reports/${reportId}?error=source_required`);
+  }
+
   const supabase = createSupabaseAdminClient();
   const { error: updateError } = await supabase
     .from("reports")
@@ -85,6 +127,10 @@ export async function updateReportAction(formData: FormData) {
       public_summary: publicSummary,
       evidence_level: evidenceLevel,
       status,
+      source_type: sourceType,
+      source_title: sourceTitle,
+      source_url: sourceUrl,
+      source_checked_at: sourceCheckedAt,
     })
     .eq("id", reportId);
 
@@ -116,6 +162,9 @@ export async function updateReportAction(formData: FormData) {
     metadata: {
       status,
       evidence_level: evidenceLevel,
+      source_type: sourceType,
+      source_url_set: Boolean(sourceUrl),
+      source_checked_at: sourceCheckedAt,
       risk_tag_count: riskTagIds.length,
     },
   });

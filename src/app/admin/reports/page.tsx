@@ -6,6 +6,7 @@ import { EmptyState } from "@/components/empty-state";
 import { Section } from "@/components/page-blocks";
 import { Container } from "@/components/site-shell";
 import { formatDate } from "@/lib/format";
+import { getReportSourceTypeLabel, isSourceBackedReport } from "@/lib/report-sources";
 import { requireAdminUser } from "@/lib/admin/auth";
 import { getAdminReports } from "@/lib/admin/data";
 import { getStatusLabel, isReportStatus, REPORT_STATUSES } from "@/lib/admin/types";
@@ -101,6 +102,14 @@ export default async function AdminReportsPage({ searchParams }: AdminReportsPag
                         <span className="rounded-md border border-line bg-paper px-2 py-1 text-xs text-muted">
                           証拠 {report.evidenceLevel}
                         </span>
+                        <span className="rounded-md border border-line bg-paper px-2 py-1 text-xs text-muted">
+                          {getReportSourceTypeLabel(report.sourceType)}
+                        </span>
+                        {isSourceBackedReport(report.sourceType) ? (
+                          <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
+                            出典確認
+                          </span>
+                        ) : null}
                         <span className="text-xs text-muted">{report.areaName}</span>
                       </div>
                       <h2 className="mt-2 text-lg font-bold text-ink">

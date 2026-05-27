@@ -17,6 +17,7 @@ const requiredReleaseFiles = [
   "supabase/migrations/0005_browser_rate_limit_key.sql",
   "supabase/migrations/0006_service_role_privileges.sql",
   "supabase/migrations/0007_external_rating_snapshots.sql",
+  "supabase/migrations/0008_report_source_attribution.sql",
   "EXTERNAL_RATING_TEMPLATE.csv",
   "EXTERNAL_RATING_GUIDE.md",
   "FREE_TIER_GROWTH_PLAN.md",
@@ -95,6 +96,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0005_browser_rate_limit_key.sql");
     expect(readme).toContain("0006_service_role_privileges.sql");
     expect(readme).toContain("0007_external_rating_snapshots.sql");
+    expect(readme).toContain("0008_report_source_attribution.sql");
     expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
     expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
     expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
@@ -263,6 +265,23 @@ test.describe("リリース準備資料", () => {
     expect(migration).not.toContain(
       "grant select on table public.external_rating_snapshots to anon",
     );
+    expect(migration).not.toContain("disable row level security");
+  });
+
+  test("出典メタ情報migrationは承認済み投稿だけを公開ビューへ出す", async () => {
+    const migration = await readFile(
+      path.join(rootDir, "supabase/migrations/0008_report_source_attribution.sql"),
+      "utf8",
+    );
+
+    expect(migration).toContain("source_type");
+    expect(migration).toContain("source_url");
+    expect(migration).toContain("source_checked_at");
+    expect(migration).toContain("public_place_reports");
+    expect(migration).toContain("where r.status = 'approved'");
+    expect(migration).toContain("grant select on table public.public_place_reports to anon");
+    expect(migration).not.toContain("grant select on table public.reports to anon");
+    expect(migration).not.toContain("grant select on table public.report_evidence_files to anon");
     expect(migration).not.toContain("disable row level security");
   });
 
@@ -473,10 +492,12 @@ test.describe("リリース準備資料", () => {
     expect(actions).toContain('const IMPORT_EVIDENCE_LEVEL = "Hidden"');
     expect(actions).toContain('new Set(["pending", "needs_review"])');
     expect(actions).toContain('reporter_email: INTERNAL_SEED_EMAIL');
+    expect(actions).toContain("source_checked_at");
     expect(actions).toContain("initial_data_imported");
     expect(actions).not.toContain('status: "approved"');
     expect(validationLib).toContain("INITIAL_DATA_COLUMNS");
     expect(validationLib).toContain("containsDangerousExpression");
+    expect(validationLib).toContain("isReportSourceType");
     expect(validationLib).toContain("Google口コミ");
     expect(adminDataPage).toContain("requireAdminUser");
     expect(adminDataPage).toContain("非公開デフォルト投入");

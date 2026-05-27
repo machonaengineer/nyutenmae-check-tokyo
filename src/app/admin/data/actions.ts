@@ -9,6 +9,7 @@ import {
   parseCsv,
   validateInitialDataCsv,
 } from "@/lib/initial-data-validation";
+import { isReportSourceType } from "@/lib/report-sources";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 
 export type InitialDataImportState = {
@@ -89,6 +90,10 @@ function buildRowErrors(options: {
   const privateMemo = getText(row, "private_memo");
   const placeName = getText(row, "place_name");
   const address = getText(row, "address");
+  const sourceType = getText(row, "source_type");
+  const sourceUrl = getText(row, "source_url");
+  const sourceTitle = getText(row, "source_title");
+  const sourceCheckedAt = getText(row, "source_checked_at");
 
   if (!area) {
     errors.push(`${lineNumber}行目: observed_area が初期対象エリアと一致しません。`);
@@ -108,12 +113,24 @@ function buildRowErrors(options: {
     errors.push(`${lineNumber}行目: place_name または address のどちらかが必要です。`);
   }
 
-  if (!getText(row, "source_type")) {
+  if (!sourceType) {
     errors.push(`${lineNumber}行目: source_type が必要です。`);
   }
 
-  if (!getText(row, "source_checked_at")) {
+  if (sourceType && !isReportSourceType(sourceType)) {
+    errors.push(`${lineNumber}行目: source_type が許可値ではありません。`);
+  }
+
+  if (sourceUrl && !/^https?:\/\/.+/i.test(sourceUrl)) {
+    errors.push(`${lineNumber}行目: source_url は http(s) URL にしてください。`);
+  }
+
+  if (!sourceCheckedAt) {
     errors.push(`${lineNumber}行目: source_checked_at が必要です。`);
+  }
+
+  if (sourceCheckedAt && !/^\d{4}-\d{2}-\d{2}$/.test(sourceCheckedAt)) {
+    errors.push(`${lineNumber}行目: source_checked_at は YYYY-MM-DD にしてください。`);
   }
 
   if (!getText(row, "incident_type")) {
@@ -128,8 +145,16 @@ function buildRowErrors(options: {
     errors.push(`${lineNumber}行目: public_summary に危険表現が含まれています。`);
   }
 
+  if (containsDangerousExpression(sourceTitle)) {
+    errors.push(`${lineNumber}行目: source_title に危険表現が含まれています。`);
+  }
+
   if (containsNonPublicTextMarker(publicSummary)) {
     errors.push(`${lineNumber}行目: public_summary に非公開情報を示す文字列があります。`);
+  }
+
+  if (containsNonPublicTextMarker(sourceTitle)) {
+    errors.push(`${lineNumber}行目: source_title に非公開情報を示す文字列があります。`);
   }
 
   if (
@@ -350,6 +375,10 @@ export async function importInitialDataAction(
           reporter_email: INTERNAL_SEED_EMAIL,
           public_summary: publicSummary,
           private_note: buildPrivateNote(row, adminUser.email),
+          source_type: getText(row, "source_type") || "other",
+          source_url: getText(row, "source_url") || null,
+          source_title: getText(row, "source_title") || null,
+          source_checked_at: getText(row, "source_checked_at") || null,
         })
         .select("id")
         .single();

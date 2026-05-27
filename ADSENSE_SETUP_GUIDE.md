@@ -52,6 +52,15 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - プライバシーポリシーでAdSense等の広告Cookie、外部広告事業者、オプトアウトに関する案内を確認する。
 - 無効なクリック、自己クリック、クリック依頼、クリック報酬を禁止する。
 
+## 申請前コンテンツ確認
+
+- `/`, `/map`, `/areas`, `/checklists`, `/topics`, `/sources`, `/support`, `/guidelines`, `/terms`, `/privacy`, `/monetization-policy` が404ではなく、独自の説明文を持っている。
+- `/sources` の報道・公的情報は、出典URL、確認日、独自要約として扱い、記事本文、口コミ本文、画像、スクリーンショットを転載していない。
+- 公開ページに投稿者メールアドレス、非公開メモ、証拠画像URL、Storage pathが含まれていない。
+- 収益化枠は管理画面、投稿フォーム、異議申立てフォーム、証拠画像確認画面には表示しない。
+- AdSenseサイト審査が `Ready` になるまで、`NEXT_PUBLIC_ADSENSE_ENABLED=false` を維持する。
+- ads.txtはルートの `/ads.txt` でHTTP 200を返し、robots.txtでブロックしない。
+
 ## 公式確認先
 
 - AdSense Program policies: https://support.google.com/adsense/answer/48182

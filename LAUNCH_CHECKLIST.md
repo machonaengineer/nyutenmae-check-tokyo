@@ -12,6 +12,7 @@
 - [ ] `0005_browser_rate_limit_key.sql` を本番DBへ適用した。
 - [ ] `0006_service_role_privileges.sql` を本番DBへ適用した。
 - [ ] `0007_external_rating_snapshots.sql` を本番DBへ適用した。
+- [ ] `0008_report_source_attribution.sql` を本番DBへ適用した。
 - [ ] `supabase/verification/non_admin_visibility_checks.sql` を実行し、期待値を確認した。
 - [ ] `report-evidence-files` bucket が private であることをSupabase画面でも確認した。
 - [ ] `reports`, `report_evidence_files`, `objections`, `admin_actions` を匿名ユーザーが直接読めないことを確認した。
@@ -32,6 +33,9 @@
 - [ ] `/admin`, `/reports/thanks`, `/healthz` に `X-Robots-Tag: noindex` が付くことを確認した。
 - [ ] JPEG、PNG、WebPのメタデータ削除を確認し、HEIC/HEIFは公開前に手動で個人情報を確認した。
 - [ ] 外部評価参考値を使う場合、`public_external_rating_snapshots` に `private_memo`、外部口コミ本文、投稿者名、スクリーンショットURLが含まれないことを確認した。
+- [ ] 公的情報、報道、外部傾向をもとに公開候補を作る場合、`source_type`、`source_url`、`source_title`、`source_checked_at` が保存されていることを確認した。
+- [ ] 出典付き公開候補を承認する前に、公開サマリーが独自要約であり、外部本文、口コミ本文、画像、スクリーンショットを転載していないことを確認した。
+- [ ] 出典付き公開候補を承認する前に、`source_title` と `public_summary` に禁止表現、個人情報、非公開DBカラム名が含まれていないことを確認した。
 - [ ] Google Places API同期を使う場合、`GOOGLE_PLACES_API_KEY` がVercelのサーバー環境変数だけに設定され、`NEXT_PUBLIC_` が付いていないことを確認した。
 - [ ] 食べログなど規約確認が必要な外部評価は、許諾確認まで `display_allowed=false` のまま公開されないことを確認した。
 - [ ] `NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED` は必要な場合だけ `true` にし、無料枠とプライバシー表示を確認した。
@@ -42,6 +46,7 @@
 - [ ] AdSenseを使う場合、広告クリックを促す文言、誤クリックを誘導する配置、コンテンツと誤認させる見出しがないことを確認した。
 - [ ] SNS共有文と `/admin/social` のテンプレートに断定表現、個人情報、外部本文転載は禁止が含まれていないことを確認した。
 - [ ] `/sources` と `/admin/research` に掲載する公式ソースURL、確認日、要約が最新で、本文転載は禁止していないことを確認した。
+- [ ] `/sources` と `/admin/research` に掲載する報道・公的情報ソースは、出典URL、確認日、独自要約として扱い、記事本文や口コミ本文をコピーしていないことを確認した。
 - [ ] SNSプロフィールURLを設定する場合、`NEXT_PUBLIC_X_PROFILE_URL` など公開してよいURLだけを入れ、ログイン情報やトークンを入れていないことを確認した。
 - [ ] スポンサー問い合わせフォームの送信内容が公開ページに表示されず、管理者画面だけで確認できることを確認した。
 - [ ] `/llms.txt` と構造化データに、投稿者メールアドレス、非公開メモ、証拠画像URL、Storageパス、外部口コミ本文が含まれていないことを確認した。

@@ -69,10 +69,10 @@ export function getPublicSourcesStructuredData() {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "公的・公式情報ソース",
+    name: "情報ソース",
     url: absoluteUrl("/sources"),
     description:
-      "入店前チェック東京で参照する公的・公式情報ソースと、転載を避けた扱い方を整理しています。",
+      "入店前チェック東京で参照する公的・公式情報、報道、調査候補と、転載を避けた扱い方を整理しています。",
     isPartOf: {
       "@id": `${SITE.url}/#website`,
     },

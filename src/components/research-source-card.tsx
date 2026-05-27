@@ -5,6 +5,7 @@ const sourceTypeLabels: Record<ResearchSource["sourceType"], string> = {
   police: "警察",
   consumer_center: "消費生活相談",
   municipality: "自治体",
+  news: "報道",
 };
 
 const priorityLabels: Record<ResearchSource["priority"], string> = {
@@ -40,7 +41,7 @@ export function ResearchSourceCard({
         rel="noreferrer"
         target="_blank"
       >
-        公式情報を確認する
+        {source.sourceType === "news" ? "出典を確認する" : "公式情報を確認する"}
       </a>
       {showNextAction ? (
         <div className="mt-4 rounded-md border border-line bg-surface p-3 text-sm leading-6 text-muted">

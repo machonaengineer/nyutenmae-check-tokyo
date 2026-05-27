@@ -52,16 +52,18 @@
 6. `supabase/migrations/0005_browser_rate_limit_key.sql` を適用する。
 7. `supabase/migrations/0006_service_role_privileges.sql` を適用する。
 8. `supabase/migrations/0007_external_rating_snapshots.sql` を適用する。
-9. `supabase/verification/non_admin_visibility_checks.sql` を実行して結果を記録する。
-10. Supabase Authで管理者ユーザーを作成する。
-11. Vercelに環境変数を設定する。
-12. Vercel Previewで `npm run build` 相当の成功を確認する。
-13. Previewで投稿、異議申立て、rate limit、ブラウザ識別Cookie、honeypot、管理画面、承認、公開表示を確認する。
-14. 外部評価を使う場合は、`EXTERNAL_RATING_GUIDE.md` に沿って出典URL、確認日、規約、帰属表示を確認する。
-15. 収益化枠は初期値OFFにし、`FREE_TIER_GROWTH_PLAN.md` に沿って商用利用条件を確認する。
-16. `LAUNCH_CHECKLIST.md` の必須項目をすべて確認する。
-17. Production Deployを実行する。
-18. 本番URLで公開ページ、投稿、管理ログイン、Storage private設定を再確認する。
+9. `supabase/migrations/0008_report_source_attribution.sql` を適用する。
+10. `supabase/verification/non_admin_visibility_checks.sql` を実行して結果を記録する。
+11. Supabase Authで管理者ユーザーを作成する。
+12. Vercelに環境変数を設定する。
+13. Vercel Previewで `npm run build` 相当の成功を確認する。
+14. Previewで投稿、異議申立て、rate limit、ブラウザ識別Cookie、honeypot、管理画面、承認、公開表示を確認する。
+15. 外部評価を使う場合は、`EXTERNAL_RATING_GUIDE.md` に沿って出典URL、確認日、規約、帰属表示を確認する。
+16. 報道や公的情報を公開候補にする場合は、`source_type`、出典URL、確認日、独自要約、転載禁止を確認する。
+17. 収益化枠は初期値OFFにし、`FREE_TIER_GROWTH_PLAN.md` に沿って商用利用条件を確認する。
+18. `LAUNCH_CHECKLIST.md` の必須項目をすべて確認する。
+19. Production Deployを実行する。
+20. 本番URLで公開ページ、投稿、管理ログイン、Storage private設定を再確認する。
 
 ## ロールバック方針
 
@@ -76,6 +78,7 @@
 - 承認済み投稿だけが地図、エリア、詳細に表示される。
 - 公開ビューにメールアドレス、非公開メモ、証拠ファイルパスが含まれない。
 - 外部評価参考値の公開ビューに口コミ本文、投稿者名、非公開メモ、スクリーンショットURLが含まれない。
+- 出典付き公開候補は、承認済み投稿だけが出典URL、確認日、独自要約として表示される。
 - 収益化枠がデフォルトOFFで、ONにしても投稿審査や公開順位に影響しない。
 - 管理画面が `ADMIN_EMAILS` で制限される。
 - `npx playwright test` が成功する。

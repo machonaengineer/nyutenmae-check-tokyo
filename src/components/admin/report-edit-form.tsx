@@ -2,6 +2,7 @@ import { EVIDENCE_LEVEL_VALUES, REPORT_STATUSES } from "@/lib/admin/types";
 import type { AdminReportDetail, AdminRiskTag } from "@/lib/admin/data";
 import { updateReportAction } from "@/app/admin/actions";
 import { getStatusLabel } from "@/lib/admin/types";
+import { REPORT_SOURCE_TYPES, getReportSourceTypeLabel } from "@/lib/report-sources";
 
 export function ReportEditForm({
   report,
@@ -55,6 +56,56 @@ export function ReportEditForm({
           </select>
         </label>
       </div>
+
+      <fieldset className="grid gap-4 rounded-md border border-line bg-surface p-4">
+        <legend className="px-1 text-sm font-semibold text-ink">出典メタ情報</legend>
+        <p className="text-xs leading-5 text-muted">
+          報道・公的情報・外部傾向を公開する場合だけ入力します。外部本文や口コミ本文は転載しません。
+        </p>
+        <label className="grid gap-2 text-sm font-semibold text-ink">
+          出典種別
+          <select
+            className="rounded-md border border-line bg-white px-3 py-2 font-normal text-ink"
+            defaultValue={report.sourceType}
+            name="source_type"
+          >
+            {REPORT_SOURCE_TYPES.map((sourceType) => (
+              <option key={sourceType} value={sourceType}>
+                {getReportSourceTypeLabel(sourceType)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <div className="grid gap-4 md:grid-cols-2">
+          <label className="grid gap-2 text-sm font-semibold text-ink">
+            出典タイトル
+            <input
+              className="rounded-md border border-line bg-white px-3 py-2 font-normal text-ink"
+              defaultValue={report.sourceTitle ?? ""}
+              name="source_title"
+              type="text"
+            />
+          </label>
+          <label className="grid gap-2 text-sm font-semibold text-ink">
+            出典確認日
+            <input
+              className="rounded-md border border-line bg-white px-3 py-2 font-normal text-ink"
+              defaultValue={report.sourceCheckedAt?.slice(0, 10) ?? ""}
+              name="source_checked_at"
+              type="date"
+            />
+          </label>
+        </div>
+        <label className="grid gap-2 text-sm font-semibold text-ink">
+          出典URL
+          <input
+            className="rounded-md border border-line bg-white px-3 py-2 font-normal text-ink"
+            defaultValue={report.sourceUrl ?? ""}
+            name="source_url"
+            type="url"
+          />
+        </label>
+      </fieldset>
 
       <fieldset className="grid gap-3">
         <legend className="text-sm font-semibold text-ink">リスクタグ</legend>

@@ -12,6 +12,7 @@ import {
 } from "@/lib/external-ratings";
 import { formatBoolean, formatCurrency, formatDate } from "@/lib/format";
 import { getPlaceDisplayName, getPublicPlaceDetail } from "@/lib/public-data";
+import { getReportSourceTypeLabel, isSourceBackedReport } from "@/lib/report-sources";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 
 type PlacePageProps = {
@@ -155,7 +156,44 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
                   <p>証拠レベル: {report.evidenceLevel}</p>
                   <p>会計金額: {formatCurrency(report.actualBilledAmount)}</p>
                 </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="rounded-md border border-line bg-paper px-2 py-1 text-xs font-semibold text-muted">
+                    {getReportSourceTypeLabel(report.sourceType)}
+                  </span>
+                  {isSourceBackedReport(report.sourceType) ? (
+                    <>
+                      <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
+                        投稿者申告ではない出典確認情報
+                      </span>
+                      {report.sourceCheckedAt ? (
+                        <span className="rounded-md border border-line bg-paper px-2 py-1 text-xs text-muted">
+                          出典確認日: {formatDate(report.sourceCheckedAt)}
+                        </span>
+                      ) : null}
+                    </>
+                  ) : null}
+                </div>
                 <p className="mt-4 text-sm leading-7 text-ink">{report.publicSummary}</p>
+                {isSourceBackedReport(report.sourceType) ? (
+                  <div className="mt-4 rounded-md border border-line bg-white p-3 text-xs leading-5 text-muted">
+                    <p>
+                      この項目は公開情報をもとに管理者が独自要約した注意情報です。外部本文や口コミ本文は転載していません。
+                    </p>
+                    {report.sourceUrl ? (
+                      <a
+                        className="mt-2 inline-flex font-semibold text-action"
+                        href={report.sourceUrl}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        出典を確認する
+                      </a>
+                    ) : null}
+                    {report.sourceTitle ? (
+                      <p className="mt-1">出典: {report.sourceTitle}</p>
+                    ) : null}
+                  </div>
+                ) : null}
                 <dl className="mt-4 grid gap-3 text-sm text-muted md:grid-cols-2">
                   <div>
                     <dt className="font-semibold text-ink">客引き経由の来店</dt>

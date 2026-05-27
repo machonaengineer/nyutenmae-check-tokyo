@@ -7,9 +7,9 @@ import { RESEARCH_SOURCES } from "@/lib/research-sources";
 import { getPublicSourcesStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "公的・公式情報ソース",
+  title: "情報ソース",
   description:
-    "入店前チェック東京で参照する公的・公式情報ソースと、転載を避けた扱い方を整理しています。",
+    "入店前チェック東京で参照する公的・公式情報、報道、調査候補と、転載を避けた扱い方を整理しています。",
   alternates: {
     canonical: "/sources",
   },
@@ -21,14 +21,14 @@ export default function SourcesPage() {
       <JsonLd data={getPublicSourcesStructuredData()} />
       <PageHeader
         eyebrow="Sources"
-        title="公的・公式情報ソース"
-        description="注意報告を増やす前段階として、自治体、警察、消費生活相談などの公式情報を整理しています。"
+        title="情報ソース"
+        description="注意報告を増やす前段階として、自治体、警察、消費生活相談、報道などの出典を整理しています。"
         primaryAction={{ href: "/reports/new", label: "注意報告を送る" }}
       />
 
       <Section title="扱い方">
         <PolicyNote>
-          ここに掲載するのは調査元の公式リンクです。本文、口コミ、画像、スクリーンショット、電話番号、個人情報は転載せず、独自要約、出典URL、確認日として扱います。
+          ここに掲載するのは調査元へのリンクと独自要約です。本文、口コミ、画像、スクリーンショット、電話番号、個人情報は転載せず、出典URL、確認日、公開前審査の材料として扱います。
         </PolicyNote>
       </Section>
 

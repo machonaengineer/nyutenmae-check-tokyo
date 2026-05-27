@@ -18,7 +18,7 @@ const publicRoutes = [
   { path: "/topics", heading: "トラブル種別別ガイド" },
   { path: "/topics/price-confirmation", heading: "料金説明の確認" },
   { path: "/contribute", heading: "情報提供のお願い" },
-  { path: "/sources", heading: "公的・公式情報ソース" },
+  { path: "/sources", heading: "情報ソース" },
   { path: "/social", heading: "SNS共有・情報提供" },
   { path: "/sponsor", heading: "スポンサー・広告掲載について" },
   { path: "/reports/new", heading: "注意報告を送る" },
@@ -364,7 +364,7 @@ test.describe("公開ページ", () => {
     ).toBeVisible();
   });
 
-  test("公的・公式情報ソースページで転載禁止方針を確認できる", async ({ page }) => {
+  test("情報ソースページで転載禁止方針を確認できる", async ({ page }) => {
     await page.goto("/sources");
 
     await expect(page.getByText("本文、口コミ、画像、スクリーンショット")).toBeVisible();

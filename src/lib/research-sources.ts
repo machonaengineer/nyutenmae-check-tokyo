@@ -4,7 +4,12 @@ export type ResearchSource = {
   id: string;
   areaSlug: string;
   areaName: string;
-  sourceType: "public_agency" | "police" | "consumer_center" | "municipality";
+  sourceType:
+    | "public_agency"
+    | "police"
+    | "consumer_center"
+    | "municipality"
+    | "news";
   sourceTitle: string;
   sourceUrl: string;
   sourceCheckedAt: string;
@@ -129,6 +134,86 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
       "湯島周辺のエリア説明、公式確認先、相談導線の補足として参照します。",
     nextAction:
       "公的取組の要約に限定し、店舗名や個人名を含む情報は扱わない。",
+  },
+  {
+    id: "news-kabukicho-chain-claim-touting-202401",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町で既存チェーン関係者を装う客引き事案の報道",
+    sourceUrl: "https://www.tokyo-sports.co.jp/articles/-/290541?page=1",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "報道では、既存チェーンの関係者を装う客引きと、別店舗への案内に関する事案が紹介されています。",
+    suggestedUse:
+      "個別店舗として公開する前に、店名、住所、現在状況、異議申立て導線、表現を管理者が再確認します。",
+    nextAction:
+      "INITIAL_DATA_CANDIDATES_2026-05-27.csv の候補と照合し、公開できる場合も出典確認日と独自要約に限定する。",
+  },
+  {
+    id: "news-kabukicho-billing-gap-202401",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町で系列店案内後の会計差異に関する報道",
+    sourceUrl: "https://mezamashi.media/articles/-/20624",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "報道では、系列店案内を受けた利用者が会計時に説明と異なる金額を確認したとの証言が紹介されています。",
+    suggestedUse:
+      "客引き経由、料金説明、会計確認の注意喚起に使い、報道本文や画像は転載しません。",
+    nextAction:
+      "店名・住所が確定しない行は公開承認せず、エリア注意喚起やSNSの一般的な確認項目に転用する。",
+  },
+  {
+    id: "news-ikebukuro-solicitation-billing-202202",
+    areaSlug: "ikebukuro",
+    areaName: "池袋",
+    sourceType: "news",
+    sourceTitle: "池袋で客引き経由の追加支払いに関する報道",
+    sourceUrl: "https://news.tv-asahi.co.jp/news_society/articles/000246210.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "報道では、豊島区西池袋の店舗について、客引き経由の来店と追加支払いに関する事案が紹介されています。",
+    suggestedUse:
+      "池袋エリアの客引き経由来店、会計前確認、相談導線の強化に使います。",
+    nextAction:
+      "店名未確認のため個別店舗として承認せず、追加出典が得られるまでneeds_reviewを維持する。",
+  },
+  {
+    id: "news-kabukicho-host-billing-202311",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町ホストクラブ利用と高額支払いに関する報道",
+    sourceUrl: "https://s.mxtv.jp/mxnews/article/chiiki/1etqjlg0fa1utasu2.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "報道では、歌舞伎町のホストクラブ利用をめぐる高額な支払い相談の文脈が紹介されています。",
+    suggestedUse:
+      "当サービスの対象である料金説明・会計確認に関わる範囲だけを審査し、別論点を混ぜないようにします。",
+    nextAction:
+      "公開候補にする場合は、現在状況と権利侵害リスクを確認し、表現を管理者が再編集する。",
+  },
+  {
+    id: "news-kabukicho-app-bar-billing-202305",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町1丁目の飲み放題条件と会計対応に関する報道",
+    sourceUrl: "https://www.asahi.com/articles/ASR5K76S8R5KUTIL007.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "報道では、飲み放題条件や会計時対応について利用者側との認識差があった事案が紹介されています。",
+    suggestedUse:
+      "飲み放題条件、明細確認、退店時の安全確保に関する確認項目の補強に使います。",
+    nextAction:
+      "店名未確認のため、個別店舗公開ではなく確認項目と相談導線の改善材料として扱う。",
   },
 ];
 

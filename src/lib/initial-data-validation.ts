@@ -1,4 +1,5 @@
 import { containsDangerousExpression } from "@/lib/content-safety";
+import { isReportSourceType } from "@/lib/report-sources";
 
 export const INITIAL_DATA_COLUMNS = [
   "source_type",
@@ -216,7 +217,26 @@ export function validateInitialDataCsv(content: string): CsvValidationResult {
       }
     }
 
+    if (row.source_type && !isReportSourceType(row.source_type)) {
+      addIssue(issues, lineNumber, "source_type", "error", "source_typeが許可値ではありません。");
+    }
+
+    if (row.source_url && !/^https?:\/\/.+/i.test(row.source_url)) {
+      addIssue(issues, lineNumber, "source_url", "error", "source_urlはhttp(s) URLにしてください。");
+    }
+
+    if (row.source_checked_at && !/^\d{4}-\d{2}-\d{2}$/.test(row.source_checked_at)) {
+      addIssue(
+        issues,
+        lineNumber,
+        "source_checked_at",
+        "error",
+        "source_checked_atはYYYY-MM-DDで入力してください。",
+      );
+    }
+
     const publicText = row.public_summary || "";
+    const sourceTitle = row.source_title || "";
     const privateMemo = row.private_memo || "";
 
     if (!publicText || publicText.length < 20) {
@@ -239,6 +259,16 @@ export function validateInitialDataCsv(content: string): CsvValidationResult {
       );
     }
 
+    if (containsDangerousExpression(sourceTitle)) {
+      addIssue(
+        issues,
+        lineNumber,
+        "source_title",
+        "error",
+        "公開される出典タイトルに危険表現が含まれています。",
+      );
+    }
+
     for (const term of externalCopyRiskTerms) {
       if (publicText.includes(term) || privateMemo.includes(term)) {
         addIssue(
@@ -258,6 +288,16 @@ export function validateInitialDataCsv(content: string): CsvValidationResult {
         "public_summary",
         "error",
         "公開サマリーに非公開情報を示す文字列が含まれています。",
+      );
+    }
+
+    if (containsNonPublicTextMarker(sourceTitle)) {
+      addIssue(
+        issues,
+        lineNumber,
+        "source_title",
+        "error",
+        "公開される出典タイトルに非公開情報を示す文字列が含まれています。",
       );
     }
   });

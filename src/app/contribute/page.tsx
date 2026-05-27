@@ -84,7 +84,7 @@ export default function ContributePage() {
             className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
             href="/sources"
           >
-            公的・公式情報ソースを見る
+            情報ソースを見る
           </Link>
         </div>
       </Section>
