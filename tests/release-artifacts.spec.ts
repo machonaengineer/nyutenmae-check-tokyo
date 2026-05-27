@@ -22,6 +22,8 @@ const requiredReleaseFiles = [
   "FREE_TIER_GROWTH_PLAN.md",
   "ADSENSE_SETUP_GUIDE.md",
   "SOCIAL_GROWTH_PLAN.md",
+  "SOURCE_RESEARCH_QUEUE.csv",
+  "DATA_COLLECTION_PLAYBOOK.md",
 ] as const;
 
 const initialDataColumns = [
@@ -92,6 +94,8 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
     expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
     expect(readme).toContain("SOCIAL_GROWTH_PLAN.md");
+    expect(readme).toContain("SOURCE_RESEARCH_QUEUE.csv");
+    expect(readme).toContain("DATA_COLLECTION_PLAYBOOK.md");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {
@@ -314,6 +318,27 @@ test.describe("リリース準備資料", () => {
     expect(adminSocial).toContain("SocialTemplateBoard");
     expect(envExample).toContain("NEXT_PUBLIC_X_PROFILE_URL=");
     expect(envExample).not.toContain("SOCIAL_ACCESS_TOKEN");
+  });
+
+  test("公的・公式ソース調査キューは転載禁止と非公開デフォルト運用を明記する", async () => {
+    const queue = await readFile(path.join(rootDir, "SOURCE_RESEARCH_QUEUE.csv"), "utf8");
+    const playbook = await readFile(path.join(rootDir, "DATA_COLLECTION_PLAYBOOK.md"), "utf8");
+    const researchLib = await readFile(path.join(rootDir, "src/lib/research-sources.ts"), "utf8");
+    const sourcesPage = await readFile(path.join(rootDir, "src/app/sources/page.tsx"), "utf8");
+    const adminResearch = await readFile(
+      path.join(rootDir, "src/app/admin/research/page.tsx"),
+      "utf8",
+    );
+
+    expect(queue).toContain("source_checked_at");
+    expect(queue).toContain("本文・口コミ・画像・スクリーンショット");
+    expect(playbook).toContain("実在店舗への注意報告を根拠なしに作ること");
+    expect(playbook).toContain("status=pending");
+    expect(playbook).toContain("evidence_level=Hidden");
+    expect(researchLib).toContain("RESEARCH_SOURCES");
+    expect(sourcesPage).toContain("ResearchSourceCard");
+    expect(adminResearch).toContain("requireAdminUser");
+    expect(adminResearch).toContain("getResearchSourceCsv");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

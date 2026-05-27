@@ -1,0 +1,8 @@
+source_type,source_url,source_title,source_checked_at,observed_area,research_status,priority,suggested_use,extraction_policy,next_action
+municipality,https://www.city.shinjuku.lg.jp/seikatsu/shohi01_000300.html,新宿区の高額請求トラブル相談案内,2026-05-27,新宿・歌舞伎町,not_started,high,新宿・歌舞伎町の相談導線と初期データ調査に使う,本文・口コミ・画像・スクリーンショット・電話番号・個人情報は転載しない,相談案内の内容を独自要約し個別店舗への断定に使わない
+police,https://www.keishicho.metro.tokyo.lg.jp/about_mpd/shokai/ichiran/kankatsu/shinjuku/about_ps/safe_drinking.html,警視庁の新宿繁華街利用時の注意喚起,2026-05-27,新宿・歌舞伎町,not_started,high,入店前確認と相談導線の一般的な注意喚起に使う,本文・口コミ・画像・スクリーンショット・電話番号・個人情報は転載しない,注意喚起の趣旨だけを独自要約する
+consumer_center,https://www.shouhiseikatu.metro.tokyo.lg.jp/sodan/sodan.html,東京都消費生活総合センターの相談案内,2026-05-27,都内共通,not_started,high,全エリア共通の相談導線に使う,本文・口コミ・画像・スクリーンショット・電話番号・個人情報は転載しない,電話番号と公式URLの確認日を運用メモに残す
+municipality,https://www.city.toshima.lg.jp/048/chian/1812031128.html,豊島区の安全・安心に関する取組,2026-05-27,池袋,not_started,medium,池袋エリアの背景情報と公式確認先に使う,本文・口コミ・画像・スクリーンショット・電話番号・個人情報は転載しない,池袋エリアの公的な確認先としてリンクを整理する
+municipality,https://files.city.shibuya.tokyo.jp/assets/12995aba8b194961be709ba879857f70/c5172093828b4b44b6d3b59d0875ceee/20240305kannkyoujyoukatennpo.pdf,渋谷区の客引きしない宣言店資料,2026-05-27,渋谷・道玄坂・宇田川町,not_started,medium,渋谷周辺の公的な取組確認に使う,店舗一覧・電話番号・画像・スクリーンショットは転載しない,資料の存在だけを記録し個別店舗情報を転記しない
+municipality,https://www.city.taito.lg.jp/bosai/bohantaisaku/anzentaisaku/kyakuhiki/kyakuhiki.html,台東区の客引き行為等の防止に関する案内,2026-05-27,上野・御徒町・湯島,not_started,high,上野・御徒町周辺のエリア背景と入店前確認に使う,本文・口コミ・画像・スクリーンショット・電話番号・個人情報は転載しない,条例や取組の趣旨を独自要約する
+municipality,https://www.city.bunkyo.lg.jp/b009/p000184.html,文京区の客引き行為等への対策,2026-05-27,上野・御徒町・湯島,not_started,medium,湯島周辺のエリア説明と公式確認先に使う,本文・口コミ・画像・スクリーンショット・電話番号・個人情報は転載しない,公的取組の要約に限定し店舗名や個人名を含む情報は扱わない

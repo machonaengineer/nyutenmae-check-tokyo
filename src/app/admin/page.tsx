@@ -56,6 +56,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <AdminLink href="/admin/reports?status=pending" label="審査待ち投稿を見る" />
                 <AdminLink href="/admin/objections" label="異議申立てを見る" />
                 <AdminLink href="/admin/data" label="初期データCSVを検証する" />
+                <AdminLink href="/admin/research" label="調査キューを見る" />
+                <AdminLink href="/admin/social" label="SNS文面を確認する" />
               </div>
             </div>
 

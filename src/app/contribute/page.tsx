@@ -79,6 +79,14 @@ export default function ContributePage() {
         description="情報量を増やす場合も、転載や断定を避け、公開前審査を維持します。"
       >
         <DefinitionList items={sourcePolicies} />
+        <div className="mt-6">
+          <Link
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+            href="/sources"
+          >
+            公的・公式情報ソースを見る
+          </Link>
+        </div>
       </Section>
 
       <Section

@@ -131,8 +131,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/social`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
-- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/social`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/social`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/research`, `/admin/social`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
 - 異議申立てフォーム、管理者ログイン、投稿審査、証拠画像確認、異議申立て確認
@@ -154,6 +154,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 情報提供募集ページとスポンサー問い合わせページ
 - トラブル種別別のSEO向け安全確認ガイド
 - SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像
+- 公的・公式情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
 
 ## DB設計
 
@@ -232,3 +233,5 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `FREE_TIER_GROWTH_PLAN.md`: 無料枠重視のSEO、計測、収益化準備方針
 - `ADSENSE_SETUP_GUIDE.md`: AdSense導入時の環境変数、ads.txt、ポリシーチェック
 - `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動連携前の運用方針
+- `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
+- `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順

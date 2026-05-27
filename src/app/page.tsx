@@ -186,6 +186,12 @@ export default function Home() {
           >
             注意報告を送る
           </Link>
+          <Link
+            href="/sources"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+          >
+            公式情報ソースを見る
+          </Link>
         </div>
       </Section>
 
