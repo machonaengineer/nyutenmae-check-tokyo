@@ -62,6 +62,12 @@ export function AdminShell({
               </Link>
               <Link
                 className="rounded-md px-3 py-2 text-sm font-semibold text-white no-underline transition hover:bg-white/10"
+                href="/admin/area-ops"
+              >
+                エリア運用
+              </Link>
+              <Link
+                className="rounded-md px-3 py-2 text-sm font-semibold text-white no-underline transition hover:bg-white/10"
                 href="/admin/social"
               >
                 SNS

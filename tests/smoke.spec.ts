@@ -387,6 +387,14 @@ test.describe("公開ページ", () => {
     ).toBeVisible();
   });
 
+  test("未ログインではエリア運用管理画面ログインに誘導される", async ({ page }) => {
+    await page.goto("/admin/area-ops");
+
+    await expect(
+      page.getByRole("heading", { name: "管理画面ログイン", level: 1 }),
+    ).toBeVisible();
+  });
+
   test("情報ソースページで転載禁止方針を確認できる", async ({ page }) => {
     await page.goto("/sources");
 

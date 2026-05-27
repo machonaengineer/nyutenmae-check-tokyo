@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "check:sources": "node scripts/check-source-links.mjs",
+    "check:sources:dry": "node scripts/check-source-links.mjs --dry-run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },

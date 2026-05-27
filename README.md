@@ -29,6 +29,7 @@ npm run dev
 npm run build
 npm run lint
 npm run typecheck
+npm run check:sources:dry
 npm run test:e2e
 ```
 
@@ -140,7 +141,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
 - `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/evidence`, `/areas/[slug]/contribute`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/coverage`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
-- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/quality`, `/admin/research`, `/admin/social`, `/admin/sponsors`
+- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/quality`, `/admin/research`, `/admin/area-ops`, `/admin/social`, `/admin/sponsors`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
 - 異議申立てフォーム、管理者ログイン、投稿審査、証拠画像確認、異議申立て確認
@@ -173,6 +174,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - 掲載対象エリアを12エリアへ拡大。承認済み投稿がないエリアは空状態と確認導線だけを表示
 - 12エリアごとの詳細ガイド、記録保存ガイド、情報提供ガイドを追加。投稿が少ない段階でも、入店前確認、会計前確認、証拠保存、相談導線の価値を提供
 - `AREA_DATA_COLLECTION_QUEUE.csv` で、エリアごとの公式ソース、ユーザー報告、建物確認、コンテンツ増強の調査トラックを管理
+- `/admin/area-ops` で、エリアごとの公式ソース、投稿導線、建物確認、コンテンツ増強、ソース再確認目安を管理
+- `npm run check:sources` で、`SOURCE_RESEARCH_QUEUE.csv` の公式URLを無料範囲で手動確認
 - `/roadmap` でフェーズ13〜20の改善予定と公開情報の扱い方を表示
 - トップページでの掲載対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
@@ -269,6 +272,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー
+- `PHASE_26_AREA_OPERATIONS_PLAN.md`: エリア別情報蓄積オペレーション管理の実装方針
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
 - `DATA_QUALITY_SOP.md`: 建物情報、同一住所・同一建物候補、初期データ審査の運用手順
@@ -279,3 +283,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_23_REVIEW_WORKFLOW_PLAN.md`: 初期データ候補を管理者限定の審査DBで扱う運用
 - `PHASE_24_AREA_EXPANSION_PLAN.md`: 掲載エリア拡大と公開範囲の安全方針
 - `PHASE_25_CONTENT_DEPTH_PLAN.md`: エリア別コンテンツ増強と調査キューの安全方針
+- `PHASE_26_AREA_OPERATIONS_PLAN.md`: 管理画面でのエリア別運用キュー、ソース鮮度、リンク確認の方針

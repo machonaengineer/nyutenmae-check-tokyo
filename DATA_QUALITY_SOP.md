@@ -11,6 +11,7 @@
 - 外部口コミ、ニュース本文、SNS投稿本文は転載は禁止し、出典URL、確認日、独自要約で扱う。
 - 掲載エリアの追加は、個別店舗の公開や注意表示を意味しない。承認済み投稿がないエリアは空状態で表示する。
 - エリア別の情報収集は `AREA_DATA_COLLECTION_QUEUE.csv` を使い、公式ソース、ユーザー報告、建物確認、コンテンツ増強を分けて扱う。
+- 管理画面では `/admin/area-ops` を使い、エリア別の運用ステータス、公式ソース鮮度、次の作業を確認する。
 
 ## 毎日の確認
 
@@ -22,11 +23,13 @@
 
 ## エリア別の厚み確認
 
-1. `AREA_DATA_COLLECTION_QUEUE.csv` を開き、各エリアの `official_source`、`user_report`、`building_review`、`content_depth` を確認する。
-2. `official_source` は自治体、警察、消費生活相談などの公式URL、確認日、独自要約だけを扱う。
-3. `user_report` は投稿フォームから `pending / Hidden` で保存し、自動公開しない。
-4. `building_review` は同一住所・同一建物の候補確認に限定し、同一運営や同一店舗とは断定しない。
-5. `content_depth` は投稿を待たずに改善できる確認リスト、記録保存、相談導線へ反映する。
+1. `/admin/area-ops` を開き、各エリアの `公式ソース`、`投稿導線`、`建物確認`、`コンテンツ増強` を確認する。
+2. 必要に応じて `AREA_DATA_COLLECTION_QUEUE.csv` を開き、運用CSVとして差分を確認する。
+3. `official_source` は自治体、警察、消費生活相談などの公式URL、確認日、独自要約だけを扱う。
+4. `user_report` は投稿フォームから `pending / Hidden` で保存し、自動公開しない。
+5. `building_review` は同一住所・同一建物の候補確認に限定し、同一運営や同一店舗とは断定しない。
+6. `content_depth` は投稿を待たずに改善できる確認リスト、記録保存、相談導線へ反映する。
+7. 公式ソースの定期点検では `npm run check:sources:dry` でCSVの読み込みを確認し、必要時だけ `npm run check:sources` でURL状態を確認する。
 
 ## 同一住所・同一建物候補
 

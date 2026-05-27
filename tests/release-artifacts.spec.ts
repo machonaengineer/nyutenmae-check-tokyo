@@ -40,11 +40,15 @@ const requiredReleaseFiles = [
   "PHASE_23_REVIEW_WORKFLOW_PLAN.md",
   "PHASE_24_AREA_EXPANSION_PLAN.md",
   "PHASE_25_CONTENT_DEPTH_PLAN.md",
+  "PHASE_26_AREA_OPERATIONS_PLAN.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/admin/initial-data-candidates.ts",
+  "src/lib/area-operations.ts",
+  "src/app/admin/area-ops/page.tsx",
   "src/components/json-ld.tsx",
   "src/lib/structured-data.ts",
   "src/app/llms.txt/route.ts",
+  "scripts/check-source-links.mjs",
 ] as const;
 
 const initialDataColumns = [
@@ -732,6 +736,66 @@ test.describe("リリース準備資料", () => {
     expect(phase25).toContain("店舗名や個人名を増やすのではなく");
     expect(readme).toContain("AREA_DATA_COLLECTION_QUEUE.csv");
     expect(areaContent).not.toContain("storage_path");
+  });
+
+  test("フェーズ26はエリア別運用キューを管理画面化しソース確認を無料枠で回せる", async () => {
+    const phase26 = await readFile(
+      path.join(rootDir, "PHASE_26_AREA_OPERATIONS_PLAN.md"),
+      "utf8",
+    );
+    const areaOperations = await readFile(
+      path.join(rootDir, "src/lib/area-operations.ts"),
+      "utf8",
+    );
+    const adminAreaOps = await readFile(
+      path.join(rootDir, "src/app/admin/area-ops/page.tsx"),
+      "utf8",
+    );
+    const adminShell = await readFile(
+      path.join(rootDir, "src/components/admin/admin-shell.tsx"),
+      "utf8",
+    );
+    const adminHome = await readFile(path.join(rootDir, "src/app/admin/page.tsx"), "utf8");
+    const sourceCheckScript = await readFile(
+      path.join(rootDir, "scripts/check-source-links.mjs"),
+      "utf8",
+    );
+    const packageJson = await readFile(path.join(rootDir, "package.json"), "utf8");
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+    const launchChecklist = await readFile(
+      path.join(rootDir, "LAUNCH_CHECKLIST.md"),
+      "utf8",
+    );
+    const qualitySop = await readFile(path.join(rootDir, "DATA_QUALITY_SOP.md"), "utf8");
+
+    expect(adminAreaOps).toContain("requireAdminUser");
+    expect(adminAreaOps).toContain("getAreaOperationDashboard");
+    expect(adminAreaOps).toContain("AREA_OPERATION_STATUSES");
+    expect(adminAreaOps).toContain("公式ソース");
+    expect(adminAreaOps).toContain("投稿導線");
+    expect(adminAreaOps).toContain("建物確認");
+    expect(adminAreaOps).toContain("コンテンツ増強");
+    expect(adminShell).toContain("/admin/area-ops");
+    expect(adminHome).toContain("エリア運用を見る");
+    expect(areaOperations).toContain("AreaOperationStatus");
+    expect(areaOperations).toContain("not_started");
+    expect(areaOperations).toContain("in_progress");
+    expect(areaOperations).toContain("needs_review");
+    expect(areaOperations).toContain("publish_candidate");
+    expect(areaOperations).toContain("on_hold");
+    expect(areaOperations).toContain("SOURCE_RECHECK_INTERVAL_DAYS");
+    expect(sourceCheckScript).toContain("SOURCE_RESEARCH_QUEUE.csv");
+    expect(sourceCheckScript).toContain("--dry-run");
+    expect(sourceCheckScript).toContain("fetchWithTimeout");
+    expect(packageJson).toContain("check:sources");
+    expect(readme).toContain("/admin/area-ops");
+    expect(readme).toContain("npm run check:sources");
+    expect(launchChecklist).toContain("/admin/area-ops");
+    expect(qualitySop).toContain("npm run check:sources:dry");
+    expect(phase26).toContain("エリア運用は公開判断ではない");
+    expect(phase26).toContain("同一運営や同一店舗とは断定しない");
+    expect(adminAreaOps).not.toContain("storage_path");
+    expect(areaOperations).not.toContain("reporter_email");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

@@ -59,6 +59,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <AdminLink href="/admin/data" label="初期データCSVを検証する" />
                 <AdminLink href="/admin/quality" label="品質キューを見る" />
                 <AdminLink href="/admin/research" label="調査キューを見る" />
+                <AdminLink href="/admin/area-ops" label="エリア運用を見る" />
                 <AdminLink href="/admin/social" label="SNS文面を確認する" />
                 <AdminLink href="/admin/sponsors" label="スポンサー問い合わせを見る" />
               </div>
