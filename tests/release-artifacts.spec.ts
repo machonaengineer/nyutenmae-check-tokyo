@@ -46,6 +46,7 @@ const requiredReleaseFiles = [
   "PHASE_28_PRODUCTION_SEED_RUN.md",
   "PHASE_29_50_EXPANSION_ROADMAP.md",
   "PHASE_29_50_EXECUTION_MATRIX.csv",
+  "PHASE_51_DEEP_REVIEW_WORKFLOW.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/phase-roadmap.ts",
   "src/lib/admin/initial-data-candidates.ts",
@@ -953,6 +954,43 @@ test.describe("リリース準備資料", () => {
     expect(trustPage).not.toContain("storage_path");
     expect(phaseRoadmap).not.toContain("Google口コミを転載");
     expect(matrix).not.toContain("approved");
+  });
+
+  test("フェーズ51は候補から非公開投稿を作成する審査導線を実装する", async () => {
+    const phase51 = await readFile(
+      path.join(rootDir, "PHASE_51_DEEP_REVIEW_WORKFLOW.md"),
+      "utf8",
+    );
+    const actions = await readFile(
+      path.join(rootDir, "src/app/admin/data/actions.ts"),
+      "utf8",
+    );
+    const adminDataPage = await readFile(
+      path.join(rootDir, "src/app/admin/data/page.tsx"),
+      "utf8",
+    );
+    const adminData = await readFile(path.join(rootDir, "src/lib/admin/data.ts"), "utf8");
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+
+    expect(phase51).toContain("非公開投稿へ作成");
+    expect(phase51).toContain("公開承認ではない");
+    expect(actions).toContain("importInitialDataReviewCandidateAction");
+    expect(actions).toContain("initial_data_candidate_imported_private_report");
+    expect(actions).toContain("initial_data_candidate_import_blocked");
+    expect(actions).toContain("linked_report_id");
+    expect(actions).toContain("status: candidate.proposed_status");
+    expect(actions).toContain("evidence_level: IMPORT_EVIDENCE_LEVEL");
+    expect(actions).not.toContain('status: "approved"');
+    expect(adminDataPage).toContain("非公開投入チェック");
+    expect(adminDataPage).toContain("非公開投稿を作成");
+    expect(adminDataPage).toContain("getCandidateReadiness");
+    expect(adminDataPage).toContain("filterInitialDataCandidates");
+    expect(adminDataPage).toContain("候補検索");
+    expect(adminDataPage).toContain("投入可能");
+    expect(adminData).toContain("candidate.sourceVerified");
+    expect(adminData).toContain("candidate.publicSummaryChecked");
+    expect(adminData).toContain("candidate.buildingChecked");
+    expect(readme).toContain("PHASE_51_DEEP_REVIEW_WORKFLOW.md");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

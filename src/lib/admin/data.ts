@@ -702,6 +702,12 @@ export async function getAdminInitialDataReviewWorkflow(): Promise<AdminInitialD
           (candidate) =>
             candidate.publishDecision === "import_private" &&
             candidate.legalReviewStatus === "approved_for_import" &&
+            candidate.sourceVerified &&
+            candidate.publicSummaryChecked &&
+            candidate.buildingChecked &&
+            candidate.evidenceLevel === "Hidden" &&
+            (candidate.proposedStatus === "pending" ||
+              candidate.proposedStatus === "needs_review") &&
             !candidate.linkedReportId,
         ).length,
         rejected: candidates.filter(

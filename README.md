@@ -282,6 +282,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBの審査ワークフロー適用と公式候補12件登録の実行記録
 - `PHASE_29_50_EXPANSION_ROADMAP.md`: フェーズ29〜50の安全成長ロードマップ
 - `PHASE_29_50_EXECUTION_MATRIX.csv`: フェーズ29〜50の無料枠アクション、安全ゲート、成果物
+- `PHASE_51_DEEP_REVIEW_WORKFLOW.md`: 初期データ候補を条件確認後に非公開投稿へ進める実運用ワークフロー
 - `supabase/verification/phase28_official_seed_candidate_checks.sql`: フェーズ28登録後のRLSと候補状態確認SQL
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
@@ -297,3 +298,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース由来のエリア単位候補を非公開審査DBへ登録する方針
 - `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBへ0010/0011を適用し、公式候補12件を非公開審査DBに登録した記録
 - `PHASE_29_50_EXPANSION_ROADMAP.md`: フェーズ50までの信頼、審査、収益化、運用監視の成長設計
+- `PHASE_51_DEEP_REVIEW_WORKFLOW.md`: 審査済み候補だけを非公開デフォルトの投稿へ作成する管理導線

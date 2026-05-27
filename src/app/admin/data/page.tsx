@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   importInitialDataCandidatesAction,
+  importInitialDataReviewCandidateAction,
   stageOfficialAreaSeedCandidatesAction,
   updateInitialDataReviewCandidateAction,
 } from "@/app/admin/data/actions";
@@ -53,9 +54,14 @@ const dataRules = [
 
 type AdminDataPageProps = {
   searchParams: Promise<{
+    decision?: string;
+    q?: string;
+    readiness?: string;
     candidate_import?: string;
     candidate_imported?: string;
     candidate_skipped?: string;
+    candidate_import_error?: string;
+    report_id?: string;
     candidate_review_saved?: string;
     candidate_review_error?: string;
     official_seed?: string;
@@ -73,6 +79,11 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
   const officialSeedCsv = getOfficialAreaSeedCandidateCsv();
   const officialSeedMetrics = getOfficialAreaSeedCandidateMetrics();
   const reviewWorkflow = await getAdminInitialDataReviewWorkflow();
+  const filters = {
+    decision: query.decision ?? "all",
+    q: query.q ?? "",
+    readiness: query.readiness ?? "all",
+  };
   const candidateImportMessage =
     query.candidate_import === "success"
       ? "候補データを非公開投入しました。"
@@ -134,6 +145,25 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
             候補審査の更新に失敗しました。非公開投入へ進める場合は、出典確認、公開サマリー確認、建物確認、法務確認を完了してください。
           </div>
         ) : null}
+        {query.candidate_imported ? (
+          <div className="mb-6 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm leading-6 text-green-800">
+            <p className="font-bold">
+              {query.candidate_imported === "deduped"
+                ? "既存の非公開投稿へ候補を紐付けました。"
+                : "候補から非公開デフォルトの投稿を作成しました。"}
+            </p>
+            {query.report_id ? (
+              <Link className="mt-1 inline-flex font-semibold text-green-900" href={`/admin/reports/${query.report_id}`}>
+                作成した投稿を確認する
+              </Link>
+            ) : null}
+          </div>
+        ) : null}
+        {query.candidate_import_error ? (
+          <div className="mb-6 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800">
+            非公開投稿の作成に失敗しました。出典確認、公開サマリー確認、建物確認、法務確認、判断がすべて完了しているか確認してください。
+          </div>
+        ) : null}
 
         <InitialDataReviewQueuePanel
           candidateCsvConfigured={candidateCsvConfigured}
@@ -149,7 +179,7 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
 
         <div className="mb-6 grid gap-6">
           <InitialDataCandidateStager />
-          <InitialDataReviewWorkflowPanel workflow={reviewWorkflow} />
+          <InitialDataReviewWorkflowPanel filters={filters} workflow={reviewWorkflow} />
         </div>
 
         <InitialDataValidator />
@@ -323,8 +353,14 @@ function OfficialAreaSeedPanel({
 }
 
 function InitialDataReviewWorkflowPanel({
+  filters,
   workflow,
 }: {
+  filters: {
+    decision: string;
+    q: string;
+    readiness: string;
+  };
   workflow: AdminInitialDataReviewWorkflow;
 }) {
   if (!workflow.available) {
@@ -337,6 +373,8 @@ function InitialDataReviewWorkflowPanel({
       </div>
     );
   }
+
+  const filteredCandidates = filterInitialDataCandidates(workflow.candidates, filters);
 
   return (
     <div className="rounded-md border border-line bg-white p-5">
@@ -355,6 +393,61 @@ function InitialDataReviewWorkflowPanel({
         </Link>
       </div>
 
+      <form className="mt-5 grid gap-3 rounded-md border border-line bg-surface p-4 md:grid-cols-[minmax(0,1fr)_180px_180px_auto]" method="get">
+        <label className="grid gap-1 text-sm font-semibold text-ink">
+          候補検索
+          <input
+            className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+            defaultValue={filters.q}
+            name="q"
+            placeholder="店名・住所・建物・エリア"
+          />
+        </label>
+        <label className="grid gap-1 text-sm font-semibold text-ink">
+          判断
+          <select
+            className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+            defaultValue={filters.decision}
+            name="decision"
+          >
+            <option value="all">すべて</option>
+            {INITIAL_DATA_PUBLISH_DECISIONS.map((decision) => (
+              <option key={decision} value={decision}>
+                {getInitialDataPublishDecisionLabel(decision)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="grid gap-1 text-sm font-semibold text-ink">
+          投入状態
+          <select
+            className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+            defaultValue={filters.readiness}
+            name="readiness"
+          >
+            <option value="all">すべて</option>
+            <option value="ready">投入可能</option>
+            <option value="blocked">未完了あり</option>
+            <option value="linked">作成済み</option>
+          </select>
+        </label>
+        <div className="flex items-end gap-2">
+          <button className="h-10 rounded-md bg-action px-4 text-sm font-bold text-white" type="submit">
+            絞り込み
+          </button>
+          <Link
+            className="inline-flex h-10 items-center rounded-md border border-line bg-white px-4 text-sm font-bold text-action no-underline"
+            href="/admin/data"
+          >
+            解除
+          </Link>
+        </div>
+      </form>
+
+      <p className="mt-3 text-sm text-muted">
+        表示中: {filteredCandidates.length}件 / 全候補: {workflow.candidates.length}件
+      </p>
+
       <div className="mt-5 grid gap-3 md:grid-cols-3 lg:grid-cols-6">
         {[
           { label: "候補", value: workflow.metrics.total },
@@ -372,19 +465,64 @@ function InitialDataReviewWorkflowPanel({
       </div>
 
       <div className="mt-5 grid gap-4">
-        {workflow.candidates.length > 0 ? (
-          workflow.candidates.slice(0, 30).map((candidate) => (
+        {filteredCandidates.length > 0 ? (
+          filteredCandidates.slice(0, 50).map((candidate) => (
             <InitialDataReviewCandidateCard
               candidate={candidate}
               key={candidate.id}
             />
           ))
         ) : (
-          <EmptyState message="審査DBに登録された候補はまだありません。" />
+          <EmptyState message="条件に一致する候補はありません。" />
         )}
       </div>
     </div>
   );
+}
+
+function filterInitialDataCandidates(
+  candidates: AdminInitialDataReviewCandidate[],
+  filters: { decision: string; q: string; readiness: string },
+) {
+  const normalizedQuery = filters.q.trim().toLowerCase();
+
+  return candidates.filter((candidate) => {
+    const readiness = getCandidateReadiness(candidate);
+    const haystack = [
+      candidate.observedArea,
+      candidate.placeName,
+      candidate.address,
+      candidate.buildingName,
+      candidate.floor,
+      candidate.sourceTitle,
+      candidate.publicSummary,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    if (normalizedQuery && !haystack.includes(normalizedQuery)) {
+      return false;
+    }
+
+    if (filters.decision !== "all" && candidate.publishDecision !== filters.decision) {
+      return false;
+    }
+
+    if (filters.readiness === "ready" && !readiness.canImport) {
+      return false;
+    }
+
+    if (filters.readiness === "blocked" && (readiness.canImport || candidate.linkedReportId)) {
+      return false;
+    }
+
+    if (filters.readiness === "linked" && !candidate.linkedReportId) {
+      return false;
+    }
+
+    return true;
+  });
 }
 
 function InitialDataReviewCandidateCard({
@@ -392,6 +530,8 @@ function InitialDataReviewCandidateCard({
 }: {
   candidate: AdminInitialDataReviewCandidate;
 }) {
+  const readiness = getCandidateReadiness(candidate);
+
   return (
     <article className="rounded-md border border-line bg-surface p-4">
       <div className="grid gap-4 lg:grid-cols-[1fr_360px]">
@@ -453,101 +593,189 @@ function InitialDataReviewCandidateCard({
           </div>
         </div>
 
-        <form
-          action={updateInitialDataReviewCandidateAction}
-          className="grid gap-3 rounded-md border border-line bg-white p-3 text-sm"
-        >
-          <input name="candidate_id" type="hidden" value={candidate.id} />
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-1">
-            <label className="grid gap-1 font-semibold text-ink">
-              優先度
-              <select
-                className="rounded-md border border-line bg-white px-3 py-2 font-normal"
-                defaultValue={candidate.reviewPriority}
-                name="review_priority"
+        <div className="grid gap-3">
+          <div className="rounded-md border border-line bg-white p-3 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <h4 className="font-bold text-ink">非公開投入チェック</h4>
+              <span className="rounded-md border border-line bg-surface px-2 py-1 text-xs font-bold text-muted">
+                {readiness.score}/{readiness.total}
+              </span>
+            </div>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-surface">
+              <div
+                className="h-full rounded-full bg-action"
+                style={{ width: `${readiness.percent}%` }}
+              />
+            </div>
+            <ul className="mt-3 grid gap-2 text-xs leading-5 text-muted">
+              {readiness.items.map((item) => (
+                <li className="flex items-start gap-2" key={item.label}>
+                  <span
+                    aria-hidden="true"
+                    className={
+                      item.done
+                        ? "mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-green-600 text-[10px] font-bold text-white"
+                        : "mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-line bg-white text-[10px] font-bold text-muted"
+                    }
+                  >
+                    {item.done ? "✓" : "!"}
+                  </span>
+                  <span>{item.label}</span>
+                </li>
+              ))}
+            </ul>
+            {candidate.linkedReportId ? (
+              <Link
+                className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-bold text-action no-underline"
+                href={`/admin/reports/${candidate.linkedReportId}`}
               >
-                {INITIAL_DATA_REVIEW_PRIORITIES.map((priority) => (
-                  <option key={priority} value={priority}>
-                    {getInitialDataPriorityLabel(priority)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="grid gap-1 font-semibold text-ink">
-              法務・表現確認
-              <select
-                className="rounded-md border border-line bg-white px-3 py-2 font-normal"
-                defaultValue={candidate.legalReviewStatus}
-                name="legal_review_status"
-              >
-                {INITIAL_DATA_LEGAL_REVIEW_STATUSES.map((status) => (
-                  <option key={status} value={status}>
-                    {getInitialDataLegalReviewStatusLabel(status)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="grid gap-1 font-semibold text-ink">
-              判断
-              <select
-                className="rounded-md border border-line bg-white px-3 py-2 font-normal"
-                defaultValue={candidate.publishDecision}
-                name="publish_decision"
-              >
-                {INITIAL_DATA_PUBLISH_DECISIONS.map((decision) => (
-                  <option key={decision} value={decision}>
-                    {getInitialDataPublishDecisionLabel(decision)}
-                  </option>
-                ))}
-              </select>
-            </label>
+                紐付け済み投稿を見る
+              </Link>
+            ) : (
+              <form action={importInitialDataReviewCandidateAction} className="mt-3">
+                <input name="candidate_id" type="hidden" value={candidate.id} />
+                <button
+                  className="h-10 w-full rounded-md bg-action px-4 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-muted"
+                  disabled={!readiness.canImport}
+                  type="submit"
+                >
+                  非公開投稿を作成
+                </button>
+                {!readiness.canImport ? (
+                  <p className="mt-2 text-xs leading-5 text-muted">
+                    未完了項目を保存すると、公開承認ではなく非公開投稿として作成できます。
+                  </p>
+                ) : null}
+              </form>
+            )}
           </div>
 
-          {[
-            {
-              checked: candidate.sourceVerified,
-              label: "出典URL・確認日を確認",
-              name: "source_verified",
-            },
-            {
-              checked: candidate.publicSummaryChecked,
-              label: "公開サマリーが独自要約",
-              name: "public_summary_checked",
-            },
-            {
-              checked: candidate.buildingChecked,
-              label: "住所・建物・階数を確認",
-              name: "building_checked",
-            },
-          ].map((item) => (
-            <label className="flex items-start gap-2 text-sm text-ink" key={item.name}>
-              <input
-                className="mt-1"
-                defaultChecked={item.checked}
-                name={item.name}
-                type="checkbox"
-              />
-              <span>{item.label}</span>
-            </label>
-          ))}
-
-          <label className="grid gap-1 font-semibold text-ink">
-            審査メモ
-            <textarea
-              className="min-h-24 rounded-md border border-line bg-white px-3 py-2 font-normal leading-6"
-              defaultValue={candidate.reviewNote ?? ""}
-              name="review_note"
-            />
-          </label>
-
-          <button
-            className="h-10 rounded-md bg-action px-4 text-sm font-bold text-white"
-            type="submit"
+          <form
+            action={updateInitialDataReviewCandidateAction}
+            className="grid gap-3 rounded-md border border-line bg-white p-3 text-sm"
           >
-            審査状態を保存
-          </button>
-        </form>
+            <input name="candidate_id" type="hidden" value={candidate.id} />
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-1">
+              <label className="grid gap-1 font-semibold text-ink">
+                優先度
+                <select
+                  className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+                  defaultValue={candidate.reviewPriority}
+                  name="review_priority"
+                >
+                  {INITIAL_DATA_REVIEW_PRIORITIES.map((priority) => (
+                    <option key={priority} value={priority}>
+                      {getInitialDataPriorityLabel(priority)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="grid gap-1 font-semibold text-ink">
+                法務・表現確認
+                <select
+                  className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+                  defaultValue={candidate.legalReviewStatus}
+                  name="legal_review_status"
+                >
+                  {INITIAL_DATA_LEGAL_REVIEW_STATUSES.map((status) => (
+                    <option key={status} value={status}>
+                      {getInitialDataLegalReviewStatusLabel(status)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="grid gap-1 font-semibold text-ink">
+                判断
+                <select
+                  className="rounded-md border border-line bg-white px-3 py-2 font-normal"
+                  defaultValue={candidate.publishDecision}
+                  name="publish_decision"
+                >
+                  {INITIAL_DATA_PUBLISH_DECISIONS.map((decision) => (
+                    <option key={decision} value={decision}>
+                      {getInitialDataPublishDecisionLabel(decision)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            {[
+              {
+                checked: candidate.sourceVerified,
+                label: "出典URL・確認日を確認",
+                name: "source_verified",
+              },
+              {
+                checked: candidate.publicSummaryChecked,
+                label: "公開サマリーが独自要約",
+                name: "public_summary_checked",
+              },
+              {
+                checked: candidate.buildingChecked,
+                label: "住所・建物・階数を確認",
+                name: "building_checked",
+              },
+            ].map((item) => (
+              <label className="flex items-start gap-2 text-sm text-ink" key={item.name}>
+                <input
+                  className="mt-1"
+                  defaultChecked={item.checked}
+                  name={item.name}
+                  type="checkbox"
+                />
+                <span>{item.label}</span>
+              </label>
+            ))}
+
+            <label className="grid gap-1 font-semibold text-ink">
+              審査メモ
+              <textarea
+                className="min-h-24 rounded-md border border-line bg-white px-3 py-2 font-normal leading-6"
+                defaultValue={candidate.reviewNote ?? ""}
+                name="review_note"
+              />
+            </label>
+
+            <button
+              className="h-10 rounded-md bg-action px-4 text-sm font-bold text-white"
+              type="submit"
+            >
+              審査状態を保存
+            </button>
+          </form>
+        </div>
       </div>
     </article>
   );
+}
+
+function getCandidateReadiness(candidate: AdminInitialDataReviewCandidate) {
+  const items = [
+    { done: candidate.sourceVerified, label: "出典URL・確認日を確認済み" },
+    { done: candidate.publicSummaryChecked, label: "公開サマリーが独自要約" },
+    { done: candidate.buildingChecked, label: "住所・建物・階数を確認済み" },
+    {
+      done: candidate.legalReviewStatus === "approved_for_import",
+      label: "法務・表現確認が非公開投入可",
+    },
+    {
+      done: candidate.publishDecision === "import_private",
+      label: "判断が非公開投入へ",
+    },
+    {
+      done: candidate.evidenceLevel === "Hidden" && ["pending", "needs_review"].includes(candidate.proposedStatus),
+      label: "Hidden / 非公開ステータス固定",
+    },
+    { done: !candidate.linkedReportId, label: "未作成の候補" },
+  ];
+  const score = items.filter((item) => item.done).length;
+
+  return {
+    canImport: items.every((item) => item.done),
+    items,
+    percent: Math.round((score / items.length) * 100),
+    score,
+    total: items.length,
+  };
 }
