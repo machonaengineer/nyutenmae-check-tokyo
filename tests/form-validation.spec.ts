@@ -9,6 +9,7 @@ import {
   validateObjectionFormData,
 } from "../src/lib/objection-form";
 import { validateSponsorInquiryFormData } from "../src/lib/sponsor-inquiry";
+import { INITIAL_DATA_COLUMNS, validateInitialDataCsv } from "../src/lib/initial-data-validation";
 
 test.describe("公開フォームの入力名変換", () => {
   test("投稿フォームの公開nameをDB保存用データへ変換できる", () => {
@@ -63,5 +64,25 @@ test.describe("公開フォームの入力名変換", () => {
       expect(result.data.contactEmail).toBe("sponsor@example.com");
       expect(result.data.websiteUrl).toBe("https://example.com");
     }
+  });
+
+  test("初期データCSVで住所があるのに建物名がない場合は警告する", () => {
+    const csv = `${INITIAL_DATA_COLUMNS.join(",")}
+external_review_trend,https://example.com,確認用サンプル,2026-05-27,新宿・歌舞伎町,店舗名未確認,東京都新宿区,,,料金説明,同一住所・同一建物で類似報告あり,Hidden,投稿者の申告に基づく注意報告として確認するための検証用サマリーです。,非公開メモ,pending,,`;
+
+    const result = validateInitialDataCsv(csv);
+
+    expect(result.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          column: "building_name",
+          severity: "warning",
+        }),
+        expect.objectContaining({
+          column: "risk_tags",
+          severity: "warning",
+        }),
+      ]),
+    );
   });
 });

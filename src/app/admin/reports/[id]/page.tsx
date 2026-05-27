@@ -11,6 +11,7 @@ import { formatBoolean, formatCurrency, formatDate } from "@/lib/format";
 import { getReportSourceTypeLabel, isSourceBackedReport } from "@/lib/report-sources";
 import { requireAdminUser } from "@/lib/admin/auth";
 import {
+  getAdminBuildingRelatedReports,
   getAdminExternalReviewSources,
   getAdminReportDetail,
   getAdminRiskTags,
@@ -53,6 +54,8 @@ export default async function AdminReportDetailPage({
   if (!report) {
     notFound();
   }
+
+  const relatedReports = await getAdminBuildingRelatedReports(report);
 
   return (
     <AdminShell adminUser={adminUser}>
@@ -116,6 +119,47 @@ export default async function AdminReportDetailPage({
                 <DetailItem label="出典タイトル" value={report.sourceTitle} />
                 <DetailItem label="出典URL" value={report.sourceUrl} />
               </dl>
+            </div>
+
+            <div className="rounded-md border border-line bg-surface p-5">
+              <h2 className="text-lg font-bold text-ink">同一住所・同一建物の確認候補</h2>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                店名変更の可能性を確認するための管理者向け候補です。同一運営や同一店舗であることは断定せず、住所、建物名、階数、出典、証拠を個別に確認してください。
+              </p>
+              <div className="mt-4 grid gap-3">
+                {relatedReports.length > 0 ? (
+                  relatedReports.map((relatedReport) => (
+                    <article
+                      className="rounded-md border border-line bg-paper p-3 text-sm"
+                      key={relatedReport.id}
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        <StatusBadge status={relatedReport.status} />
+                        <span className="text-xs text-muted">
+                          証拠 {relatedReport.evidenceLevel} / {relatedReport.areaName}
+                        </span>
+                      </div>
+                      <a
+                        className="mt-2 inline-flex font-semibold text-action"
+                        href={`/admin/reports/${relatedReport.id}`}
+                      >
+                        {relatedReport.shopName}
+                      </a>
+                      <p className="mt-1 text-muted">{relatedReport.address ?? "住所未入力"}</p>
+                      <p className="mt-1 text-muted">
+                        {[relatedReport.buildingName, relatedReport.floor]
+                          .filter(Boolean)
+                          .join(" ") || "建物・階数未入力"}
+                      </p>
+                      <p className="mt-2 line-clamp-2 leading-6 text-muted">
+                        {relatedReport.publicSummary}
+                      </p>
+                    </article>
+                  ))
+                ) : (
+                  <EmptyState message="同一住所・同一建物の候補はまだありません。" />
+                )}
+              </div>
             </div>
 
             <div className="rounded-md border border-line bg-surface p-5">

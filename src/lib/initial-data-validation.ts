@@ -238,6 +238,10 @@ export function validateInitialDataCsv(content: string): CsvValidationResult {
     const publicText = row.public_summary || "";
     const sourceTitle = row.source_title || "";
     const privateMemo = row.private_memo || "";
+    const address = row.address || "";
+    const buildingName = row.building_name || "";
+    const floor = row.floor || "";
+    const riskTags = row.risk_tags || "";
 
     if (!publicText || publicText.length < 20) {
       addIssue(
@@ -247,6 +251,41 @@ export function validateInitialDataCsv(content: string): CsvValidationResult {
         "warning",
         "公開サマリーが短いため、独自要約として十分か確認してください。",
       );
+    }
+
+    if (address && !buildingName) {
+      addIssue(
+        issues,
+        lineNumber,
+        "building_name",
+        "warning",
+        "住所があるため、建物名も確認すると店名変更時の追跡性が上がります。",
+      );
+    }
+
+    if (buildingName && !floor) {
+      addIssue(
+        issues,
+        lineNumber,
+        "floor",
+        "warning",
+        "建物名があるため、分かる範囲で階数も確認してください。",
+      );
+    }
+
+    if (
+      riskTags.includes("similar-reports-same-address") ||
+      riskTags.includes("同一住所・同一建物で類似報告あり")
+    ) {
+      if (!address || !buildingName) {
+        addIssue(
+          issues,
+          lineNumber,
+          "risk_tags",
+          "warning",
+          "同一住所・同一建物のタグは、住所と建物名を確認してから付与してください。",
+        );
+      }
     }
 
     if (containsDangerousExpression(publicText)) {

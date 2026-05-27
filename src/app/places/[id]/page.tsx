@@ -92,9 +92,13 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
         <div className="mt-6">
           <PublicNotice />
         </div>
-        <p className="mt-4 text-sm leading-7 text-muted">
-          店名が変わる場合があるため、住所、建物名、階数も手がかりとして扱います。同一運営や同一店舗であることを断定せず、同一住所・同一建物で類似報告があるかを確認します。
-        </p>
+        <div className="mt-4 rounded-md border border-line bg-white p-4 text-sm leading-7 text-muted">
+          <p className="font-semibold text-ink">同一住所・同一建物の確認メモ</p>
+          <p className="mt-2">
+            店名が変わる場合があるため、住所、建物名、階数も手がかりとして扱います。
+            表示するのは承認済み投稿に基づく情報だけです。同一運営や同一店舗であることは断定せず、入店前の料金確認を推奨します。
+          </p>
+        </div>
       </Section>
 
       {externalRatings.length > 0 ? (

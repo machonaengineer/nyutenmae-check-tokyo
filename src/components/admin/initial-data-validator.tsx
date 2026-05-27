@@ -8,7 +8,7 @@ import {
 import { INITIAL_DATA_COLUMNS, validateInitialDataCsv } from "@/lib/initial-data-validation";
 
 const sampleCsv = `${INITIAL_DATA_COLUMNS.join(",")}
-external_review_trend,https://example.com,確認用サンプル,2026-05-27,新宿・歌舞伎町,店舗名未確認,東京都新宿区,,,料金説明,料金説明と会計内容の不一致報告あり,Hidden,投稿者の申告では料金説明と会計内容に不一致があったとのことです。,非公開メモ,pending,,`;
+external_review_trend,https://example.com,確認用サンプル,2026-05-27,新宿・歌舞伎町,店舗名未確認,東京都新宿区,サンプルビル,3F,料金説明,料金説明と会計内容の不一致報告あり,Hidden,投稿者の申告では料金説明と会計内容に不一致があったとのことです。,非公開メモ,pending,,`;
 
 const initialImportState: InitialDataImportState = {
   status: "idle",
@@ -45,6 +45,7 @@ export function InitialDataValidator() {
           投入すると、各行は管理者審査用の非公開投稿として作成されます。
           `status` は pending / needs_review のみ、`evidence_level` は Hidden のみ許可します。
           承認公開は投稿詳細画面で人間が確認してから行ってください。
+          店名変更の可能性があるため、住所、建物名、階数も可能な範囲で確認してください。
         </div>
 
         <div className="flex flex-wrap items-center gap-3">

@@ -6,6 +6,7 @@ import type { ReportStatus } from "./types";
 
 export type AdminReportListItem = {
   id: string;
+  placeId: string;
   status: string;
   evidenceLevel: string;
   sourceType: string;
@@ -14,11 +15,21 @@ export type AdminReportListItem = {
   sourceCheckedAt: string | null;
   shopName: string;
   address: string | null;
+  buildingName: string | null;
+  floor: string | null;
   reporterEmail: string;
   publicSummary: string;
   createdAt: string;
   updatedAt: string;
   areaName: string;
+};
+
+export type AdminReportFilters = {
+  status?: ReportStatus | "all";
+  shopName?: string;
+  address?: string;
+  buildingName?: string;
+  floor?: string;
 };
 
 export type AdminRiskTag = {
@@ -173,6 +184,8 @@ type ReportListRow = {
   source_checked_at: string | null;
   shop_name: string;
   address: string | null;
+  building_name: string | null;
+  floor: string | null;
   reporter_email: string;
   public_summary: string;
   created_at: string;
@@ -288,34 +301,21 @@ function buildAreaMap(areas: AreaRow[]) {
   return new Map(areas.map((area) => [area.id, area.name]));
 }
 
-async function getAreaNameMap() {
-  const supabase = createSupabaseAdminClient();
-  const { data } = await supabase.from("areas").select("id,name");
-  return buildAreaMap((data ?? []) as AreaRow[]);
+function normalizeAdminFilter(value: string | null | undefined) {
+  return value?.trim().toLowerCase().slice(0, 80) ?? "";
 }
 
-export async function getAdminReports(status?: ReportStatus | "all") {
-  const supabase = createSupabaseAdminClient();
-  let query = supabase
-    .from("reports")
-    .select(
-      "id,place_id,status,evidence_level,source_type,source_url,source_title,source_checked_at,shop_name,address,reporter_email,public_summary,created_at,updated_at,area_id",
-    )
-    .order("created_at", { ascending: false })
-    .limit(200);
+function includesFilter(value: string | null, filter: string) {
+  return !filter || (value ?? "").toLowerCase().includes(filter);
+}
 
-  if (status && status !== "all") {
-    query = query.eq("status", status);
-  }
-
-  const [{ data, error }, areaNameMap] = await Promise.all([query, getAreaNameMap()]);
-
-  if (error) {
-    throw error;
-  }
-
-  return ((data ?? []) as ReportListRow[]).map((report) => ({
+function mapAdminReportListItem(
+  report: ReportListRow,
+  areaNameMap: Map<string, string>,
+): AdminReportListItem {
+  return {
     id: report.id,
+    placeId: report.place_id,
     status: report.status,
     evidenceLevel: report.evidence_level,
     sourceType: report.source_type ?? "user_report",
@@ -324,12 +324,56 @@ export async function getAdminReports(status?: ReportStatus | "all") {
     sourceCheckedAt: report.source_checked_at,
     shopName: report.shop_name,
     address: report.address,
+    buildingName: report.building_name,
+    floor: report.floor,
     reporterEmail: report.reporter_email,
     publicSummary: report.public_summary,
     createdAt: report.created_at,
     updatedAt: report.updated_at,
     areaName: areaNameMap.get(report.area_id) ?? "未設定",
-  }));
+  };
+}
+
+async function getAreaNameMap() {
+  const supabase = createSupabaseAdminClient();
+  const { data } = await supabase.from("areas").select("id,name");
+  return buildAreaMap((data ?? []) as AreaRow[]);
+}
+
+export async function getAdminReports(filters: AdminReportFilters | ReportStatus | "all" = {}) {
+  const normalizedFilters =
+    typeof filters === "string" ? { status: filters } : filters;
+  const shopNameFilter = normalizeAdminFilter(normalizedFilters.shopName);
+  const addressFilter = normalizeAdminFilter(normalizedFilters.address);
+  const buildingNameFilter = normalizeAdminFilter(normalizedFilters.buildingName);
+  const floorFilter = normalizeAdminFilter(normalizedFilters.floor);
+  const supabase = createSupabaseAdminClient();
+  let query = supabase
+    .from("reports")
+    .select(
+      "id,place_id,status,evidence_level,source_type,source_url,source_title,source_checked_at,shop_name,address,building_name,floor,reporter_email,public_summary,created_at,updated_at,area_id",
+    )
+    .order("created_at", { ascending: false })
+    .limit(500);
+
+  if (normalizedFilters.status && normalizedFilters.status !== "all") {
+    query = query.eq("status", normalizedFilters.status);
+  }
+
+  const [{ data, error }, areaNameMap] = await Promise.all([query, getAreaNameMap()]);
+
+  if (error) {
+    throw error;
+  }
+
+  return ((data ?? []) as ReportListRow[])
+    .map((report) => mapAdminReportListItem(report, areaNameMap))
+    .filter((report) =>
+      includesFilter(report.shopName, shopNameFilter) &&
+      includesFilter(report.address, addressFilter) &&
+      includesFilter(report.buildingName, buildingNameFilter) &&
+      includesFilter(report.floor, floorFilter),
+    );
 }
 
 export async function getAdminDashboardMetrics(): Promise<AdminDashboardMetrics> {
@@ -644,6 +688,40 @@ export async function getAdminReportDetail(id: string): Promise<AdminReportDetai
       createdAt: action.created_at,
     })),
   };
+}
+
+export async function getAdminBuildingRelatedReports(report: AdminReportDetail) {
+  if (!report.address && !report.buildingName) {
+    return [];
+  }
+
+  const supabase = createSupabaseAdminClient();
+  let query = supabase
+    .from("reports")
+    .select(
+      "id,place_id,status,evidence_level,source_type,source_url,source_title,source_checked_at,shop_name,address,building_name,floor,reporter_email,public_summary,created_at,updated_at,area_id",
+    )
+    .neq("id", report.id)
+    .order("created_at", { ascending: false })
+    .limit(20);
+
+  if (report.address) {
+    query = query.eq("address", report.address);
+  }
+
+  if (report.buildingName) {
+    query = query.eq("building_name", report.buildingName);
+  }
+
+  const [{ data, error }, areaNameMap] = await Promise.all([query, getAreaNameMap()]);
+
+  if (error) {
+    throw error;
+  }
+
+  return ((data ?? []) as ReportListRow[]).map((relatedReport) =>
+    mapAdminReportListItem(relatedReport, areaNameMap),
+  );
 }
 
 export async function getAdminObjections() {

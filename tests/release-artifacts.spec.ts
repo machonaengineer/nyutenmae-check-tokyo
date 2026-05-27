@@ -517,8 +517,33 @@ test.describe("リリース準備資料", () => {
     expect(validationLib).toContain("containsDangerousExpression");
     expect(validationLib).toContain("isReportSourceType");
     expect(validationLib).toContain("Google口コミ");
+    expect(validationLib).toContain("店名変更時の追跡性");
+    expect(validationLib).toContain("同一住所・同一建物のタグ");
     expect(adminDataPage).toContain("requireAdminUser");
     expect(adminDataPage).toContain("非公開デフォルト投入");
+  });
+
+  test("管理画面は建物単位の検索と類似候補確認をサーバー側で扱う", async () => {
+    const adminReportsPage = await readFile(
+      path.join(rootDir, "src/app/admin/reports/page.tsx"),
+      "utf8",
+    );
+    const adminReportDetailPage = await readFile(
+      path.join(rootDir, "src/app/admin/reports/[id]/page.tsx"),
+      "utf8",
+    );
+    const adminData = await readFile(path.join(rootDir, "src/lib/admin/data.ts"), "utf8");
+
+    expect(adminReportsPage).toContain('name="shop_name"');
+    expect(adminReportsPage).toContain('name="address"');
+    expect(adminReportsPage).toContain('name="building_name"');
+    expect(adminReportsPage).toContain('name="floor"');
+    expect(adminReportsPage).toContain("建物情報で絞り込む");
+    expect(adminData).toContain("type AdminReportFilters");
+    expect(adminData).toContain("getAdminBuildingRelatedReports");
+    expect(adminData).toContain("building_name,floor");
+    expect(adminReportDetailPage).toContain("同一住所・同一建物の確認候補");
+    expect(adminReportDetailPage).toContain("同一運営や同一店舗であることは断定せず");
   });
 
   test("トラブル種別別ガイドは断定ではなく確認項目として実装する", async () => {
