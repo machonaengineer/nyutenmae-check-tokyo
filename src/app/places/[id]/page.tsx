@@ -11,7 +11,11 @@ import {
   getExternalCollectionMethodLabel,
 } from "@/lib/external-ratings";
 import { formatBoolean, formatCurrency, formatDate } from "@/lib/format";
-import { getPlaceDisplayName, getPublicPlaceDetail } from "@/lib/public-data";
+import { getPlaceBuildingLabel } from "@/lib/place-labels";
+import {
+  getPlaceDisplayName,
+  getPublicPlaceDetail,
+} from "@/lib/public-data";
 import { getReportSourceTypeLabel, isSourceBackedReport } from "@/lib/report-sources";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 
@@ -45,6 +49,7 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
 
   const { place, reports, externalRatings } = detail;
   const displayName = getPlaceDisplayName(place);
+  const buildingLabel = getPlaceBuildingLabel(place);
 
   return (
     <>
@@ -58,14 +63,10 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
       <Section title="公開情報">
         <div className="grid gap-4 rounded-md border border-line bg-surface p-5 md:grid-cols-2">
           <div>
-            <p className="text-sm font-semibold text-muted">店名または住所</p>
+            <p className="text-sm font-semibold text-muted">店名・住所・建物</p>
             <p className="mt-2 text-lg font-bold text-ink">{displayName}</p>
             {place.address ? <p className="mt-2 text-sm leading-6 text-muted">{place.address}</p> : null}
-            {place.buildingName || place.floor ? (
-              <p className="mt-2 text-sm leading-6 text-muted">
-                {[place.buildingName, place.floor].filter(Boolean).join(" ")}
-              </p>
-            ) : null}
+            {buildingLabel ? <p className="mt-2 text-sm leading-6 text-muted">{buildingLabel}</p> : null}
           </div>
           <div className="grid gap-3 text-sm text-muted">
             <p>エリア: {place.areaName}</p>
@@ -91,6 +92,9 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
         <div className="mt-6">
           <PublicNotice />
         </div>
+        <p className="mt-4 text-sm leading-7 text-muted">
+          店名が変わる場合があるため、住所、建物名、階数も手がかりとして扱います。同一運営や同一店舗であることを断定せず、同一住所・同一建物で類似報告があるかを確認します。
+        </p>
       </Section>
 
       {externalRatings.length > 0 ? (

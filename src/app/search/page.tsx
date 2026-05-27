@@ -11,8 +11,8 @@ import { filterResearchSourcesByQuery } from "@/lib/research-sources";
 import { INITIAL_AREAS } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "店舗名・住所検索",
-  description: "承認済みの注意報告がある場所を、店舗名や住所の手がかりから検索します。",
+  title: "店舗名・住所・建物検索",
+  description: "承認済みの注意報告がある場所を、店舗名、住所、建物名の手がかりから検索します。",
   robots: {
     index: false,
     follow: true,
@@ -50,7 +50,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     <>
       <PageHeader
         eyebrow="Search"
-        title="店舗名・住所検索"
+        title="店舗名・住所・建物検索"
         description="承認済みの注意報告がある場所だけを検索対象にします。証拠画像、投稿者メールアドレス、管理者メモは検索対象にしません。"
         primaryAction={{ href: "/map", label: "地図を見る" }}
       />
@@ -59,7 +59,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <div className="rounded-md border border-line bg-surface p-5">
           <SiteSearchForm defaultValue={query} variant="wide" />
           <p className="mt-3 text-xs leading-5 text-muted">
-            店舗名、住所、建物名、エリア名の手がかりで検索できます。掲載内容は投稿者の申告に基づく情報です。
+            店舗名が変わる場合があるため、住所、建物名、階数、エリア名の手がかりでも検索できます。掲載内容は投稿者の申告に基づく情報です。
           </p>
         </div>
       </Section>

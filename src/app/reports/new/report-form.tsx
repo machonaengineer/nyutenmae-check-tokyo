@@ -218,6 +218,7 @@ export function ReportForm({
           <h2 className="text-lg font-bold text-ink">基本情報</h2>
           <p className="mt-2 text-sm leading-6 text-muted">
             投稿は非公開で保存され、管理者確認後に公開可否を判断します。
+            店名が変わる場合があるため、分かる範囲で住所、建物名、階数も入力してください。
           </p>
         </div>
 
@@ -243,7 +244,7 @@ export function ReportForm({
           <TextInput
             label="店舗名または場所の手がかり"
             name="shop_name"
-            placeholder="例：店舗名、通り名、建物名など"
+            placeholder="例：店舗名、通り名、建物名、看板の一部など"
             required
             state={state}
           />
@@ -256,7 +257,7 @@ export function ReportForm({
           <TextInput
             label="建物名"
             name="building_name"
-            placeholder="例：〇〇ビル"
+            placeholder="例：〇〇ビル、〇〇会館"
             state={state}
           />
           <TextInput label="階数" name="floor" placeholder="例：3F" state={state} />

@@ -23,7 +23,7 @@ export function SiteSearchForm({
       role="search"
     >
       <label className="sr-only" htmlFor={searchInputId}>
-        店舗名または住所で検索
+        店舗名・住所・建物名で検索
       </label>
       <input
         className="h-10 min-w-0 flex-1 rounded-md border border-line bg-white px-3 text-sm text-ink outline-none transition placeholder:text-muted focus:border-action focus:ring-2 focus:ring-action/15"
@@ -31,7 +31,7 @@ export function SiteSearchForm({
         id={searchInputId}
         maxLength={80}
         name="q"
-        placeholder="店舗名・住所で検索"
+        placeholder="店舗名・住所・ビル名で検索"
         type="search"
       />
       <button

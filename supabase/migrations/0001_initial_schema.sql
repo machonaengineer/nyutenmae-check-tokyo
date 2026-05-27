@@ -320,7 +320,7 @@ values
   ('checkout-response-attention', '会計時対応に関する注意報告あり', 60),
   ('exit-response-attention', '退店時対応に関する注意報告あり', 70),
   ('high-billing-trouble', '高額請求トラブル報告あり', 80),
-  ('similar-reports-same-address', '同一住所で類似報告あり', 90),
+  ('similar-reports-same-address', '同一住所・同一建物で類似報告あり', 90),
   ('objection-filed', '店舗側より異議申立てあり', 100),
   ('under-review', '確認中', 110)
 on conflict (slug) do update

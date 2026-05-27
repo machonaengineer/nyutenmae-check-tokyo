@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { Map as LeafletMapInstance } from "leaflet";
+import { getPlaceBuildingLabel } from "@/lib/place-labels";
 import type { PublicPlaceSummary } from "@/lib/public-data";
 
 type LeafletMapProps = {
@@ -21,6 +22,14 @@ function createPopupElement(place: PublicPlaceSummary) {
   title.className = "font-bold text-ink";
   title.textContent = place.shopName || place.address || "名称未設定の場所";
   container.appendChild(title);
+
+  const buildingLabel = getPlaceBuildingLabel(place);
+  if (buildingLabel) {
+    const building = document.createElement("p");
+    building.className = "text-xs text-muted";
+    building.textContent = buildingLabel;
+    container.appendChild(building);
+  }
 
   const meta = document.createElement("p");
   meta.className = "text-xs text-muted";

@@ -18,6 +18,7 @@ const requiredReleaseFiles = [
   "supabase/migrations/0006_service_role_privileges.sql",
   "supabase/migrations/0007_external_rating_snapshots.sql",
   "supabase/migrations/0008_report_source_attribution.sql",
+  "supabase/migrations/0009_building_level_place_tracking.sql",
   "EXTERNAL_RATING_TEMPLATE.csv",
   "EXTERNAL_RATING_GUIDE.md",
   "FREE_TIER_GROWTH_PLAN.md",
@@ -97,6 +98,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0006_service_role_privileges.sql");
     expect(readme).toContain("0007_external_rating_snapshots.sql");
     expect(readme).toContain("0008_report_source_attribution.sql");
+    expect(readme).toContain("0009_building_level_place_tracking.sql");
     expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
     expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
     expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
@@ -283,6 +285,19 @@ test.describe("リリース準備資料", () => {
     expect(migration).not.toContain("grant select on table public.reports to anon");
     expect(migration).not.toContain("grant select on table public.report_evidence_files to anon");
     expect(migration).not.toContain("disable row level security");
+  });
+
+  test("建物単位の類似報告migrationはRLSを緩めずタグ表現だけを更新する", async () => {
+    const migration = await readFile(
+      path.join(rootDir, "supabase/migrations/0009_building_level_place_tracking.sql"),
+      "utf8",
+    );
+
+    expect(migration).toContain("同一住所・同一建物で類似報告あり");
+    expect(migration).toContain("similar-reports-same-address");
+    expect(migration).not.toContain("disable row level security");
+    expect(migration).not.toContain("grant select");
+    expect(migration).not.toContain("grant all");
   });
 
   test("Google Places APIキーはサーバー専用環境変数として扱う", async () => {

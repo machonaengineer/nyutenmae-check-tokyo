@@ -124,7 +124,7 @@ export const RISK_TAGS = [
   },
   { slug: "exit-response-attention", label: "退店時対応に関する注意報告あり" },
   { slug: "high-billing-trouble", label: "高額請求トラブル報告あり" },
-  { slug: "similar-reports-same-address", label: "同一住所で類似報告あり" },
+  { slug: "similar-reports-same-address", label: "同一住所・同一建物で類似報告あり" },
   { slug: "objection-filed", label: "店舗側より異議申立てあり" },
   { slug: "under-review", label: "確認中" },
 ] as const;

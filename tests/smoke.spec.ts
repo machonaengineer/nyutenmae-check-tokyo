@@ -9,7 +9,7 @@ const publicRoutes = [
     path: "/areas/shinjuku-kabukicho/topics/price-confirmation",
     heading: "新宿・歌舞伎町の料金説明の確認",
   },
-  { path: "/search", heading: "店舗名・住所検索" },
+  { path: "/search", heading: "店舗名・住所・建物検索" },
   { path: "/checklists", heading: "入店前チェックリスト" },
   {
     path: "/areas/shinjuku-kabukicho/checklist",
@@ -93,6 +93,8 @@ test.describe("公開ページ", () => {
 
     await expect(page.getByLabel("対象エリア")).toBeVisible();
     await expect(page.getByLabel("店舗名または場所の手がかり")).toBeVisible();
+    await expect(page.locator('input[name="building_name"]')).toBeVisible();
+    await expect(page.locator('input[name="floor"]')).toBeVisible();
     await expect(page.getByLabel("公開用の報告概要")).toBeVisible();
     await expect(page.getByLabel("連絡用メールアドレス")).toBeVisible();
     await expect(page.getByLabel("証拠画像")).toBeVisible();
@@ -108,7 +110,7 @@ test.describe("公開ページ", () => {
     ).toBeChecked();
   });
 
-  test("共通ヘッダーから店舗名や住所を検索できる", async ({ page }) => {
+  test("共通ヘッダーから店舗名・住所・建物を検索できる", async ({ page }) => {
     await page.goto("/");
 
     const searchForm = page.locator('form[role="search"]:visible').first();
@@ -119,7 +121,7 @@ test.describe("公開ページ", () => {
 
     await expect(page).toHaveURL(/\/search\?q=/);
     await expect(
-      page.getByRole("heading", { name: "店舗名・住所検索", level: 1 }),
+      page.getByRole("heading", { name: "店舗名・住所・建物検索", level: 1 }),
     ).toBeVisible();
   });
 

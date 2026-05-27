@@ -43,9 +43,10 @@ npm run test:e2e
 7. `supabase/migrations/0006_service_role_privileges.sql` をSQL Editorで実行する
 8. `supabase/migrations/0007_external_rating_snapshots.sql` をSQL Editorで実行する
 9. `supabase/migrations/0008_report_source_attribution.sql` をSQL Editorで実行する
-10. `.env.local` にSupabaseの値を設定する
-11. 管理者ユーザーをSupabase Authで作成する
-12. 管理者メールを `profiles` でadminに更新する
+10. `supabase/migrations/0009_building_level_place_tracking.sql` をSQL Editorで実行する
+11. `.env.local` にSupabaseの値を設定する
+12. 管理者ユーザーをSupabase Authで作成する
+13. 管理者メールを `profiles` でadminに更新する
 
 ```sql
 update public.profiles
@@ -152,7 +153,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 管理概況ダッシュボードと初期データCSVの検証、非公開デフォルト投入画面
 - 収益化と掲載独立性の公開方針ページ
 - 環境変数OFFがデフォルトのAdSense差し込み口と `/ads.txt`
-- 承認済みplaceだけを対象にした店舗名・住所検索
+- 承認済みplaceだけを対象にした店舗名・住所・建物検索
 - エリア×トラブル種別のSEO向け確認ページ
 - 情報提供募集ページとスポンサー問い合わせページ
 - トラブル種別別のSEO向け安全確認ガイド
