@@ -351,8 +351,26 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("確認日: 2026-05-27").first()).toBeVisible();
   });
 
+  test("エリアページで公式確認先を確認できる", async ({ page }) => {
+    await page.goto("/areas/shinjuku-kabukicho");
+
+    await expect(
+      page.getByRole("heading", { name: "このエリアの公式確認先", level: 2 }),
+    ).toBeVisible();
+    await expect(page.getByText("警視庁が、新宿周辺で飲食店を利用する際")).toBeVisible();
+    await expect(page.getByText("東京都の消費生活相談窓口案内です。")).toBeVisible();
+  });
+
   test("公開フォームHTMLに非公開DBカラム名を埋め込まない", async ({ request }) => {
-    for (const path of ["/reports/new", "/objection", "/sponsor", "/search?q=test", "/social", "/sources"]) {
+    for (const path of [
+      "/reports/new",
+      "/objection",
+      "/sponsor",
+      "/search?q=test",
+      "/social",
+      "/sources",
+      "/areas/shinjuku-kabukicho",
+    ]) {
       const response = await request.get(path);
       const body = await response.text();
 

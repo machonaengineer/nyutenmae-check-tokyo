@@ -24,6 +24,7 @@
 - `/admin/social`: 管理者向けSNS文面テンプレート
 - Open Graph画像とSNS共有ボタン
 - `/sources`: 公的・公式情報ソースの公開ページ
+- `/areas/[slug]`: エリア別の公的・公式確認先表示
 - `/admin/research`: 管理者向け調査キュー
 - `SOURCE_RESEARCH_QUEUE.csv`: 初期データ化前の公式ソース一覧
 - `/sponsor`: 非公開スポンサー問い合わせフォーム

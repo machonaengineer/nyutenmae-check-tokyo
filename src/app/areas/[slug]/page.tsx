@@ -6,12 +6,14 @@ import { LeafletMap } from "@/components/leaflet-map";
 import { PageHeader, Section } from "@/components/page-blocks";
 import { PlaceCard } from "@/components/place-card";
 import { PublicNotice } from "@/components/public-notice";
+import { ResearchSourceCard } from "@/components/research-source-card";
 import { SocialShareActions } from "@/components/social-share-actions";
 import {
   getAreaCenter,
   getPublicAreaSummary,
   getPublicPlaceSummaries,
 } from "@/lib/public-data";
+import { getResearchSourcesByArea } from "@/lib/research-sources";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 import { INITIAL_AREAS } from "@/lib/site";
 import { TOPIC_GUIDES } from "@/lib/topic-content";
@@ -52,6 +54,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
   const markerPlaces = places.filter(
     (place) => place.latitude !== null && place.longitude !== null,
   );
+  const researchSources = getResearchSourcesByArea(slug);
 
   return (
     <>
@@ -105,6 +108,17 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
             >
               {topic.title}
             </Link>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="このエリアの公式確認先"
+        description="店舗や個人への断定に使わず、公的な相談先や地域の取組を確認するためのリンクとして整理しています。"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          {researchSources.map((source) => (
+            <ResearchSourceCard key={source.id} source={source} />
           ))}
         </div>
       </Section>
