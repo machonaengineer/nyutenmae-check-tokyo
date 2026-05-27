@@ -121,6 +121,17 @@ test.describe("公開ページ", () => {
     ).toBeVisible();
   });
 
+  test("検索結果ゼロでも関連エリアと公式確認先を表示できる", async ({ page }) => {
+    await page.goto("/search?q=%E6%96%B0%E5%AE%BF");
+
+    await expect(page.getByText("現在、承認済みの公開情報では一致する場所はありません。")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "関連する確認先", level: 2 }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: /新宿・歌舞伎町/ })).toBeVisible();
+    await expect(page.getByText("警視庁が、新宿周辺で飲食店を利用する際")).toBeVisible();
+  });
+
   test("投稿フォームにhoneypotと画像accept制限がある", async ({ page }) => {
     await page.goto("/reports/new");
 

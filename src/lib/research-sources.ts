@@ -138,6 +138,27 @@ export function getResearchSourcesByArea(areaSlug: string) {
   );
 }
 
+export function filterResearchSourcesByQuery(query: string) {
+  const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+
+  if (terms.length === 0) {
+    return [];
+  }
+
+  return RESEARCH_SOURCES.filter((source) => {
+    const searchableText = [
+      source.areaName,
+      source.sourceTitle,
+      source.publicSummary,
+      source.suggestedUse,
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    return terms.every((term) => searchableText.includes(term));
+  });
+}
+
 export function getResearchSourceCsv() {
   const header = [
     "source_type",
