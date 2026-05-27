@@ -7,7 +7,7 @@
 ## 実装済み
 
 - `/checklists`: 入店前、会計前、退店後の安全確認コンテンツ
-- `/areas/[slug]/checklist`: 初期対象エリア別の確認コンテンツ
+- `/areas/[slug]/checklist`: 掲載対象エリア別の確認コンテンツ
 - `MonetizationSlot`: 環境変数OFFがデフォルトの収益化枠
 - `AnalyticsGate`: 環境変数ON時のみVercel Web Analyticsを読み込む
 - `AdsenseGate`: 環境変数ON時のみAdSenseスクリプトを読み込む
@@ -26,7 +26,7 @@
 - `/sources`: 情報ソースの公開ページ
 - `/areas/[slug]`: エリア別の公的・公式確認先表示
 - `/search`: 承認済み投稿がない検索でも、関連エリアと公式確認先を表示
-- `/`: 初期対象エリア数、公式確認先数、公開前審査方針を見える化
+- `/`: 掲載対象エリア数、公式確認先数、公開前審査方針を見える化
 - `/admin/research`: 管理者向け調査キュー
 - `SOURCE_RESEARCH_QUEUE.csv`: 初期データ化前の公式ソース一覧
 - `/sponsor`: 非公開スポンサー問い合わせフォーム

@@ -54,7 +54,7 @@ export default function SocialPage() {
 
       <Section
         title="エリア別に共有する"
-        description="初期対象エリアごとのページを共有できます。承認済み投稿がない場合も、情報提供導線として利用できます。"
+        description="掲載対象エリアごとのページを共有できます。承認済み投稿がない場合も、情報提供導線として利用できます。"
       >
         <div className="grid gap-4 md:grid-cols-2">
           {INITIAL_AREAS.map((area) => (

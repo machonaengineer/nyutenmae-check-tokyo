@@ -22,9 +22,9 @@ import { getHomeFaqStructuredData } from "@/lib/structured-data";
 
 const homeMetrics = [
   {
-    label: "初期対象エリア",
+    label: "掲載対象エリア",
     value: `${INITIAL_AREAS.length}`,
-    note: "新宿、池袋、渋谷、上野周辺",
+    note: "都内主要繁華街へ拡大中",
   },
   {
     label: "公式確認先",
@@ -118,7 +118,7 @@ export default function Home() {
                   PUBLIC CAUTION MAP
                 </p>
                 <p className="mt-1 text-sm font-semibold text-ink">
-                  初期対象エリア
+                  掲載対象エリア
                 </p>
               </div>
               <div className="relative mt-4 min-h-[280px] overflow-hidden rounded-md border border-action/20 bg-map-light">
@@ -126,18 +126,23 @@ export default function Home() {
                 <div className="absolute left-[34%] top-0 h-full w-2 rotate-12 bg-white/80" />
                 <div className="absolute bottom-10 left-0 h-2 w-full rotate-3 bg-white/85" />
                 <div className="absolute left-[68%] top-0 h-full w-2 -rotate-12 bg-white/70" />
-                {INITIAL_AREAS.map((area, index) => (
+                {INITIAL_AREAS.map((area, index) => {
+                  const x = 8 + (index % 3) * 30;
+                  const y = 12 + Math.floor(index / 3) * 20;
+
+                  return (
                   <div
                     key={area.name}
                     className="absolute rounded-md border border-action/25 bg-white px-3 py-2 text-xs font-semibold text-ink shadow-[0_8px_18px_rgb(23_32_42/0.08)]"
                     style={{
-                      left: `${12 + (index % 2) * 46}%`,
-                      top: `${18 + index * 17}%`,
+                      left: `${x}%`,
+                      top: `${y}%`,
                     }}
                   >
                     {area.name}
                   </div>
-                ))}
+                  );
+                })}
               </div>
               <p className="mt-3 text-xs leading-6 text-muted">
                 地図上に表示する情報は、承認済みの注意報告に限定する設計です。
@@ -161,7 +166,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section title="初期対象エリア">
+      <Section title="掲載対象エリア">
         <div className="grid gap-4 md:grid-cols-2">
           {INITIAL_AREAS.map((area) => (
             <article key={area.name} className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">

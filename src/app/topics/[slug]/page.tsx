@@ -94,7 +94,7 @@ export default async function TopicDetailPage({ params }: TopicPageProps) {
 
       <Section
         title="エリア別に確認する"
-        description="初期対象エリアごとに、このテーマの確認項目と公開情報を確認できます。"
+        description="掲載対象エリアごとに、このテーマの確認項目と公開情報を確認できます。"
       >
         <div className="grid gap-4 md:grid-cols-2">
           {INITIAL_AREAS.map((area) => (

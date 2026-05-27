@@ -55,10 +55,11 @@
 9. `supabase/migrations/0008_report_source_attribution.sql` を適用する。
 10. `supabase/migrations/0009_building_level_place_tracking.sql` を適用する。
 11. `supabase/migrations/0010_initial_data_review_workflow.sql` を適用する。
-10. `supabase/verification/non_admin_visibility_checks.sql` を実行して結果を記録する。
-11. Supabase Authで管理者ユーザーを作成する。
-12. Vercelに環境変数を設定する。
-13. Vercel Previewで `npm run build` 相当の成功を確認する。
+12. `supabase/migrations/0011_area_expansion.sql` を適用する。
+13. `supabase/verification/non_admin_visibility_checks.sql` を実行して結果を記録する。
+14. Supabase Authで管理者ユーザーを作成する。
+15. Vercelに環境変数を設定する。
+16. Vercel Previewで `npm run build` 相当の成功を確認する。
 14. Previewで投稿、異議申立て、rate limit、ブラウザ識別Cookie、honeypot、管理画面、承認、公開表示を確認する。
 15. 外部評価を使う場合は、`EXTERNAL_RATING_GUIDE.md` に沿って出典URL、確認日、規約、帰属表示を確認する。
 16. 報道や公的情報を公開候補にする場合は、`source_type`、出典URL、確認日、独自要約、転載禁止を確認する。

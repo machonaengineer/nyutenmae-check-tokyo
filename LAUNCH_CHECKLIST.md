@@ -15,12 +15,14 @@
 - [ ] `0008_report_source_attribution.sql` を本番DBへ適用した。
 - [ ] `0009_building_level_place_tracking.sql` を本番DBへ適用した。
 - [ ] `0010_initial_data_review_workflow.sql` を本番DBへ適用した。
+- [ ] `0011_area_expansion.sql` を本番DBへ適用した。
 - [ ] `supabase/verification/non_admin_visibility_checks.sql` を実行し、期待値を確認した。
 - [ ] `report-evidence-files` bucket が private であることをSupabase画面でも確認した。
 - [ ] `reports`, `report_evidence_files`, `objections`, `admin_actions` を匿名ユーザーが直接読めないことを確認した。
 - [ ] 公開ビューに `reporter_email`, `private_note`, 証拠ファイルパスが含まれていないことを確認した。
 - [ ] 投稿フォーム送信後の `reports.status` が `pending`、`evidence_level` が `Hidden` であることを確認した。
 - [ ] 管理者が承認した投稿だけが `/map`, `/areas`, `/places/[id]` に表示されることを確認した。
+- [ ] 新規掲載エリアで承認済み投稿がない場合、店舗情報ではなく空状態と確認導線だけが表示されることを確認した。
 - [ ] 管理画面に `ADMIN_EMAILS` 設定済みメールだけが入れることを確認した。
 - [ ] Service Role Key がVercelのサーバー環境変数だけに設定され、`NEXT_PUBLIC_` が付いていないことを確認した。
 - [ ] `service_role` がServer Actionに必要なDB権限を持ち、anon/authenticatedに非公開テーブルの直接読み取り権限がないことを確認した。

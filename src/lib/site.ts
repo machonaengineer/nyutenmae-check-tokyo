@@ -70,6 +70,62 @@ export const INITIAL_AREAS = [
     center: "台東区、文京区の対象周辺",
     coordinates: { latitude: 35.7085, longitude: 139.7745 },
   },
+  {
+    slug: "roppongi-azabujuban",
+    name: "六本木・麻布十番",
+    summary: "深夜帯の料金説明、会計確認、退店時対応に関する注意情報を整理します。",
+    center: "港区六本木、麻布十番周辺",
+    coordinates: { latitude: 35.6628, longitude: 139.7314 },
+  },
+  {
+    slug: "ginza-shimbashi-yurakucho",
+    name: "銀座・新橋・有楽町",
+    summary: "駅周辺や飲食店集積エリアでの入店前説明と会計確認を扱います。",
+    center: "中央区、港区、千代田区の対象周辺",
+    coordinates: { latitude: 35.6687, longitude: 139.763 },
+  },
+  {
+    slug: "akasaka-akasakamitsuke",
+    name: "赤坂・赤坂見附",
+    summary: "客引き経由の来店、席料やサービス料の説明確認に関する情報を扱います。",
+    center: "港区赤坂、赤坂見附周辺",
+    coordinates: { latitude: 35.6763, longitude: 139.737 },
+  },
+  {
+    slug: "kinshicho",
+    name: "錦糸町",
+    summary: "繁華街での料金説明、明細提示、会計時対応に関する注意情報を整理します。",
+    center: "墨田区錦糸町周辺",
+    coordinates: { latitude: 35.696, longitude: 139.8145 },
+  },
+  {
+    slug: "gotanda",
+    name: "五反田",
+    summary: "駅周辺の入店前説明、会計内容、明細提示に関する報告を扱います。",
+    center: "品川区五反田周辺",
+    coordinates: { latitude: 35.6264, longitude: 139.7234 },
+  },
+  {
+    slug: "tachikawa",
+    name: "立川",
+    summary: "多摩エリアの繁華街における料金確認と会計確認の注意情報を整理します。",
+    center: "立川市中心部周辺",
+    coordinates: { latitude: 35.6984, longitude: 139.4137 },
+  },
+  {
+    slug: "machida",
+    name: "町田",
+    summary: "駅周辺での入店前説明、支払い前の金額確認、相談導線を整理します。",
+    center: "町田市中心部周辺",
+    coordinates: { latitude: 35.5429, longitude: 139.4458 },
+  },
+  {
+    slug: "kichijoji",
+    name: "吉祥寺",
+    summary: "駅周辺の飲食店集積エリアでの料金説明と明細確認に関する情報を扱います。",
+    center: "武蔵野市吉祥寺周辺",
+    coordinates: { latitude: 35.7031, longitude: 139.5797 },
+  },
 ] as const;
 
 export const REPORT_CATEGORIES = [

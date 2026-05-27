@@ -7,7 +7,15 @@ export const INITIAL_DATA_REVIEW_QUEUE_CSV = `candidate_file,row_number,review_p
 private-candidates.csv,2,high,,新宿・歌舞伎町,店名または住所ありの候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,出典URLと現在状況を確認し、住所・建物名が確認できるまで公開承認しない
 private-candidates.csv,3,high,,池袋,同一住所または同一建物の候補,番地まで,要確認,未確認,no,no,not_started,needs_review,同一運営や同一店舗と断定せず、建物単位の注意情報として扱えるか確認する
 private-candidates.csv,4,medium,,渋谷・道玄坂・宇田川町,店名未確認のエリア候補,町域まで,未確認,未確認,no,no,not_started,needs_review,個別店舗公開ではなくエリア注意喚起または相談導線改善の材料に回す
-private-candidates.csv,5,medium,,上野・御徒町・湯島,出典確認待ちの候補,町域まで,未確認,未確認,no,no,not_started,needs_review,追加出典、現在状況、異議申立て導線を確認してから投入可否を判断する`;
+private-candidates.csv,5,medium,,上野・御徒町・湯島,出典確認待ちの候補,町域まで,未確認,未確認,no,no,not_started,needs_review,追加出典、現在状況、異議申立て導線を確認してから投入可否を判断する
+private-candidates.csv,6,medium,,六本木・麻布十番,深夜帯の料金確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,公開前に出典URL、現在状況、建物名、階数を確認する
+private-candidates.csv,7,medium,,銀座・新橋・有楽町,駅周辺の会計確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,個別店舗公開ではなく非公開審査DBで出典と独自要約を確認する
+private-candidates.csv,8,medium,,赤坂・赤坂見附,席料・サービス料確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,料金説明と会計内容の範囲に限定し、断定表現を避ける
+private-candidates.csv,9,medium,,錦糸町,明細提示確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,住所・建物・階数の確認ができるまで個別公開しない
+private-candidates.csv,10,low,,五反田,駅周辺の入店前確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,投稿者メールや証拠画像URLを公開サマリーに入れない
+private-candidates.csv,11,low,,立川,多摩エリアの会計確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,公式確認先と相談導線を整えてから候補化する
+private-candidates.csv,12,low,,町田,駅周辺の料金説明候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,追加出典と現在状況が確認できるまでneeds_reviewを維持する
+private-candidates.csv,13,low,,吉祥寺,建物・階数確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,建物名と階数の混同を避け、必要ならエリア注意喚起に回す`;
 
 export function getInitialDataCandidateCsv() {
   return process.env[INITIAL_DATA_CANDIDATE_CSV_ENV]?.trim() ?? "";

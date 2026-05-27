@@ -120,7 +120,7 @@ function buildRowErrors(options: {
   const sourceCheckedAt = getText(row, "source_checked_at");
 
   if (!area) {
-    errors.push(`${lineNumber}行目: observed_area が初期対象エリアと一致しません。`);
+    errors.push(`${lineNumber}行目: observed_area が掲載対象エリアと一致しません。`);
   }
 
   if (!IMPORTABLE_STATUSES.has(status)) {

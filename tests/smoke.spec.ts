@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 const publicRoutes = [
   { path: "/", heading: "入店前チェック東京" },
   { path: "/map", heading: "注意報告マップ" },
-  { path: "/areas", heading: "初期対象エリア" },
+  { path: "/areas", heading: "掲載対象エリア" },
   { path: "/areas/shinjuku-kabukicho", heading: "新宿・歌舞伎町" },
   {
     path: "/areas/shinjuku-kabukicho/topics/price-confirmation",

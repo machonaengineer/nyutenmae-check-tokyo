@@ -78,7 +78,7 @@ export default function ChecklistsPage() {
 
       <Section
         title="エリア別チェックリスト"
-        description="初期対象エリアごとの公開ページへ移動できます。"
+        description="掲載対象エリアごとの公開ページへ移動できます。"
       >
         <div className="grid gap-4 md:grid-cols-2">
           {INITIAL_AREAS.map((area) => (

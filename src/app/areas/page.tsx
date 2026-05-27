@@ -9,7 +9,7 @@ import { getAbsoluteSiteUrl } from "@/lib/social";
 
 export const metadata: Metadata = {
   title: "対象エリア",
-  description: "入店前チェック東京の初期対象エリア一覧です。",
+  description: "入店前チェック東京の掲載対象エリア一覧です。",
 };
 
 export default async function AreasPage() {
@@ -19,8 +19,8 @@ export default async function AreasPage() {
     <>
       <PageHeader
         eyebrow="Areas"
-        title="初期対象エリア"
-        description="MVPでは都内繁華街のうち、入店前の料金確認や会計確認に関わる注意情報を整理しやすいエリアから開始します。"
+        title="掲載対象エリア"
+        description="都内繁華街のうち、入店前の料金確認や会計確認に関わる注意情報を整理しやすいエリアから順次拡大しています。"
       />
 
       <Section title="エリア一覧">

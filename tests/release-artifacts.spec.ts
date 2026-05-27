@@ -20,6 +20,7 @@ const requiredReleaseFiles = [
   "supabase/migrations/0008_report_source_attribution.sql",
   "supabase/migrations/0009_building_level_place_tracking.sql",
   "supabase/migrations/0010_initial_data_review_workflow.sql",
+  "supabase/migrations/0011_area_expansion.sql",
   "EXTERNAL_RATING_TEMPLATE.csv",
   "EXTERNAL_RATING_GUIDE.md",
   "FREE_TIER_GROWTH_PLAN.md",
@@ -36,6 +37,7 @@ const requiredReleaseFiles = [
   "PHASE_21_DATA_INTAKE_PLAN.md",
   "PHASE_22_REVIEW_IMPORT_PLAN.md",
   "PHASE_23_REVIEW_WORKFLOW_PLAN.md",
+  "PHASE_24_AREA_EXPANSION_PLAN.md",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/admin/initial-data-candidates.ts",
   "src/components/json-ld.tsx",
@@ -110,6 +112,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("0008_report_source_attribution.sql");
     expect(readme).toContain("0009_building_level_place_tracking.sql");
     expect(readme).toContain("0010_initial_data_review_workflow.sql");
+    expect(readme).toContain("0011_area_expansion.sql");
     expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
     expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
     expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
@@ -123,6 +126,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("PHASE_21_DATA_INTAKE_PLAN.md");
     expect(readme).toContain("PHASE_22_REVIEW_IMPORT_PLAN.md");
     expect(readme).toContain("PHASE_23_REVIEW_WORKFLOW_PLAN.md");
+    expect(readme).toContain("PHASE_24_AREA_EXPANSION_PLAN.md");
     expect(readme).toContain("PRODUCT_GOAL_AND_ARCHITECTURE.md");
     expect(readme).toContain("INITIAL_DATA_CANDIDATES_CSV");
     expect(readme).toContain("/roadmap");
@@ -614,6 +618,52 @@ test.describe("リリース準備資料", () => {
     expect(stager).toContain("stageInitialDataCandidatesAction");
     expect(stager).not.toContain("createSupabase");
     expect(verification).toContain("initial_data_review_candidates");
+  });
+
+  test("フェーズ24は掲載エリアを拡大しつつ公開条件を変えない", async () => {
+    const migration = await readFile(
+      path.join(rootDir, "supabase/migrations/0011_area_expansion.sql"),
+      "utf8",
+    );
+    const phase24 = await readFile(
+      path.join(rootDir, "PHASE_24_AREA_EXPANSION_PLAN.md"),
+      "utf8",
+    );
+    const site = await readFile(path.join(rootDir, "src/lib/site.ts"), "utf8");
+    const home = await readFile(path.join(rootDir, "src/app/page.tsx"), "utf8");
+    const areasPage = await readFile(path.join(rootDir, "src/app/areas/page.tsx"), "utf8");
+    const checklist = await readFile(
+      path.join(rootDir, "src/lib/growth-content.ts"),
+      "utf8",
+    );
+    const reviewQueue = await readFile(
+      path.join(rootDir, "INITIAL_DATA_REVIEW_QUEUE.csv"),
+      "utf8",
+    );
+
+    for (const slug of [
+      "roppongi-azabujuban",
+      "ginza-shimbashi-yurakucho",
+      "akasaka-akasakamitsuke",
+      "kinshicho",
+      "gotanda",
+      "tachikawa",
+      "machida",
+      "kichijoji",
+    ]) {
+      expect(site).toContain(slug);
+      expect(migration).toContain(slug);
+    }
+
+    expect(phase24).toContain("4エリアから12エリア");
+    expect(phase24).toContain("承認済み投稿がないエリアは、空状態");
+    expect(home).toContain("掲載対象エリア");
+    expect(areasPage).toContain("掲載対象エリア");
+    expect(checklist).toContain("roppongi-azabujuban");
+    expect(reviewQueue).toContain("六本木・麻布十番");
+    expect(reviewQueue).toContain("吉祥寺");
+    expect(migration).not.toContain("public.reports");
+    expect(migration).not.toContain("public_place_summaries");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
