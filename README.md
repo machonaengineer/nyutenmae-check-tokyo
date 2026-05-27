@@ -87,6 +87,10 @@ NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false
 NEXT_PUBLIC_MONETIZATION_ENABLED=false
 NEXT_PUBLIC_SPONSOR_INQUIRY_URL=
 NEXT_PUBLIC_SUPPORT_URL=
+NEXT_PUBLIC_X_PROFILE_URL=
+NEXT_PUBLIC_INSTAGRAM_PROFILE_URL=
+NEXT_PUBLIC_TIKTOK_PROFILE_URL=
+NEXT_PUBLIC_LINE_PROFILE_URL=
 NEXT_PUBLIC_ADSENSE_ENABLED=false
 NEXT_PUBLIC_ADSENSE_CLIENT=
 NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST=
@@ -109,6 +113,10 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 | `NEXT_PUBLIC_MONETIZATION_ENABLED` | 任意。`true` の場合だけ収益化枠を表示する。初期値は必ず `false` |
 | `NEXT_PUBLIC_SPONSOR_INQUIRY_URL` | 任意。収益化枠の問い合わせ先URL |
 | `NEXT_PUBLIC_SUPPORT_URL` | 任意。支援リンクや外部支援ページのURL |
+| `NEXT_PUBLIC_X_PROFILE_URL` | 任意。公式XプロフィールURL |
+| `NEXT_PUBLIC_INSTAGRAM_PROFILE_URL` | 任意。公式InstagramプロフィールURL |
+| `NEXT_PUBLIC_TIKTOK_PROFILE_URL` | 任意。公式TikTokプロフィールURL |
+| `NEXT_PUBLIC_LINE_PROFILE_URL` | 任意。公式LINEまたはLINE関連URL |
 | `NEXT_PUBLIC_ADSENSE_ENABLED` | 任意。`true` の場合だけAdSenseスクリプトと広告ユニットを読み込む。初期値は必ず `false` |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | 任意。AdSenseの `ca-pub-...` 形式client ID。公開値だが、アカウントログイン情報は保存しない |
 | `NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST` | 任意。`/checklists` 用のAdSense ad slot ID |
@@ -123,8 +131,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
-- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/social`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/social`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
 - 異議申立てフォーム、管理者ログイン、投稿審査、証拠画像確認、異議申立て確認
@@ -145,6 +153,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - エリア×トラブル種別のSEO向け確認ページ
 - 情報提供募集ページとスポンサー問い合わせページ
 - トラブル種別別のSEO向け安全確認ガイド
+- SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像
 
 ## DB設計
 
@@ -182,6 +191,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 外部評価は本サービスの評価ではなく、出典URLと確認日付きの集計参考値として扱う
 - 食べログなど規約確認や許諾が必要なソースは `display_allowed=false` のまま管理し、公開しない
 - AdSenseは `NEXT_PUBLIC_MONETIZATION_ENABLED=true` かつ `NEXT_PUBLIC_ADSENSE_ENABLED=true` の場合だけ読み込み、管理画面、投稿フォーム、異議申立てフォームには配置しない
+- SNSには証拠画像、投稿者メールアドレス、非公開メモ、外部口コミ本文、スクリーンショットを載せない
 
 ## 法務・UX方針
 
@@ -221,3 +231,4 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `EXTERNAL_RATING_GUIDE.md`: 外部評価参考値の入力、公開、禁止事項
 - `FREE_TIER_GROWTH_PLAN.md`: 無料枠重視のSEO、計測、収益化準備方針
 - `ADSENSE_SETUP_GUIDE.md`: AdSense導入時の環境変数、ads.txt、ポリシーチェック
+- `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動連携前の運用方針

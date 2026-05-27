@@ -48,6 +48,12 @@ export function AdminShell({
               >
                 初期データ
               </Link>
+              <Link
+                className="rounded-md px-3 py-2 text-sm font-semibold text-white no-underline transition hover:bg-white/10"
+                href="/admin/social"
+              >
+                SNS
+              </Link>
               <form action={signOutAdminAction}>
                 <button
                   className="rounded-md border border-white/20 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"

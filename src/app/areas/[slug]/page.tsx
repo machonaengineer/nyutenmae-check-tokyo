@@ -6,11 +6,13 @@ import { LeafletMap } from "@/components/leaflet-map";
 import { PageHeader, Section } from "@/components/page-blocks";
 import { PlaceCard } from "@/components/place-card";
 import { PublicNotice } from "@/components/public-notice";
+import { SocialShareActions } from "@/components/social-share-actions";
 import {
   getAreaCenter,
   getPublicAreaSummary,
   getPublicPlaceSummaries,
 } from "@/lib/public-data";
+import { getAbsoluteSiteUrl } from "@/lib/social";
 import { INITIAL_AREAS } from "@/lib/site";
 import { TOPIC_GUIDES } from "@/lib/topic-content";
 
@@ -105,6 +107,10 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
             </Link>
           ))}
         </div>
+      </Section>
+
+      <Section title="このエリアを共有する">
+        <SocialShareActions title={`${area.name}の入店前確認`} url={getAbsoluteSiteUrl(`/areas/${slug}`)} />
       </Section>
     </>
   );

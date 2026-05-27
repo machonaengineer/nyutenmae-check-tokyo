@@ -40,6 +40,8 @@
 - [ ] AdSenseを使う場合、`ADS_TXT_GOOGLE_PUBLISHER_ID` を設定し、`/ads.txt` が `google.com, pub-..., DIRECT, f08c47fec0942fa0` を返すことを確認した。
 - [ ] AdSenseを使う場合、`NEXT_PUBLIC_ADSENSE_CLIENT` は `ca-pub-...` 形式、ad slot IDは数字のみで設定した。
 - [ ] AdSenseを使う場合、広告クリックを促す文言、誤クリックを誘導する配置、コンテンツと誤認させる見出しがないことを確認した。
+- [ ] SNS共有文と `/admin/social` のテンプレートに断定表現、個人情報、外部本文転載は禁止が含まれていないことを確認した。
+- [ ] SNSプロフィールURLを設定する場合、`NEXT_PUBLIC_X_PROFILE_URL` など公開してよいURLだけを入れ、ログイン情報やトークンを入れていないことを確認した。
 - [ ] 収益化枠をONにする前に、Vercel/Supabase/広告サービスの商用利用条件、Cookie/プライバシー表示、法務文面を確認した。
 - [ ] 禁止表現が公開UIに表示されていないことを確認した。
 - [ ] 利用規約、プライバシーポリシー、投稿ガイドラインを人間が確認した。
@@ -62,6 +64,7 @@ npm audit --audit-level=moderate
 - [ ] `/objection` で異議申立てフォームが表示される。
 - [ ] `/admin/reports` は未ログイン時にログイン画面へ誘導される。
 - [ ] `/checklists` と `/areas/shinjuku-kabukicho/checklist` が表示される。
+- [ ] `/social` が表示され、共有ボタンと注意文が確認できる。
 - [ ] `/monetization-policy` が表示され、掲載独立性の方針が確認できる。
 - [ ] `/ads.txt` が未設定時は設定漏れコメント、AdSense設定後はGoogle向けads.txt行を返す。
 - [ ] 管理者でログイン後、投稿の承認、非公開、差し戻し、却下ができる。
@@ -69,6 +72,7 @@ npm audit --audit-level=moderate
 - [ ] `/admin/data` から初期データを投入した場合、`reports.status` は `pending` または `needs_review`、`evidence_level` は `Hidden` のまま保存される。
 - [ ] 証拠画像は管理画面だけで短時間の署名付きURLとして表示される。
 - [ ] 管理者でログイン後、外部評価スナップショットの追加ができ、公開ページでは集計値、出典URL、確認日だけが表示される。
+- [ ] 管理者でログイン後、`/admin/social` のSNS文面テンプレートを確認できる。
 - [ ] スマホ幅で横スクロールやボタン欠けがない。
 
 ## 公開判断

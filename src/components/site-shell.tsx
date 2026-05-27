@@ -22,7 +22,7 @@ export function SiteHeader() {
           <div className="hidden flex-1 justify-center lg:flex">
             <SiteSearchForm inputId="site-search-desktop" />
           </div>
-          <nav aria-label="主要ナビゲーション" className="hidden items-center gap-2 md:flex">
+          <nav aria-label="主要ナビゲーション" className="hidden items-center gap-2 xl:flex">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
@@ -40,7 +40,7 @@ export function SiteHeader() {
         </div>
         <nav
           aria-label="モバイル主要ナビゲーション"
-          className="flex gap-2 overflow-x-auto pb-3 md:hidden"
+          className="flex gap-2 overflow-x-auto pb-3 xl:hidden"
         >
           {NAV_ITEMS.map((item) => (
             <Link

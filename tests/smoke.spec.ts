@@ -18,6 +18,7 @@ const publicRoutes = [
   { path: "/topics", heading: "トラブル種別別ガイド" },
   { path: "/topics/price-confirmation", heading: "料金説明の確認" },
   { path: "/contribute", heading: "情報提供のお願い" },
+  { path: "/social", heading: "SNS共有・情報提供" },
   { path: "/sponsor", heading: "スポンサー・広告掲載について" },
   { path: "/reports/new", heading: "注意報告を送る" },
   { path: "/reports/thanks", heading: "投稿を受け付けました" },
@@ -179,6 +180,7 @@ test.describe("公開ページ", () => {
       "/topics",
       "/topics/price-confirmation",
       "/contribute",
+      "/social",
       "/sponsor",
     ]) {
       await page.goto(route);
@@ -249,6 +251,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/topics</loc>");
     expect(body).toContain("<loc>http://localhost:3000/topics/price-confirmation</loc>");
     expect(body).toContain("<loc>http://localhost:3000/contribute</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/social</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sponsor</loc>");
     expect(body).toContain("<loc>http://localhost:3000/monetization-policy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
@@ -283,8 +286,24 @@ test.describe("公開ページ", () => {
     expect(manifest.theme_color).toBe("#1f3a5f");
   });
 
+  test("Open Graph画像を返す", async ({ request }) => {
+    const response = await request.get("/opengraph-image");
+
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toContain("image/png");
+  });
+
+  test("SNS共有ページで安全な共有導線を表示する", async ({ page }) => {
+    await page.goto("/social");
+
+    await expect(page.getByRole("button", { name: "共有" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "URLコピー" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "X" })).toBeVisible();
+    await expect(page.getByText("外部口コミ本文、ニュース本文、スクリーンショット")).toBeVisible();
+  });
+
   test("公開フォームHTMLに非公開DBカラム名を埋め込まない", async ({ request }) => {
-    for (const path of ["/reports/new", "/objection", "/search?q=test"]) {
+    for (const path of ["/reports/new", "/objection", "/search?q=test", "/social"]) {
       const response = await request.get(path);
       const body = await response.text();
 

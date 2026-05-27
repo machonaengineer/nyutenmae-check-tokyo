@@ -14,6 +14,8 @@ import {
   SITE,
   TONE_GUIDELINES,
 } from "@/lib/site";
+import { SocialShareActions } from "@/components/social-share-actions";
+import { getAbsoluteSiteUrl } from "@/lib/social";
 
 const servicePrinciples = [
   {
@@ -185,6 +187,13 @@ export default function Home() {
             注意報告を送る
           </Link>
         </div>
+      </Section>
+
+      <Section
+        title="SNSで共有する"
+        description="断定や転載を避けた形で、入店前確認の導線を共有できます。"
+      >
+        <SocialShareActions title={SITE.name} url={getAbsoluteSiteUrl("/")} />
       </Section>
 
       <Section title="公開と表現の方針">

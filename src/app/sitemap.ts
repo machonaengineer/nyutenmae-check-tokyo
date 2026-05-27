@@ -9,6 +9,7 @@ const staticRoutes = [
   { path: "/checklists", priority: 0.8 },
   { path: "/topics", priority: 0.7 },
   { path: "/contribute", priority: 0.7 },
+  { path: "/social", priority: 0.7 },
   { path: "/reports/new", priority: 0.7 },
   { path: "/objection", priority: 0.6 },
   { path: "/support", priority: 0.6 },

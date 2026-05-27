@@ -21,6 +21,7 @@ const requiredReleaseFiles = [
   "EXTERNAL_RATING_GUIDE.md",
   "FREE_TIER_GROWTH_PLAN.md",
   "ADSENSE_SETUP_GUIDE.md",
+  "SOCIAL_GROWTH_PLAN.md",
 ] as const;
 
 const initialDataColumns = [
@@ -90,6 +91,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("EXTERNAL_RATING_GUIDE.md");
     expect(readme).toContain("FREE_TIER_GROWTH_PLAN.md");
     expect(readme).toContain("ADSENSE_SETUP_GUIDE.md");
+    expect(readme).toContain("SOCIAL_GROWTH_PLAN.md");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {
@@ -291,6 +293,27 @@ test.describe("リリース準備資料", () => {
     expect(analyticsGate).toContain('NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED !== "true"');
     expect(monetizationSlot).toContain('NEXT_PUBLIC_MONETIZATION_ENABLED !== "true"');
     expect(monetizationSlot).toContain("審査判断に影響しません");
+  });
+
+  test("SNS連携は自動投稿ではなく安全な共有導線として実装する", async () => {
+    const guide = await readFile(path.join(rootDir, "SOCIAL_GROWTH_PLAN.md"), "utf8");
+    const socialLib = await readFile(path.join(rootDir, "src/lib/social.ts"), "utf8");
+    const socialPage = await readFile(path.join(rootDir, "src/app/social/page.tsx"), "utf8");
+    const adminSocial = await readFile(
+      path.join(rootDir, "src/app/admin/social/page.tsx"),
+      "utf8",
+    );
+    const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
+
+    expect(guide).toContain("自動投稿API連携はMVPでは行わず");
+    expect(guide).toContain("証拠画像、投稿者メールアドレス、非公開メモをSNSに載せない");
+    expect(socialLib).toContain("NEXT_PUBLIC_X_PROFILE_URL");
+    expect(socialLib).toContain("buildSocialPostTemplates");
+    expect(socialPage).toContain("SocialShareActions");
+    expect(adminSocial).toContain("requireAdminUser");
+    expect(adminSocial).toContain("SocialTemplateBoard");
+    expect(envExample).toContain("NEXT_PUBLIC_X_PROFILE_URL=");
+    expect(envExample).not.toContain("SOCIAL_ACCESS_TOKEN");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

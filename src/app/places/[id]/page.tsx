@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader, Section } from "@/components/page-blocks";
 import { PublicNotice } from "@/components/public-notice";
+import { SocialShareActions } from "@/components/social-share-actions";
 import {
   formatExternalRating,
   formatRatingCount,
@@ -11,6 +12,7 @@ import {
 } from "@/lib/external-ratings";
 import { formatBoolean, formatCurrency, formatDate } from "@/lib/format";
 import { getPlaceDisplayName, getPublicPlaceDetail } from "@/lib/public-data";
+import { getAbsoluteSiteUrl } from "@/lib/social";
 
 type PlacePageProps = {
   params: Promise<{ id: string }>;
@@ -211,6 +213,10 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
             投稿ガイドラインを見る
           </Link>
         </div>
+      </Section>
+
+      <Section title="このページを共有する">
+        <SocialShareActions title={`${displayName}の注意情報`} url={getAbsoluteSiteUrl(`/places/${place.id}`)} />
       </Section>
     </>
   );

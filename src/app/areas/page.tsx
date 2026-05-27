@@ -4,6 +4,8 @@ import { formatDate } from "@/lib/format";
 import { getPublicAreaSummaries } from "@/lib/public-data";
 import { PageHeader, Section } from "@/components/page-blocks";
 import { PublicNotice } from "@/components/public-notice";
+import { SocialShareActions } from "@/components/social-share-actions";
+import { getAbsoluteSiteUrl } from "@/lib/social";
 
 export const metadata: Metadata = {
   title: "対象エリア",
@@ -43,6 +45,10 @@ export default async function AreasPage() {
         <div className="mt-6">
           <PublicNotice />
         </div>
+      </Section>
+
+      <Section title="エリア一覧を共有する">
+        <SocialShareActions title="入店前チェック東京の対象エリア" url={getAbsoluteSiteUrl("/areas")} />
       </Section>
     </>
   );
