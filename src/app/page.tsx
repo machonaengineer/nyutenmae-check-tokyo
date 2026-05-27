@@ -17,7 +17,26 @@ import {
 } from "@/lib/site";
 import { SocialShareActions } from "@/components/social-share-actions";
 import { getAbsoluteSiteUrl } from "@/lib/social";
+import { RESEARCH_SOURCES } from "@/lib/research-sources";
 import { getHomeFaqStructuredData } from "@/lib/structured-data";
+
+const homeMetrics = [
+  {
+    label: "初期対象エリア",
+    value: `${INITIAL_AREAS.length}`,
+    note: "新宿、池袋、渋谷、上野周辺",
+  },
+  {
+    label: "公式確認先",
+    value: `${RESEARCH_SOURCES.length}`,
+    note: "自治体、警察、消費生活相談",
+  },
+  {
+    label: "公開前審査",
+    value: "必須",
+    note: "投稿は自動公開しません",
+  },
+] as const;
 
 const servicePrinciples = [
   {
@@ -59,6 +78,18 @@ export default function Home() {
                 <div className="border-l-2 border-action pl-3">
                   星評価は使わない
                 </div>
+              </div>
+              <div className="mt-8 grid max-w-2xl gap-3 sm:grid-cols-3">
+                {homeMetrics.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-md border border-line bg-surface px-4 py-3 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+                  >
+                    <p className="text-xs font-semibold text-muted">{metric.label}</p>
+                    <p className="mt-2 text-2xl font-bold text-ink">{metric.value}</p>
+                    <p className="mt-1 text-xs leading-5 text-muted">{metric.note}</p>
+                  </div>
+                ))}
               </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link

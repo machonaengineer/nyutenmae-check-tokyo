@@ -157,6 +157,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 公的・公式情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
 - エリア詳細ページでの公的・公式確認先表示
 - 検索結果ゼロ時の関連エリア、公式確認先表示
+- トップページでの初期対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
 - WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
 

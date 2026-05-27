@@ -61,6 +61,8 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("投稿は自動公開しません。")).toBeVisible();
     await expect(page.getByText("証拠画像と投稿者メールアドレスは一般公開しません。")).toBeVisible();
     await expect(page.getByText("投稿者の申告に基づく情報です。")).toBeVisible();
+    await expect(page.getByText("公式確認先")).toBeVisible();
+    await expect(page.getByText("自治体、警察、消費生活相談")).toBeVisible();
   });
 
   test("星評価UIを表示しない", async ({ request }) => {
