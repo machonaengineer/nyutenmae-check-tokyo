@@ -263,7 +263,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     suggestedUse:
       "個別店舗として公開する前に、店名、住所、現在状況、異議申立て導線、表現を管理者が再確認します。",
     nextAction:
-      "INITIAL_DATA_CANDIDATES_2026-05-27.csv の候補と照合し、公開できる場合も出典確認日と独自要約に限定する。",
+      "非公開の初期データ候補CSVと照合し、公開できる場合も出典確認日と独自要約に限定する。",
   },
   {
     id: "news-kabukicho-billing-gap-202401",

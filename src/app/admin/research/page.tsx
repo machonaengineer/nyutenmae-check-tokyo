@@ -64,8 +64,8 @@ export default async function AdminResearchPage() {
           <div className="rounded-md border border-line bg-white p-5">
             <h2 className="text-lg font-bold text-ink">次に審査する候補</h2>
             <p className="mt-2 text-sm leading-7 text-muted">
-              候補化済みの出典は、INITIAL_DATA_CANDIDATES を pending / Hidden
-              として確認し、承認前に表現、出典、現在状況、異議導線を見ます。
+              候補化済みの出典は、非公開の初期データCSVとして pending / Hidden
+              で確認し、承認前に表現、出典、現在状況、異議導線を見ます。
             </p>
             <div className="mt-4 grid gap-3">
               {reviewCandidates.slice(0, 6).map((source) => (

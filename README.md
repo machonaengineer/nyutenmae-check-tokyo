@@ -100,6 +100,7 @@ NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST=
 NEXT_PUBLIC_ADSENSE_SLOT_AREA=
 NEXT_PUBLIC_ADSENSE_SLOT_SUPPORT=
 ADS_TXT_GOOGLE_PUBLISHER_ID=
+INITIAL_DATA_CANDIDATES_CSV=
 ```
 
 | 変数 | 用途 |
@@ -127,6 +128,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 | `NEXT_PUBLIC_ADSENSE_SLOT_AREA` | 任意。`/areas/[slug]/checklist` 用のAdSense ad slot ID |
 | `NEXT_PUBLIC_ADSENSE_SLOT_SUPPORT` | 任意。将来の支援ページ用AdSense ad slot ID |
 | `ADS_TXT_GOOGLE_PUBLISHER_ID` | 任意。`/ads.txt` で返す `pub-...` 形式publisher ID |
+| `INITIAL_DATA_CANDIDATES_CSV` | 任意。管理者限定の候補一括投入に使うサーバー専用CSV。実名入り候補CSVはGit管理しない |
 
 ## 実装済み
 
@@ -164,7 +166,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 検索結果ゼロ時の関連エリア、公式確認先表示
 - 管理画面での店舗名・住所・建物名・階数検索と、同一住所・同一建物の確認候補表示
 - 管理画面の品質キューで、建物情報不足、未審査、出典確認待ち、未対応異議、同一住所・同一建物候補を確認
-- 管理画面の初期データ審査キューで、候補を `needs_review / Hidden` として非公開投入
+- 管理画面の初期データ審査キューで、候補を `needs_review / Hidden` として非公開投入。実名入り候補CSVはGit管理せず、管理画面貼り付けまたはサーバー側環境変数だけで扱う
 - `/roadmap` でフェーズ13〜20の改善予定と公開情報の扱い方を表示
 - トップページでの初期対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理

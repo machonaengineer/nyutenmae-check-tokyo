@@ -35,7 +35,7 @@
 - `/llms.txt`: AIクローラー向けの公開方針と主要ページ一覧
 - `reports.source_type/source_url/source_title/source_checked_at`: 公的情報、報道、外部傾向を本文転載は禁止の独自要約として扱う出典メタ情報
 - `supabase/migrations/0008_report_source_attribution.sql`: 承認済み投稿だけを公開する既存方針を保ったまま、公開ビューに出典メタ情報を追加
-- `INITIAL_DATA_CANDIDATES_2026-05-27.csv`: 報道等から作った非公開レビュー候補。公開は人間審査後のみ
+- 実名入り初期データ候補CSV: Git管理せず、管理画面貼り付けまたはサーバー側環境変数だけで扱う。公開は人間審査後のみ
 
 ## 無料枠での運用
 

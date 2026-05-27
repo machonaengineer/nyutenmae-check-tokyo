@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/admin/auth";
-import { INITIAL_DATA_CANDIDATE_CSV } from "@/lib/admin/initial-data-candidates";
+import { getInitialDataCandidateCsv } from "@/lib/admin/initial-data-candidates";
 import { containsDangerousExpression } from "@/lib/content-safety";
 import {
   containsExternalCopyRiskText,
@@ -447,8 +447,15 @@ export async function importInitialDataAction(
 }
 
 export async function importInitialDataCandidatesAction() {
+  const candidateCsv = getInitialDataCandidateCsv();
+  if (!candidateCsv) {
+    redirect(
+      "/admin/data?candidate_import=missing_source&candidate_imported=0&candidate_skipped=0",
+    );
+  }
+
   const formData = new FormData();
-  formData.set("csv", INITIAL_DATA_CANDIDATE_CSV);
+  formData.set("csv", candidateCsv);
 
   const result = await importInitialDataAction(
     {

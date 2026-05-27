@@ -6,6 +6,7 @@ import { Section, SimpleList } from "@/components/page-blocks";
 import {
   getInitialDataReviewMetrics,
   getInitialDataReviewQueue,
+  hasInitialDataCandidateCsv,
   type InitialDataReviewQueueItem,
 } from "@/lib/admin/initial-data-candidates";
 import { requireAdminUser } from "@/lib/admin/auth";
@@ -38,6 +39,13 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
   const query = await searchParams;
   const reviewQueue = getInitialDataReviewQueue();
   const reviewMetrics = getInitialDataReviewMetrics();
+  const candidateCsvConfigured = hasInitialDataCandidateCsv();
+  const candidateImportMessage =
+    query.candidate_import === "success"
+      ? "候補データを非公開投入しました。"
+      : query.candidate_import === "missing_source"
+        ? "候補CSVがサーバー側に設定されていません。"
+        : "候補データの投入に失敗しました。";
 
   return (
     <AdminShell adminUser={adminUser}>
@@ -57,11 +65,7 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
                 : "mb-6 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
             }
           >
-            <p className="font-bold">
-              {query.candidate_import === "success"
-                ? "候補データを非公開投入しました。"
-                : "候補データの投入に失敗しました。"}
-            </p>
+            <p className="font-bold">{candidateImportMessage}</p>
             <p className="mt-1">
               投入: {query.candidate_imported ?? "0"}件 / 重複スキップ:{" "}
               {query.candidate_skipped ?? "0"}件
@@ -69,7 +73,11 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
           </div>
         ) : null}
 
-        <InitialDataReviewQueuePanel metrics={reviewMetrics} queue={reviewQueue} />
+        <InitialDataReviewQueuePanel
+          candidateCsvConfigured={candidateCsvConfigured}
+          metrics={reviewMetrics}
+          queue={reviewQueue}
+        />
 
         <InitialDataValidator />
       </Section>
@@ -78,9 +86,11 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
 }
 
 function InitialDataReviewQueuePanel({
+  candidateCsvConfigured,
   metrics,
   queue,
 }: {
+  candidateCsvConfigured: boolean;
   metrics: ReturnType<typeof getInitialDataReviewMetrics>;
   queue: InitialDataReviewQueueItem[];
 }) {
@@ -93,14 +103,23 @@ function InitialDataReviewQueuePanel({
             <p className="mt-2 text-sm leading-7 text-muted">
               候補はすべて needs_review / Hidden として非公開投入します。公開承認は投稿詳細で人間が出典、現在状況、表現を確認してから行います。
             </p>
+            <p className="mt-2 text-sm leading-7 text-muted">
+              実名入り候補CSVはGit管理せず、管理者が下のCSV欄へ貼り付けるか、サーバー側環境変数に一時設定して扱います。
+            </p>
           </div>
           <form action={importInitialDataCandidatesAction}>
             <button
-              className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-bold text-white transition hover:bg-action-strong"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-bold text-white transition hover:bg-action-strong disabled:cursor-not-allowed disabled:bg-muted"
+              disabled={!candidateCsvConfigured}
               type="submit"
             >
               候補を非公開投入する
             </button>
+            {!candidateCsvConfigured ? (
+              <p className="mt-2 max-w-64 text-xs leading-5 text-muted">
+                サーバー側の候補CSVが未設定です。通常は下のCSV欄から投入してください。
+              </p>
+            ) : null}
           </form>
         </div>
 
@@ -149,14 +168,20 @@ function InitialDataReviewQueuePanel({
                   階数: {item.floorStatus}
                 </p>
                 <p className="mt-2 leading-6 text-muted">{item.nextAction}</p>
-                <a
-                  className="mt-2 inline-flex font-semibold text-action"
-                  href={item.sourceUrl}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  出典を確認する
-                </a>
+                {item.sourceUrl ? (
+                  <a
+                    className="mt-2 inline-flex font-semibold text-action"
+                    href={item.sourceUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    出典を確認する
+                  </a>
+                ) : (
+                  <p className="mt-2 text-xs font-semibold text-muted">
+                    出典URLは非公開CSV側で確認します。
+                  </p>
+                )}
               </div>
             </article>
           ))}

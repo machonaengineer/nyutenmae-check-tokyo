@@ -120,6 +120,7 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("PHASE_21_DATA_INTAKE_PLAN.md");
     expect(readme).toContain("PHASE_22_REVIEW_IMPORT_PLAN.md");
     expect(readme).toContain("PRODUCT_GOAL_AND_ARCHITECTURE.md");
+    expect(readme).toContain("INITIAL_DATA_CANDIDATES_CSV");
     expect(readme).toContain("/roadmap");
     expect(readme).toContain("/coverage");
     expect(readme).toContain("/admin/quality");
@@ -550,15 +551,20 @@ test.describe("リリース準備資料", () => {
 
     expect(phase22).toContain("needs_review / Hidden");
     expect(phase22).toContain("クライアントコンポーネントへ候補CSVを渡さない");
+    expect(phase22).toContain("実名入り候補CSVは公開リポジトリへコミットせず");
     expect(candidateLib).toContain("server-only");
-    expect(candidateLib).toContain("INITIAL_DATA_CANDIDATE_CSV");
+    expect(candidateLib).toContain("INITIAL_DATA_CANDIDATE_CSV_ENV");
+    expect(candidateLib).toContain("getInitialDataCandidateCsv");
     expect(candidateLib).toContain("getInitialDataReviewQueue");
+    expect(candidateLib).not.toContain("tokyo-sports.co.jp");
+    expect(candidateLib).not.toContain("news.tv-asahi.co.jp");
     expect(adminDataPage).toContain("importInitialDataCandidatesAction");
     expect(adminDataPage).toContain("初期データ審査キュー");
+    expect(adminDataPage).toContain("実名入り候補CSVはGit管理せず");
     expect(actions).toContain("importInitialDataCandidatesAction");
-    expect(actions).toContain("INITIAL_DATA_CANDIDATE_CSV");
+    expect(actions).toContain("getInitialDataCandidateCsv");
     expect(actions).toContain("candidate_import");
-    expect(validator).not.toContain("INITIAL_DATA_CANDIDATE_CSV");
+    expect(validator).not.toContain("INITIAL_DATA_CANDIDATE_CSV_ENV");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
@@ -610,7 +616,7 @@ test.describe("リリース準備資料", () => {
     expect(validator).toContain("validateInitialDataCsv");
     expect(validator).toContain("importInitialDataAction");
     expect(validator).not.toContain("createSupabase");
-    expect(validator).not.toContain("INITIAL_DATA_CANDIDATE_CSV");
+    expect(validator).not.toContain("INITIAL_DATA_CANDIDATE_CSV_ENV");
     expect(actions).toContain("requireAdminUser");
     expect(actions).toContain('const IMPORT_EVIDENCE_LEVEL = "Hidden"');
     expect(actions).toContain('new Set(["pending", "needs_review"])');
