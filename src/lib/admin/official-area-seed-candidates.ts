@@ -13,7 +13,7 @@ municipality,https://www.city.sumida.lg.jp/anzen_anshin/kurasinoanzen_ansin/kyak
 municipality,https://www.city.shinagawa.tokyo.jp/PC/bosai/bosai-bohan/hpg000025697.html,品川区の公共の場所における客引き行為等防止条例案内,2026-05-27,五反田,エリア注意情報（五反田）,,,,エリア単位の公式確認先,確認中,Hidden,品川区の客引き行為等防止に関する公式情報を確認対象とするエリア単位候補です。公開時は五反田周辺の住所確認と会計前確認の補足として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず東五反田と西五反田の住所区分を確認して扱う。,needs_review,,
 municipality,https://www.city.tachikawa.lg.jp/bosai/bohan/1008438/1008446.html,立川市の安全・安心パトロール実施案内,2026-05-27,立川,エリア注意情報（立川）,,,,エリア単位の公式確認先,確認中,Hidden,立川市の安全安心パトロールに関する公式情報を確認対象とするエリア単位候補です。公開時は立川駅周辺の確認観点として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。相談導線として一般化する。,needs_review,,
 municipality,https://www.city.machida.tokyo.jp/shisei/koho/faxrelease/2023/202307.files/103.pdf,町田市の町田駅周辺における客引き防止協働パトロール発表資料,2026-05-27,町田,エリア注意情報（町田）,,,,エリア単位の公式確認先,確認中,Hidden,町田市の協働パトロール発表資料を確認対象とするエリア単位候補です。公開時は町田駅周辺の入店前確認と相談導線の補足として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず最新の公式案内があるか再確認する。個別店舗の断定に使わない。,needs_review,,
-municipality,https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/bosai_anzen_center_web/bouhantaisaku_seido/patrol/1005987.html,武蔵野市の安全パトロール隊と客引き行為等規制案内,2026-05-27,吉祥寺,エリア注意情報（吉祥寺）,,,,エリア単位の公式確認先,確認中,Hidden,武蔵野市の安全パトロール隊と客引き行為等規制に関する公式情報を確認対象とするエリア単位候補です。公開時は吉祥寺周辺の確認観点として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。通り名や建物確認は別途投稿で確認する。,needs_review,,`;
+municipality,https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html,武蔵野市の安全パトロール隊と客引き行為等規制案内,2026-05-27,吉祥寺,エリア注意情報（吉祥寺）,,,,エリア単位の公式確認先,確認中,Hidden,武蔵野市の安全パトロール隊と客引き行為等規制に関する公式情報を確認対象とするエリア単位候補です。公開時は吉祥寺周辺の確認観点として扱います。,公式ソース由来の非公開審査候補。本文転載は禁止せず個別店舗の断定に使わない。通り名や建物確認は別途投稿で確認する。,needs_review,,`;
 
 export function getOfficialAreaSeedCandidateCsv() {
   return OFFICIAL_AREA_SEED_CANDIDATES_CSV;

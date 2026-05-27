@@ -181,6 +181,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `npm run check:official-seed` で、公式ソース安全候補CSVの非公開デフォルト、Hidden固定、禁止表現、非公開情報マーカーを検査
 - `/roadmap` でフェーズ13〜50の改善予定と公開情報の扱い方を表示
 - `/trust` で公開する情報、公開しない情報、審査、収益化独立性を表示
+- `/coverage` にエリア別の「次に厚くする順」を表示し、検索流入、情報提供、非公開審査への接続を整理
+- `/social` にエリア別の安全投稿テンプレートを表示し、断定や転載は禁止を避けた共有導線を追加
 - トップページでの掲載対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
 - WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
@@ -283,6 +285,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_29_50_EXPANSION_ROADMAP.md`: フェーズ29〜50の安全成長ロードマップ
 - `PHASE_29_50_EXECUTION_MATRIX.csv`: フェーズ29〜50の無料枠アクション、安全ゲート、成果物
 - `PHASE_51_DEEP_REVIEW_WORKFLOW.md`: 初期データ候補を条件確認後に非公開投稿へ進める実運用ワークフロー
+- `PHASE_52_ZERO_TO_SIGNAL_PLAN.md`: 情報ゼロ状態から検索流入、投稿獲得、非公開審査へつなげる実装方針
+- `AREA_TRACTION_MATRIX.csv`: 12エリア別の検索意図、データ需要、管理アクション、収益化ゲート
 - `supabase/verification/phase28_official_seed_candidate_checks.sql`: フェーズ28登録後のRLSと候補状態確認SQL
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
@@ -299,3 +303,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBへ0010/0011を適用し、公式候補12件を非公開審査DBに登録した記録
 - `PHASE_29_50_EXPANSION_ROADMAP.md`: フェーズ50までの信頼、審査、収益化、運用監視の成長設計
 - `PHASE_51_DEEP_REVIEW_WORKFLOW.md`: 審査済み候補だけを非公開デフォルトの投稿へ作成する管理導線
+- `PHASE_52_ZERO_TO_SIGNAL_PLAN.md`: 公開投稿が少ない段階でも価値を出すエリア別成長設計

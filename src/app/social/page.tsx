@@ -3,6 +3,10 @@ import Link from "next/link";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import { SocialProfileLinks } from "@/components/social-profile-links";
 import { SocialShareActions } from "@/components/social-share-actions";
+import {
+  AREA_GROWTH_PRIORITY_LABELS,
+  getPrioritySortedAreaGrowthPlans,
+} from "@/lib/area-growth";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 import { INITIAL_AREAS, SITE } from "@/lib/site";
 
@@ -23,6 +27,8 @@ const shareRules = [
 ] as const;
 
 export default function SocialPage() {
+  const growthPlans = getPrioritySortedAreaGrowthPlans();
+
   return (
     <>
       <PageHeader
@@ -50,6 +56,45 @@ export default function SocialPage() {
 
       <Section title="共有時のルール">
         <SimpleList items={shareRules} />
+      </Section>
+
+      <Section
+        title="安全投稿テンプレート"
+        description="エリア名と確認項目を中心にし、個別店舗や個人への断定を避ける投稿案です。"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          {growthPlans.map((plan) => (
+            <article
+              className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+              key={plan.areaSlug}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-lg font-bold text-ink">{plan.areaName}</h2>
+                <span className="rounded-md border border-line bg-surface px-2 py-1 text-xs font-semibold text-muted">
+                  {AREA_GROWTH_PRIORITY_LABELS[plan.priority]}
+                </span>
+              </div>
+              <p className="mt-4 text-sm leading-7 text-muted">{plan.snsTemplate}</p>
+              <p className="mt-3 text-sm leading-7 text-muted">
+                投稿者の申告に基づく情報です。入店前の料金確認を推奨します。
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                  href={`/areas/${plan.areaSlug}`}
+                >
+                  エリアページ
+                </Link>
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                  href={`/reports/new?area=${plan.areaSlug}`}
+                >
+                  情報提供
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
       </Section>
 
       <Section

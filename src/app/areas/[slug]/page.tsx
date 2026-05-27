@@ -3,12 +3,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EmptyState } from "@/components/empty-state";
 import { LeafletMap } from "@/components/leaflet-map";
-import { PageHeader, Section } from "@/components/page-blocks";
+import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
 import { PlaceCard } from "@/components/place-card";
 import { PublicNotice } from "@/components/public-notice";
 import { ResearchSourceCard } from "@/components/research-source-card";
 import { SocialShareActions } from "@/components/social-share-actions";
 import { getAreaDeepGuide } from "@/lib/area-content";
+import {
+  AREA_GROWTH_PRIORITY_LABELS,
+  getAreaGrowthPlan,
+} from "@/lib/area-growth";
 import {
   getAreaCenter,
   getPublicAreaSummary,
@@ -57,6 +61,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
   );
   const researchSources = getResearchSourcesByArea(slug);
   const guide = getAreaDeepGuide(slug);
+  const growthPlan = getAreaGrowthPlan(slug);
 
   return (
     <>
@@ -130,6 +135,56 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+            </article>
+          </div>
+        </Section>
+      ) : null}
+
+      {growthPlan ? (
+        <Section
+          title="情報提供してほしい具体項目"
+          description={growthPlan.searchIntent}
+        >
+          <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
+            <article className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
+              <p className="text-xs font-semibold text-action">
+                {AREA_GROWTH_PRIORITY_LABELS[growthPlan.priority]}
+              </p>
+              <h2 className="mt-2 text-lg font-bold text-ink">提供してほしい情報</h2>
+              <p className="mt-4 text-sm leading-7 text-muted">
+                {growthPlan.contributionAsk}
+              </p>
+              <p className="mt-3 text-sm leading-7 text-muted">
+                {growthPlan.immediateDataNeed}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md bg-action px-4 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+                  href={`/reports/new?area=${slug}`}
+                >
+                  情報提供する
+                </Link>
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                  href={`/areas/${slug}/contribute`}
+                >
+                  入力粒度を見る
+                </Link>
+              </div>
+            </article>
+            <article className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
+              <h2 className="text-lg font-bold text-ink">公開投稿が少ない段階の価値</h2>
+              <p className="mt-4 text-sm leading-7 text-muted">
+                {growthPlan.publicZeroStateValue}
+              </p>
+              <p className="mt-3 text-sm leading-7 text-muted">
+                {growthPlan.monetizationGate}
+              </p>
+              <div className="mt-5">
+                <PolicyNote>
+                  情報提供は公開承認ではありません。投稿者メール、証拠画像、非公開メモは一般公開せず、管理者が公開可否と表現を確認します。
+                </PolicyNote>
+              </div>
             </article>
           </div>
         </Section>

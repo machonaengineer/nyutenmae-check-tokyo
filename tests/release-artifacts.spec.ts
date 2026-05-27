@@ -47,8 +47,11 @@ const requiredReleaseFiles = [
   "PHASE_29_50_EXPANSION_ROADMAP.md",
   "PHASE_29_50_EXECUTION_MATRIX.csv",
   "PHASE_51_DEEP_REVIEW_WORKFLOW.md",
+  "PHASE_52_ZERO_TO_SIGNAL_PLAN.md",
+  "AREA_TRACTION_MATRIX.csv",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/phase-roadmap.ts",
+  "src/lib/area-growth.ts",
   "src/lib/admin/initial-data-candidates.ts",
   "src/lib/admin/official-area-seed-candidates.ts",
   "src/lib/area-operations.ts",
@@ -991,6 +994,76 @@ test.describe("リリース準備資料", () => {
     expect(adminData).toContain("candidate.publicSummaryChecked");
     expect(adminData).toContain("candidate.buildingChecked");
     expect(readme).toContain("PHASE_51_DEEP_REVIEW_WORKFLOW.md");
+  });
+
+  test("フェーズ52は情報ゼロ脱却とエリア別成長導線を実装する", async () => {
+    const phase52 = await readFile(
+      path.join(rootDir, "PHASE_52_ZERO_TO_SIGNAL_PLAN.md"),
+      "utf8",
+    );
+    const matrix = await readFile(path.join(rootDir, "AREA_TRACTION_MATRIX.csv"), "utf8");
+    const areaGrowth = await readFile(path.join(rootDir, "src/lib/area-growth.ts"), "utf8");
+    const coveragePage = await readFile(
+      path.join(rootDir, "src/app/coverage/page.tsx"),
+      "utf8",
+    );
+    const areaPage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/page.tsx"),
+      "utf8",
+    );
+    const socialPage = await readFile(
+      path.join(rootDir, "src/app/social/page.tsx"),
+      "utf8",
+    );
+    const researchSources = await readFile(
+      path.join(rootDir, "src/lib/research-sources.ts"),
+      "utf8",
+    );
+    const sourceQueue = await readFile(
+      path.join(rootDir, "SOURCE_RESEARCH_QUEUE.csv"),
+      "utf8",
+    );
+    const officialSeed = await readFile(
+      path.join(rootDir, "src/lib/admin/official-area-seed-candidates.ts"),
+      "utf8",
+    );
+    const officialSeedCsv = await readFile(
+      path.join(rootDir, "OFFICIAL_SOURCE_SEED_CANDIDATES.csv"),
+      "utf8",
+    );
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+
+    expect(phase52).toContain("検索流入");
+    expect(phase52).toContain("非公開投稿");
+    expect(phase52).toContain("広告");
+    expect(matrix).toContain("area_slug,area_name,priority");
+    expect(matrix).toContain("shinjuku-kabukicho");
+    expect(matrix).toContain("monetization_gate");
+    expect(areaGrowth).toContain("getPrioritySortedAreaGrowthPlans");
+    expect(areaGrowth).toContain("monetizationGate");
+    expect(coveragePage).toContain("getPrioritySortedAreaGrowthPlans");
+    expect(coveragePage).toContain("次に厚くする順");
+    expect(areaPage).toContain("getAreaGrowthPlan");
+    expect(areaPage).toContain("情報提供してほしい具体項目");
+    expect(socialPage).toContain("安全投稿テンプレート");
+    expect(socialPage).toContain("snsTemplate");
+    expect(researchSources).toContain(
+      "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html",
+    );
+    expect(officialSeed).toContain(
+      "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html",
+    );
+    expect(sourceQueue).toContain(
+      "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html",
+    );
+    expect(officialSeedCsv).toContain(
+      "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html",
+    );
+    expect(researchSources).not.toContain("1005987.html");
+    expect(sourceQueue).not.toContain("1005987.html");
+    expect(officialSeed).not.toContain("1005987.html");
+    expect(officialSeedCsv).not.toContain("1005987.html");
+    expect(readme).toContain("AREA_TRACTION_MATRIX.csv");
   });
 
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {

@@ -421,7 +421,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "武蔵野市の安全パトロール隊と客引き行為等規制案内",
     sourceUrl:
-      "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/bosai_anzen_center_web/bouhantaisaku_seido/patrol/1005987.html",
+      "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html",
     sourceCheckedAt: "2026-05-27",
     priority: "high",
     publicSummary:

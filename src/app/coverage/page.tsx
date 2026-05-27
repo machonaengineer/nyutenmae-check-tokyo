@@ -3,6 +3,10 @@ import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
 import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
 import {
+  AREA_GROWTH_PRIORITY_LABELS,
+  getPrioritySortedAreaGrowthPlans,
+} from "@/lib/area-growth";
+import {
   getResearchSourceCoverageMetrics,
   getResearchSourcePipelineMetrics,
 } from "@/lib/research-sources";
@@ -20,6 +24,7 @@ export const metadata: Metadata = {
 export default function CoveragePage() {
   const pipelineMetrics = getResearchSourcePipelineMetrics();
   const coverageMetrics = getResearchSourceCoverageMetrics();
+  const growthPlans = getPrioritySortedAreaGrowthPlans();
 
   return (
     <>
@@ -98,6 +103,63 @@ export default function CoveragePage() {
                 </div>
               </dl>
               <p className="mt-4 text-sm leading-7 text-muted">{metric.nextAction}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="次に厚くする順"
+        description="検索流入、情報提供、非公開審査へつながる順に、エリア別の次アクションを整理します。"
+      >
+        <div className="grid gap-4 lg:grid-cols-3">
+          {growthPlans.map((plan) => (
+            <article
+              className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+              key={plan.areaSlug}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold text-action">
+                    {AREA_GROWTH_PRIORITY_LABELS[plan.priority]}
+                  </p>
+                  <h2 className="mt-2 text-lg font-bold text-ink">{plan.areaName}</h2>
+                </div>
+                <Link
+                  className="text-sm font-semibold text-action"
+                  href={`/areas/${plan.areaSlug}`}
+                >
+                  詳細
+                </Link>
+              </div>
+              <dl className="mt-4 grid gap-3 text-sm leading-7">
+                <div>
+                  <dt className="font-semibold text-ink">検索意図</dt>
+                  <dd className="mt-1 text-muted">{plan.searchIntent}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-ink">先に増やす情報</dt>
+                  <dd className="mt-1 text-muted">{plan.immediateDataNeed}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-ink">管理者の次アクション</dt>
+                  <dd className="mt-1 text-muted">{plan.adminNextAction}</dd>
+                </div>
+              </dl>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md bg-action px-4 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+                  href={`/reports/new?area=${plan.areaSlug}`}
+                >
+                  情報提供
+                </Link>
+                <Link
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                  href={`/areas/${plan.areaSlug}/contribute`}
+                >
+                  粒度を見る
+                </Link>
+              </div>
             </article>
           ))}
         </div>
