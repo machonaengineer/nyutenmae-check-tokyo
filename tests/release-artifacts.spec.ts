@@ -632,6 +632,7 @@ test.describe("リリース準備資料", () => {
     const site = await readFile(path.join(rootDir, "src/lib/site.ts"), "utf8");
     const home = await readFile(path.join(rootDir, "src/app/page.tsx"), "utf8");
     const areasPage = await readFile(path.join(rootDir, "src/app/areas/page.tsx"), "utf8");
+    const publicData = await readFile(path.join(rootDir, "src/lib/public-data.ts"), "utf8");
     const checklist = await readFile(
       path.join(rootDir, "src/lib/growth-content.ts"),
       "utf8",
@@ -659,6 +660,8 @@ test.describe("リリース準備資料", () => {
     expect(phase24).toContain("承認済み投稿がないエリアは、空状態");
     expect(home).toContain("掲載対象エリア");
     expect(areasPage).toContain("掲載対象エリア");
+    expect(publicData).toContain("mergeAreaSummaries");
+    expect(publicData).toContain("getStaticAreaSummaries().map");
     expect(checklist).toContain("roppongi-azabujuban");
     expect(reviewQueue).toContain("六本木・麻布十番");
     expect(reviewQueue).toContain("吉祥寺");

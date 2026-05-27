@@ -258,6 +258,24 @@ function getStaticAreaSummaries(): PublicAreaSummary[] {
   }));
 }
 
+function mergeAreaSummaries(rows: PublicAreaSummaryRow[]) {
+  const merged = new Map(
+    getStaticAreaSummaries().map((area) => [area.slug, area]),
+  );
+
+  for (const row of rows) {
+    merged.set(row.slug, mapArea(row));
+  }
+
+  return Array.from(merged.values()).sort((a, b) => {
+    if (a.sortOrder !== b.sortOrder) {
+      return a.sortOrder - b.sortOrder;
+    }
+
+    return a.name.localeCompare(b.name, "ja");
+  });
+}
+
 export async function getPublicAreaSummaries() {
   try {
     const supabase = createSupabaseServerClient();
@@ -270,7 +288,7 @@ export async function getPublicAreaSummaries() {
       throw error;
     }
 
-    return (data as PublicAreaSummaryRow[]).map(mapArea);
+    return mergeAreaSummaries(data as PublicAreaSummaryRow[]);
   } catch {
     return getStaticAreaSummaries();
   }
