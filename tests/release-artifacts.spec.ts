@@ -44,11 +44,15 @@ const requiredReleaseFiles = [
   "PHASE_26_AREA_OPERATIONS_PLAN.md",
   "PHASE_27_SAFE_SEEDING_PLAN.md",
   "PHASE_28_PRODUCTION_SEED_RUN.md",
+  "PHASE_29_50_EXPANSION_ROADMAP.md",
+  "PHASE_29_50_EXECUTION_MATRIX.csv",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
+  "src/lib/phase-roadmap.ts",
   "src/lib/admin/initial-data-candidates.ts",
   "src/lib/admin/official-area-seed-candidates.ts",
   "src/lib/area-operations.ts",
   "src/app/admin/area-ops/page.tsx",
+  "src/app/trust/page.tsx",
   "src/components/json-ld.tsx",
   "src/lib/structured-data.ts",
   "src/app/llms.txt/route.ts",
@@ -907,6 +911,50 @@ test.describe("リリース準備資料", () => {
     expect(playbook).toContain("phase28_official_seed_candidate_checks.sql");
   });
 
+  test("フェーズ29〜50は安全成長ロードマップとして公開される", async () => {
+    const phaseRoadmap = await readFile(
+      path.join(rootDir, "PHASE_29_50_EXPANSION_ROADMAP.md"),
+      "utf8",
+    );
+    const matrix = await readFile(
+      path.join(rootDir, "PHASE_29_50_EXECUTION_MATRIX.csv"),
+      "utf8",
+    );
+    const roadmapLib = await readFile(
+      path.join(rootDir, "src/lib/phase-roadmap.ts"),
+      "utf8",
+    );
+    const roadmapPage = await readFile(
+      path.join(rootDir, "src/app/roadmap/page.tsx"),
+      "utf8",
+    );
+    const trustPage = await readFile(
+      path.join(rootDir, "src/app/trust/page.tsx"),
+      "utf8",
+    );
+    const site = await readFile(path.join(rootDir, "src/lib/site.ts"), "utf8");
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+
+    expect(phaseRoadmap).toContain("フェーズ29-50");
+    expect(phaseRoadmap).toContain("本番拡大してよい条件");
+    expect(phaseRoadmap).toContain("公開拡大してはいけない条件");
+    expect(matrix).toContain("29,透明性センター");
+    expect(matrix).toContain("50,リリースガバナンス");
+    expect(matrix).toContain("非公開情報をUIに出さない");
+    expect(roadmapLib).toContain("phase: 50");
+    expect(roadmapLib).toContain("PHASE_ROADMAP_STATUS_LABELS");
+    expect(roadmapPage).toContain("フェーズ29〜50");
+    expect(roadmapPage).toContain("getPhaseRoadmapByRange");
+    expect(trustPage).toContain("公開しない情報");
+    expect(trustPage).toContain("投稿者メールアドレス");
+    expect(trustPage).toContain("証拠画像と保存先");
+    expect(site).toContain("/trust");
+    expect(sitemap).toContain("/trust");
+    expect(trustPage).not.toContain("storage_path");
+    expect(phaseRoadmap).not.toContain("Google口コミを転載");
+    expect(matrix).not.toContain("approved");
+  });
+
   test("AdSense導入口はデフォルトOFFでads.txtと配置ルールを文書化している", async () => {
     const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
     const guide = await readFile(path.join(rootDir, "ADSENSE_SETUP_GUIDE.md"), "utf8");
@@ -1019,9 +1067,13 @@ test.describe("リリース準備資料", () => {
     expect(adminShell).toContain("/admin/quality");
   });
 
-  test("公開ロードマップはフェーズ13から20と安全方針だけを表示する", async () => {
+  test("公開ロードマップはフェーズ13から50と安全方針だけを表示する", async () => {
     const roadmapPage = await readFile(
       path.join(rootDir, "src/app/roadmap/page.tsx"),
+      "utf8",
+    );
+    const phaseRoadmap = await readFile(
+      path.join(rootDir, "src/lib/phase-roadmap.ts"),
       "utf8",
     );
     const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
@@ -1030,8 +1082,10 @@ test.describe("リリース準備資料", () => {
       "utf8",
     );
 
-    expect(roadmapPage).toContain("フェーズ13");
-    expect(roadmapPage).toContain("フェーズ20");
+    expect(roadmapPage).toContain("フェーズ13〜28");
+    expect(roadmapPage).toContain("フェーズ29〜50");
+    expect(phaseRoadmap).toContain("phase: 20");
+    expect(phaseRoadmap).toContain("phase: 50");
     expect(roadmapPage).toContain("同一運営や同一店舗であることを断定するものではありません");
     expect(roadmapPage).toContain("外部口コミやニュース本文は転載は禁止");
     expect(sitemap).toContain("/roadmap");

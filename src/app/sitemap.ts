@@ -11,6 +11,7 @@ const staticRoutes = [
   { path: "/contribute", priority: 0.7 },
   { path: "/sources", priority: 0.7 },
   { path: "/coverage", priority: 0.7 },
+  { path: "/trust", priority: 0.7 },
   { path: "/social", priority: 0.7 },
   { path: "/roadmap", priority: 0.6 },
   { path: "/reports/new", priority: 0.7 },

@@ -28,6 +28,7 @@ const publicRoutes = [
   { path: "/contribute", heading: "情報提供のお願い" },
   { path: "/sources", heading: "情報ソース" },
   { path: "/coverage", heading: "情報蓄積状況" },
+  { path: "/trust", heading: "透明性と安全運用" },
   { path: "/social", heading: "SNS共有・情報提供" },
   { path: "/sponsor", heading: "スポンサー・広告掲載について" },
   { path: "/roadmap", heading: "改善ロードマップ" },
@@ -220,6 +221,7 @@ test.describe("公開ページ", () => {
       "/contribute",
       "/sources",
       "/coverage",
+      "/trust",
       "/social",
       "/sponsor",
       "/roadmap",
@@ -294,6 +296,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/contribute</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sources</loc>");
     expect(body).toContain("<loc>http://localhost:3000/coverage</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/trust</loc>");
     expect(body).toContain("<loc>http://localhost:3000/social</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sponsor</loc>");
     expect(body).toContain("<loc>http://localhost:3000/roadmap</loc>");
@@ -412,6 +415,15 @@ test.describe("公開ページ", () => {
     await expect(page.getByRole("link", { name: "情報ソースを見る" })).toBeVisible();
   });
 
+  test("透明性ページで公開しない情報と審査方針を確認できる", async ({ page }) => {
+    await page.goto("/trust");
+
+    await expect(page.getByText("投稿者メールアドレス")).toBeVisible();
+    await expect(page.getByText("証拠画像と保存先")).toBeVisible();
+    await expect(page.getByText("投稿または候補を非公開で受け付ける")).toBeVisible();
+    await expect(page.getByText("収益化は掲載判断や表示順位に影響しません。")).toBeVisible();
+  });
+
   test("エリアページで公式確認先を確認できる", async ({ page }) => {
     await page.goto("/areas/shinjuku-kabukicho");
 
@@ -431,6 +443,7 @@ test.describe("公開ページ", () => {
       "/social",
       "/sources",
       "/coverage",
+      "/trust",
       "/roadmap",
       "/areas/shinjuku-kabukicho",
       "/areas/roppongi-azabujuban/evidence",

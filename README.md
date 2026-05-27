@@ -141,7 +141,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/evidence`, `/areas/[slug]/contribute`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/coverage`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/evidence`, `/areas/[slug]/contribute`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/coverage`, `/trust`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/quality`, `/admin/research`, `/admin/area-ops`, `/admin/social`, `/admin/sponsors`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -179,7 +179,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `npm run check:sources` で、`SOURCE_RESEARCH_QUEUE.csv` の公式URLを無料範囲で手動確認
 - `OFFICIAL_SOURCE_SEED_CANDIDATES.csv` と `/admin/data` の公式ソース安全候補パネルで、12エリア分の公式ソース由来候補を非公開審査DBへ登録
 - `npm run check:official-seed` で、公式ソース安全候補CSVの非公開デフォルト、Hidden固定、禁止表現、非公開情報マーカーを検査
-- `/roadmap` でフェーズ13〜20の改善予定と公開情報の扱い方を表示
+- `/roadmap` でフェーズ13〜50の改善予定と公開情報の扱い方を表示
+- `/trust` で公開する情報、公開しない情報、審査、収益化独立性を表示
 - トップページでの掲載対象エリア数、公式確認先数、公開前審査方針の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
 - WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
@@ -279,6 +280,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_26_AREA_OPERATIONS_PLAN.md`: エリア別情報蓄積オペレーション管理の実装方針
 - `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース安全候補を審査DBへ登録する運用方針
 - `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBの審査ワークフロー適用と公式候補12件登録の実行記録
+- `PHASE_29_50_EXPANSION_ROADMAP.md`: フェーズ29〜50の安全成長ロードマップ
+- `PHASE_29_50_EXECUTION_MATRIX.csv`: フェーズ29〜50の無料枠アクション、安全ゲート、成果物
 - `supabase/verification/phase28_official_seed_candidate_checks.sql`: フェーズ28登録後のRLSと候補状態確認SQL
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順
@@ -293,3 +296,4 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_26_AREA_OPERATIONS_PLAN.md`: 管理画面でのエリア別運用キュー、ソース鮮度、リンク確認の方針
 - `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース由来のエリア単位候補を非公開審査DBへ登録する方針
 - `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBへ0010/0011を適用し、公式候補12件を非公開審査DBに登録した記録
+- `PHASE_29_50_EXPANSION_ROADMAP.md`: フェーズ50までの信頼、審査、収益化、運用監視の成長設計

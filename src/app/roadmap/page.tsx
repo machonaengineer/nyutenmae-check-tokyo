@@ -1,55 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHeader, Section } from "@/components/page-blocks";
+import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
+import {
+  getPhaseRoadmapByRange,
+  getPhaseRoadmapMetrics,
+  PHASE_ROADMAP_STATUS_LABELS,
+  type PhaseRoadmapItem,
+} from "@/lib/phase-roadmap";
 
 export const metadata: Metadata = {
   title: "改善ロードマップ",
   description:
     "入店前チェック東京のMVP公開後の改善予定と、公開情報の扱い方を説明します。",
 };
-
-const roadmap = [
-  {
-    phase: "フェーズ13",
-    title: "初期データ投入・審査ワークフロー強化",
-    summary: "建物名、階数、出典、異議申立てを確認しやすくし、承認前の審査品質を上げます。",
-  },
-  {
-    phase: "フェーズ14",
-    title: "データ品質・重複検知強化",
-    summary: "同一住所・同一建物の類似候補を管理者が確認しやすくします。",
-  },
-  {
-    phase: "フェーズ15",
-    title: "公開情報ページ強化",
-    summary: "エリア別、トラブル種別別の入店前確認ページを増やします。",
-  },
-  {
-    phase: "フェーズ16",
-    title: "投稿獲得導線強化",
-    summary: "SNS共有、情報提供、相談導線から投稿フォームへの流れを改善します。",
-  },
-  {
-    phase: "フェーズ17",
-    title: "異議申立て・削除依頼フロー強化",
-    summary: "店舗側や関係者からの確認依頼に対し、非公開化や再審査の手順を明確にします。",
-  },
-  {
-    phase: "フェーズ18",
-    title: "収益化準備強化",
-    summary: "掲載独立性を維持したまま、広告やスポンサー問い合わせの導線を整えます。",
-  },
-  {
-    phase: "フェーズ19",
-    title: "運用監視・バックアップ強化",
-    summary: "公開前後の安全確認、ログ確認、バックアップ手順を整備します。",
-  },
-  {
-    phase: "フェーズ20",
-    title: "MVP公開後改善",
-    summary: "投稿数、検索流入、審査工数を見ながらUI、DB、運用を継続改善します。",
-  },
-] as const;
 
 const principles = [
   "投稿は自動公開せず、承認済み情報だけを公開します。",
@@ -60,13 +23,17 @@ const principles = [
 ] as const;
 
 export default function RoadmapPage() {
+  const metrics = getPhaseRoadmapMetrics();
+  const shipped = getPhaseRoadmapByRange(13, 28);
+  const expansion = getPhaseRoadmapByRange(29, 50);
+
   return (
     <>
       <PageHeader
         eyebrow="Roadmap"
         title="改善ロードマップ"
-        description="入店前チェック東京は、公開情報の安全性を優先しながら段階的に機能を広げます。"
-        primaryAction={{ href: "/reports/new", label: "情報を提供する" }}
+        description="入店前チェック東京は、公開情報の安全性を優先しながらフェーズ50までの成長基盤を段階的に整えます。"
+        primaryAction={{ href: "/trust", label: "透明性を見る" }}
       />
 
       <Section
@@ -82,33 +49,93 @@ export default function RoadmapPage() {
         </div>
       </Section>
 
-      <Section
-        title="フェーズ13〜20"
-        description="MVP公開前後で優先する改善です。公開前に人間の法務・運用レビューを行う前提です。"
-      >
-        <div className="grid gap-4 md:grid-cols-2">
-          {roadmap.map((item) => (
-            <article key={item.phase} className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
-              <p className="text-xs font-semibold text-action">{item.phase}</p>
-              <h2 className="mt-2 text-lg font-bold text-ink">{item.title}</h2>
-              <p className="mt-3 text-sm leading-7 text-muted">{item.summary}</p>
-            </article>
+      <Section title="フェーズ状況">
+        <PolicyNote>
+          フェーズ29以降は、公開投稿を無理に増やす計画ではありません。信頼、審査、情報鮮度、収益化独立性、運用監視を整え、承認済み情報だけを広げるための土台です。
+        </PolicyNote>
+        <div className="mt-5 grid gap-3 md:grid-cols-4">
+          {[
+            { label: "全フェーズ", value: metrics.total },
+            { label: "実装済み", value: metrics.shipped },
+            { label: "土台整備済み", value: metrics.foundation },
+            { label: "外部確認・データ待ち", value: metrics.externalReview + metrics.needsData },
+          ].map((item) => (
+            <div key={item.label} className="rounded-md border border-line bg-white p-4">
+              <p className="text-xs font-semibold text-muted">{item.label}</p>
+              <p className="mt-2 text-2xl font-bold text-ink">{item.value}</p>
+            </div>
           ))}
         </div>
       </Section>
+
+      <RoadmapSection
+        description="MVP公開前後で完了した基盤です。"
+        items={shipped}
+        title="フェーズ13〜28"
+      />
+
+      <RoadmapSection
+        description="フェーズ50までの安全成長ロードマップです。無料枠重視で、法務・運用・収益化の安全条件を先に固定します。"
+        items={expansion}
+        title="フェーズ29〜50"
+      />
 
       <Section
         title="協力導線"
         description="実データの蓄積、誤りの修正、掲載独立性の維持を優先します。"
       >
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-4">
           <RoadmapLink href="/contribute" label="情報提供のお願い" />
+          <RoadmapLink href="/trust" label="透明性と安全運用" />
           <RoadmapLink href="/objection" label="異議申立て" />
           <RoadmapLink href="/sponsor" label="スポンサー相談" />
           <RoadmapLink href="/monetization-policy" label="収益化方針" />
         </div>
       </Section>
     </>
+  );
+}
+
+function RoadmapSection({
+  description,
+  items,
+  title,
+}: {
+  description: string;
+  items: readonly PhaseRoadmapItem[];
+  title: string;
+}) {
+  return (
+    <Section title={title} description={description}>
+      <div className="grid gap-4 md:grid-cols-2">
+        {items.map((item) => (
+          <article key={item.phase} className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-xs font-semibold text-action">フェーズ{item.phase}</p>
+              <span className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-bold text-muted">
+                {PHASE_ROADMAP_STATUS_LABELS[item.status]}
+              </span>
+            </div>
+            <h2 className="mt-2 text-lg font-bold text-ink">{item.title}</h2>
+            <p className="mt-3 text-sm leading-7 text-muted">{item.summary}</p>
+            <dl className="mt-4 grid gap-2 border-t border-line pt-4 text-xs text-muted">
+              <div className="grid gap-1 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-3">
+                <dt className="font-semibold text-ink">区分</dt>
+                <dd className="min-w-0 break-words sm:text-right">{item.category}</dd>
+              </div>
+              <div className="grid gap-1 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-3">
+                <dt className="font-semibold text-ink">安全条件</dt>
+                <dd className="min-w-0 break-words sm:text-right">{item.guardrail}</dd>
+              </div>
+              <div className="grid gap-1 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-3">
+                <dt className="font-semibold text-ink">成果物</dt>
+                <dd className="min-w-0 break-words sm:text-right">{item.artifact}</dd>
+              </div>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </Section>
   );
 }
 
