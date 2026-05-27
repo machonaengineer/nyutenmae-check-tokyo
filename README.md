@@ -138,7 +138,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 外部評価参考値の保存、管理画面入力、Google Places API任意同期、公開ページ表示
 - `/checklists` と `/areas/[slug]/checklist` のSEO向け安全確認コンテンツ
 - 環境変数OFFがデフォルトのVercel Web Analytics読み込み口と収益化枠
-- 管理概況ダッシュボードと初期データCSVのブラウザ内検証画面
+- 管理概況ダッシュボードと初期データCSVの検証、非公開デフォルト投入画面
 - 収益化と掲載独立性の公開方針ページ
 - 環境変数OFFがデフォルトのAdSense差し込み口と `/ads.txt`
 - 承認済みplaceだけを対象にした店舗名・住所検索
@@ -216,7 +216,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - `LEGAL_REVIEW_NOTES.md`: 法務レビュー論点
 - `CAPTCHA_FUTURE_NOTES.md`: Cloudflare Turnstile/hCaptcha導入メモ
 - `INITIAL_DATA_TEMPLATE.csv`: 初期データ整理用CSV
-- `SEED_DATA_GUIDE.md`: 初期データ投入方針
+- `SEED_DATA_GUIDE.md`: 初期データ整理、検証、非公開デフォルト投入方針
 - `EXTERNAL_RATING_TEMPLATE.csv`: 外部評価スナップショット整理用CSV
 - `EXTERNAL_RATING_GUIDE.md`: 外部評価参考値の入力、公開、禁止事項
 - `FREE_TIER_GROWTH_PLAN.md`: 無料枠重視のSEO、計測、収益化準備方針

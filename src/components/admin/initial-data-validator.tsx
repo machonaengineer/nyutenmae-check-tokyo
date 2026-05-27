@@ -1,27 +1,88 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useActionState, useMemo, useState } from "react";
+import {
+  importInitialDataAction,
+  type InitialDataImportState,
+} from "@/app/admin/data/actions";
 import { INITIAL_DATA_COLUMNS, validateInitialDataCsv } from "@/lib/initial-data-validation";
 
 const sampleCsv = `${INITIAL_DATA_COLUMNS.join(",")}
 external_review_trend,https://example.com,確認用サンプル,2026-05-27,新宿・歌舞伎町,店舗名未確認,東京都新宿区,,,料金説明,料金説明と会計内容の不一致報告あり,Hidden,投稿者の申告では料金説明と会計内容に不一致があったとのことです。,非公開メモ,pending,,`;
 
+const initialImportState: InitialDataImportState = {
+  status: "idle",
+  message: "",
+  importedCount: 0,
+  skippedCount: 0,
+  errors: [],
+};
+
 export function InitialDataValidator() {
   const [csv, setCsv] = useState(sampleCsv);
+  const [importState, importAction, isImporting] = useActionState(
+    importInitialDataAction,
+    initialImportState,
+  );
   const result = useMemo(() => validateInitialDataCsv(csv), [csv]);
   const errorCount = result.issues.filter((issue) => issue.severity === "error").length;
   const warningCount = result.issues.filter((issue) => issue.severity === "warning").length;
 
   return (
     <div className="grid gap-5">
-      <label className="grid gap-2 text-sm font-semibold text-ink">
-        初期データCSV
-        <textarea
-          className="min-h-72 rounded-md border border-line bg-white px-3 py-2 font-mono text-xs font-normal leading-6 text-ink"
-          onChange={(event) => setCsv(event.target.value)}
-          value={csv}
-        />
-      </label>
+      <form action={importAction} className="grid gap-4">
+        <label className="grid gap-2 text-sm font-semibold text-ink">
+          初期データCSV
+          <textarea
+            className="min-h-72 rounded-md border border-line bg-white px-3 py-2 font-mono text-xs font-normal leading-6 text-ink"
+            name="csv"
+            onChange={(event) => setCsv(event.target.value)}
+            value={csv}
+          />
+        </label>
+
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
+          投入すると、各行は管理者審査用の非公開投稿として作成されます。
+          `status` は pending / needs_review のみ、`evidence_level` は Hidden のみ許可します。
+          承認公開は投稿詳細画面で人間が確認してから行ってください。
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-bold text-white transition hover:bg-action-strong disabled:cursor-not-allowed disabled:opacity-55"
+            disabled={isImporting || errorCount > 0}
+            type="submit"
+          >
+            {isImporting ? "投入中..." : "非公開デフォルトで投入する"}
+          </button>
+          <p className="text-xs leading-5 text-muted">
+            エラーがあるCSVは投入できません。警告は人間が確認してください。
+          </p>
+        </div>
+      </form>
+
+      {importState.status !== "idle" ? (
+        <div
+          className={
+            importState.status === "success"
+              ? "rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
+              : "rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          }
+        >
+          <p className="font-bold">{importState.message}</p>
+          <p className="mt-1">
+            投入: {importState.importedCount}件 / 重複スキップ:{" "}
+            {importState.skippedCount}件
+          </p>
+          {importState.errors.length > 0 ? (
+            <ul className="mt-3 grid gap-1">
+              {importState.errors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="grid gap-3 md:grid-cols-4">
         {[

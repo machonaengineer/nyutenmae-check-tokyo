@@ -54,6 +54,15 @@ function getNonPublicTextMarkers() {
   return nonPublicTextMarkerCodes.map((codes) => String.fromCharCode(...codes));
 }
 
+export function containsExternalCopyRiskText(text: string) {
+  return externalCopyRiskTerms.some((term) => text.includes(term));
+}
+
+export function containsNonPublicTextMarker(text: string) {
+  const normalizedText = text.toLowerCase();
+  return getNonPublicTextMarkers().some((marker) => normalizedText.includes(marker));
+}
+
 export type CsvValidationIssue = {
   row: number;
   column: string;
@@ -242,9 +251,7 @@ export function validateInitialDataCsv(content: string): CsvValidationResult {
       }
     }
 
-    const normalizedPublicText = publicText.toLowerCase();
-
-    if (getNonPublicTextMarkers().some((marker) => normalizedPublicText.includes(marker))) {
+    if (containsNonPublicTextMarker(publicText)) {
       addIssue(
         issues,
         lineNumber,

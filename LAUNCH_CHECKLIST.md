@@ -65,7 +65,8 @@ npm audit --audit-level=moderate
 - [ ] `/monetization-policy` が表示され、掲載独立性の方針が確認できる。
 - [ ] `/ads.txt` が未設定時は設定漏れコメント、AdSense設定後はGoogle向けads.txt行を返す。
 - [ ] 管理者でログイン後、投稿の承認、非公開、差し戻し、却下ができる。
-- [ ] 管理者でログイン後、`/admin` の概況と `/admin/data` のCSV検証画面が表示される。
+- [ ] 管理者でログイン後、`/admin` の概況と `/admin/data` のCSV検証、非公開デフォルト投入画面が表示される。
+- [ ] `/admin/data` から初期データを投入した場合、`reports.status` は `pending` または `needs_review`、`evidence_level` は `Hidden` のまま保存される。
 - [ ] 証拠画像は管理画面だけで短時間の署名付きURLとして表示される。
 - [ ] 管理者でログイン後、外部評価スナップショットの追加ができ、公開ページでは集計値、出典URL、確認日だけが表示される。
 - [ ] スマホ幅で横スクロールやボタン欠けがない。

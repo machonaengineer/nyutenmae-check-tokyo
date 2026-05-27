@@ -318,9 +318,13 @@ test.describe("リリース準備資料", () => {
     expect(guide).toContain("How AdSense uses cookies");
   });
 
-  test("初期データ検証はDB保存せずブラウザ内の投入前チェックに限定する", async () => {
+  test("初期データ投入は管理者限定で非公開デフォルトに固定する", async () => {
     const validator = await readFile(
       path.join(rootDir, "src/components/admin/initial-data-validator.tsx"),
+      "utf8",
+    );
+    const actions = await readFile(
+      path.join(rootDir, "src/app/admin/data/actions.ts"),
       "utf8",
     );
     const validationLib = await readFile(
@@ -334,12 +338,19 @@ test.describe("リリース準備資料", () => {
 
     expect(validator).toContain('"use client"');
     expect(validator).toContain("validateInitialDataCsv");
+    expect(validator).toContain("importInitialDataAction");
     expect(validator).not.toContain("createSupabase");
+    expect(actions).toContain("requireAdminUser");
+    expect(actions).toContain('const IMPORT_EVIDENCE_LEVEL = "Hidden"');
+    expect(actions).toContain('new Set(["pending", "needs_review"])');
+    expect(actions).toContain('reporter_email: INTERNAL_SEED_EMAIL');
+    expect(actions).toContain("initial_data_imported");
+    expect(actions).not.toContain('status: "approved"');
     expect(validationLib).toContain("INITIAL_DATA_COLUMNS");
     expect(validationLib).toContain("containsDangerousExpression");
     expect(validationLib).toContain("Google口コミ");
     expect(adminDataPage).toContain("requireAdminUser");
-    expect(adminDataPage).toContain("DBには保存しません");
+    expect(adminDataPage).toContain("非公開デフォルト投入");
   });
 
   test("トラブル種別別ガイドは断定ではなく確認項目として実装する", async () => {

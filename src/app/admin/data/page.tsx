@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const dataRules = [
-  "この画面はCSVの投入前検証だけを行い、DBには保存しません。",
-  "初期データは原則 pending / Hidden から審査します。",
+  "この画面はCSVの投入前検証と、管理者限定の非公開デフォルト投入を行います。",
+  "投入できる行は pending または needs_review、証拠レベル Hidden のみです。",
   "Google口コミ、食べログ、SNS、ニュース本文をそのまま転載しないでください。",
   "公開サマリーには投稿者メールアドレス、証拠画像URL、非公開メモを入れないでください。",
-  "approved にする行は、人間の審査記録と公開判断が必要です。",
+  "approved への変更は、投稿詳細画面で人間が審査してから行ってください。",
 ] as const;
 
 export default async function AdminDataPage() {
@@ -26,7 +26,7 @@ export default async function AdminDataPage() {
     <AdminShell adminUser={adminUser}>
       <Section
         title="初期データ検証"
-        description="INITIAL_DATA_TEMPLATE.csv の内容を投入前に確認します。検証はブラウザ内で行い、保存はしません。"
+        description="INITIAL_DATA_TEMPLATE.csv の内容を確認し、公開前審査用の非公開投稿として投入します。"
       >
         <div className="mb-6">
           <SimpleList items={dataRules} />
