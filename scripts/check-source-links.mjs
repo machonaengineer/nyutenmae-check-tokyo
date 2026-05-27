@@ -106,7 +106,7 @@ async function checkUrl(url) {
     }
 
     return {
-      ok: response.status < 500,
+      ok: response.status >= 200 && response.status < 400,
       status: response.status,
       url,
     };

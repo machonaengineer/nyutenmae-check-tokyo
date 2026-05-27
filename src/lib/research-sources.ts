@@ -46,6 +46,15 @@ const initialDataCandidateSourceIds = new Set([
   "news-ikebukuro-solicitation-billing-202202",
   "news-kabukicho-host-billing-202311",
   "news-kabukicho-app-bar-billing-202305",
+  "news-kabukicho-chain-jcast-202402",
+  "news-kabukicho-chain-joongang-202401",
+  "news-kabukicho-chain-foodrink-202401",
+  "news-kabukicho-chain-shueisha-202402",
+  "news-kabukicho-host-fee-display-asahi-202312",
+  "news-shibuya-matching-app-bar-livedoor-202505",
+  "news-shibuya-bar-billing-chibatv-202505",
+  "news-ikebukuro-receipt-video-getnews-202010",
+  "news-ikebukuro-billing-detail-gogotsu-201807",
 ]);
 
 export const RESEARCH_SOURCES: ResearchSource[] = [
@@ -510,6 +519,215 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
       "飲み放題条件、明細確認、退店時の安全確保に関する確認項目の補強に使います。",
     nextAction:
       "店名未確認のため、個別店舗公開ではなく確認項目と相談導線の改善材料として扱う。",
+  },
+  {
+    id: "news-kabukicho-chain-jcast-202402",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町でチェーン系列店を装う客引き手口に関する報道",
+    sourceUrl: "https://www.j-cast.com/2024/02/02477448.html?=p2",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "報道では、既存チェーンの関係者を装う案内、別店舗への誘導、料金説明と会計内容の確認が必要な事案が紹介されています。",
+    suggestedUse:
+      "客引き経由の来店と系列店を装う案内の確認項目を補強します。記事本文、画像、店舗名の転記は行いません。",
+    nextAction:
+      "同じ事案を扱う他媒体と照合し、個別店舗として扱う場合も現在状況、住所、異議申立て導線を確認する。",
+  },
+  {
+    id: "news-kabukicho-chain-joongang-202401",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町で外国人観光客向け案内と料金上乗せに関する報道",
+    sourceUrl: "https://japanese.joins.com/JArticle/314429?sectcode=A10&servcode=A00",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "報道では、外国人観光客が既存チェーンの系列店と誤認しやすい案内を受け、別店舗へ誘導された事案が紹介されています。",
+    suggestedUse:
+      "訪日客向けの入店前確認、系列店確認、店頭での料金確認の導線に使います。本文や写真は転載しません。",
+    nextAction:
+      "日本語媒体の報道と照合し、個別公開ではなく多言語チェックリストの改善材料として扱う。",
+  },
+  {
+    id: "news-kabukicho-chain-foodrink-202401",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町でチェーン系列店を名乗る客引きに関する外食業界記事",
+    sourceUrl: "https://www.foodrink.co.jp/news/2024/01/3055839.html",
+    sourceCheckedAt: "2026-05-28",
+    priority: "medium",
+    publicSummary:
+      "外食業界向け記事では、既存チェーンの利用客に対する案内と別店舗への誘導が取り上げられています。",
+    suggestedUse:
+      "同一事案の複数出典確認に使い、店舗名や個人情報の公開材料には直接使いません。",
+    nextAction:
+      "高優先の報道と突合し、公開候補は非公開審査DBでneeds_reviewのまま扱う。",
+  },
+  {
+    id: "news-kabukicho-chain-shueisha-202402",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町で大手チェーン利用客を狙う案内手口の詳細報道",
+    sourceUrl: "https://shueisha.online/articles/-/194300",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "報道では、既存チェーン利用客への案内、席料やサービス料などの名目、会計時の確認点が紹介されています。",
+    suggestedUse:
+      "料金説明と会計内容の不一致報告候補を審査する際の背景確認に使います。本文、画像、個人名は転載しません。",
+    nextAction:
+      "記事内の店舗画像や店名を転載せず、住所、建物、現在状況を別途確認できる場合だけ候補化する。",
+  },
+  {
+    id: "news-kabukicho-host-fee-display-asahi-202312",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "news",
+    sourceTitle: "歌舞伎町ホストクラブ等の料金表示義務に関する報道",
+    sourceUrl: "https://www.asahi.com/articles/ASRDM42NCRDMUTIL00K.html",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "報道では、警視庁の立入結果として、料金表示や従業員名簿に関する確認事項が紹介されています。",
+    suggestedUse:
+      "個別店舗ではなく、料金表示、メニュー確認、明細確認のエリア共通ガイドを補強します。",
+    nextAction:
+      "店名一覧として扱わず、公開ページではエリア単位の確認項目と相談導線に限定する。",
+  },
+  {
+    id: "municipality-shinjuku-host-mencon-response-202311",
+    areaSlug: "shinjuku-kabukicho",
+    areaName: "新宿・歌舞伎町",
+    sourceType: "municipality",
+    sourceTitle: "新宿区のホストクラブ等高額請求被害対策ページ",
+    sourceUrl: "https://www.city.shinjuku.lg.jp/whatsnew/pub/2023/1117-01.html",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "新宿区が、歌舞伎町地区での高額請求被害対策と関係機関との連携方針を案内している公式ページです。",
+    suggestedUse:
+      "公的な背景情報として、相談導線、エリア説明、公開表現の確認に使います。",
+    nextAction:
+      "個別店舗への断定に使わず、サポートページと歌舞伎町エリアページの公式確認先として維持する。",
+  },
+  {
+    id: "news-shibuya-matching-app-bar-livedoor-202505",
+    areaSlug: "shibuya-dogenzaka-udagawacho",
+    areaName: "渋谷・道玄坂・宇田川町",
+    sourceType: "news",
+    sourceTitle: "渋谷・道玄坂でマッチングアプリ経由の高額請求疑いに関する報道",
+    sourceUrl: "https://news.livedoor.com/article/detail/28769638/",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "報道では、マッチングアプリで知り合った相手から飲食店へ誘導され、支払い前後の説明に関するトラブルが紹介されています。",
+    suggestedUse:
+      "客引き以外の誘導経路、支払い困難時の説明、ATM誘導への注意喚起に使います。",
+    nextAction:
+      "個別店舗名や個人名は公開せず、道玄坂エリアの確認項目と非公開審査候補に分けて扱う。",
+  },
+  {
+    id: "news-shibuya-bar-billing-chibatv-202505",
+    areaSlug: "shibuya-dogenzaka-udagawacho",
+    areaName: "渋谷・道玄坂・宇田川町",
+    sourceType: "news",
+    sourceTitle: "渋谷区のバーで高額な支払い要求に関する共同通信配信記事",
+    sourceUrl: "https://www.chiba-tv.com/plus/detail/202505224897",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "共同通信配信記事では、渋谷区のバーで高額な支払い要求に関する事案が紹介されています。",
+    suggestedUse:
+      "マッチングアプリ経由の来店、飲み放題条件、支払い前の金額確認に関する導線を補強します。",
+    nextAction:
+      "共同通信配信の短報のため、追加出典、現在状況、住所、建物、階数を確認するまで個別公開しない。",
+  },
+  {
+    id: "municipality-shibuya-administrative-actions-202604",
+    areaSlug: "shibuya-dogenzaka-udagawacho",
+    areaName: "渋谷・道玄坂・宇田川町",
+    sourceType: "municipality",
+    sourceTitle: "渋谷区の客引き行為等に関する行政処分公表ページ",
+    sourceUrl:
+      "https://www.city.shibuya.tokyo.jp/bosai/bohan/bohan-torikumi/kyakuhikikouhyou.html",
+    sourceCheckedAt: "2026-05-28",
+    priority: "high",
+    publicSummary:
+      "渋谷区が、条例に基づく行政処分、規制区域、店舗等への立入調査件数を公表している公式ページです。",
+    suggestedUse:
+      "宇田川町、道玄坂周辺の公的確認先として使い、個人名や住所は本サービスへ転載しません。",
+    nextAction:
+      "行政処分の公表情報は個別投稿に転用せず、エリア背景と相談導線の補強に限定する。",
+  },
+  {
+    id: "news-ikebukuro-receipt-video-getnews-202010",
+    areaSlug: "ikebukuro",
+    areaName: "池袋",
+    sourceType: "news",
+    sourceTitle: "池袋の飲食店で明細内容に関する利用者投稿を扱った記事",
+    sourceUrl: "https://getnews.jp/archives/2791173",
+    sourceCheckedAt: "2026-05-28",
+    priority: "medium",
+    publicSummary:
+      "記事では、客引き経由の案内、説明された条件、会計時の明細内容に関する利用者投稿が紹介されています。",
+    suggestedUse:
+      "明細提示、注文内容、退店時対応の確認項目に使います。外部投稿本文や動画は転載しません。",
+    nextAction:
+      "外部投稿由来のため、追加出典、現在状況、建物情報を確認するまで個別公開しない。",
+  },
+  {
+    id: "news-ikebukuro-billing-detail-gogotsu-201807",
+    areaSlug: "ikebukuro",
+    areaName: "池袋",
+    sourceType: "news",
+    sourceTitle: "池袋の飲食店で請求内訳が紹介された記事",
+    sourceUrl: "https://gogotsu.com/archives/41472",
+    sourceCheckedAt: "2026-05-28",
+    priority: "medium",
+    publicSummary:
+      "記事では、西池袋周辺の飲食店について、料理点数、請求総額、席料等の内訳が紹介されています。",
+    suggestedUse:
+      "席料、週末料金、サービス料などの事前説明確認のガイドに使います。店名変更の可能性は別途確認します。",
+    nextAction:
+      "店名が変わる可能性を前提に、住所、建物、階数を優先し、同一店舗とは断定しない。",
+  },
+  {
+    id: "news-ueno-solicitation-patrol-spa-201901",
+    areaSlug: "ueno-okachimachi-yushima",
+    areaName: "上野・御徒町・湯島",
+    sourceType: "news",
+    sourceTitle: "上野周辺の客引き取締り状況に関する取材記事",
+    sourceUrl: "https://nikkan-spa.jp/1540583",
+    sourceCheckedAt: "2026-05-28",
+    priority: "medium",
+    publicSummary:
+      "取材記事では、上野周辺の客引き取締り、地域事情、警察対応の背景が紹介されています。",
+    suggestedUse:
+      "個別店舗ではなく、上野・御徒町・湯島エリアの背景情報と相談導線の補強に使います。",
+    nextAction:
+      "取材コメントや個人情報は転載せず、公式ソースと照合してエリア説明へ抽象化する。",
+  },
+  {
+    id: "news-national-consumer-bar-billing-nlab-201603",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "news",
+    sourceTitle: "国民生活センターの飲食店高額請求トラブル注意喚起を扱った記事",
+    sourceUrl: "https://nlab.itmedia.co.jp/cont/articles/3253023/",
+    sourceCheckedAt: "2026-05-28",
+    priority: "medium",
+    publicSummary:
+      "記事では、国民生活センターの注意喚起として、客引き経由の来店、支払い、カード利用に関する相談事例が紹介されています。",
+    suggestedUse:
+      "全エリア共通の入店前確認、カード相談、記録保存のガイドを補強します。",
+    nextAction:
+      "国民生活センターの元資料が再確認できるまで、記事の本文を転載せず、一般的な確認項目に限定する。",
   },
 ];
 
