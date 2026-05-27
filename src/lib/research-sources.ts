@@ -136,6 +136,91 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
       "公的取組の要約に限定し、店舗名や個人名を含む情報は扱わない。",
   },
   {
+    id: "tokyo-consumer-host-concept-cafe-billing",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "consumer_center",
+    sourceTitle: "東京都のホストクラブ等高額請求トラブル注意喚起",
+    sourceUrl:
+      "https://www.shouhiseikatu.metro.tokyo.lg.jp/hourei/oshirase/2024kougakuseikyu.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "high",
+    publicSummary:
+      "東京都が、ホストクラブやコンセプトカフェ等での高額請求に関する相談事例と相談先を案内している公式ページです。",
+    suggestedUse:
+      "料金説明、明細提示、支払困難時の相談導線を補強し、個別店舗の断定には使いません。",
+    nextAction:
+      "相談事例は本文転載せず、入店前の料金確認と早期相談の案内へ独自要約する。",
+  },
+  {
+    id: "mhlw-hostclub-support",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "public_agency",
+    sourceTitle: "厚生労働省のホストクラブ関連相談支援情報",
+    sourceUrl:
+      "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kodomo/kodomo_kosodate/dv/index_00037.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "厚生労働省が、ホストクラブ利用に関連する支払困難や生活相談の支援先を案内しているページです。",
+    suggestedUse:
+      "消費生活相談だけで足りないケースの相談導線として参照し、店舗名や個人名の公開材料にはしません。",
+    nextAction:
+      "相談窓口の種別を整理し、サポートページの相談導線に必要な範囲だけ反映する。",
+  },
+  {
+    id: "metropolitan-police-nightlife-crime-prevention",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "police",
+    sourceTitle: "警視庁の繁華街利用時の犯罪被害注意喚起",
+    sourceUrl:
+      "https://www.keishicho.metro.tokyo.lg.jp/kurashi/anzen/live_in_tokyo/hankagai.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "警視庁が、繁華街での客引き経由の来店やクレジットカード決済に関する注意点を案内しているページです。",
+    suggestedUse:
+      "客引き経由の来店、支払方法、身の安全確保の一般的な注意喚起として参照します。",
+    nextAction:
+      "個別店舗の評価には使わず、入店前チェックリストと相談導線の補足に限定する。",
+  },
+  {
+    id: "metropolitan-police-nightlife-risk-factors",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "police",
+    sourceTitle: "警視庁の盛り場環境に関する注意喚起",
+    sourceUrl:
+      "https://www.keishicho.metro.tokyo.lg.jp/kurashi/anzen/sakaribasogo/sakariba2.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "警視庁が、盛り場での客引き行為や料金請求トラブルにつながる要因を説明しているページです。",
+    suggestedUse:
+      "エリア別ページの背景情報として使い、店舗や個人への断定表現には使いません。",
+    nextAction:
+      "本文転載を避け、入店前に確認すべき項目へ抽象化して反映する。",
+  },
+  {
+    id: "metropolitan-police-nightlife-topics",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "police",
+    sourceTitle: "警視庁の盛り場被害事例トピックス",
+    sourceUrl:
+      "https://www.keishicho.metro.tokyo.lg.jp/kurashi/anzen/sakaribasogo/sakaribatopics.html",
+    sourceCheckedAt: "2026-05-27",
+    priority: "medium",
+    publicSummary:
+      "警視庁が、盛り場でのトラブル事例や注意点を紹介しているページです。",
+    suggestedUse:
+      "会計前確認、キャンセル時対応、カード決済確認などのチェック項目を補強します。",
+    nextAction:
+      "事例文の転載は禁止とし、個別店舗名や地域外情報を公開注意報告へ転用しない。",
+  },
+  {
     id: "news-kabukicho-chain-claim-touting-202401",
     areaSlug: "shinjuku-kabukicho",
     areaName: "新宿・歌舞伎町",
