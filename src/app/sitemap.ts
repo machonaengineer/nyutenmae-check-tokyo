@@ -19,6 +19,7 @@ const staticRoutes = [
   { path: "/sponsor", priority: 0.4 },
   { path: "/terms", priority: 0.3 },
   { path: "/privacy", priority: 0.3 },
+  { path: "/llms.txt", priority: 0.2 },
 ] as const;
 
 const lastModified = new Date("2026-05-27T00:00:00+09:00");

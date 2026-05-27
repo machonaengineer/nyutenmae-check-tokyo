@@ -156,6 +156,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像
 - 公的・公式情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
+- WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
 
 ## DB設計
 
@@ -195,6 +196,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - AdSenseは `NEXT_PUBLIC_MONETIZATION_ENABLED=true` かつ `NEXT_PUBLIC_ADSENSE_ENABLED=true` の場合だけ読み込み、管理画面、投稿フォーム、異議申立てフォームには配置しない
 - SNSには証拠画像、投稿者メールアドレス、非公開メモ、外部口コミ本文、スクリーンショットを載せない
 - スポンサー問い合わせは公開ページに表示せず、管理者だけが確認する
+- 構造化データ、sitemap、`/llms.txt` には公開方針と公開ページURLだけを載せ、非公開DBカラムや証拠ファイルパスを含めない
 
 ## 法務・UX方針
 
@@ -220,6 +222,7 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 外部評価を使う場合は `0007_external_rating_snapshots.sql` を適用し、`EXTERNAL_RATING_GUIDE.md` に沿って転載禁止と公開可否を確認する
 - 収益化枠は `NEXT_PUBLIC_MONETIZATION_ENABLED=false` を初期値にし、法務・規約・ホスティングプラン確認後にだけ有効化する
 - AdSenseを使う場合は `ADSENSE_SETUP_GUIDE.md` に沿ってads.txt、広告配置、Cookie表示、無効クリック対策を確認する
+- `/llms.txt` と構造化データに、投稿者メールアドレス、非公開メモ、証拠ファイルパス、外部本文転載が含まれていないことを確認する
 
 ## 運用資料
 

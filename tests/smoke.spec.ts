@@ -268,6 +268,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/sources</loc>");
     expect(body).toContain("<loc>http://localhost:3000/social</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sponsor</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/llms.txt</loc>");
     expect(body).toContain("<loc>http://localhost:3000/monetization-policy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
     expect(body).toContain(
@@ -279,6 +280,31 @@ test.describe("公開ページ", () => {
     expect(body).not.toContain("/admin");
     expect(body).not.toContain("/reports/thanks");
     expect(body).not.toContain("/healthz");
+  });
+
+  test("構造化データとllms.txtに公開方針を出し非公開情報を含めない", async ({
+    page,
+    request,
+  }) => {
+    await page.goto("/");
+    const structuredData = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+
+    expect(structuredData.join("\n")).toContain("SearchAction");
+    expect(structuredData.join("\n")).toContain("FAQPage");
+
+    const response = await request.get("/llms.txt");
+    const body = await response.text();
+
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toContain("text/plain");
+    expect(body).toContain("入店前チェック東京");
+    expect(body).toContain("承認済み投稿だけを公開します");
+    expect(body).not.toContain("reporter_email");
+    expect(body).not.toContain("private_note");
+    expect(body).not.toContain("storage_path");
+    expect(body).not.toContain("report-evidence-files");
   });
 
   test("ads.txtはAdSense未設定時に安全なコメントを返す", async ({ request }) => {

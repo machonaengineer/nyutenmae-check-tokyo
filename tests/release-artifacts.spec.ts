@@ -24,6 +24,9 @@ const requiredReleaseFiles = [
   "SOCIAL_GROWTH_PLAN.md",
   "SOURCE_RESEARCH_QUEUE.csv",
   "DATA_COLLECTION_PLAYBOOK.md",
+  "src/components/json-ld.tsx",
+  "src/lib/structured-data.ts",
+  "src/app/llms.txt/route.ts",
 ] as const;
 
 const initialDataColumns = [
@@ -344,6 +347,36 @@ test.describe("リリース準備資料", () => {
     expect(adminSponsors).toContain("requireAdminUser");
     expect(adminSponsors).toContain("getAdminSponsorInquiries");
     expect(adminData).toContain("getAdminSponsorInquiries");
+  });
+
+  test("構造化データとllms.txtは公開情報だけを扱う", async () => {
+    const structuredData = await readFile(
+      path.join(rootDir, "src/lib/structured-data.ts"),
+      "utf8",
+    );
+    const jsonLd = await readFile(path.join(rootDir, "src/components/json-ld.tsx"), "utf8");
+    const llmsRoute = await readFile(
+      path.join(rootDir, "src/app/llms.txt/route.ts"),
+      "utf8",
+    );
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+
+    expect(structuredData).toContain("SearchAction");
+    expect(structuredData).toContain("FAQPage");
+    expect(structuredData).toContain("承認済み投稿だけを公開します");
+    expect(jsonLd).toContain('type="application/ld+json"');
+    expect(jsonLd).toContain('replace(/</g, "\\\\u003c")');
+    expect(llmsRoute).toContain("getLlmsText");
+    expect(sitemap).toContain("/llms.txt");
+
+    for (const privateToken of [
+      "reporter_email",
+      "private_note",
+      "storage_path",
+      "report-evidence-files",
+    ]) {
+      expect(structuredData).not.toContain(privateToken);
+    }
   });
 
   test("公的・公式ソース調査キューは転載禁止と非公開デフォルト運用を明記する", async () => {

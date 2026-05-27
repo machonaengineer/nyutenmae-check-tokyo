@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/json-ld";
 import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
 import { ResearchSourceCard } from "@/components/research-source-card";
 import { RESEARCH_SOURCES } from "@/lib/research-sources";
+import { getPublicSourcesStructuredData } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "公的・公式情報ソース",
@@ -16,6 +18,7 @@ export const metadata: Metadata = {
 export default function SourcesPage() {
   return (
     <>
+      <JsonLd data={getPublicSourcesStructuredData()} />
       <PageHeader
         eyebrow="Sources"
         title="公的・公式情報ソース"

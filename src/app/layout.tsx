@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { AdsenseGate } from "@/components/adsense-gate";
 import { AnalyticsGate } from "@/components/analytics-gate";
+import { JsonLd } from "@/components/json-ld";
 import { AppShell } from "@/components/site-shell";
 import { SITE } from "@/lib/site";
+import { getSiteStructuredData } from "@/lib/structured-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -61,6 +63,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <JsonLd data={getSiteStructuredData()} />
         <AppShell>{children}</AppShell>
         <AnalyticsGate />
         <AdsenseGate />

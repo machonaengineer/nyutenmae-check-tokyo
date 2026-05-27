@@ -5,6 +5,7 @@ import {
   Section,
   SimpleList,
 } from "@/components/page-blocks";
+import { JsonLd } from "@/components/json-ld";
 import { Container } from "@/components/site-shell";
 import {
   EVIDENCE_LEVELS,
@@ -16,6 +17,7 @@ import {
 } from "@/lib/site";
 import { SocialShareActions } from "@/components/social-share-actions";
 import { getAbsoluteSiteUrl } from "@/lib/social";
+import { getHomeFaqStructuredData } from "@/lib/structured-data";
 
 const servicePrinciples = [
   {
@@ -35,6 +37,7 @@ const servicePrinciples = [
 export default function Home() {
   return (
     <>
+      <JsonLd data={getHomeFaqStructuredData()} />
       <section className="border-b border-line bg-white">
         <Container>
           <div className="grid gap-10 py-12 lg:grid-cols-[1fr_440px] lg:items-center">
