@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/admin/auth";
 import { getInitialDataCandidateCsv } from "@/lib/admin/initial-data-candidates";
+import { getMediaEvidenceCandidateCsv } from "@/lib/admin/media-evidence-candidates";
 import { getOfficialAreaSeedCandidateCsv } from "@/lib/admin/official-area-seed-candidates";
 import {
   isInitialDataLegalReviewStatus,
@@ -865,6 +866,30 @@ export async function stageOfficialAreaSeedCandidatesAction() {
     official_seed: result.status,
     official_staged: String(result.stagedCount),
     official_skipped: String(result.skippedCount),
+  });
+
+  redirect(`/admin/data?${params.toString()}`);
+}
+
+export async function stageMediaEvidenceCandidatesAction() {
+  const formData = new FormData();
+  formData.set("csv", getMediaEvidenceCandidateCsv());
+  formData.set("review_priority", "high");
+
+  const result = await stageInitialDataCandidatesAction(
+    {
+      status: "idle",
+      message: "",
+      stagedCount: 0,
+      skippedCount: 0,
+      errors: [],
+    },
+    formData,
+  );
+  const params = new URLSearchParams({
+    media_seed: result.status,
+    media_staged: String(result.stagedCount),
+    media_skipped: String(result.skippedCount),
   });
 
   redirect(`/admin/data?${params.toString()}`);

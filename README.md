@@ -178,6 +178,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `/admin/area-ops` で、エリアごとの公式ソース、投稿導線、建物確認、コンテンツ増強、ソース再確認目安を管理
 - `npm run check:sources` で、`SOURCE_RESEARCH_QUEUE.csv` の公式URLを無料範囲で手動確認
 - `OFFICIAL_SOURCE_SEED_CANDIDATES.csv` と `/admin/data` の公式ソース安全候補パネルで、12エリア分の公式ソース由来候補を非公開審査DBへ登録
+- `MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv` と `/admin/data` のメディア由来の証拠候補パネルで、報道・記事由来の候補を非公開審査DBへ登録
 - `npm run check:official-seed` で、公式ソース安全候補CSVの非公開デフォルト、Hidden固定、禁止表現、非公開情報マーカーを検査
 - `/roadmap` でフェーズ13〜50の改善予定と公開情報の扱い方を表示
 - `/trust` で公開する情報、公開しない情報、審査、収益化独立性を表示
@@ -283,6 +284,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー
 - `OFFICIAL_SOURCE_SEED_CANDIDATES.csv`: 12エリア分の公式ソース由来の非公開審査候補CSV
+- `MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv`: 報道、記事、自治体公表から作成した非公開審査候補CSV
+- `MEDIA_EVIDENCE_COLLECTION_2026-05-28.md`: メディア由来候補の収集方針、転載禁止、審査メモ
 - `PHASE_26_AREA_OPERATIONS_PLAN.md`: エリア別情報蓄積オペレーション管理の実装方針
 - `PHASE_27_SAFE_SEEDING_PLAN.md`: 公式ソース安全候補を審査DBへ登録する運用方針
 - `PHASE_28_PRODUCTION_SEED_RUN.md`: 本番DBの審査ワークフロー適用と公式候補12件登録の実行記録

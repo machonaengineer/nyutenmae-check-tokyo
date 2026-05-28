@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   importInitialDataCandidatesAction,
   importInitialDataReviewCandidateAction,
+  stageMediaEvidenceCandidatesAction,
   stageOfficialAreaSeedCandidatesAction,
   updateInitialDataReviewCandidateAction,
 } from "@/app/admin/data/actions";
@@ -35,6 +36,10 @@ import {
   INITIAL_DATA_PUBLISH_DECISIONS,
   INITIAL_DATA_REVIEW_PRIORITIES,
 } from "@/lib/admin/types";
+import {
+  getMediaEvidenceCandidateCsv,
+  getMediaEvidenceCandidateMetrics,
+} from "@/lib/admin/media-evidence-candidates";
 import { formatDate } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -67,6 +72,9 @@ type AdminDataPageProps = {
     official_seed?: string;
     official_staged?: string;
     official_skipped?: string;
+    media_seed?: string;
+    media_staged?: string;
+    media_skipped?: string;
   }>;
 };
 
@@ -78,6 +86,8 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
   const candidateCsvConfigured = hasInitialDataCandidateCsv();
   const officialSeedCsv = getOfficialAreaSeedCandidateCsv();
   const officialSeedMetrics = getOfficialAreaSeedCandidateMetrics();
+  const mediaEvidenceCsv = getMediaEvidenceCandidateCsv();
+  const mediaEvidenceMetrics = getMediaEvidenceCandidateMetrics();
   const reviewWorkflow = await getAdminInitialDataReviewWorkflow();
   const filters = {
     decision: query.decision ?? "all",
@@ -135,6 +145,25 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
             </p>
           </div>
         ) : null}
+        {query.media_seed ? (
+          <div
+            className={
+              query.media_seed === "success"
+                ? "mb-6 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm leading-6 text-green-800"
+                : "mb-6 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
+            }
+          >
+            <p className="font-bold">
+              {query.media_seed === "success"
+                ? "メディア由来の候補を審査DBへ登録しました。"
+                : "メディア由来の候補登録に失敗しました。"}
+            </p>
+            <p className="mt-1">
+              登録: {query.media_staged ?? "0"}件 / 重複スキップ:{" "}
+              {query.media_skipped ?? "0"}件
+            </p>
+          </div>
+        ) : null}
         {query.candidate_review_saved ? (
           <div className="mb-6 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm leading-6 text-green-800">
             初期データ候補の審査状態を更新しました。
@@ -175,6 +204,12 @@ export default async function AdminDataPage({ searchParams }: AdminDataPageProps
           candidateTableAvailable={reviewWorkflow.available}
           csv={officialSeedCsv}
           metrics={officialSeedMetrics}
+        />
+
+        <MediaEvidenceCandidatePanel
+          candidateTableAvailable={reviewWorkflow.available}
+          csv={mediaEvidenceCsv}
+          metrics={mediaEvidenceMetrics}
         />
 
         <div className="mb-6 grid gap-6">
@@ -343,6 +378,70 @@ function OfficialAreaSeedPanel({
             <p className="mt-2 text-xl font-bold text-ink">{item.value}</p>
           </div>
         ))}
+      </div>
+
+      <pre className="mt-5 max-h-72 overflow-auto rounded-md border border-line bg-surface p-4 text-xs leading-6 text-ink">
+        {csv}
+      </pre>
+    </div>
+  );
+}
+
+function MediaEvidenceCandidatePanel({
+  candidateTableAvailable,
+  csv,
+  metrics,
+}: {
+  candidateTableAvailable: boolean;
+  csv: string;
+  metrics: ReturnType<typeof getMediaEvidenceCandidateMetrics>;
+}) {
+  return (
+    <div className="mb-6 rounded-md border border-line bg-white p-5">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <h2 className="text-lg font-bold text-ink">メディア由来の証拠候補</h2>
+          <p className="mt-2 text-sm leading-7 text-muted">
+            報道、記事、自治体公表から作成した非公開審査候補です。記事本文、画像、外部投稿本文は転載せず、出典URL、確認日、独自要約、リスクタグ候補だけを審査DBへ登録します。
+          </p>
+          <p className="mt-2 text-sm leading-7 text-muted">
+            登録後も公開はされません。建物名、階数、現在状況、法務・表現確認を終えるまで `needs_review / Hidden` のまま扱います。
+          </p>
+        </div>
+        <form action={stageMediaEvidenceCandidatesAction}>
+          <button
+            className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-bold text-white transition hover:bg-action-strong disabled:cursor-not-allowed disabled:bg-muted"
+            disabled={!candidateTableAvailable}
+            type="submit"
+          >
+            メディア候補を審査DBへ登録
+          </button>
+          {!candidateTableAvailable ? (
+            <p className="mt-2 max-w-64 text-xs leading-5 text-muted">
+              先に `0010_initial_data_review_workflow.sql` を適用してください。
+            </p>
+          ) : null}
+        </form>
+      </div>
+
+      <div className="mt-5 grid gap-3 md:grid-cols-6">
+        {[
+          { label: "候補総数", value: metrics.total },
+          { label: "登録対象", value: metrics.stageable },
+          { label: "保留", value: metrics.deferredCommon },
+          { label: "対象エリア", value: metrics.areas },
+          { label: "報道系", value: metrics.newsSources },
+          { label: "Hidden固定", value: metrics.hiddenEvidence },
+        ].map((item) => (
+          <div className="rounded-md border border-line bg-surface p-3" key={item.label}>
+            <p className="text-xs font-semibold text-muted">{item.label}</p>
+            <p className="mt-2 text-xl font-bold text-ink">{item.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
+        都内共通の注意喚起は個別エリアに紐づけず、相談導線やチェックリストの補強に回します。個別店舗や同一運営の断定には使いません。
       </div>
 
       <pre className="mt-5 max-h-72 overflow-auto rounded-md border border-line bg-surface p-4 text-xs leading-6 text-ink">

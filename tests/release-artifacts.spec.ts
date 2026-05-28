@@ -29,6 +29,8 @@ const requiredReleaseFiles = [
   "SNS_OPERATIONS_SOP.md",
   "SOCIAL_CONTENT_CALENDAR.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
+  "MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv",
+  "MEDIA_EVIDENCE_COLLECTION_2026-05-28.md",
   "AREA_DATA_COLLECTION_QUEUE.csv",
   "OFFICIAL_SOURCE_SEED_CANDIDATES.csv",
   "INITIAL_DATA_REVIEW_QUEUE.csv",
@@ -66,6 +68,7 @@ const requiredReleaseFiles = [
   "src/app/coverage/candidates/page.tsx",
   "src/lib/admin/initial-data-candidates.ts",
   "src/lib/admin/official-area-seed-candidates.ts",
+  "src/lib/admin/media-evidence-candidates.ts",
   "src/lib/area-operations.ts",
   "src/app/admin/area-ops/page.tsx",
   "src/app/trust/page.tsx",
@@ -890,6 +893,58 @@ test.describe("リリース準備資料", () => {
     expect(playbook).toContain("公式ソース安全候補");
     expect(phase27).toContain("候補審査DBへの登録は公開承認ではない");
     expect(phase27).toContain("個別店舗の注意報告を根拠なしに作らない");
+  });
+
+  test("メディア由来候補は転載せず非公開審査DBへ登録できる", async () => {
+    const mediaCsv = await readFile(
+      path.join(rootDir, "MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv"),
+      "utf8",
+    );
+    const mediaCollection = await readFile(
+      path.join(rootDir, "MEDIA_EVIDENCE_COLLECTION_2026-05-28.md"),
+      "utf8",
+    );
+    const mediaLib = await readFile(
+      path.join(rootDir, "src/lib/admin/media-evidence-candidates.ts"),
+      "utf8",
+    );
+    const adminDataPage = await readFile(
+      path.join(rootDir, "src/app/admin/data/page.tsx"),
+      "utf8",
+    );
+    const adminDataActions = await readFile(
+      path.join(rootDir, "src/app/admin/data/actions.ts"),
+      "utf8",
+    );
+    const playbook = await readFile(
+      path.join(rootDir, "DATA_COLLECTION_PLAYBOOK.md"),
+      "utf8",
+    );
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+
+    const rows = mediaCsv.trim().split(/\r?\n/);
+
+    expect(rows[0].replaceAll("\"", "").split(",")).toEqual([...initialDataColumns]);
+    expect(rows.length).toBeGreaterThan(10);
+    expect(mediaCsv).toContain("needs_review");
+    expect(mediaCsv).toContain("Hidden");
+    expect(mediaCsv).not.toContain("approved");
+    expect(mediaCsv).not.toContain("Google口コミ");
+    expect(mediaCsv).not.toContain("食べログ");
+    expect(mediaCsv).not.toContain("storage_path");
+    expect(mediaCollection).toContain("記事本文、外部投稿本文、画像、動画、スクリーンショットは転載しない");
+    expect(mediaLib).toContain("server-only");
+    expect(mediaLib).toContain("getMediaEvidenceCandidateCsv");
+    expect(mediaLib).toContain("STAGEABLE_AREAS");
+    expect(mediaLib).toContain("都内共通");
+    expect(adminDataPage).toContain("メディア由来の証拠候補");
+    expect(adminDataPage).toContain("stageMediaEvidenceCandidatesAction");
+    expect(adminDataPage).toContain("都内共通の注意喚起は個別エリアに紐づけず");
+    expect(adminDataActions).toContain("stageMediaEvidenceCandidatesAction");
+    expect(adminDataActions).toContain("media_seed");
+    expect(playbook).toContain("MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv");
+    expect(playbook).toContain("そのまま公開投稿にはしません");
+    expect(readme).toContain("MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv");
   });
 
   test("フェーズ28は本番DBの公式候補登録を非公開状態で検証する", async () => {
