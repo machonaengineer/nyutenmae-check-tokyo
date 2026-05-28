@@ -281,6 +281,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動連携前の運用方針
 - `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
+- `SNS_KPI_LOG_TEMPLATE.csv`: SNS投稿の表示、クリック、保存、情報提供遷移を記録する日次ログテンプレート
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー
 - `OFFICIAL_SOURCE_SEED_CANDIDATES.csv`: 12エリア分の公式ソース由来の非公開審査候補CSV

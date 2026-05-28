@@ -28,6 +28,7 @@ const requiredReleaseFiles = [
   "SOCIAL_GROWTH_PLAN.md",
   "SNS_OPERATIONS_SOP.md",
   "SOCIAL_CONTENT_CALENDAR.csv",
+  "SNS_KPI_LOG_TEMPLATE.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
   "MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv",
   "MEDIA_EVIDENCE_COLLECTION_2026-05-28.md",
@@ -431,15 +432,24 @@ test.describe("リリース準備資料", () => {
       path.join(rootDir, "SOCIAL_CONTENT_CALENDAR.csv"),
       "utf8",
     );
+    const kpiLog = await readFile(
+      path.join(rootDir, "SNS_KPI_LOG_TEMPLATE.csv"),
+      "utf8",
+    );
 
     expect(sop).toContain("自動いいね、自動フォロー、自動リプライ");
     expect(sop).toContain("複数アカウントを使った不自然な拡散");
     expect(sop).toContain("未承認投稿の紹介");
     expect(sop).toContain("投稿前チェック");
+    expect(sop).toContain("SNS_KPI_LOG_TEMPLATE.csv");
     expect(calendar).toContain("day,slot,platform,post_type");
     expect(calendar).toContain("証拠画像と投稿者メールアドレスは一般公開しません");
     expect(calendar).not.toContain("reporter_email");
     expect(calendar).not.toContain("storage_path");
+    expect(kpiLog).toContain("impressions,profile_clicks,link_clicks");
+    expect(kpiLog).toContain("safety_checked,next_action");
+    expect(kpiLog).not.toContain("reporter_email");
+    expect(kpiLog).not.toContain("storage_path");
   });
 
   test("スポンサー問い合わせは公開ページに出さず管理ログで確認する", async () => {
