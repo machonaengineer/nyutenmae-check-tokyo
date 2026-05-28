@@ -14,17 +14,17 @@ import { INITIAL_AREAS, SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "SNS共有・情報提供",
   description:
-    "入店前チェック東京をSNSで共有し、注意報告や情報提供につなげるためのページです。",
+    "入店前チェックや相談先をSNSで共有しやすくまとめたページです。",
   alternates: {
     canonical: "/social",
   },
 };
 
 const shareRules = [
-  "店舗や個人への断定、攻撃、個人情報を含む投稿は避けてください。",
-  "外部口コミ本文、ニュース本文、スクリーンショットをそのまま転載しないでください。",
-  "掲載内容は投稿者の申告に基づく注意情報として紹介してください。",
-  "緊急時や身の危険がある場合はSNS投稿より安全確保と相談を優先してください。",
+  "料金、明細、相談先など確認できる内容を中心に共有してください。",
+  "外部口コミ本文、ニュース本文、スクリーンショットはそのまま転載しないでください。",
+  "個別の店名や個人名を含む相談は、公開リプライではなくフォームへ案内してください。",
+  "緊急時や身の危険がある場合は、投稿より安全確保と相談を優先してください。",
 ] as const;
 
 export default function SocialPage() {
@@ -36,7 +36,7 @@ export default function SocialPage() {
       <PageHeader
         eyebrow="Social"
         title="SNS共有・情報提供"
-        description="入店前の料金確認に役立つ情報を、断定や転載を避けた形で広げるための共有ページです。"
+        description="入店前チェックや相談先を、必要な人に届きやすい形で共有できます。"
         primaryAction={{ href: "/reports/new", label: "注意報告を送る" }}
       />
 
@@ -44,7 +44,7 @@ export default function SocialPage() {
         <SocialShareActions title={SITE.name} url={getAbsoluteSiteUrl("/")} />
         <div className="mt-6">
           <PolicyNote>
-            共有文は注意喚起の入口として扱い、個別店舗や個人を断定する表現を避けてください。
+            共有文は確認リストや相談先への入口として使います。個別の相談はフォームへ案内してください。
           </PolicyNote>
         </div>
       </Section>
@@ -56,13 +56,13 @@ export default function SocialPage() {
         </p>
       </Section>
 
-      <Section title="共有時のルール">
+      <Section title="共有前の確認">
         <SimpleList items={shareRules} />
       </Section>
 
       <Section
-        title="安全投稿テンプレート"
-        description="エリア名と確認項目を中心にし、個別店舗や個人への断定を避ける投稿案です。"
+        title="投稿テンプレート"
+        description="エリア名と確認項目を中心にした投稿案です。"
       >
         <div className="grid gap-4 md:grid-cols-2">
           {growthPlans.map((plan) => (
@@ -78,7 +78,7 @@ export default function SocialPage() {
               </div>
               <p className="mt-4 text-sm leading-7 text-muted">{plan.snsTemplate}</p>
               <p className="mt-3 text-sm leading-7 text-muted">
-                投稿者の申告に基づく情報です。入店前の料金確認を推奨します。
+                入店前の料金確認、明細の保存、困った時の相談先確認につなげる文面です。
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link
@@ -101,7 +101,7 @@ export default function SocialPage() {
 
       <Section
         title="30日分の投稿企画"
-        description="自動投稿は行わず、投稿前チェックを前提に使える安全な文面素材です。"
+        description="投稿前に内容を確認して使う文面素材です。"
       >
         <div className="grid gap-4 md:grid-cols-2">
           {recognitionPosts.map((post) => (

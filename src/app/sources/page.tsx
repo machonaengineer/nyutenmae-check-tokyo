@@ -27,13 +27,13 @@ export default function SourcesPage() {
       <PageHeader
         eyebrow="Sources"
         title="情報ソース"
-        description="注意報告を増やす前段階として、自治体、警察、消費生活相談、報道などの出典を整理しています。"
+        description="参照元としている公的・公式情報、報道、調査候補を確認できます。"
         primaryAction={{ href: "/reports/new", label: "注意報告を送る" }}
       />
 
       <Section title="扱い方">
         <PolicyNote>
-          ここに掲載するのは調査元へのリンクと独自要約です。本文、口コミ、画像、スクリーンショット、電話番号、個人情報は転載せず、出典URL、確認日、公開前審査の材料として扱います。
+          掲載時は出典URL、確認日、独自要約を分けて扱います。本文、口コミ、画像、スクリーンショットは転載しません。
         </PolicyNote>
       </Section>
 

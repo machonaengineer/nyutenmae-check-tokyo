@@ -97,6 +97,10 @@ NEXT_PUBLIC_X_PROFILE_URL=
 NEXT_PUBLIC_INSTAGRAM_PROFILE_URL=
 NEXT_PUBLIC_TIKTOK_PROFILE_URL=
 NEXT_PUBLIC_LINE_PROFILE_URL=
+SNS_AUTO_POST_ENABLED=false
+SNS_AUTO_POST_QUEUE_FILE=SNS_AUTO_POST_QUEUE.csv
+X_USER_ACCESS_TOKEN=
+X_POST_PROFILE_USERNAME=nyutenmaecheck
 NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=false
 NEXT_PUBLIC_ADSENSE_ENABLED=false
 NEXT_PUBLIC_ADSENSE_CLIENT=
@@ -125,6 +129,10 @@ INITIAL_DATA_CANDIDATES_CSV=
 | `NEXT_PUBLIC_INSTAGRAM_PROFILE_URL` | 任意。公式InstagramプロフィールURL |
 | `NEXT_PUBLIC_TIKTOK_PROFILE_URL` | 任意。公式TikTokプロフィールURL |
 | `NEXT_PUBLIC_LINE_PROFILE_URL` | 任意。公式LINEまたはLINE関連URL |
+| `SNS_AUTO_POST_ENABLED` | 任意。`true` の場合だけ承認済みSNSキューを公式APIへ投稿する。初期値は必ず `false` |
+| `SNS_AUTO_POST_QUEUE_FILE` | 任意。SNS自動投稿キューCSVのパス |
+| `X_USER_ACCESS_TOKEN` | 任意。X API投稿用のユーザーアクセストークン。サーバー専用で、ブラウザへ出さない |
+| `X_POST_PROFILE_USERNAME` | 任意。投稿後URLを記録するためのXユーザー名 |
 | `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED` | 任意。AdSenseの所有権確認コードだけを読み込む。広告枠表示前の審査用で、初期値は `false` |
 | `NEXT_PUBLIC_ADSENSE_ENABLED` | 任意。`true` の場合だけAdSense広告ユニットを表示する。審査通過前は必ず `false` |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | 任意。AdSenseの `ca-pub-...` 形式client ID。公開値だが、アカウントログイン情報は保存しない |
@@ -163,7 +171,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - エリア×トラブル種別のSEO向け確認ページ
 - 情報提供募集ページとスポンサー問い合わせページ
 - トラブル種別別のSEO向け安全確認ガイド
-- SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像
+- SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像、承認済みキューだけを対象にする公式API投稿スクリプト
 - 情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
 - 情報蓄積状況ページで、調査ソース、公式・公的情報、報道、審査待ち候補、エリア別の次アクションを表示
 - エリア詳細ページでの公的・公式確認先表示
@@ -183,12 +191,13 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `/roadmap` でフェーズ13〜50の改善予定と公開情報の扱い方を表示
 - `/trust` で公開する情報、公開しない情報、審査、収益化独立性を表示
 - `/coverage` にエリア別の「次に厚くする順」を表示し、検索流入、情報提供、非公開審査への接続を整理
-- `/social` にエリア別の安全投稿テンプレートを表示し、断定や転載は禁止を避けた共有導線を追加
+- `/social` にエリア別の投稿テンプレートを表示し、確認リストや相談先への共有導線を追加
+- `SNS_AUTO_POSTING_RUNBOOK.md`、`SNS_AUTO_POST_QUEUE.csv`、`npm run social:autopost` で、デフォルトOFFのSNS自動投稿準備を追加
 - `/guides` と `/areas/[slug]/guides/[guideSlug]` で、検索流入向けの実用ガイドを6テーマ x 12エリアへ展開
 - `/reports/quick` で、非公開デフォルトの30秒投稿導線を追加
 - `/coverage/candidates` で、公式ソースや候補を公開可能なエリア注意情報へ育てる確認ステージを表示
 - Vercel Analytics有効時だけCTAクリックを記録する `TrackedLink` を追加。デフォルトでは計測OFF
-- トップページでの掲載対象エリア数、公式確認先数、公開前審査方針の表示
+- トップページでの掲載対象エリア数、公式確認先数、情報提供導線の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
 - WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
 
@@ -278,9 +287,11 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `EXTERNAL_RATING_GUIDE.md`: 外部評価参考値の入力、公開、禁止事項
 - `FREE_TIER_GROWTH_PLAN.md`: 無料枠重視のSEO、計測、収益化準備方針
 - `ADSENSE_SETUP_GUIDE.md`: AdSense導入時の環境変数、ads.txt、ポリシーチェック
-- `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動連携前の運用方針
+- `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動投稿キューの運用方針
 - `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
+- `SNS_AUTO_POSTING_RUNBOOK.md`: X公式APIを使う自動投稿の承認キュー運用
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
+- `SNS_AUTO_POST_QUEUE.csv`: `approved` の行だけを投稿対象にする自動投稿キュー
 - `SNS_KPI_LOG_TEMPLATE.csv`: SNS投稿の表示、クリック、保存、情報提供遷移を記録する日次ログテンプレート
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー
@@ -296,7 +307,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_52_ZERO_TO_SIGNAL_PLAN.md`: 情報ゼロ状態から検索流入、投稿獲得、非公開審査へつなげる実装方針
 - `AREA_TRACTION_MATRIX.csv`: 12エリア別の検索意図、データ需要、管理アクション、収益化ゲート
 - `PHASE_53_57_GROWTH_SPRINT.md`: 認知、検索コンテンツ、簡易投稿、公開候補化、無料計測の実装方針
-- `SOCIAL_POST_TEMPLATES.csv`: 30日分の安全投稿テンプレート
+- `SOCIAL_POST_TEMPLATES.csv`: 30日分の投稿テンプレート
 - `supabase/verification/phase28_official_seed_candidate_checks.sql`: フェーズ28登録後のRLSと候補状態確認SQL
 - `INITIAL_DATA_REVIEW_QUEUE.csv`: 初期データ候補の審査順と確認項目
 - `DATA_COLLECTION_PLAYBOOK.md`: 情報ゼロ状態から安全に初期データを増やす手順

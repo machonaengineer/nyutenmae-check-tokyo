@@ -77,12 +77,12 @@ test.describe("公開ページ", () => {
     });
   }
 
-  test("トップページで公開方針を確認できる", async ({ page }) => {
+  test("トップページで実用導線を確認できる", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByText("投稿は自動公開しません。")).toBeVisible();
-    await expect(page.getByText("証拠画像と投稿者メールアドレスは一般公開しません。")).toBeVisible();
-    await expect(page.getByText("投稿者の申告に基づく情報です。")).toBeVisible();
+    await expect(page.getByText("料金条件を確認", { exact: true })).toBeVisible();
+    await expect(page.getByText("場所の手がかりで探せます")).toBeVisible();
+    await expect(page.getByText("相談先につなげます")).toBeVisible();
     await expect(page.getByText("公式確認先")).toBeVisible();
     await expect(page.getByText("自治体、警察、消費生活相談")).toBeVisible();
   });
@@ -272,7 +272,7 @@ test.describe("公開ページ", () => {
     await page.goto("/map");
 
     await expect(
-      page.getByText("承認済み投稿はまだありません。公式確認先と情報提供導線は公開中です。"),
+      page.getByText("この条件で表示できる場所はまだありません。エリア別の確認先と情報提供フォームを用意しています。"),
     ).toBeVisible();
     await expect(page.getByText("公式確認先:").first()).toBeVisible();
     await expect(page.getByRole("link", { name: "情報提供する" }).first()).toBeVisible();
@@ -410,7 +410,7 @@ test.describe("公開ページ", () => {
     expect(response.headers()["content-type"]).toContain("image/png");
   });
 
-  test("SNS共有ページで安全な共有導線を表示する", async ({ page }) => {
+  test("SNS共有ページで共有導線を表示する", async ({ page }) => {
     await page.goto("/social");
 
     await expect(page.getByRole("button", { name: "共有" })).toBeVisible();
@@ -444,10 +444,10 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("エリア別の蓄積状況を見る")).toBeVisible();
   });
 
-  test("情報蓄積状況ページで未承認情報の非公開方針を確認できる", async ({ page }) => {
+  test("情報蓄積状況ページでエリア別の確認状況を確認できる", async ({ page }) => {
     await page.goto("/coverage");
 
-    await expect(page.getByText("未承認投稿、投稿者メール、証拠画像、非公開メモ")).toBeVisible();
+    await expect(page.getByText("公開件数だけでなく、確認先、相談導線、情報提供の受け口")).toBeVisible();
     await expect(page.getByText("審査待ち候補").first()).toBeVisible();
     await expect(page.getByRole("link", { name: "情報ソースを見る" })).toBeVisible();
   });

@@ -32,19 +32,19 @@ export default function CoveragePage() {
       <PageHeader
         eyebrow="Coverage"
         title="情報蓄積状況"
-        description="公的情報、報道、投稿、管理者確認を分けて扱い、承認済み情報だけを公開していくための進捗ページです。"
+        description="どのエリアで何を確認中か、情報ソースと次のアクションをまとめています。"
         primaryAction={{ href: "/reports/new", label: "情報を提供する" }}
       />
 
       <Section title="蓄積方針">
         <PolicyNote>
-          このページは、公開済み注意報告の件数を競うものではありません。出典URL、確認日、独自要約、管理者審査をそろえ、未承認投稿、投稿者メール、証拠画像、非公開メモを公開しないための進捗を示します。
+          公開件数だけでなく、確認先、相談導線、情報提供の受け口をエリアごとに整えるための進捗です。
         </PolicyNote>
       </Section>
 
       <Section
         title="全体状況"
-        description="出典は公開前審査の材料です。報道由来の候補も、本文転載は禁止し、個別公開前に現在状況と表現を確認します。"
+        description="出典、確認候補、相談導線を分けて整理します。"
       >
         <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-6">
           {[

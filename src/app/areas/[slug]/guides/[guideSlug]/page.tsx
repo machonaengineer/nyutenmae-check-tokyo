@@ -77,7 +77,7 @@ export default async function AreaGuidePage({ params }: AreaGuidePageProps) {
 
       <Section title="公開投稿が少ない段階の見方">
         <PolicyNote>
-          {content.zeroStateValue} 掲載内容は投稿者の申告に基づく注意情報として扱い、承認済み投稿だけを公開します。
+          {content.zeroStateValue} まずは確認リスト、公式確認先、相談導線から使えます。
         </PolicyNote>
       </Section>
 

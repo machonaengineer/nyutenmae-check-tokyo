@@ -2,7 +2,7 @@
 
 ## 方針
 
-SNSは、個別店舗や個人への断定ではなく、入店前確認、相談導線、情報提供募集の入口として使う。自動投稿API連携はMVPでは行わず、管理画面の安全文面テンプレートと共有リンクで運用する。
+SNSは、入店前確認、相談導線、情報提供募集の入口として使う。自動投稿は公式API、承認済みキュー、デフォルトOFFを前提にし、パスワードやブラウザCookieを使った投稿自動化は行わない。
 
 ## 実装済み
 
@@ -14,6 +14,8 @@ SNSは、個別店舗や個人への断定ではなく、入店前確認、相�
 - SNSプロフィールURLの環境変数差し込み
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
+- `SNS_AUTO_POSTING_RUNBOOK.md`: 公式APIを使う自動投稿の承認キュー運用
+- `SNS_AUTO_POST_QUEUE.csv`: `approved` の行だけを投稿対象にするキュー
 
 ## 運用ルール
 
@@ -29,4 +31,4 @@ SNSは、個別店舗や個人への断定ではなく、入店前確認、相�
 - Google SheetsやNotionでSNS投稿カレンダーを管理
 - X API、Instagram Graph APIなどの公式API連携
 
-公式API連携を行う場合は、アクセストークンをVercelのサーバー環境変数に置き、投稿前の管理者承認、操作ログ、失敗時の再送制御を必ず実装する。
+公式API連携を行う場合は、アクセストークンをVercelのサーバー環境変数に置き、投稿前の管理者承認、操作ログ、失敗時の再送制御を必ず行う。現時点の実装は `scripts/social-autopost.mjs` のdry-runで文面を検証し、`SNS_AUTO_POST_ENABLED=true` の時だけ投稿する。

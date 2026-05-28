@@ -48,13 +48,13 @@ export default async function AreaContributePage({
     "公的機関、自治体、警察、消費生活相談の公式ページURL",
     "報道URL、確認日、独自要約",
     "自分の体験に基づく説明内容、会計内容、明細提示の経緯",
-    "Google口コミ、食べログ、SNS、ニュース本文の転載は禁止しない",
+    "Google口コミ、食べログ、SNS、ニュース本文はそのまま転載しない",
   ] as const;
 
   const reviewFlow = [
     "投稿は pending / Hidden の非公開状態で保存します",
     "管理者が証拠、表現、個人情報、異議申立てリスクを確認します",
-    "公開する場合も、投稿者の申告に基づく注意情報として表示します",
+    "公開する場合は、確認できる範囲の概要として表示します",
     "証拠画像、投稿者メール、非公開メモ、Storage上の保存パスは公開しません",
   ] as const;
 
@@ -89,7 +89,7 @@ export default async function AreaContributePage({
         <SimpleList items={reviewFlow} />
         <div className="mt-6">
           <PolicyNote>
-            投稿者の申告に基づく情報です。事実確認中の情報を含みます。入店前の料金確認を推奨します。
+            送信内容は確認後に必要な範囲で掲載します。連絡先や添付資料は公開ページに出しません。
           </PolicyNote>
         </div>
       </Section>

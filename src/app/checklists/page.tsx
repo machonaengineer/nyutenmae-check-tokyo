@@ -111,10 +111,10 @@ export default function ChecklistsPage() {
 
       <Section
         title="表示方針"
-        description={`${SITE.name}は店舗や個人への攻撃ではなく、入店前確認に役立つ注意情報を扱います。`}
+        description={`${SITE.name}は、入店前確認に役立つ料金条件、明細、相談先の情報を扱います。`}
       >
         <PolicyNote>
-          投稿者の申告に基づく情報です。事実確認中の情報を含みます。入店前の料金確認を推奨します。
+          掲載情報は入店前確認の参考です。料金、条件、明細は入店前・会計前にもご自身で確認してください。
         </PolicyNote>
         <div className="mt-6">
           <MonetizationSlot placement="checklist" />

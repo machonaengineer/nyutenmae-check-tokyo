@@ -83,7 +83,7 @@ export default async function AreaEvidencePage({ params }: AreaEvidencePageProps
         <SimpleList items={redactionItems} />
         <div className="mt-6">
           <PolicyNote>
-            証拠画像、投稿者メール、非公開メモは一般公開しません。公開サマリーは投稿者の申告に基づく注意情報として、管理者が表現を確認します。
+            公開ページには、確認に必要な範囲の概要だけを表示します。連絡先や添付資料は管理確認用として扱います。
           </PolicyNote>
         </div>
       </Section>

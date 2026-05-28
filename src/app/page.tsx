@@ -34,24 +34,24 @@ const homeMetrics = [
     note: "自治体、警察、消費生活相談",
   },
   {
-    label: "公開前審査",
-    value: "必須",
-    note: "投稿は自動公開しません",
+    label: "情報提供",
+    value: "非公開受付",
+    note: "管理者確認後に掲載",
   },
 ] as const;
 
 const servicePrinciples = [
   {
-    title: "星評価は使いません",
-    text: "味や通常接客ではなく、料金説明、会計確認、明細提示、退店時対応に関わる報告を扱います。",
+    title: "料金条件を確認しやすく",
+    text: "入店前の説明、会計時の金額、明細の有無を分けて整理します。",
   },
   {
-    title: "自動公開しません",
-    text: "投稿は管理者が表現、個人情報、証拠レベルを確認してから公開判断します。",
+    title: "場所の手がかりで探せます",
+    text: "店名が変わる場合も、住所、建物名、階数から確認できます。",
   },
   {
-    title: "証拠は分けて管理します",
-    text: "証拠画像と投稿者メールアドレスは一般公開せず、管理確認用の情報として扱います。",
+    title: "相談先につなげます",
+    text: "困った時に確認したい公的窓口やカード会社への相談導線をまとめます。",
   },
 ] as const;
 
@@ -72,13 +72,13 @@ export default function Home() {
               </p>
               <div className="mt-6 grid max-w-2xl gap-3 text-sm leading-6 text-muted sm:grid-cols-3">
                 <div className="border-l-2 border-action pl-3">
-                  承認済み投稿のみ公開
+                  料金条件を確認
                 </div>
                 <div className="border-l-2 border-action pl-3">
-                  証拠画像は非公開
+                  明細・領収書を記録
                 </div>
                 <div className="border-l-2 border-action pl-3">
-                  星評価は使わない
+                  相談先も確認
                 </div>
               </div>
               <div className="mt-8 grid max-w-2xl gap-3 sm:grid-cols-3">
@@ -151,7 +151,7 @@ export default function Home() {
                 })}
               </div>
               <p className="mt-3 text-xs leading-6 text-muted">
-                地図上に表示する情報は、承認済みの注意報告に限定する設計です。
+                エリアごとの確認先と、公開できる報告の位置を地図で確認できます。
               </p>
             </div>
           </div>
@@ -159,8 +159,8 @@ export default function Home() {
       </section>
 
       <Section
-        title="このサービスで扱う情報"
-        description="投稿者の申告に基づく注意情報として、入店前に確認しやすい形式へ整理します。"
+        title="このサービスでできること"
+        description="料金条件、明細、相談先を入店前後に確認しやすく整理します。"
       >
         <div className="grid gap-4 md:grid-cols-3">
           {servicePrinciples.map((principle) => (
@@ -252,26 +252,26 @@ export default function Home() {
 
       <Section
         title="SNSで共有する"
-        description="断定や転載を避けた形で、入店前確認の導線を共有できます。"
+        description="確認リストや相談先を、必要な人に共有できます。"
       >
         <SocialShareActions title={SITE.name} url={getAbsoluteSiteUrl("/")} />
       </Section>
 
-      <Section title="公開と表現の方針">
+      <Section title="掲載方針">
         <div className="grid gap-6 lg:grid-cols-2">
           <SimpleList items={PUBLICATION_RULES} />
           <SimpleList items={TONE_GUIDELINES} />
         </div>
         <div className="mt-6">
           <PolicyNote>
-            掲載内容は店舗や個人への評価ではなく、投稿者の申告に基づく注意情報です。公開時は断定を避け、確認状況と証拠レベルを分けて表示します。
+            詳しい審査基準、公開しない情報、異議申立ての流れは掲載方針ページにまとめています。
           </PolicyNote>
         </div>
       </Section>
 
       <Section
-        title="証拠レベル"
-        description="次工程のDB実装では、公開本文と非公開証拠を分離して管理します。"
+        title="確認レベル"
+        description="公開時は、確認状況を分けて表示します。"
       >
         <DefinitionList items={EVIDENCE_LEVELS} />
       </Section>

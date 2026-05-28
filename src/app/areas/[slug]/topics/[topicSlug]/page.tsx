@@ -89,7 +89,7 @@ export default async function AreaTopicPage({ params }: AreaTopicPageProps) {
       <PageHeader
         eyebrow="Area Topic"
         title={`${area.name}の${topic.title}`}
-        description={`${area.centerLabel}で、${topic.title}に関して入店前・会計前に確認したい項目です。公開情報は承認済みの注意報告に限定します。`}
+        description={`${area.centerLabel}で、${topic.title}に関して入店前・会計前に確認したい項目です。`}
         primaryAction={{ href: reportHref, label: "この内容で報告する" }}
       />
 
@@ -97,14 +97,14 @@ export default async function AreaTopicPage({ params }: AreaTopicPageProps) {
         <SimpleList items={topic.checks} />
         <div className="mt-6">
           <PolicyNote>
-            投稿者の申告に基づく情報です。事実確認中の情報を含みます。入店前の料金確認を推奨します。
+            掲載情報は入店前確認の参考です。料金、条件、明細は入店前・会計前にもご自身で確認してください。
           </PolicyNote>
         </div>
       </Section>
 
       <Section
         title="関連する公開情報"
-        description="承認済み投稿があり、このテーマに関連するリスクタグが付いた場所だけを表示します。"
+        description="このテーマに関連する公開情報がある場所を表示します。"
       >
         {relatedPlaces.length > 0 ? (
           <div className="grid gap-4">

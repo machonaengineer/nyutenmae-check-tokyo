@@ -15,7 +15,7 @@ import { INITIAL_AREAS } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "地図",
-  description: "承認済みの注意報告がある場所を地図で確認するページです。",
+  description: "入店前に確認したい場所とエリア別の確認先を地図で確認するページです。",
 };
 
 export default async function MapPage() {
@@ -44,13 +44,13 @@ export default async function MapPage() {
       <PageHeader
         eyebrow="Map"
         title="注意報告マップ"
-        description="承認済みの注意報告がある場所のみを表示します。証拠画像、投稿者メールアドレス、管理者メモは表示しません。"
+        description="現在確認できる場所と、エリア別の確認先を地図で見られます。"
         primaryAction={{ href: "/reports/new", label: "注意報告を送る" }}
       />
 
       <Section
         title="地図"
-        description="OpenStreetMapを利用しています。表示位置は公開可能な範囲で管理者が確認した情報に限定します。"
+        description="OpenStreetMapを利用しています。公開できる位置情報がある場所を表示します。"
       >
         <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
           <LeafletMap center={getAreaCenter()} places={markerPlaces} zoom={12} />
@@ -58,7 +58,7 @@ export default async function MapPage() {
           <aside className="rounded-md border border-line bg-surface p-5">
             <h2 className="text-lg font-bold text-ink">表示対象</h2>
             <p className="mt-3 text-sm leading-7 text-muted">
-              地図には、承認済み投稿があり、公開可能な緯度経度が登録された場所だけを表示します。
+              地図には、公開できる報告と位置情報がそろった場所を表示します。報告が少ないエリアは公式確認先も確認できます。
             </p>
             <div className="mt-5 grid gap-3 text-sm text-muted">
               <p>地図表示: {markerPlaces.length}件</p>
@@ -89,7 +89,7 @@ export default async function MapPage() {
           </div>
         ) : (
           <>
-            <EmptyState message="承認済み投稿はまだありません。公式確認先と情報提供導線は公開中です。" />
+            <EmptyState message="この条件で表示できる場所はまだありません。エリア別の確認先と情報提供フォームを用意しています。" />
             <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {areaSignals.map((area) => (
                 <article
@@ -104,7 +104,7 @@ export default async function MapPage() {
                     <p>審査中の確認候補: {area.reviewCandidateCount}件</p>
                   </div>
                   <p className="mt-4 text-xs leading-6 text-muted">
-                    個別の注意表示は承認済み投稿に限定し、未承認情報や証拠画像は公開しません。
+                    まずは公式確認先と入店前チェックリストを確認できます。
                   </p>
                   <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
                     <Link className="text-action no-underline" href={`/areas/${area.slug}`}>

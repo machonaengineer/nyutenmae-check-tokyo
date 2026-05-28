@@ -15,7 +15,7 @@ const guidePosts: SocialRecognitionPost[] = SEARCH_GUIDES.map((guide, index) => 
   slot: index % 2 === 0 ? "evening" : "morning",
   pillar: "guide",
   title: `${guide.shortTitle}の確認`,
-  body: `${guide.snsHook} 投稿者の申告に基づく注意情報として、証拠と公開本文を分けて扱います。`,
+  body: `${guide.snsHook} 料金条件、明細、相談先を確認しやすい形で整理しています。`,
   targetPath: `/guides/${guide.slug}`,
 }));
 
@@ -51,10 +51,10 @@ const supportPosts: SocialRecognitionPost[] = [
     day: 21,
     slot: "evening",
     pillar: "contribution",
-    title: "証拠画像は非公開",
+    title: "資料の保存ポイント",
     body:
-      "レシートや明細は公開せず、管理者確認用として扱います。公開ページには投稿者メールや証拠画像URLを出しません。",
-    targetPath: "/trust",
+      "レシートや明細は、日時、人数、説明内容と一緒に保存すると後から確認しやすくなります。",
+    targetPath: "/guides/receipt-itemized-bill-check",
   },
   {
     day: 22,
@@ -69,9 +69,9 @@ const supportPosts: SocialRecognitionPost[] = [
     day: 23,
     slot: "morning",
     pillar: "support",
-    title: "公開しない情報",
+    title: "掲載方針",
     body:
-      "入店前チェック東京は、証拠画像、投稿者メール、非公開メモを一般公開しません。承認済み投稿だけを慎重に表示します。",
+      "入店前チェック東京の掲載方針、公開する情報、異議申立ての流れをまとめています。",
     targetPath: "/trust",
   },
   {
@@ -98,7 +98,7 @@ const supportPosts: SocialRecognitionPost[] = [
     pillar: "area",
     title: "地図で確認",
     body:
-      "地図に表示するのは承認済み投稿がある場所だけです。未承認投稿や証拠画像は一般公開しません。",
+      "地図では、公開できる場所とエリア別の確認先を確認できます。公開情報が少ないエリアは公式確認先から確認できます。",
     targetPath: "/map",
   },
   {

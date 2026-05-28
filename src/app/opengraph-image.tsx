@@ -45,9 +45,9 @@ export default function OpenGraphImage() {
           </div>
         </div>
         <div style={{ display: "flex", gap: "20px", fontSize: 26, color: "#59655f" }}>
-          <span>投稿者の申告に基づく情報</span>
-          <span>承認済み投稿のみ公開</span>
-          <span>証拠画像は非公開</span>
+          <span>料金確認</span>
+          <span>明細保存</span>
+          <span>相談先確認</span>
         </div>
       </div>
     ),

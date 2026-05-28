@@ -3,7 +3,7 @@ import { PolicyNote } from "@/components/page-blocks";
 export function PublicNotice() {
   return (
     <PolicyNote>
-      投稿者の申告に基づく情報です。事実確認中の情報を含みます。入店前の料金確認を推奨します。
+      掲載情報は入店前確認の参考です。料金、条件、明細は入店前・会計前にもご自身で確認してください。
     </PolicyNote>
   );
 }

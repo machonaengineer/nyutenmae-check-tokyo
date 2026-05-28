@@ -16,7 +16,7 @@ export function SiteHeader() {
             <span aria-hidden="true" className="h-9 w-1.5 rounded-full bg-action" />
             <span className="flex flex-col">
               <span className="text-base font-bold tracking-normal text-ink">{SITE.name}</span>
-              <span className="text-xs text-muted">投稿者の申告に基づく注意情報</span>
+              <span className="text-xs text-muted">繁華街の入店前チェック</span>
             </span>
           </Link>
           <div className="hidden flex-1 justify-center lg:flex">
@@ -72,7 +72,7 @@ export function SiteFooter() {
           <div>
             <p className="text-base font-bold">{SITE.name}</p>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/75">
-              掲載内容は投稿者の申告に基づく注意情報です。店舗や個人への攻撃、事実断定、個人情報の公開を目的としたサービスではありません。
+              料金確認、明細、相談先を整理する入店前チェックサイトです。詳しい掲載方針は透明性ページで確認できます。
             </p>
           </div>
           <nav aria-label="補助ナビゲーション" className="flex flex-wrap gap-3 md:justify-end">

@@ -51,7 +51,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       <PageHeader
         eyebrow="Search"
         title="店舗名・住所・建物検索"
-        description="承認済みの注意報告がある場所だけを検索対象にします。証拠画像、投稿者メールアドレス、管理者メモは検索対象にしません。"
+        description="店舗名、住所、建物名の手がかりから公開情報を探せます。"
         primaryAction={{ href: "/map", label: "地図を見る" }}
       />
 
@@ -59,7 +59,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <div className="rounded-md border border-line bg-surface p-5">
           <SiteSearchForm defaultValue={query} variant="wide" />
           <p className="mt-3 text-xs leading-5 text-muted">
-            店舗名が変わる場合があるため、住所、建物名、階数、エリア名の手がかりでも検索できます。掲載内容は投稿者の申告に基づく情報です。
+            店名が変わる場合があるため、住所、建物名、階数、エリア名でも探せます。
           </p>
         </div>
       </Section>
@@ -84,7 +84,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           )
         ) : (
           <PolicyNote>
-            未承認投稿、投稿者メールアドレス、証拠画像、非公開メモは検索結果に表示しません。
+            検索結果には、公開確認済みの場所だけを表示します。見つからない場合はエリア別の確認先も利用できます。
           </PolicyNote>
         )}
         <div className="mt-6">

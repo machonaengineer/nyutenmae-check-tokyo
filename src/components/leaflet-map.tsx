@@ -39,7 +39,7 @@ function createPopupElement(place: PublicPlaceSummary) {
   const summary = document.createElement("p");
   summary.className = "line-clamp-3 text-xs leading-5 text-muted";
   summary.textContent =
-    place.latestPublicSummary ?? "投稿者の申告に基づく注意情報を確認中です。";
+    place.latestPublicSummary ?? "公開サマリーを確認中です。";
   container.appendChild(summary);
 
   const link = document.createElement("a");

@@ -52,6 +52,8 @@
 - [ ] AdSenseを使う場合、`NEXT_PUBLIC_ADSENSE_CLIENT` は `ca-pub-...` 形式、ad slot IDは数字のみで設定した。
 - [ ] AdSenseを使う場合、広告クリックを促す文言、誤クリックを誘導する配置、コンテンツと誤認させる見出しがないことを確認した。
 - [ ] SNS共有文と `/admin/social` のテンプレートに断定表現、個人情報、外部本文転載は禁止が含まれていないことを確認した。
+- [ ] SNS自動投稿を使う場合、`SNS_AUTO_POST_ENABLED` は本番で意図した時だけ `true` にし、`X_USER_ACCESS_TOKEN` に `NEXT_PUBLIC_` が付いていないことを確認した。
+- [ ] `SNS_AUTO_POST_QUEUE.csv` は `approved` の行だけが投稿対象で、dry-runで文面、リンク、禁止表現、非公開情報マーカーの混入を確認した。
 - [ ] `/sources` と `/admin/research` に掲載する公式ソースURL、確認日、要約が最新で、本文転載は禁止していないことを確認した。
 - [ ] `/sources` と `/admin/research` に掲載する報道・公的情報ソースは、出典URL、確認日、独自要約として扱い、記事本文や口コミ本文をコピーしていないことを確認した。
 - [ ] `/admin/area-ops` でエリア別の公式ソース、投稿導線、建物確認、コンテンツ増強タスクを確認した。

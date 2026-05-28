@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PlacePageProps): Promise<Meta
 
   return {
     title: getPlaceDisplayName(detail.place),
-    description: `${getPlaceDisplayName(detail.place)}の承認済み注意報告を確認するページです。`,
+    description: `${getPlaceDisplayName(detail.place)}の公開情報と入店前確認の手がかりを確認するページです。`,
   };
 }
 
@@ -56,7 +56,7 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
       <PageHeader
         eyebrow="Place"
         title={displayName}
-        description="承認済み投稿に基づく注意情報です。証拠画像、投稿者メールアドレス、管理者メモは表示しません。"
+        description="料金確認、明細、相談導線の手がかりを確認できます。"
         primaryAction={{ href: "/objection", label: "異議申立て" }}
       />
 
@@ -96,7 +96,7 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
           <p className="font-semibold text-ink">同一住所・同一建物の確認メモ</p>
           <p className="mt-2">
             店名が変わる場合があるため、住所、建物名、階数も手がかりとして扱います。
-            表示するのは承認済み投稿に基づく情報だけです。同一運営や同一店舗であることは断定せず、入店前の料金確認を推奨します。
+            同じ住所や建物でも、同一運営や同一店舗とは限りません。入店前に料金条件と明細の有無を確認してください。
           </p>
         </div>
       </Section>

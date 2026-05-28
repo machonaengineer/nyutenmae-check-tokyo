@@ -27,7 +27,7 @@ export const FOOTER_LINKS = [
   { href: "/sources", label: "情報ソース" },
   { href: "/coverage", label: "情報蓄積状況" },
   { href: "/coverage/candidates", label: "公開候補化の流れ" },
-  { href: "/trust", label: "透明性と安全運用" },
+  { href: "/trust", label: "掲載方針" },
   { href: "/social", label: "SNS共有" },
   { href: "/roadmap", label: "改善ロードマップ" },
   { href: "/support", label: "相談先" },
@@ -185,15 +185,15 @@ export const RISK_TAGS = [
 ] as const;
 
 export const PUBLICATION_RULES = [
-  "投稿は自動公開しません。",
-  "管理者が承認した投稿のみ公開します。",
-  "証拠画像と投稿者メールアドレスは一般公開しません。",
+  "送信内容は確認後に掲載します。",
+  "公開できる情報だけを表示します。",
+  "添付資料と連絡先は公開ページに出しません。",
   "味、雰囲気、通常接客の評価は扱いません。",
 ] as const;
 
 export const TONE_GUIDELINES = [
-  "投稿者の申告に基づく情報です。",
-  "事実確認中の情報を含みます。",
+  "料金、条件、明細など確認しやすい項目を中心に表示します。",
+  "確認中の情報は状態を分けて扱います。",
   "入店前の料金確認を推奨します。",
-  "断定ではなく、確認可能な範囲で表示します。",
+  "必要以上に強い表現は避けます。",
 ] as const;

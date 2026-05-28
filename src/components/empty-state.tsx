@@ -4,7 +4,7 @@ export function EmptyState({ message }: { message: string }) {
       <div aria-hidden="true" className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-action/70" />
       <p className="text-sm font-semibold leading-7 text-ink">{message}</p>
       <p className="mt-2 text-xs leading-6 text-muted">
-        新しい送信があると、この画面に審査対象として表示されます。
+        近いエリアの確認先や情報提供フォームも利用できます。
       </p>
     </div>
   );

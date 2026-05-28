@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: AreaPageProps): Promise<Metad
 
   return {
     title: area.name,
-    description: `${area.name}の承認済み注意報告を確認するページです。`,
+    description: `${area.name}で入店前に確認したい情報をまとめたページです。`,
   };
 }
 
@@ -78,13 +78,13 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
       <PageHeader
         eyebrow="Area"
         title={area.name}
-        description={`${area.centerLabel}の承認済み注意報告を表示します。一般公開できない情報は表示しません。`}
+        description={`${area.centerLabel}で入店前に確認したい情報をまとめています。`}
         primaryAction={{ href: "/map", label: "地図を見る" }}
       />
 
       <Section
         title="エリア地図"
-        description="承認済み投稿があり、公開可能な位置情報がある場所のみを表示します。"
+        description="公開できる位置情報がある場所と、エリアの中心付近を確認できます。"
       >
         <LeafletMap center={getAreaCenter(slug)} places={markerPlaces} zoom={14} />
         <div className="mt-6">
@@ -121,7 +121,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           </div>
         ) : (
           <>
-            <EmptyState message="このエリアは承認済み投稿がまだありません。公式確認先と確認項目を先に表示しています。" />
+            <EmptyState message="このエリアはまだ公開できる個別報告がありません。公式確認先と確認項目を先に表示しています。" />
             <div className="mt-5 rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
               <div className="grid gap-3 text-sm text-muted sm:grid-cols-3">
                 <p>承認済み報告: 0件</p>
@@ -129,8 +129,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                 <p>審査中の確認候補: {reviewCandidateCount}件</p>
               </div>
               <p className="mt-4 text-sm leading-7 text-muted">
-                報告情報を空のままに見せないため、個別店舗の断定ではなく、
-                公的機関や確認済み出典への導線、入店前の確認項目、非公開の情報提供導線を表示しています。
+                まずは公式確認先、入店前の確認項目、情報提供フォームを案内します。具体的な手がかりがある場合は、情報提供フォームから送信できます。
               </p>
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 {researchSources.slice(0, 3).map((source) => (
@@ -243,7 +242,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
               </p>
               <div className="mt-5">
                 <PolicyNote>
-                  情報提供は公開承認ではありません。投稿者メール、証拠画像、非公開メモは一般公開せず、管理者が公開可否と表現を確認します。
+                  送信内容は管理者確認後に必要な範囲で公開します。連絡先や添付資料は公開ページに出しません。
                 </PolicyNote>
               </div>
             </article>
@@ -290,7 +289,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
 
       <Section
         title="このエリアの公式確認先"
-        description="店舗や個人への断定に使わず、公的な相談先や地域の取組を確認するためのリンクとして整理しています。"
+        description="地域の取組や相談先を確認するためのリンクです。"
       >
         <div className="grid gap-4 md:grid-cols-2">
           {researchSources.map((source) => (

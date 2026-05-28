@@ -37,9 +37,9 @@ export const SOCIAL_OPERATION_PILLARS: SocialOperationPillar[] = [
   },
   {
     title: "情報提供募集",
-    goal: "非公開デフォルトと管理者審査を伝えて投稿ハードルを下げる",
+    goal: "具体的な経緯を送りやすくして情報提供を増やす",
     examples: [
-      "投稿は自動公開されず、証拠画像とメールアドレスは一般公開しない",
+      "連絡先や添付資料は公開ページに出さずに受け付ける",
       "料金説明、会計確認、明細提示、退店時対応の具体的な経緯を募集する",
     ],
   },
@@ -83,7 +83,7 @@ export function getSocialProfileLinks(): SocialProfileLink[] {
 }
 
 export function buildShareText(title: string) {
-  return `${title}｜${SITE.name}\n投稿者の申告に基づく注意情報です。入店前の料金確認を推奨します。`;
+  return `${title}｜${SITE.name}\n入店前の料金確認、明細保存、相談先確認に使えるチェックサイトです。`;
 }
 
 export function buildSocialPostTemplates(): SocialPostTemplate[] {
@@ -95,8 +95,8 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
         `${SITE.name}を公開しました。`,
         "",
         "キャッチについて行く前に見る、都内繁華街の注意マップです。",
-        "味や通常接客の評価ではなく、料金説明、会計確認、明細提示、退店時対応に関する注意報告を扱います。",
-        "投稿は自動公開せず、証拠画像と投稿者メールアドレスは一般公開しません。",
+        "料金説明、会計確認、明細提示、退店時対応に関する情報を整理します。",
+        "入店前の料金確認、会計前の明細確認、困った時の相談先確認に使えます。",
       ].join("\n"),
     },
     {
@@ -105,8 +105,8 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
       text: [
         `${SITE.name}`,
         SITE.description,
-        "星評価や味の評価ではなく、料金説明、会計確認、明細提示、退店時対応に関する注意報告を扱います。",
-        "投稿は自動公開せず、証拠画像と投稿者メールアドレスは一般公開しません。",
+        "料金説明、会計確認、明細提示、退店時対応に関する情報を整理しています。",
+        "エリア別の確認リストと相談先もまとめています。",
       ].join("\n"),
     },
     {
@@ -115,7 +115,7 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
       text: [
         "都内繁華街での入店前確認に役立つ情報提供を受け付けています。",
         "料金説明と会計内容の不一致、明細提示、会計時対応など、具体的な経緯を非公開で送信できます。",
-        "投稿者の申告に基づく情報として、公開前に管理者が確認します。",
+        "連絡先や添付資料は公開ページに出しません。",
       ].join("\n"),
     },
     {
@@ -147,7 +147,7 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
       title: "検索導線",
       targetUrl: getAbsoluteSiteUrl("/search"),
       text: [
-        "店舗名や住所の手がかりで、承認済みの注意報告がある場所を検索できます。",
+        "店舗名や住所の手がかりで、公開情報を検索できます。",
         "",
         "まだ公開情報が少ない場合も、関連エリアや公式確認先から入店前確認を始められます。",
       ].join("\n"),
@@ -166,9 +166,9 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
     title: `${area.name}の情報提供募集`,
     targetUrl: getAbsoluteSiteUrl(`/areas/${area.slug}`),
     text: [
-      `${area.name}周辺の入店前確認に役立つ注意情報を整理しています。`,
+      `${area.name}周辺の入店前確認に役立つ情報を整理しています。`,
       "料金説明、会計確認、明細提示、退店時対応に関する具体的な報告を募集しています。",
-      "投稿は自動公開されず、投稿者メールアドレスや証拠画像は一般公開しません。",
+      "住所、建物名、階数などの手がかりも送信できます。",
     ].join("\n"),
   }));
 
@@ -178,7 +178,7 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
     text: [
       `${topic.title}に関する確認項目を整理しました。`,
       "入店前、会計前、退店後に記録しておきたい情報を確認できます。",
-      "掲載内容は投稿者の申告に基づく注意情報として扱います。",
+      "エリア別ページや相談先にも移動できます。",
     ].join("\n"),
   }));
 

@@ -29,6 +29,8 @@ const requiredReleaseFiles = [
   "SNS_OPERATIONS_SOP.md",
   "SOCIAL_CONTENT_CALENDAR.csv",
   "SNS_KPI_LOG_TEMPLATE.csv",
+  "SNS_AUTO_POSTING_RUNBOOK.md",
+  "SNS_AUTO_POST_QUEUE.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
   "MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv",
   "MEDIA_EVIDENCE_COLLECTION_2026-05-28.md",
@@ -78,6 +80,7 @@ const requiredReleaseFiles = [
   "src/app/llms.txt/route.ts",
   "scripts/check-source-links.mjs",
   "scripts/validate-official-seed-candidates.mjs",
+  "scripts/social-autopost.mjs",
   "supabase/verification/phase28_official_seed_candidate_checks.sql",
 ] as const;
 
@@ -402,7 +405,7 @@ test.describe("リリース準備資料", () => {
     expect(monetizationSlot).toContain("審査判断に影響しません");
   });
 
-  test("SNS連携は自動投稿ではなく安全な共有導線として実装する", async () => {
+  test("SNS連携は承認キューとデフォルトOFFで自動投稿準備を実装する", async () => {
     const guide = await readFile(path.join(rootDir, "SOCIAL_GROWTH_PLAN.md"), "utf8");
     const socialLib = await readFile(path.join(rootDir, "src/lib/social.ts"), "utf8");
     const socialPage = await readFile(path.join(rootDir, "src/app/social/page.tsx"), "utf8");
@@ -411,10 +414,19 @@ test.describe("リリース準備資料", () => {
       "utf8",
     );
     const envExample = await readFile(path.join(rootDir, ".env.example"), "utf8");
+    const runbook = await readFile(
+      path.join(rootDir, "SNS_AUTO_POSTING_RUNBOOK.md"),
+      "utf8",
+    );
+    const autopostScript = await readFile(
+      path.join(rootDir, "scripts/social-autopost.mjs"),
+      "utf8",
+    );
 
-    expect(guide).toContain("自動投稿API連携はMVPでは行わず");
+    expect(guide).toContain("公式API、承認済みキュー、デフォルトOFF");
     expect(guide).toContain("SOCIAL_CONTENT_CALENDAR.csv");
     expect(guide).toContain("SNS_OPERATIONS_SOP.md");
+    expect(guide).toContain("SNS_AUTO_POSTING_RUNBOOK.md");
     expect(guide).toContain("証拠画像、投稿者メールアドレス、非公開メモをSNSに載せない");
     expect(socialLib).toContain("NEXT_PUBLIC_X_PROFILE_URL");
     expect(socialLib).toContain("buildSocialPostTemplates");
@@ -423,7 +435,16 @@ test.describe("リリース準備資料", () => {
     expect(adminSocial).toContain("requireAdminUser");
     expect(adminSocial).toContain("SocialTemplateBoard");
     expect(envExample).toContain("NEXT_PUBLIC_X_PROFILE_URL=");
-    expect(envExample).not.toContain("SOCIAL_ACCESS_TOKEN");
+    expect(envExample).toContain("SNS_AUTO_POST_ENABLED=false");
+    expect(envExample).toContain("X_USER_ACCESS_TOKEN=");
+    expect(envExample).not.toContain("NEXT_PUBLIC_X_USER_ACCESS_TOKEN");
+    expect(runbook).toContain("status=approved");
+    expect(runbook).toContain("パスワード、ブラウザCookie");
+    expect(runbook).toContain("公式API");
+    expect(autopostScript).toContain("SNS_AUTO_POST_ENABLED");
+    expect(autopostScript).toContain("X_USER_ACCESS_TOKEN");
+    expect(autopostScript).toContain("https://api.x.com");
+    expect(autopostScript).toContain("status === \"approved\"");
   });
 
   test("SNS運用資料は自然拡散と投稿前チェックを前提にしている", async () => {
@@ -442,6 +463,7 @@ test.describe("リリース準備資料", () => {
     expect(sop).toContain("未承認投稿の紹介");
     expect(sop).toContain("投稿前チェック");
     expect(sop).toContain("SNS_KPI_LOG_TEMPLATE.csv");
+    expect(sop).toContain("自動投稿キュー運用");
     expect(calendar).toContain("day,slot,platform,post_type");
     expect(calendar).toContain("証拠画像と投稿者メールアドレスは一般公開しません");
     expect(calendar).not.toContain("reporter_email");
@@ -544,7 +566,7 @@ test.describe("リリース準備資料", () => {
     );
 
     expect(coveragePage).toContain("情報蓄積状況");
-    expect(coveragePage).toContain("未承認投稿、投稿者メール、証拠画像、非公開メモ");
+    expect(coveragePage).toContain("確認先、相談導線、情報提供の受け口");
     expect(coveragePage).toContain("getResearchSourceCoverageMetrics");
     expect(coveragePage).toContain("審査待ち候補");
     expect(sitemap).toContain("/coverage");
@@ -1122,7 +1144,7 @@ test.describe("リリース準備資料", () => {
     expect(coveragePage).toContain("次に厚くする順");
     expect(areaPage).toContain("getAreaGrowthPlan");
     expect(areaPage).toContain("情報提供してほしい具体項目");
-    expect(socialPage).toContain("安全投稿テンプレート");
+    expect(socialPage).toContain("投稿テンプレート");
     expect(socialPage).toContain("snsTemplate");
     expect(researchSources).toContain(
       "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html",
