@@ -99,6 +99,8 @@ NEXT_PUBLIC_TIKTOK_PROFILE_URL=
 NEXT_PUBLIC_LINE_PROFILE_URL=
 SNS_AUTO_POST_ENABLED=false
 SNS_AUTO_POST_QUEUE_FILE=SNS_AUTO_POST_QUEUE.csv
+SNS_AUTO_REPLY_ENABLED=false
+SNS_REPLY_QUEUE_FILE=SNS_REPLY_QUEUE.csv
 X_USER_ACCESS_TOKEN=
 X_POST_PROFILE_USERNAME=nyutenmaecheck
 NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=false
@@ -131,6 +133,8 @@ INITIAL_DATA_CANDIDATES_CSV=
 | `NEXT_PUBLIC_LINE_PROFILE_URL` | 任意。公式LINEまたはLINE関連URL |
 | `SNS_AUTO_POST_ENABLED` | 任意。`true` の場合だけ承認済みSNSキューを公式APIへ投稿する。初期値は必ず `false` |
 | `SNS_AUTO_POST_QUEUE_FILE` | 任意。SNS自動投稿キューCSVのパス |
+| `SNS_AUTO_REPLY_ENABLED` | 任意。`true` の場合だけ承認済み返信キューを公式APIへ投稿する。初期値は必ず `false` |
+| `SNS_REPLY_QUEUE_FILE` | 任意。SNS返信キューCSVのパス |
 | `X_USER_ACCESS_TOKEN` | 任意。X API投稿用のユーザーアクセストークン。サーバー専用で、ブラウザへ出さない |
 | `X_POST_PROFILE_USERNAME` | 任意。投稿後URLを記録するためのXユーザー名 |
 | `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED` | 任意。AdSenseの所有権確認コードだけを読み込む。広告枠表示前の審査用で、初期値は `false` |
@@ -193,6 +197,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `/coverage` にエリア別の「次に厚くする順」を表示し、検索流入、情報提供、非公開審査への接続を整理
 - `/social` にエリア別の投稿テンプレートを表示し、確認リストや相談先への共有導線を追加
 - `SNS_AUTO_POSTING_RUNBOOK.md`、`SNS_AUTO_POST_QUEUE.csv`、`npm run social:autopost` で、デフォルトOFFのSNS自動投稿準備を追加
+- `SNS_REPLY_OUTREACH_RUNBOOK.md`、`SNS_REPLY_QUEUE.csv`、`npm run social:reply` で、@メンションまたは引用で呼ばれた場合だけ使う承認制返信キューを追加
 - `/guides` と `/areas/[slug]/guides/[guideSlug]` で、検索流入向けの実用ガイドを6テーマ x 12エリアへ展開
 - `/reports/quick` で、非公開デフォルトの30秒投稿導線を追加
 - `/coverage/candidates` で、公式ソースや候補を公開可能なエリア注意情報へ育てる確認ステージを表示
@@ -290,8 +295,10 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動投稿キューの運用方針
 - `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
 - `SNS_AUTO_POSTING_RUNBOOK.md`: X公式APIを使う自動投稿の承認キュー運用
+- `SNS_REPLY_OUTREACH_RUNBOOK.md`: X公式APIを使う返信案内の承認キュー運用
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SNS_AUTO_POST_QUEUE.csv`: `approved` の行だけを投稿対象にする自動投稿キュー
+- `SNS_REPLY_QUEUE.csv`: `summoned_account=yes` かつ `approved` の行だけを返信対象にするキュー
 - `SNS_KPI_LOG_TEMPLATE.csv`: SNS投稿の表示、クリック、保存、情報提供遷移を記録する日次ログテンプレート
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー

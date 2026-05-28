@@ -73,3 +73,12 @@ X APIなど公式APIを使う場合は、アクセストークンをサーバー
 - `SNS_AUTO_POST_ENABLED=true` の時だけ、`scripts/social-autopost.mjs` がX公式APIへ投稿する。
 - 投稿後はキューの対象行を `posted` に更新し、`posted_at` と `post_url` を記録する。
 - 失敗した行は再実行前に文面、API利用枠、X側のアプリ権限を確認する。
+
+## 返信案内キュー運用
+
+- 対象投稿の本文は転載せず、`SNS_REPLY_QUEUE.csv` にURL、投稿ID、確認メモだけを残す。
+- 返信は、相手が対象アカウントを@メンションまたは引用で呼んだ場合だけ `summoned_account=yes` にする。
+- 返信前チェック後、管理者が `status=approved` に変更する。
+- `npm run social:reply -- --dry-run --tweet-id=1234567890` で文面、リンク、禁止表現、非公開情報マーカーを確認する。
+- `SNS_AUTO_REPLY_ENABLED=true` の時だけ、`scripts/social-reply.mjs` がX公式APIへ返信する。
+- 返信文は、情報提供フォーム、相談先、保存資料の案内に限定し、個別店舗や個人を評価しない。

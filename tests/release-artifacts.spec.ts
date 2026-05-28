@@ -31,6 +31,8 @@ const requiredReleaseFiles = [
   "SNS_KPI_LOG_TEMPLATE.csv",
   "SNS_AUTO_POSTING_RUNBOOK.md",
   "SNS_AUTO_POST_QUEUE.csv",
+  "SNS_REPLY_OUTREACH_RUNBOOK.md",
+  "SNS_REPLY_QUEUE.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
   "MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv",
   "MEDIA_EVIDENCE_COLLECTION_2026-05-28.md",
@@ -81,6 +83,7 @@ const requiredReleaseFiles = [
   "scripts/check-source-links.mjs",
   "scripts/validate-official-seed-candidates.mjs",
   "scripts/social-autopost.mjs",
+  "scripts/social-reply.mjs",
   "supabase/verification/phase28_official_seed_candidate_checks.sql",
 ] as const;
 
@@ -418,8 +421,16 @@ test.describe("リリース準備資料", () => {
       path.join(rootDir, "SNS_AUTO_POSTING_RUNBOOK.md"),
       "utf8",
     );
+    const replyRunbook = await readFile(
+      path.join(rootDir, "SNS_REPLY_OUTREACH_RUNBOOK.md"),
+      "utf8",
+    );
     const autopostScript = await readFile(
       path.join(rootDir, "scripts/social-autopost.mjs"),
+      "utf8",
+    );
+    const replyScript = await readFile(
+      path.join(rootDir, "scripts/social-reply.mjs"),
       "utf8",
     );
 
@@ -427,6 +438,7 @@ test.describe("リリース準備資料", () => {
     expect(guide).toContain("SOCIAL_CONTENT_CALENDAR.csv");
     expect(guide).toContain("SNS_OPERATIONS_SOP.md");
     expect(guide).toContain("SNS_AUTO_POSTING_RUNBOOK.md");
+    expect(guide).toContain("SNS_REPLY_OUTREACH_RUNBOOK.md");
     expect(guide).toContain("証拠画像、投稿者メールアドレス、非公開メモをSNSに載せない");
     expect(socialLib).toContain("NEXT_PUBLIC_X_PROFILE_URL");
     expect(socialLib).toContain("buildSocialPostTemplates");
@@ -436,15 +448,23 @@ test.describe("リリース準備資料", () => {
     expect(adminSocial).toContain("SocialTemplateBoard");
     expect(envExample).toContain("NEXT_PUBLIC_X_PROFILE_URL=");
     expect(envExample).toContain("SNS_AUTO_POST_ENABLED=false");
+    expect(envExample).toContain("SNS_AUTO_REPLY_ENABLED=false");
     expect(envExample).toContain("X_USER_ACCESS_TOKEN=");
     expect(envExample).not.toContain("NEXT_PUBLIC_X_USER_ACCESS_TOKEN");
     expect(runbook).toContain("status=approved");
     expect(runbook).toContain("パスワード、ブラウザCookie");
     expect(runbook).toContain("公式API");
+    expect(replyRunbook).toContain("summoned_account=yes");
+    expect(replyRunbook).toContain("無差別に返信");
+    expect(replyRunbook).toContain("情報提供フォーム");
     expect(autopostScript).toContain("SNS_AUTO_POST_ENABLED");
     expect(autopostScript).toContain("X_USER_ACCESS_TOKEN");
     expect(autopostScript).toContain("https://api.x.com");
     expect(autopostScript).toContain("status === \"approved\"");
+    expect(replyScript).toContain("SNS_AUTO_REPLY_ENABLED");
+    expect(replyScript).toContain("in_reply_to_tweet_id");
+    expect(replyScript).toContain("summoned_account");
+    expect(replyScript).toContain("status === \"approved\"");
   });
 
   test("SNS運用資料は自然拡散と投稿前チェックを前提にしている", async () => {
@@ -464,6 +484,7 @@ test.describe("リリース準備資料", () => {
     expect(sop).toContain("投稿前チェック");
     expect(sop).toContain("SNS_KPI_LOG_TEMPLATE.csv");
     expect(sop).toContain("自動投稿キュー運用");
+    expect(sop).toContain("返信案内キュー運用");
     expect(calendar).toContain("day,slot,platform,post_type");
     expect(calendar).toContain("証拠画像と投稿者メールアドレスは一般公開しません");
     expect(calendar).not.toContain("reporter_email");
