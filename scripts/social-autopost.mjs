@@ -7,6 +7,7 @@ const rootDir = path.resolve(__dirname, "..");
 
 const DEFAULT_QUEUE_FILE = "SNS_AUTO_POST_QUEUE.csv";
 const DEFAULT_API_BASE_URL = "https://api.x.com";
+const DEFAULT_SITE_URL = "https://nyutenmae-check-tokyo.vercel.app";
 const MAX_POST_LENGTH = 280;
 
 const requiredColumns = [
@@ -169,7 +170,7 @@ function getTokyoDateString(date = new Date()) {
 }
 
 function getSiteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+  return (process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).replace(/\/$/, "");
 }
 
 function buildPostText(row) {
