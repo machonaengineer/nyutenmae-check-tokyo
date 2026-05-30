@@ -2,7 +2,9 @@
 
 ## 方針
 
-自動投稿は、承認済みキューに入った文面だけを公式APIへ送る。Xのパスワード、ブラウザCookie、内部GraphQL、画面操作の自動化は使わない。
+自動投稿は、承認済みキューに入った文面だけを投稿対象にする。恒久運用は公式APIを使う。無料枠の暫定運用では、Codexの毎朝運用がChromeで表示アカウントを確認し、`@nyutenmaecheck` の場合だけ同じ文面を1本投稿する。
+
+Xのパスワード、ブラウザCookie、内部GraphQL、アクセストークンの値は取得・保存しない。
 
 ## 実行条件
 
@@ -11,6 +13,7 @@
 - `SNS_AUTO_POST_QUEUE.csv` の対象行が `status=approved` である。
 - 投稿本文に禁止表現、メールアドレス、非公開DBカラム名、証拠ファイルパスが含まれていない。
 - 投稿先リンクが公開ページである。
+- 公式APIトークンが無い場合は、Chrome上の表示アカウントが `@nyutenmaecheck` であることを確認できた時だけ実行する。
 
 ## キュー列
 
@@ -25,6 +28,12 @@
 - `notes`: 運用メモ
 
 ## 実行方法
+
+日次キュー生成:
+
+```bash
+npm run social:prepare -- --date=2026-05-30 --slot=morning
+```
 
 Dry-run:
 
@@ -45,10 +54,18 @@ $env:SNS_AUTO_POST_ENABLED="true"
 npm run social:autopost -- --date=2026-05-28 --slot=morning
 ```
 
+公式APIを使う日次実行:
+
+```bash
+npm run social:daily
+```
+
 ## 環境変数
 
 - `SNS_AUTO_POST_ENABLED`: デフォルトは `false`。`true` の時だけ投稿する。
 - `SNS_AUTO_POST_QUEUE_FILE`: 省略時は `SNS_AUTO_POST_QUEUE.csv`。
+- `SOCIAL_CONTENT_CALENDAR_FILE`: 省略時は `SOCIAL_CONTENT_CALENDAR.csv`。
+- `SOCIAL_AUTOMATION_START_DATE`: カレンダーのローテーション開始日。省略時は `2026-05-29`。
 - `X_USER_ACCESS_TOKEN`: X APIのユーザー文脈アクセストークン。ブラウザへ出さない。
 - `X_POST_PROFILE_USERNAME`: 投稿URLを記録するためのユーザー名。省略時は `nyutenmaecheck`。
 - `X_API_BASE_URL`: 通常は未設定。テスト時だけ差し替える。
@@ -67,6 +84,7 @@ npm run social:autopost -- --date=2026-05-28 --slot=morning
 - 個別店舗名を含むリプライへの公開議論。
 - 画像付き投稿。画像を使う場合は、権利、個人情報、EXIF、出典確認の手順を別途追加する。
 - X APIの利用枠や料金を超える運用。
+- Chrome暫定運用では、表示アカウントが `@nyutenmaecheck` 以外の場合の投稿。
 
 ## 参考
 

@@ -82,6 +82,7 @@ const requiredReleaseFiles = [
   "src/app/llms.txt/route.ts",
   "scripts/check-source-links.mjs",
   "scripts/validate-official-seed-candidates.mjs",
+  "scripts/social-prepare-daily-queue.mjs",
   "scripts/social-autopost.mjs",
   "scripts/social-reply.mjs",
   "supabase/verification/phase28_official_seed_candidate_checks.sql",
@@ -429,6 +430,10 @@ test.describe("リリース準備資料", () => {
       path.join(rootDir, "scripts/social-autopost.mjs"),
       "utf8",
     );
+    const prepareScript = await readFile(
+      path.join(rootDir, "scripts/social-prepare-daily-queue.mjs"),
+      "utf8",
+    );
     const replyScript = await readFile(
       path.join(rootDir, "scripts/social-reply.mjs"),
       "utf8",
@@ -461,6 +466,9 @@ test.describe("リリース準備資料", () => {
     expect(autopostScript).toContain("X_USER_ACCESS_TOKEN");
     expect(autopostScript).toContain("https://api.x.com");
     expect(autopostScript).toContain("status === \"approved\"");
+    expect(prepareScript).toContain("SOCIAL_CONTENT_CALENDAR.csv");
+    expect(prepareScript).toContain("daily-safe-calendar");
+    expect(prepareScript).toContain("SNS daily queue blocked");
     expect(replyScript).toContain("SNS_AUTO_REPLY_ENABLED");
     expect(replyScript).toContain("in_reply_to_tweet_id");
     expect(replyScript).toContain("summoned_account");

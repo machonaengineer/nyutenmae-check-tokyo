@@ -67,10 +67,11 @@ X APIなど公式APIを使う場合は、アクセストークンをサーバー
 
 ## 自動投稿キュー運用
 
-- `SNS_AUTO_POST_QUEUE.csv` に `draft` として文面を作る。
-- 投稿前チェック後、管理者が `status=approved` に変更する。
+- `npm run social:prepare -- --date=YYYY-MM-DD --slot=morning` で、`SOCIAL_CONTENT_CALENDAR.csv` から安全確認済みの日次投稿を `approved` として生成する。
+- 個別に作る文面は `SNS_AUTO_POST_QUEUE.csv` に `draft` として作り、投稿前チェック後に `status=approved` へ変更する。
 - `npm run social:autopost -- --dry-run --date=YYYY-MM-DD --slot=morning` で文面とリンクを確認する。
 - `SNS_AUTO_POST_ENABLED=true` の時だけ、`scripts/social-autopost.mjs` がX公式APIへ投稿する。
+- 公式APIトークンが無い暫定運用では、Chromeで表示アカウントが `@nyutenmaecheck` であることを確認できた時だけ、dry-runと同じ文面を投稿する。
 - 投稿後はキューの対象行を `posted` に更新し、`posted_at` と `post_url` を記録する。
 - 失敗した行は再実行前に文面、API利用枠、X側のアプリ権限を確認する。
 

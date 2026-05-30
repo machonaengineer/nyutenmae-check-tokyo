@@ -196,7 +196,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `/trust` で公開する情報、公開しない情報、審査、収益化独立性を表示
 - `/coverage` にエリア別の「次に厚くする順」を表示し、検索流入、情報提供、非公開審査への接続を整理
 - `/social` にエリア別の投稿テンプレートを表示し、確認リストや相談先への共有導線を追加
-- `SNS_AUTO_POSTING_RUNBOOK.md`、`SNS_AUTO_POST_QUEUE.csv`、`npm run social:autopost` で、デフォルトOFFのSNS自動投稿準備を追加
+- `SNS_AUTO_POSTING_RUNBOOK.md`、`SNS_AUTO_POST_QUEUE.csv`、`npm run social:prepare`、`npm run social:autopost` で、日次キュー生成とデフォルトOFFのSNS自動投稿準備を追加
 - `SNS_REPLY_OUTREACH_RUNBOOK.md`、`SNS_REPLY_QUEUE.csv`、`npm run social:reply` で、@メンションまたは引用で呼ばれた場合だけ使う承認制返信キューを追加
 - `/guides` と `/areas/[slug]/guides/[guideSlug]` で、検索流入向けの実用ガイドを6テーマ x 12エリアへ展開
 - `/reports/quick` で、非公開デフォルトの30秒投稿導線を追加
@@ -294,7 +294,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `ADSENSE_SETUP_GUIDE.md`: AdSense導入時の環境変数、ads.txt、ポリシーチェック
 - `SOCIAL_GROWTH_PLAN.md`: SNS共有、文面テンプレート、自動投稿キューの運用方針
 - `SNS_OPERATIONS_SOP.md`: SNS投稿、返信、禁止事項の運用手順
-- `SNS_AUTO_POSTING_RUNBOOK.md`: X公式APIを使う自動投稿の承認キュー運用
+- `SNS_AUTO_POSTING_RUNBOOK.md`: X公式APIと無料枠暫定Chrome運用を使う自動投稿の承認キュー運用
 - `SNS_REPLY_OUTREACH_RUNBOOK.md`: X公式APIを使う返信案内の承認キュー運用
 - `SOCIAL_CONTENT_CALENDAR.csv`: 初週のX投稿カレンダー
 - `SNS_AUTO_POST_QUEUE.csv`: `approved` の行だけを投稿対象にする自動投稿キュー
