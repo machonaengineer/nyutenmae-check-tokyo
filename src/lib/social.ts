@@ -83,7 +83,7 @@ export function getSocialProfileLinks(): SocialProfileLink[] {
 }
 
 export function buildShareText(title: string) {
-  return `${title}｜${SITE.name}\n入店前の料金確認、明細保存、相談先確認に使えるチェックサイトです。`;
+  return `${title}｜${SITE.name}\n都内繁華街で入店前に確認したい料金・明細・相談先をまとめています。必要な人に共有できます。`;
 }
 
 export function buildSocialPostTemplates(): SocialPostTemplate[] {

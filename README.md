@@ -90,6 +90,7 @@ MAX_UPLOAD_MB=5
 RATE_LIMIT_SECRET=
 GOOGLE_PLACES_API_KEY=
 NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false
+NEXT_PUBLIC_GA_ID=
 NEXT_PUBLIC_MONETIZATION_ENABLED=false
 NEXT_PUBLIC_SPONSOR_INQUIRY_URL=
 NEXT_PUBLIC_SUPPORT_URL=
@@ -124,6 +125,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 | `RATE_LIMIT_SECRET` | IP/メール/ブラウザ識別子のrate limitキーをハッシュするサーバー専用シークレット |
 | `GOOGLE_PLACES_API_KEY` | 任意。管理画面でGoogle Places APIから外部集計評価を取得する場合だけ使うサーバー専用キー |
 | `NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED` | 任意。`true` の場合だけVercel Web Analyticsを読み込む |
+| `NEXT_PUBLIC_GA_ID` | 任意。Production環境でGA4を読み込む場合だけ設定する測定ID。未設定時は何も読み込まない |
 | `NEXT_PUBLIC_MONETIZATION_ENABLED` | 任意。`true` の場合だけ収益化枠を表示する。初期値は必ず `false` |
 | `NEXT_PUBLIC_SPONSOR_INQUIRY_URL` | 任意。収益化枠の問い合わせ先URL |
 | `NEXT_PUBLIC_SUPPORT_URL` | 任意。支援リンクや外部支援ページのURL |
@@ -167,7 +169,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - セキュリティ系レスポンスヘッダーの初期設定
 - 外部評価参考値の保存、管理画面入力、Google Places API任意同期、公開ページ表示
 - `/checklists` と `/areas/[slug]/checklist` のSEO向け安全確認コンテンツ
-- 環境変数OFFがデフォルトのVercel Web Analytics読み込み口と収益化枠
+- 環境変数OFFがデフォルトのVercel Web Analytics / GA4読み込み口と収益化枠
 - 管理概況ダッシュボードと初期データCSVの検証、非公開デフォルト投入画面
 - 収益化と掲載独立性の公開方針ページ
 - 環境変数OFFがデフォルトのAdSense差し込み口と `/ads.txt`

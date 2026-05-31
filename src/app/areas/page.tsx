@@ -10,11 +10,15 @@ import {
   getResearchSourcesByArea,
 } from "@/lib/research-sources";
 import { getAbsoluteSiteUrl } from "@/lib/social";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "対象エリア",
-  description: "入店前チェック東京の掲載対象エリア一覧です。",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "エリア別入店前チェック｜入店前チェック東京",
+  description:
+    "新宿・歌舞伎町、池袋、渋谷、上野、六本木など、都内繁華街ごとの料金確認、明細確認、相談先、公式確認先を整理しています。",
+  path: "/areas",
+  imageLabel: "エリア別・料金確認・相談先",
+});
 
 export default async function AreasPage() {
   const areas = await getPublicAreaSummaries();

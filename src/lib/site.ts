@@ -1,7 +1,7 @@
 export const SITE = {
   name: "入店前チェック東京",
   description:
-    "キャッチについて行く前に見る、都内繁華街の注意マップ",
+    "新宿・池袋・渋谷・六本木など都内繁華街で、料金説明、明細、相談先を入店前に確認するための実用サイトです。",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
     "http://localhost:3000",
@@ -11,6 +11,7 @@ export const NAV_ITEMS = [
   { href: "/", label: "ホーム", emphasis: false },
   { href: "/map", label: "地図", emphasis: false },
   { href: "/areas", label: "エリア", emphasis: false },
+  { href: "/checklists", label: "チェック", emphasis: false },
   { href: "/guides", label: "実用ガイド", emphasis: false },
   { href: "/support", label: "相談先", emphasis: false },
   { href: "/reports/quick", label: "投稿する", emphasis: true },
@@ -22,6 +23,7 @@ export const FOOTER_LINKS = [
   { href: "/guidelines", label: "投稿ガイドライン" },
   { href: "/checklists", label: "確認リスト" },
   { href: "/guides", label: "実用ガイド" },
+  { href: "/faq", label: "FAQ" },
   { href: "/topics", label: "種別ガイド" },
   { href: "/contribute", label: "情報提供" },
   { href: "/sources", label: "情報ソース" },

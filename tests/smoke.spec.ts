@@ -4,7 +4,7 @@ const publicRoutes = [
   { path: "/", heading: "入店前チェック東京" },
   { path: "/map", heading: "注意報告マップ" },
   { path: "/areas", heading: "掲載対象エリア" },
-  { path: "/areas/shinjuku-kabukicho", heading: "新宿・歌舞伎町" },
+  { path: "/areas/shinjuku-kabukicho", heading: "新宿・歌舞伎町の入店前チェック" },
   {
     path: "/areas/shinjuku-kabukicho/topics/price-confirmation",
     heading: "新宿・歌舞伎町の料金説明の確認",
@@ -12,6 +12,7 @@ const publicRoutes = [
   { path: "/search", heading: "店舗名・住所・建物検索" },
   { path: "/checklists", heading: "入店前チェックリスト" },
   { path: "/guides", heading: "実用ガイド" },
+  { path: "/faq", heading: "よくある質問" },
   {
     path: "/guides/before-entry-price-check",
     heading: "入店前の料金確認ガイド",
@@ -152,11 +153,12 @@ test.describe("公開ページ", () => {
 
     const headerLinks = page.locator('nav[aria-label="主要ナビゲーション"] a');
 
-    await expect(headerLinks).toHaveCount(6);
+    await expect(headerLinks).toHaveCount(7);
     await expect(headerLinks).toContainText([
       "ホーム",
       "地図",
       "エリア",
+      "チェック",
       "実用ガイド",
       "相談先",
       "投稿する",
@@ -328,6 +330,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/</loc>");
     expect(body).toContain("<loc>http://localhost:3000/map</loc>");
     expect(body).toContain("<loc>http://localhost:3000/checklists</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/faq</loc>");
     expect(body).toContain("<loc>http://localhost:3000/topics</loc>");
     expect(body).toContain("<loc>http://localhost:3000/topics/price-confirmation</loc>");
     expect(body).toContain("<loc>http://localhost:3000/contribute</loc>");
@@ -405,9 +408,14 @@ test.describe("公開ページ", () => {
 
   test("Open Graph画像を返す", async ({ request }) => {
     const response = await request.get("/opengraph-image");
+    const dynamic = await request.get(
+      "/og?title=%E5%85%A5%E5%BA%97%E5%89%8D%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF&label=%E6%96%99%E9%87%91%E7%A2%BA%E8%AA%8D",
+    );
 
     expect(response.ok()).toBe(true);
     expect(response.headers()["content-type"]).toContain("image/png");
+    expect(dynamic.ok()).toBe(true);
+    expect(dynamic.headers()["content-type"]).toContain("image/png");
   });
 
   test("SNS共有ページで共有導線を表示する", async ({ page }) => {

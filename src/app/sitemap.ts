@@ -9,6 +9,7 @@ const staticRoutes = [
   { path: "/areas", priority: 0.8 },
   { path: "/checklists", priority: 0.8 },
   { path: "/guides", priority: 0.8 },
+  { path: "/faq", priority: 0.75 },
   { path: "/topics", priority: 0.7 },
   { path: "/contribute", priority: 0.7 },
   { path: "/sources", priority: 0.7 },
@@ -28,8 +29,6 @@ const staticRoutes = [
   { path: "/privacy", priority: 0.3 },
   { path: "/llms.txt", priority: 0.2 },
 ] as const;
-
-const lastModified = new Date("2026-05-27T00:00:00+09:00");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
@@ -74,7 +73,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map((route) => ({
     url: `${SITE.url}${route.path}`,
-    lastModified,
     changeFrequency: "weekly",
     priority: route.priority,
   }));

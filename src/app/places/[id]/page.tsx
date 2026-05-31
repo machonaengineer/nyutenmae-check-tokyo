@@ -17,6 +17,7 @@ import {
   getPublicPlaceDetail,
 } from "@/lib/public-data";
 import { getReportSourceTypeLabel, isSourceBackedReport } from "@/lib/report-sources";
+import { createPageMetadata } from "@/lib/seo";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 
 type PlacePageProps = {
@@ -33,10 +34,18 @@ export async function generateMetadata({ params }: PlacePageProps): Promise<Meta
     };
   }
 
-  return {
-    title: getPlaceDisplayName(detail.place),
-    description: `${getPlaceDisplayName(detail.place)}の公開情報と入店前確認の手がかりを確認するページです。`,
-  };
+  const displayName = getPlaceDisplayName(detail.place);
+  const indexableEvidence = detail.place.evidenceLevels.some((level) =>
+    ["S", "A", "B"].includes(level),
+  );
+
+  return createPageMetadata({
+    title: `${displayName}の入店前チェック｜料金確認・相談先`,
+    description: `${displayName}周辺の公開情報と、入店前に確認したい料金説明、明細、相談先の手がかりを整理します。`,
+    path: `/places/${id}`,
+    imageLabel: "料金確認・明細確認・相談先",
+    index: detail.reports.length > 0 && indexableEvidence,
+  });
 }
 
 export default async function PlaceDetailPage({ params }: PlacePageProps) {

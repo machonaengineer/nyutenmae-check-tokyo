@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import { INITIAL_AREAS } from "@/lib/site";
+import { createPageMetadata } from "@/lib/seo";
 import { getSearchGuide, SEARCH_GUIDES } from "@/lib/search-guides";
 
 type GuidePageProps = {
@@ -23,13 +24,12 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
     };
   }
 
-  return {
-    title: guide.title,
+  return createPageMetadata({
+    title: `${guide.title}｜入店前チェック東京`,
     description: guide.description,
-    alternates: {
-      canonical: `/guides/${guide.slug}`,
-    },
-  };
+    path: `/guides/${guide.slug}`,
+    imageLabel: `${guide.shortTitle}・確認項目・相談先`,
+  });
 }
 
 export default async function GuidePage({ params }: GuidePageProps) {

@@ -18,8 +18,8 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#f6f2e8",
-          color: "#17241f",
+          background: "#081827",
+          color: "#fffdf7",
           padding: "72px",
           fontFamily: "sans-serif",
         }}
@@ -33,18 +33,18 @@ export default function OpenGraphImage() {
             fontWeight: 700,
           }}
         >
-          <div style={{ width: 12, height: 62, background: "#2f6f4e" }} />
+          <div style={{ width: 12, height: 62, background: "#facc15" }} />
           {SITE.name}
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 72, fontWeight: 800, lineHeight: 1.15 }}>
-            キャッチについて行く前に見る
+            入店前チェック東京
           </div>
-          <div style={{ marginTop: 22, fontSize: 42, color: "#59655f" }}>
-            都内繁華街の注意マップ
+          <div style={{ marginTop: 22, fontSize: 42, color: "#fef3c7" }}>
+            料金確認・明細確認・相談先確認
           </div>
         </div>
-        <div style={{ display: "flex", gap: "20px", fontSize: 26, color: "#59655f" }}>
+        <div style={{ display: "flex", gap: "20px", fontSize: 26, color: "#cbd5e1" }}>
           <span>料金確認</span>
           <span>明細保存</span>
           <span>相談先確認</span>

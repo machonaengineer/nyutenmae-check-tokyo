@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   DefinitionList,
@@ -19,8 +20,17 @@ import { SocialShareActions } from "@/components/social-share-actions";
 import { TrackedLink } from "@/components/tracked-link";
 import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 import { getAbsoluteSiteUrl } from "@/lib/social";
+import { createPageMetadata } from "@/lib/seo";
 import { RESEARCH_SOURCES } from "@/lib/research-sources";
 import { getHomeFaqStructuredData } from "@/lib/structured-data";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "入店前チェック東京｜都内繁華街の料金確認・相談先・注意マップ",
+  description:
+    "入店前チェック東京は、新宿・池袋・渋谷・六本木など都内繁華街での料金説明、明細、相談先を入店前に確認するための実用サイトです。客引きについて行く前の確認リスト、地図、相談窓口を整理しています。",
+  path: "/",
+  imageLabel: "地図・チェックリスト・相談先",
+});
 
 const homeMetrics = [
   {
@@ -68,7 +78,10 @@ export default function Home() {
                 {SITE.name}
               </h1>
               <p className="mt-5 max-w-2xl text-xl leading-9 text-muted">
-                {SITE.description}
+                キャッチについて行く前に見る、都内繁華街の入店前チェック
+              </p>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-muted">
+                料金説明、明細、相談先を入店前に確認。新宿・池袋・渋谷・六本木など、都内繁華街の注意情報を地図とチェックリストで整理します。
               </p>
               <div className="mt-6 grid max-w-2xl gap-3 text-sm leading-6 text-muted sm:grid-cols-3">
                 <div className="border-l-2 border-action pl-3">
@@ -93,30 +106,45 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <TrackedLink
                   href="/map"
                   eventName={ANALYTICS_EVENTS.guideCta}
                   eventProperties={{ placement: "home", target: "map" }}
                   className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
                 >
-                  地図を見る
+                  地図で確認する
                 </TrackedLink>
+                <Link
+                  href="/checklists"
+                  className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                >
+                  入店前チェックリストを見る
+                </Link>
+                <Link
+                  href="/support"
+                  className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                >
+                  相談先を確認する
+                </Link>
                 <TrackedLink
                   href="/reports/quick"
                   eventName={ANALYTICS_EVENTS.quickReportCta}
                   eventProperties={{ placement: "home" }}
                   className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
                 >
-                  30秒で情報提供
+                  情報提供する
                 </TrackedLink>
                 <Link
-                  href="/guides"
+                  href="/areas"
                   className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
                 >
-                  実用ガイドを見る
+                  エリアから探す
                 </Link>
               </div>
+              <p className="mt-5 max-w-3xl rounded-md border border-amber-200 bg-caution-soft px-4 py-3 text-sm leading-7 text-ink">
+                本サイトは、入店前の確認と相談先の整理を目的とした情報サイトです。店舗や個人への攻撃、根拠不明の断定、無断転載、誹謗中傷を目的とした投稿は掲載しません。
+              </p>
             </div>
             <div className="rounded-md border border-line bg-white p-4 shadow-[0_18px_42px_rgb(23_32_42/0.08)]">
               <div className="border-b border-line pb-3">

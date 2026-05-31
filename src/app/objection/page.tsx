@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
+import { createPageMetadata } from "@/lib/seo";
 import { ObjectionForm } from "./objection-form";
 
 type ObjectionPageProps = {
@@ -17,10 +18,24 @@ const reviewFlow = [
   "本人確認や追加資料が必要な場合、管理者から連絡することがあります。",
 ] as const;
 
-export const metadata: Metadata = {
-  title: "異議申立て",
-  description: "掲載内容への異議申立てや修正依頼の導線です。",
-};
+const objectionRequiredItems = [
+  "対象URL",
+  "申立て理由",
+  "権利者または関係者であることの確認",
+  "訂正希望内容",
+  "連絡先",
+  "確認資料がある場合の添付",
+  "一時非公開を希望する理由",
+  "虚偽申立てや嫌がらせではないことの確認",
+] as const;
+
+export const metadata: Metadata = createPageMetadata({
+  title: "異議申立て・訂正依頼｜入店前チェック東京",
+  description:
+    "掲載内容に関する異議申立て、訂正依頼、削除依頼の導線です。対象URL、理由、関係者確認、訂正希望内容、連絡先を非公開で受け付けます。",
+  path: "/objection",
+  imageLabel: "異議申立て・訂正依頼・非公開受付",
+});
 
 export default async function ObjectionPage({ searchParams }: ObjectionPageProps) {
   const params = await searchParams;
@@ -52,6 +67,13 @@ export default async function ObjectionPage({ searchParams }: ObjectionPageProps
 
       <Section title="確認フロー">
         <SimpleList items={reviewFlow} />
+      </Section>
+
+      <Section
+        title="入力前に整理すること"
+        description="確認に必要な項目がそろっているほど、対象ページの照合と対応判断がしやすくなります。"
+      >
+        <SimpleList items={objectionRequiredItems} />
       </Section>
     </>
   );

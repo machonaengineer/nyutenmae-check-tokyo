@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ChecklistClient } from "@/components/checklist-client";
 import { MonetizationSlot } from "@/components/growth/monetization-slot";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import {
@@ -7,16 +8,52 @@ import {
   ENTRY_CHECK_ITEMS,
   RECORD_KEEP_ITEMS,
 } from "@/lib/growth-content";
+import { createPageMetadata } from "@/lib/seo";
 import { INITIAL_AREAS, SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "入店前チェックリスト",
+export const metadata: Metadata = createPageMetadata({
+  title: "入店前チェックリスト｜入店前チェック東京",
   description:
-    "都内繁華街で入店前、会計前、退店後に確認したい料金説明、明細、記録保存のチェックリストです。",
-  alternates: {
-    canonical: "/checklists",
+    "都内繁華街で入店前、会計前、退店後に確認したい料金説明、明細、領収書、記録保存のチェックリストです。スマホでチェックし、必要に応じて相談先も確認できます。",
+  path: "/checklists",
+  imageLabel: "料金確認・明細確認・相談先確認",
+});
+
+const interactiveChecklistSections = [
+  {
+    title: "入店前",
+    items: [
+      "店名を確認した",
+      "住所または建物名を確認した",
+      "料金表を確認した",
+      "席料を確認した",
+      "サービス料を確認した",
+      "延長料金を確認した",
+      "指名料や追加料金を確認した",
+      "税込、税別を確認した",
+      "支払い方法を確認した",
+      "客引き経由ではないか確認した",
+      "不安な場合は入店しない判断をする",
+    ],
   },
-};
+  {
+    title: "会計前",
+    items: [
+      "注文内容と人数を確認した",
+      "明細、領収書の発行可否を確認した",
+      "カード決済前に端末表示額を確認した",
+      "退店条件を確認した",
+    ],
+  },
+  {
+    title: "保存",
+    items: [
+      "レシート、明細、メニューを保存する",
+      "説明内容、日時、同行者情報を記録する",
+      "相談が必要な場合は110番、#9110、188、カード会社を確認する",
+    ],
+  },
+] as const;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -57,15 +94,25 @@ export default function ChecklistsPage() {
       />
 
       <Section
-        title="入店前に確認すること"
-        description="キャッチについて行く前、店内に入る前、注文前の確認に使えます。"
+        title="スマホで使えるチェックリスト"
+        description="チェック状態はこのブラウザ内に一時保存されます。スクリーンショットやURL共有もしやすい構成です。"
       >
-        <SimpleList items={ENTRY_CHECK_ITEMS} />
+        <ChecklistClient
+          sections={interactiveChecklistSections}
+          storageKey="nyutenmae-entry-checklist"
+        />
         <div className="mt-6">
           <PolicyNote>
             条件が曖昧な場合や説明が変わる場合は、入店を急がず、同行者と確認してください。
           </PolicyNote>
         </div>
+      </Section>
+
+      <Section
+        title="入店前に確認すること"
+        description="キャッチについて行く前、店内に入る前、注文前の確認に使えます。"
+      >
+        <SimpleList items={ENTRY_CHECK_ITEMS} />
       </Section>
 
       <Section title="会計前に確認すること">

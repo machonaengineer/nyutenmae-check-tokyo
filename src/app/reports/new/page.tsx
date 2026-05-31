@@ -3,13 +3,17 @@ import type { ReportFormSnapshot } from "@/lib/report-form";
 import { DefinitionList, PageHeader, PolicyNote, Section } from "@/components/page-blocks";
 import { getMaxUploadMb } from "@/lib/report-form";
 import { getReportFormOptions } from "@/lib/report-options";
+import { createPageMetadata } from "@/lib/seo";
 import { EVIDENCE_LEVELS } from "@/lib/site";
 import { ReportForm } from "./report-form";
 
-export const metadata: Metadata = {
-  title: "注意報告を送る",
-  description: "入店前チェック東京へ注意報告を送るページです。",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "情報提供｜入店前チェック東京",
+  description:
+    "料金説明、会計内容、明細提示、相談状況に関する情報を非公開で送信できます。証拠画像、連絡先、非公開メモは公開ページに出しません。",
+  path: "/reports/new",
+  imageLabel: "情報提供・証拠非公開・承認制",
+});
 
 type NewReportPageProps = {
   searchParams: Promise<{

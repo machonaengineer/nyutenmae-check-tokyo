@@ -399,12 +399,15 @@ test.describe("リリース準備資料", () => {
     );
 
     expect(envExample).toContain("NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false");
+    expect(envExample).toContain("NEXT_PUBLIC_GA_ID=");
     expect(envExample).toContain("NEXT_PUBLIC_MONETIZATION_ENABLED=false");
     expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=false");
     expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_ENABLED=false");
     expect(growthPlan).toContain("無料枠");
     expect(growthPlan).toContain("収益化を実際に開始する前");
-    expect(analyticsGate).toContain('NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED !== "true"');
+    expect(analyticsGate).toContain("NEXT_PUBLIC_GA_ID");
+    expect(analyticsGate).toContain('process.env.NODE_ENV === "production"');
+    expect(analyticsGate).toContain("googletagmanager.com/gtag/js");
     expect(monetizationSlot).toContain('NEXT_PUBLIC_MONETIZATION_ENABLED !== "true"');
     expect(monetizationSlot).toContain("審査判断に影響しません");
   });

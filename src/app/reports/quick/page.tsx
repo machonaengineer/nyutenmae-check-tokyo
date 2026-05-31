@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import type { ReportFormSnapshot } from "@/lib/report-form";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import { getReportFormOptions } from "@/lib/report-options";
+import { createPageMetadata } from "@/lib/seo";
 import { QuickReportForm } from "./quick-report-form";
 
-export const metadata: Metadata = {
-  title: "30秒で情報提供",
+export const metadata: Metadata = createPageMetadata({
+  title: "30秒で情報提供｜入店前チェック東京",
   description:
-    "入店前チェック東京へ、場所の手がかりと会計確認に関する情報を短時間で送るフォームです。",
-  alternates: {
-    canonical: "/reports/quick",
-  },
-};
+    "場所の手がかり、料金説明、明細の有無、相談状況などを非公開で送信できます。投稿は確認後に公開可否を判断し、連絡先や添付資料は公開しません。",
+  path: "/reports/quick",
+  imageLabel: "情報提供・非公開受付・確認後掲載",
+});
 
 type QuickReportPageProps = {
   searchParams: Promise<{

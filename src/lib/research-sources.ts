@@ -108,6 +108,55 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
       "電話番号、受付条件、公式URLの確認日を運用メモに残し、相談導線ページを定期点検する。",
   },
   {
+    id: "consumer-affairs-hotline-188",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "public_agency",
+    sourceTitle: "消費者庁の消費者ホットライン188案内",
+    sourceUrl:
+      "https://www.caa.go.jp/policies/policy/local_cooperation/local_consumer_administration/hotline/",
+    sourceCheckedAt: "2026-06-01",
+    priority: "high",
+    publicSummary:
+      "消費者庁が、消費生活相談窓口につながる消費者ホットライン188を案内している公式ページです。",
+    suggestedUse:
+      "全エリア共通の相談導線として使い、相談先ページとガイドページの公式確認先にします。",
+    nextAction:
+      "受付条件や案内内容を定期確認し、番号や説明を最新の公式情報に合わせる。",
+  },
+  {
+    id: "national-consumer-affairs-faq-restaurant-billing",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "public_agency",
+    sourceTitle: "国民生活センターの飲食店高額請求に関するFAQ",
+    sourceUrl: "https://www.faq.kokusen.go.jp/faq/show/528?site_domain=default",
+    sourceCheckedAt: "2026-06-01",
+    priority: "high",
+    publicSummary:
+      "国民生活センターが、飲食店での高額な請求に関する相談情報をFAQとして案内しています。",
+    suggestedUse:
+      "相談先ページ、記録方法ガイド、FAQページで、公的な相談導線の補足として参照します。",
+    nextAction:
+      "FAQ本文は転載せず、相談準備と記録項目へ独自要約して反映する。",
+  },
+  {
+    id: "tokyo-nuisance-prevention-ordinance",
+    areaSlug: "all",
+    areaName: "都内共通",
+    sourceType: "public_agency",
+    sourceTitle: "東京都迷惑防止条例",
+    sourceUrl: "https://www.reiki.metro.tokyo.lg.jp/reiki/reiki_honbun/g101RG00002212.html",
+    sourceCheckedAt: "2026-06-01",
+    priority: "medium",
+    publicSummary:
+      "東京都の条例本文です。公的背景の確認に使い、個別店舗や個人への断定には使いません。",
+    suggestedUse:
+      "客引き等に関する制度的背景を確認するための公式ソースとして扱います。",
+    nextAction:
+      "法的助言と誤認されないよう、公式ソースへのリンクと一般的な確認項目に限定する。",
+  },
+  {
     id: "toshima-safety-security-efforts",
     areaSlug: "ikebukuro",
     areaName: "池袋",

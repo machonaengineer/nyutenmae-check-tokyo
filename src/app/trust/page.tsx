@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "透明性と安全運用",
+export const metadata: Metadata = createPageMetadata({
+  title: "掲載方針・確認レベル｜入店前チェック東京",
   description:
-    "入店前チェック東京が公開する情報、公開しない情報、審査、異議申立て、収益化独立性を説明します。",
-  alternates: {
-    canonical: "/trust",
-  },
-};
+    "入店前チェック東京が扱う情報、扱わない情報、公開しない情報、確認レベル、未確認情報、異議申立て、削除や訂正の判断方針を説明します。",
+  path: "/trust",
+  imageLabel: "掲載方針・確認レベル・異議申立て",
+});
 
 const publicItems = [
   "管理者が承認した公開サマリー",
@@ -35,6 +35,27 @@ const reviewSteps = [
   "承認済み情報だけを公開ページへ反映する",
 ] as const;
 
+const handledItems = [
+  "料金説明、会計内容、明細提示、退店時対応に関する情報",
+  "住所、建物名、階数など場所確認に必要な手がかり",
+  "公的機関、自治体、警察、消費生活相談の公式情報",
+  "投稿者の申告と証拠レベルを分けた公開サマリー",
+] as const;
+
+const notHandledItems = [
+  "味、雰囲気、通常接客の感想",
+  "根拠不明の断定、犯罪や違法性の断定",
+  "個人名、従業員名、顔写真、電話番号、SNSアカウント",
+  "外部口コミ本文、ニュース本文、SNS投稿本文の転載",
+] as const;
+
+const correctionRules = [
+  "対象URL、申立て理由、訂正希望内容、関係者確認、連絡先を確認します。",
+  "個人情報や権利侵害の懸念がある場合は一時非公開を含めて判断します。",
+  "公開サマリーは、必要最小限の範囲で表現修正、非公開化、削除を検討します。",
+  "虚偽申立てや嫌がらせと判断される内容は対応対象外にする場合があります。",
+] as const;
+
 const safetySignals = [
   "投稿は自動公開しません。",
   "事実確認中の情報を含むことを明記します。",
@@ -57,6 +78,20 @@ export default function TrustPage() {
         <PolicyNote>
           掲載内容は投稿者の申告や公式ソースの確認に基づく注意情報です。味、雰囲気、通常接客の評価は扱わず、料金説明、会計確認、明細提示、退店時対応に関わる情報に限定します。
         </PolicyNote>
+      </Section>
+
+      <Section
+        title="扱う情報"
+        description="店舗レビューではなく、入店前確認に必要な情報に限定します。"
+      >
+        <TrustGrid items={handledItems} />
+      </Section>
+
+      <Section
+        title="扱わない情報"
+        description="個人攻撃、根拠不明の断定、外部本文の転載は掲載しません。"
+      >
+        <TrustGrid items={notHandledItems} />
       </Section>
 
       <Section
@@ -90,6 +125,13 @@ export default function TrustPage() {
             </li>
           ))}
         </ol>
+      </Section>
+
+      <Section
+        title="訂正・非公開・削除の判断"
+        description="異議申立てや削除依頼があった場合の確認観点です。"
+      >
+        <TrustGrid items={correctionRules} />
       </Section>
 
       <Section
@@ -136,4 +178,3 @@ function TrustLink({ href, label }: { href: string; label: string }) {
     </Link>
   );
 }
-

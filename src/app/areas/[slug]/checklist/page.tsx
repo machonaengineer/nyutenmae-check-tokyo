@@ -9,6 +9,7 @@ import {
   RECORD_KEEP_ITEMS,
   getAreaChecklist,
 } from "@/lib/growth-content";
+import { createPageMetadata } from "@/lib/seo";
 import { INITIAL_AREAS } from "@/lib/site";
 
 type AreaChecklistPageProps = {
@@ -31,13 +32,12 @@ export async function generateMetadata({
     };
   }
 
-  return {
-    title: `${area.name}の入店前チェックリスト`,
+  return createPageMetadata({
+    title: `${area.name}の入店前チェックリスト｜入店前チェック東京`,
     description: `${area.name}周辺で入店前、会計前、退店後に確認したい料金説明、明細、記録保存のチェックリストです。`,
-    alternates: {
-      canonical: `/areas/${slug}/checklist`,
-    },
-  };
+    path: `/areas/${slug}/checklist`,
+    imageLabel: `${area.name}・チェックリスト・相談先`,
+  });
 }
 
 export default async function AreaChecklistPage({ params }: AreaChecklistPageProps) {

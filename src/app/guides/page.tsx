@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
+import { createPageMetadata } from "@/lib/seo";
 import { SEARCH_GUIDES } from "@/lib/search-guides";
 
-export const metadata: Metadata = {
-  title: "実用ガイド",
+export const metadata: Metadata = createPageMetadata({
+  title: "実用ガイド｜入店前チェック東京",
   description:
-    "料金確認、明細保存、カード決済確認、相談準備など、入店前チェック東京の実用ガイド一覧です。",
-  alternates: {
-    canonical: "/guides",
-  },
-};
+    "客引きについて行く前の確認、料金確認、明細保存、カード決済確認、相談準備など、都内繁華街で入店前に使える実用ガイド一覧です。",
+  path: "/guides",
+  imageLabel: "実用ガイド・チェックリスト・相談先",
+});
 
 export default function GuidesPage() {
   return (

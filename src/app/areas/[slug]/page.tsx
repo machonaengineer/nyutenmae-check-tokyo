@@ -24,6 +24,7 @@ import {
 } from "@/lib/research-sources";
 import { SEARCH_GUIDES } from "@/lib/search-guides";
 import { getAbsoluteSiteUrl } from "@/lib/social";
+import { createPageMetadata } from "@/lib/seo";
 import { INITIAL_AREAS } from "@/lib/site";
 import { TOPIC_GUIDES } from "@/lib/topic-content";
 
@@ -45,11 +46,27 @@ export async function generateMetadata({ params }: AreaPageProps): Promise<Metad
     };
   }
 
-  return {
-    title: area.name,
-    description: `${area.name}で入店前に確認したい情報をまとめたページです。`,
-  };
+  return createPageMetadata({
+    title: `${area.name}の入店前チェック｜料金確認・相談先・注意情報`,
+    description: `${area.name}周辺で入店前に確認したい料金説明、明細、相談先、客引きに関する注意情報を整理しています。根拠不明の断定ではなく、確認しやすい項目と公的相談先を掲載します。`,
+    path: `/areas/${slug}`,
+    imageLabel: `${area.name}・料金確認・相談先`,
+  });
 }
+
+const areaChecklistItems = [
+  "店名、住所、建物名、階数を入店前に確認する",
+  "料金表、席料、サービス料、延長料金、税込または税別を確認する",
+  "飲み放題やセット料金は対象範囲と終了時刻を確認する",
+  "明細、領収書、カード利用控えを受け取れるか確認する",
+  "不安がある場合は入店しない判断も選択肢にする",
+] as const;
+
+const areaRecordItems = [
+  "説明された料金、店内での説明、会計時の説明を分けてメモする",
+  "レシート、明細、メニュー、料金表、カード利用控えを保存する",
+  "日時、人数、同行者情報、入店経路、相談状況を記録する",
+] as const;
 
 export default async function AreaDetailPage({ params }: AreaPageProps) {
   const { slug } = await params;
@@ -77,10 +94,66 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
     <>
       <PageHeader
         eyebrow="Area"
-        title={area.name}
+        title={`${area.name}の入店前チェック`}
         description={`${area.centerLabel}で入店前に確認したい情報をまとめています。`}
         primaryAction={{ href: "/map", label: "地図を見る" }}
       />
+
+      <Section
+        title={`${area.name}周辺で確認したいこと`}
+        description={`${area.name}周辺では、飲食店や接待を伴う店舗が集まるエリアがあり、入店前の料金説明、席料、サービス料、延長料金、支払い方法、明細の有無を確認しておくことが重要です。掲載情報は、利用者が冷静に確認するためのものであり、店舗や個人を断定的に非難するものではありません。`}
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          <article className="rounded-md border border-line bg-white p-5">
+            <h2 className="text-lg font-bold text-ink">入店前チェック</h2>
+            <ul className="mt-4 grid gap-3 text-sm leading-7 text-muted">
+              {areaChecklistItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="rounded-md border border-line bg-white p-5">
+            <h2 className="text-lg font-bold text-ink">会計前後に残す情報</h2>
+            <ul className="mt-4 grid gap-3 text-sm leading-7 text-muted">
+              {areaRecordItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md bg-action px-4 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+            href={`/areas/${slug}/checklist`}
+          >
+            チェックリストを見る
+          </Link>
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+            href="/support"
+          >
+            相談先を確認する
+          </Link>
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+            href={`/reports/quick?area=${slug}`}
+          >
+            30秒で情報提供する
+          </Link>
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+            href="/trust"
+          >
+            掲載方針を見る
+          </Link>
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+            href="/objection"
+          >
+            異議申立て
+          </Link>
+        </div>
+      </Section>
 
       <Section
         title="エリア地図"

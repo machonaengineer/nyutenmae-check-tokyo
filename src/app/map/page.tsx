@@ -11,12 +11,16 @@ import {
   getResearchSourcePipelineMetrics,
   getResearchSourcesByArea,
 } from "@/lib/research-sources";
+import { createPageMetadata } from "@/lib/seo";
 import { INITIAL_AREAS } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "地図",
-  description: "入店前に確認したい場所とエリア別の確認先を地図で確認するページです。",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "注意マップ｜都内繁華街の入店前チェック",
+  description:
+    "都内繁華街で入店前に確認したい公開情報、エリア別の公式確認先、チェックリスト、情報提供導線を地図から確認できます。",
+  path: "/map",
+  imageLabel: "地図・エリア・相談先",
+});
 
 export default async function MapPage() {
   const places = await getPublicPlaceSummaries();
@@ -73,6 +77,23 @@ export default async function MapPage() {
               エリア一覧を見る
             </Link>
           </aside>
+        </div>
+
+        <div className="mt-6 grid gap-4 rounded-md border border-line bg-white p-5 md:grid-cols-2 lg:grid-cols-5">
+          {[
+            "エリア別に確認",
+            "料金説明",
+            "明細確認",
+            "確認レベル",
+            "公式確認先",
+          ].map((label) => (
+            <div key={label}>
+              <p className="text-xs font-semibold text-muted">{label}</p>
+              <p className="mt-2 text-sm leading-6 text-ink">
+                公開基準を満たす情報だけを表示します。
+              </p>
+            </div>
+          ))}
         </div>
 
         <div className="mt-6">
