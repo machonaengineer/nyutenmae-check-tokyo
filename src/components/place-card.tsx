@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { formatDate } from "@/lib/format";
 import { getPlaceBuildingLabel } from "@/lib/place-labels";
-import {
-  getPlaceDisplayName,
-  type PublicPlaceSummary,
-} from "@/lib/public-data";
+import type { PublicPlaceSummary } from "@/lib/public-data";
+
+function getPlaceDisplayName(place: Pick<PublicPlaceSummary, "shopName" | "address">) {
+  return place.shopName || place.address || "名称未設定の場所";
+}
 
 export function PlaceCard({ place }: { place: PublicPlaceSummary }) {
   const displayName = getPlaceDisplayName(place);

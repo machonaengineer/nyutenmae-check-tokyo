@@ -165,6 +165,28 @@ test.describe("公開ページ", () => {
     ]);
   });
 
+  test("地図ページで表示条件をURL連動で絞り込める", async ({ page }) => {
+    await page.goto("/map");
+
+    await expect(page.getByRole("heading", { name: "表示条件", level: 2 })).toBeVisible();
+    await expect(page.getByText(/条件に一致する公開場所:/)).toBeVisible();
+
+    await page.getByLabel("エリア").selectOption("shinjuku-kabukicho");
+    await expect(page).toHaveURL(/area=shinjuku-kabukicho/);
+
+    await page.getByLabel("報告タグ").selectOption("price");
+    await expect(page).toHaveURL(/tag=price/);
+
+    await page.getByLabel("証拠レベル").selectOption("A");
+    await expect(page).toHaveURL(/evidence=A/);
+
+    await page.getByLabel("キーワード").fill("歌舞伎町");
+    await expect(page).toHaveURL(/q=/);
+
+    await page.getByRole("button", { name: "条件をリセット" }).click();
+    await expect(page).toHaveURL(/\/map$/);
+  });
+
   test("検索結果ゼロでも関連エリアと公式確認先を表示できる", async ({ page }) => {
     await page.goto("/search?q=%E6%96%B0%E5%AE%BF");
 
