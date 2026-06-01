@@ -1,4 +1,5 @@
 import { INITIAL_AREAS, SITE } from "@/lib/site";
+import type { ResearchSource } from "@/lib/research-sources";
 import { TOPIC_GUIDES } from "@/lib/topic-content";
 
 function absoluteUrl(path: string) {
@@ -76,6 +77,26 @@ export function getPublicSourcesStructuredData() {
     isPartOf: {
       "@id": `${SITE.url}/#website`,
     },
+  };
+}
+
+export function getResearchSourceStructuredData(source: ResearchSource) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: source.sourceTitle,
+    url: absoluteUrl(`/sources/${source.id}`),
+    description: source.publicSummary,
+    dateModified: source.sourceCheckedAt,
+    inLanguage: "ja-JP",
+    isPartOf: {
+      "@id": `${SITE.url}/#website`,
+    },
+    about: {
+      "@type": "Thing",
+      name: `${source.areaName}の入店前確認`,
+    },
+    citation: source.sourceUrl,
   };
 }
 

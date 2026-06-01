@@ -158,7 +158,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - Supabase SQLマイグレーション、RLS、private Storage bucket設定
 - MVP公開前のRLS/Storage hardening migration
 - 共通ヘッダー、フッター、ページ用コンポーネント
-- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/evidence`, `/areas/[slug]/contribute`, `/areas/[slug]/guides/[guideSlug]`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/guides`, `/guides/[slug]`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/coverage`, `/coverage/candidates`, `/trust`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/quick`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
+- `/`, `/map`, `/areas`, `/areas/[slug]`, `/areas/[slug]/checklist`, `/areas/[slug]/evidence`, `/areas/[slug]/contribute`, `/areas/[slug]/guides/[guideSlug]`, `/areas/[slug]/topics/[topicSlug]`, `/places/[id]`, `/search`, `/checklists`, `/guides`, `/guides/[slug]`, `/topics`, `/topics/[slug]`, `/contribute`, `/sources`, `/sources/[id]`, `/coverage`, `/coverage/candidates`, `/trust`, `/social`, `/roadmap`, `/sponsor`, `/monetization-policy`, `/reports/new`, `/reports/quick`, `/reports/thanks`, `/objection`, `/guidelines`, `/support`, `/terms`, `/privacy`
 - `/admin`, `/admin/reports`, `/admin/reports/[id]`, `/admin/objections`, `/admin/data`, `/admin/quality`, `/admin/research`, `/admin/area-ops`, `/admin/social`, `/admin/sponsors`
 - Leaflet/OpenStreetMapによる地図表示
 - 投稿フォーム、サーバー側バリデーション、危険表現の注意表示、証拠画像アップロード
@@ -182,6 +182,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - トラブル種別別のSEO向け安全確認ガイド
 - SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像、承認済みキューだけを対象にする公式API投稿スクリプト
 - 情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
+- `/sources/[id]` で、公的情報・報道などの実出典を、出典URL、確認日、独自要約、公開しない情報、次の確認に分けて表示。個別店舗の注意報告としては扱わず、Search Console向けの安全な内部ページとしてsitemapへ追加
 - 情報蓄積状況ページで、調査ソース、公式・公的情報、報道、審査待ち候補、エリア別の次アクションを表示
 - エリア詳細ページでの公的・公式確認先表示
 - 検索結果ゼロ時の関連エリア、公式確認先表示

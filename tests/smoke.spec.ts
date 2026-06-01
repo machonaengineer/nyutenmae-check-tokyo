@@ -37,6 +37,10 @@ const publicRoutes = [
   { path: "/topics/price-confirmation", heading: "料金説明の確認" },
   { path: "/contribute", heading: "情報提供のお願い" },
   { path: "/sources", heading: "情報ソース" },
+  {
+    path: "/sources/shinjuku-consumer-high-billing-consultation",
+    heading: "新宿区の高額請求トラブル相談案内",
+  },
   { path: "/coverage", heading: "情報蓄積状況" },
   { path: "/coverage/candidates", heading: "公開候補化の流れ" },
   { path: "/trust", heading: "透明性と安全運用" },

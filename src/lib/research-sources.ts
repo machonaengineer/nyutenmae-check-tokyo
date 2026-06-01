@@ -40,6 +40,28 @@ export type ResearchSourceCoverageMetric = {
   nextAction: string;
 };
 
+export const RESEARCH_SOURCE_TYPE_LABELS: Record<ResearchSource["sourceType"], string> = {
+  public_agency: "公的機関",
+  police: "警察",
+  consumer_center: "消費生活相談",
+  municipality: "自治体",
+  news: "報道",
+};
+
+export const RESEARCH_SOURCE_PRIORITY_LABELS: Record<ResearchSource["priority"], string> = {
+  high: "優先",
+  medium: "通常",
+  low: "低",
+};
+
+export const RESEARCH_SOURCE_INTAKE_STATUS_LABELS: Record<
+  ResearchSourceIntakeStatus,
+  string
+> = {
+  source_only: "出典確認用",
+  candidate_needs_review: "候補審査中",
+};
+
 const initialDataCandidateSourceIds = new Set([
   "news-kabukicho-chain-claim-touting-202401",
   "news-kabukicho-billing-gap-202401",
@@ -784,6 +806,18 @@ export function getResearchSourcesByArea(areaSlug: string) {
   return RESEARCH_SOURCES.filter(
     (source) => source.areaSlug === areaSlug || source.areaSlug === "all",
   );
+}
+
+export function getResearchSourceById(id: string) {
+  return RESEARCH_SOURCES.find((source) => source.id === id) ?? null;
+}
+
+export function getResearchSourcePagePath(source: ResearchSource) {
+  return `/sources/${source.id}`;
+}
+
+export function getResearchSourceAreaPath(source: ResearchSource) {
+  return source.areaSlug === "all" ? "/areas" : `/areas/${source.areaSlug}`;
 }
 
 export function getResearchSourceIntakeStatus(

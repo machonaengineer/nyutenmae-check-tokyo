@@ -69,6 +69,7 @@ const requiredReleaseFiles = [
   "src/app/guides/page.tsx",
   "src/app/guides/[slug]/page.tsx",
   "src/app/areas/[slug]/guides/[guideSlug]/page.tsx",
+  "src/app/sources/[id]/page.tsx",
   "src/app/reports/quick/page.tsx",
   "src/app/coverage/candidates/page.tsx",
   "src/lib/admin/initial-data-candidates.ts",
@@ -590,6 +591,41 @@ test.describe("リリース準備資料", () => {
     expect(adminResearch).toContain("審査待ち候補");
     expect(researchLib).toContain("getResearchSourcePipelineMetrics");
     expect(researchLib).toContain("getResearchSourceCoverageMetrics");
+  });
+
+  test("出典詳細ページは実データを転載せずSEO対象にする", async () => {
+    const sourcePage = await readFile(
+      path.join(rootDir, "src/app/sources/[id]/page.tsx"),
+      "utf8",
+    );
+    const sourceCard = await readFile(
+      path.join(rootDir, "src/components/research-source-card.tsx"),
+      "utf8",
+    );
+    const researchLib = await readFile(
+      path.join(rootDir, "src/lib/research-sources.ts"),
+      "utf8",
+    );
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+    const structuredData = await readFile(
+      path.join(rootDir, "src/lib/structured-data.ts"),
+      "utf8",
+    );
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+
+    expect(sourcePage).toContain("generateStaticParams");
+    expect(sourcePage).toContain("getResearchSourceById");
+    expect(sourcePage).toContain("本文転載ではなく、確認日と独自要約");
+    expect(sourcePage).toContain("個別店舗や個人について事実を断定するものではありません");
+    expect(sourcePage).toContain("記事本文、口コミ本文、SNS本文、画像、スクリーンショットは転載しません");
+    expect(sourcePage).not.toContain("reporter_email");
+    expect(sourcePage).not.toContain("storage_path");
+    expect(sourceCard).toContain("getResearchSourcePagePath");
+    expect(researchLib).toContain("getResearchSourceById");
+    expect(sitemap).toContain("RESEARCH_SOURCES");
+    expect(sitemap).toContain("/sources/${source.id}");
+    expect(structuredData).toContain("getResearchSourceStructuredData");
+    expect(readme).toContain("/sources/[id]");
   });
 
   test("情報蓄積状況ページは公開情報だけでフェーズ21の進捗を表示する", async () => {

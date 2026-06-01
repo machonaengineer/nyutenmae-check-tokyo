@@ -1,27 +1,12 @@
 import {
+  getResearchSourcePagePath,
   getResearchSourceIntakeStatus,
+  RESEARCH_SOURCE_INTAKE_STATUS_LABELS,
+  RESEARCH_SOURCE_PRIORITY_LABELS,
+  RESEARCH_SOURCE_TYPE_LABELS,
   type ResearchSource,
-  type ResearchSourceIntakeStatus,
 } from "@/lib/research-sources";
-
-const sourceTypeLabels: Record<ResearchSource["sourceType"], string> = {
-  public_agency: "公的機関",
-  police: "警察",
-  consumer_center: "消費生活相談",
-  municipality: "自治体",
-  news: "報道",
-};
-
-const priorityLabels: Record<ResearchSource["priority"], string> = {
-  high: "優先",
-  medium: "通常",
-  low: "低",
-};
-
-const intakeStatusLabels: Record<ResearchSourceIntakeStatus, string> = {
-  source_only: "出典確認用",
-  candidate_needs_review: "候補審査中",
-};
+import Link from "next/link";
 
 export function ResearchSourceCard({
   source,
@@ -36,27 +21,42 @@ export function ResearchSourceCard({
     <article className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
       <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-md border border-line bg-surface px-2 py-1 text-xs font-semibold text-muted">
-          {sourceTypeLabels[source.sourceType]}
+          {RESEARCH_SOURCE_TYPE_LABELS[source.sourceType]}
         </span>
         <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
-          {priorityLabels[source.priority]}
+          {RESEARCH_SOURCE_PRIORITY_LABELS[source.priority]}
         </span>
         <span className="rounded-md border border-line bg-white px-2 py-1 text-xs font-semibold text-muted">
-          {intakeStatusLabels[intakeStatus]}
+          {RESEARCH_SOURCE_INTAKE_STATUS_LABELS[intakeStatus]}
         </span>
         <span className="text-xs text-muted">確認日: {source.sourceCheckedAt}</span>
       </div>
-      <h2 className="mt-3 text-lg font-bold text-ink">{source.sourceTitle}</h2>
+      <h2 className="mt-3 text-lg font-bold text-ink">
+        <Link
+          className="text-ink no-underline transition hover:text-action"
+          href={getResearchSourcePagePath(source)}
+        >
+          {source.sourceTitle}
+        </Link>
+      </h2>
       <p className="mt-3 text-sm leading-7 text-muted">{source.publicSummary}</p>
       <p className="mt-3 text-sm leading-7 text-muted">{source.suggestedUse}</p>
-      <a
-        className="mt-4 inline-flex text-sm font-semibold text-action"
-        href={source.sourceUrl}
-        rel="noreferrer"
-        target="_blank"
-      >
-        {source.sourceType === "news" ? "出典を確認する" : "公式情報を確認する"}
-      </a>
+      <div className="mt-4 flex flex-wrap gap-3">
+        <Link
+          className="inline-flex text-sm font-semibold text-action"
+          href={getResearchSourcePagePath(source)}
+        >
+          扱い方を見る
+        </Link>
+        <a
+          className="inline-flex text-sm font-semibold text-action"
+          href={source.sourceUrl}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {source.sourceType === "news" ? "出典を確認する" : "公式情報を確認する"}
+        </a>
+      </div>
       {showNextAction ? (
         <div className="mt-4 rounded-md border border-line bg-surface p-3 text-sm leading-6 text-muted">
           {source.nextAction}
