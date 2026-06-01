@@ -92,6 +92,7 @@ RATE_LIMIT_SECRET=
 GOOGLE_PLACES_API_KEY=
 NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED=false
 NEXT_PUBLIC_GA_ID=
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
 NEXT_PUBLIC_MONETIZATION_ENABLED=false
 NEXT_PUBLIC_SPONSOR_INQUIRY_URL=
 NEXT_PUBLIC_SUPPORT_URL=
@@ -127,6 +128,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 | `GOOGLE_PLACES_API_KEY` | 任意。管理画面でGoogle Places APIから外部集計評価を取得する場合だけ使うサーバー専用キー |
 | `NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED` | 任意。`true` の場合だけVercel Web Analyticsを読み込む |
 | `NEXT_PUBLIC_GA_ID` | 任意。Production環境でGA4を読み込む場合だけ設定する測定ID。未設定時は何も読み込まない |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | 任意。Search ConsoleのHTMLタグ確認で発行される `content` 値。未設定時はmetaタグを出さない |
 | `NEXT_PUBLIC_MONETIZATION_ENABLED` | 任意。`true` の場合だけ収益化枠を表示する。初期値は必ず `false` |
 | `NEXT_PUBLIC_SPONSOR_INQUIRY_URL` | 任意。収益化枠の問い合わせ先URL |
 | `NEXT_PUBLIC_SUPPORT_URL` | 任意。支援リンクや外部支援ページのURL |

@@ -45,6 +45,7 @@
 - [ ] Google Places API同期を使う場合、`GOOGLE_PLACES_API_KEY` がVercelのサーバー環境変数だけに設定され、`NEXT_PUBLIC_` が付いていないことを確認した。
 - [ ] 食べログなど規約確認が必要な外部評価は、許諾確認まで `display_allowed=false` のまま公開されないことを確認した。
 - [ ] `NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED` は必要な場合だけ `true` にし、無料枠とプライバシー表示を確認した。
+- [ ] Search Consoleを使う場合、`NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` にHTMLタグ確認の `content` 値だけを設定し、ログイン情報や秘密情報を入れていないことを確認した。
 - [ ] `NEXT_PUBLIC_MONETIZATION_ENABLED` は収益化開始前は `false` のままにした。
 - [ ] AdSense所有権確認だけを行う場合、`NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=true`、`NEXT_PUBLIC_ADSENSE_ENABLED=false`、ad slot未設定で再デプロイした。
 - [ ] AdSenseを使う場合、`NEXT_PUBLIC_ADSENSE_ENABLED` は審査、ads.txt、広告配置確認が完了するまで `false` のままにした。

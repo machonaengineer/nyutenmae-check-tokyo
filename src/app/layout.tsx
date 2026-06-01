@@ -13,6 +13,8 @@ const defaultTitle =
 const defaultDescription =
   "入店前チェック東京は、新宿・池袋・渋谷・六本木など都内繁華街での料金説明、明細、相談先を入店前に確認するための実用サイトです。客引きについて行く前の確認リスト、地図、相談窓口を整理しています。";
 const defaultOgImage = getOgImagePath("入店前チェック東京", "料金確認・明細確認・相談先確認");
+const googleSiteVerification =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -54,6 +56,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: googleSiteVerification
+    ? {
+        google: googleSiteVerification,
+      }
+    : undefined,
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
