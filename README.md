@@ -31,6 +31,7 @@ npm run lint
 npm run typecheck
 npm run check:sources:dry
 npm run check:official-seed
+npm run verify:production
 npm run test:e2e
 ```
 
@@ -207,6 +208,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - トップページでの掲載対象エリア数、公式確認先数、情報提供導線の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
 - WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
+- `npm run verify:production` による本番公開ページ、sitemap、robots、非公開情報マーカーの簡易スモーク確認
 
 ## DB設計
 

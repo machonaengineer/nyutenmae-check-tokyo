@@ -83,6 +83,7 @@ npm run lint
 npm run typecheck
 npm run build
 npm run check:official-seed
+npm run verify:production
 npx playwright test
 npm audit --audit-level=moderate
 ```

@@ -11,6 +11,7 @@
     "check:sources": "node scripts/check-source-links.mjs",
     "check:sources:dry": "node scripts/check-source-links.mjs --dry-run",
     "check:official-seed": "node scripts/validate-official-seed-candidates.mjs",
+    "verify:production": "node scripts/verify-production.mjs",
     "social:prepare": "node scripts/social-prepare-daily-queue.mjs",
     "social:daily": "node scripts/social-prepare-daily-queue.mjs && node scripts/social-autopost.mjs",
     "social:autopost": "node scripts/social-autopost.mjs",
