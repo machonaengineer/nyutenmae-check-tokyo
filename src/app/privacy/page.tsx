@@ -30,7 +30,8 @@ const userRequests = [
 ] as const;
 
 const thirdPartyServices = [
-  "Vercel Web AnalyticsやAdSense等の外部サービスは、環境変数で有効化した場合だけ読み込みます。",
+  "Google Analytics 4、Vercel Web Analytics、AdSense等の外部サービスを、アクセス解析、表示改善、広告配信品質確認のために利用する場合があります。",
+  "Google Analytics 4では、ページ閲覧、参照元、端末やブラウザの技術情報などがGoogleに送信される場合があります。",
   "AdSenseを有効化した場合、広告配信や不正利用対策のためにGoogle等の広告事業者がCookie等を利用することがあります。",
   "広告サービスは、証拠画像、投稿者メールアドレス、申立て者メールアドレス、管理者メモへアクセスしません。",
 ] as const;

@@ -1,8 +1,9 @@
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
+import { getGaMeasurementId } from "@/lib/analytics-config";
 
 export function AnalyticsGate() {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const gaId = getGaMeasurementId();
   const enableGa = process.env.NODE_ENV === "production" && Boolean(gaId);
   const enableVercel = process.env.NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED === "true";
 

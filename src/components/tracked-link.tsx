@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
 import { track } from "@vercel/analytics";
+import { getGaMeasurementId } from "@/lib/analytics-config";
 import type { AnalyticsEventName } from "@/lib/analytics-events";
 
 declare global {
@@ -26,6 +27,8 @@ export function TrackedLink({
   onClick,
   ...props
 }: TrackedLinkProps) {
+  const gaId = getGaMeasurementId();
+
   return (
     <Link
       {...props}
@@ -34,7 +37,7 @@ export function TrackedLink({
           track(eventName, eventProperties);
         }
 
-        if (process.env.NEXT_PUBLIC_GA_ID && typeof window.gtag === "function") {
+        if (gaId && typeof window.gtag === "function") {
           window.gtag("event", eventName, eventProperties);
         }
 

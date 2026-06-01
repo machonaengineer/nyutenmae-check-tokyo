@@ -393,6 +393,10 @@ test.describe("リリース準備資料", () => {
       path.join(rootDir, "src/components/analytics-gate.tsx"),
       "utf8",
     );
+    const analyticsConfig = await readFile(
+      path.join(rootDir, "src/lib/analytics-config.ts"),
+      "utf8",
+    );
     const monetizationSlot = await readFile(
       path.join(rootDir, "src/components/growth/monetization-slot.tsx"),
       "utf8",
@@ -405,7 +409,9 @@ test.describe("リリース準備資料", () => {
     expect(envExample).toContain("NEXT_PUBLIC_ADSENSE_ENABLED=false");
     expect(growthPlan).toContain("無料枠");
     expect(growthPlan).toContain("収益化を実際に開始する前");
-    expect(analyticsGate).toContain("NEXT_PUBLIC_GA_ID");
+    expect(analyticsGate).toContain("getGaMeasurementId");
+    expect(analyticsConfig).toContain("NEXT_PUBLIC_GA_ID");
+    expect(analyticsConfig).toContain("G-GBGMP0T3M8");
     expect(analyticsGate).toContain('process.env.NODE_ENV === "production"');
     expect(analyticsGate).toContain("googletagmanager.com/gtag/js");
     expect(monetizationSlot).toContain('NEXT_PUBLIC_MONETIZATION_ENABLED !== "true"');
