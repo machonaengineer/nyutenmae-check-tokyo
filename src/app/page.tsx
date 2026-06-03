@@ -65,6 +65,21 @@ const servicePrinciples = [
   },
 ] as const;
 
+const wantedSignals = [
+  {
+    title: "場所の手がかり",
+    text: "店名が曖昧でも、住所、建物名、階数、案内された場所が分かると確認しやすくなります。",
+  },
+  {
+    title: "料金説明の差",
+    text: "入店前、店内、会計時の説明を分けて送ると、公開前審査で整理しやすくなります。",
+  },
+  {
+    title: "明細と相談状況",
+    text: "明細、領収書、カード控えの有無や、188、#9110、カード会社への相談状況を募集しています。",
+  },
+] as const;
+
 export default function Home() {
   return (
     <>
@@ -78,10 +93,10 @@ export default function Home() {
                 {SITE.name}
               </h1>
               <p className="mt-5 max-w-2xl text-xl leading-9 text-muted">
-                キャッチについて行く前に見る、都内繁華街の入店前チェック
+                情報提供で育てる、都内繁華街の入店前チェック
               </p>
               <p className="mt-4 max-w-2xl text-base leading-8 text-muted">
-                料金説明、明細、相談先を入店前に確認。新宿・池袋・渋谷・六本木など、都内繁華街の注意情報を地図とチェックリストで整理します。
+                料金説明、明細、相談先を入店前に確認。新宿・池袋・渋谷・六本木など、都内繁華街の手がかりを非公開で受け付け、承認済み情報だけを地図とチェックリストで整理します。
               </p>
               <div className="mt-6 grid max-w-2xl gap-3 text-sm leading-6 text-muted sm:grid-cols-3">
                 <div className="border-l-2 border-action pl-3">
@@ -108,10 +123,18 @@ export default function Home() {
               </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <TrackedLink
+                  href="/reports/quick"
+                  eventName={ANALYTICS_EVENTS.quickReportCta}
+                  eventProperties={{ placement: "home_primary" }}
+                  className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
+                >
+                  30秒で情報提供
+                </TrackedLink>
+                <TrackedLink
                   href="/map"
                   eventName={ANALYTICS_EVENTS.guideCta}
                   eventProperties={{ placement: "home", target: "map" }}
-                  className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-semibold text-white no-underline shadow-sm transition hover:bg-action-dark"
+                  className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
                 >
                   地図で確認する
                 </TrackedLink>
@@ -127,14 +150,6 @@ export default function Home() {
                 >
                   相談先を確認する
                 </Link>
-                <TrackedLink
-                  href="/reports/quick"
-                  eventName={ANALYTICS_EVENTS.quickReportCta}
-                  eventProperties={{ placement: "home" }}
-                  className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
-                >
-                  情報提供する
-                </TrackedLink>
                 <Link
                   href="/areas"
                   className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-surface px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
@@ -185,6 +200,39 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      <Section
+        title="いま集めている情報"
+        description="個別の注意表示を増やす前に、場所、料金説明、明細、相談状況を安全に集めます。"
+      >
+        <div className="grid gap-4 md:grid-cols-3">
+          {wantedSignals.map((signal) => (
+            <article
+              key={signal.title}
+              className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+            >
+              <h2 className="text-lg font-bold text-ink">{signal.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted">{signal.text}</p>
+            </article>
+          ))}
+        </div>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <TrackedLink
+            href="/reports/quick"
+            eventName={ANALYTICS_EVENTS.quickReportCta}
+            eventProperties={{ placement: "home_wanted_signals" }}
+            className="inline-flex h-11 items-center justify-center rounded-md bg-action px-5 text-sm font-semibold text-white no-underline transition hover:bg-action-dark"
+          >
+            手がかりを送る
+          </TrackedLink>
+          <Link
+            href="/contribute"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-line bg-white px-5 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+          >
+            提供してほしい情報を見る
+          </Link>
+        </div>
+      </Section>
 
       <Section
         title="このサービスでできること"

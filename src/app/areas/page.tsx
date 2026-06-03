@@ -41,7 +41,28 @@ export default async function AreasPage() {
         eyebrow="Areas"
         title="掲載対象エリア"
         description="都内繁華街のうち、入店前の料金確認や会計確認に関わる注意情報を整理しやすいエリアから順次拡大しています。"
+        primaryAction={{ href: "/reports/quick", label: "情報提供する" }}
       />
+
+      <Section
+        title="公開情報を増やすために募集していること"
+        description="店名が変わる場合もあるため、店舗名だけでなく、住所、建物名、階数、料金説明、明細の有無を重視します。"
+      >
+        <div className="grid gap-4 md:grid-cols-3">
+          {[
+            "案内を受けた場所、入店した住所、建物名、階数",
+            "入店前説明、店内説明、会計時説明の違い",
+            "明細、領収書、カード控え、相談先への連絡状況",
+          ].map((item) => (
+            <article
+              className="rounded-md border border-line bg-white p-5 text-sm font-semibold leading-7 text-ink shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+              key={item}
+            >
+              {item}
+            </article>
+          ))}
+        </div>
+      </Section>
 
       <Section title="エリア一覧">
         <div className="grid gap-4 md:grid-cols-2">
@@ -63,10 +84,29 @@ export default async function AreasPage() {
               </div>
               {area.approvedReportCount === 0 ? (
                 <p className="mt-4 rounded-md border border-line bg-white px-3 py-2 text-xs leading-6 text-muted">
-                  個別の注意表示はまだありません。公式確認先と入店前確認項目を先に公開し、
-                  投稿は承認後だけ表示します。
+                  このエリアは個別の注意表示を育てている段階です。公式確認先と入店前確認項目を先に公開し、投稿は承認後だけ表示します。
                 </p>
               ) : null}
+              <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                <Link
+                  className="text-action no-underline"
+                  href={`/reports/quick?area=${area.slug}`}
+                >
+                  このエリアの手がかりを送る
+                </Link>
+                <Link
+                  className="text-action no-underline"
+                  href={`/areas/${area.slug}/contribute`}
+                >
+                  入力粒度を見る
+                </Link>
+                <Link
+                  className="text-action no-underline"
+                  href={`/areas/${area.slug}/evidence`}
+                >
+                  保存資料を見る
+                </Link>
+              </div>
             </article>
           ))}
         </div>

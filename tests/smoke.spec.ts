@@ -88,8 +88,20 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("料金条件を確認", { exact: true })).toBeVisible();
     await expect(page.getByText("場所の手がかりで探せます")).toBeVisible();
     await expect(page.getByText("相談先につなげます")).toBeVisible();
+    await expect(page.getByText("いま集めている情報")).toBeVisible();
+    await expect(page.getByText("手がかりを送る")).toBeVisible();
     await expect(page.getByText("公式確認先")).toBeVisible();
     await expect(page.getByText("自治体、警察、消費生活相談")).toBeVisible();
+  });
+
+  test("エリア一覧で情報提供募集導線を確認できる", async ({ page }) => {
+    await page.goto("/areas");
+
+    await expect(page.getByText("公開情報を増やすために募集していること")).toBeVisible();
+    await expect(page.getByText("このエリアの手がかりを送る").first()).toBeVisible();
+    await expect(
+      page.getByText("案内を受けた場所、入店した住所、建物名、階数"),
+    ).toBeVisible();
   });
 
   test("星評価UIを表示しない", async ({ request }) => {

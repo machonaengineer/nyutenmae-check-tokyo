@@ -194,7 +194,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           </div>
         ) : (
           <>
-            <EmptyState message="このエリアはまだ公開できる個別報告がありません。公式確認先と確認項目を先に表示しています。" />
+            <EmptyState message="このエリアは公開できる個別報告を育てている段階です。場所、料金説明、明細の手がかりを募集しています。" />
             <div className="mt-5 rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
               <div className="grid gap-3 text-sm text-muted sm:grid-cols-3">
                 <p>承認済み報告: 0件</p>
@@ -202,8 +202,22 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                 <p>審査中の確認候補: {reviewCandidateCount}件</p>
               </div>
               <p className="mt-4 text-sm leading-7 text-muted">
-                まずは公式確認先、入店前の確認項目、情報提供フォームを案内します。具体的な手がかりがある場合は、情報提供フォームから送信できます。
+                まずは公式確認先、入店前の確認項目、情報提供フォームを案内します。店名が曖昧でも、住所、建物名、階数、料金説明、明細の有無があれば非公開で送信できます。
               </p>
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
+                {[
+                  "案内を受けた場所と入店先の住所",
+                  "入店前と会計時の説明差",
+                  "明細、領収書、カード控えの有無",
+                ].map((item) => (
+                  <div
+                    className="rounded-md border border-line bg-surface px-4 py-3 text-sm font-semibold leading-6 text-ink"
+                    key={item}
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 {researchSources.slice(0, 3).map((source) => (
                   <article

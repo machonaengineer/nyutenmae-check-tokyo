@@ -58,7 +58,7 @@ export default function ContributePage() {
         eyebrow="Contribute"
         title="情報提供のお願い"
         description="公開できる注意情報を増やすため、料金説明、会計確認、明細提示、退店時対応に関する具体的な報告を募集しています。"
-        primaryAction={{ href: "/reports/new", label: "注意報告を送る" }}
+        primaryAction={{ href: "/reports/quick", label: "30秒で情報提供" }}
       />
 
       <Section title="提供してほしい情報">
