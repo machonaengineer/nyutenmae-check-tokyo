@@ -2,6 +2,14 @@
 
 キャッチについて行く前に見る、都内繁華街の注意マップ。
 
+## Open-source status
+
+This is a public, actively maintained TypeScript/Next.js project for safety-oriented local reporting in Tokyo nightlife areas.
+
+The project focuses on moderation, private evidence handling, public-source attribution, Supabase RLS/privacy controls, production verification, and cautious public copy for a reputation-sensitive reporting workflow.
+
+Primary maintainer: Ryunosuke Imai (`machonaengineer`).
+
 ## 概要
 
 都内繁華街における、客引き経由の来店、料金説明と会計内容の不一致、明細提示、会計時対応、退店時対応などの報告を、証拠レベル付きで蓄積・検索・地図表示するMVPです。
