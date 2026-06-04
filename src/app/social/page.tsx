@@ -37,7 +37,7 @@ export default function SocialPage() {
         eyebrow="Social"
         title="SNS共有・情報提供"
         description="入店前チェックや相談先を、必要な人に届きやすい形で共有できます。"
-        primaryAction={{ href: "/reports/new", label: "注意報告を送る" }}
+        primaryAction={{ href: "/reports/quick", label: "30秒で情報提供" }}
       />
 
       <Section title="共有する">
@@ -89,7 +89,7 @@ export default function SocialPage() {
                 </Link>
                 <Link
                   className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
-                  href={`/reports/new?area=${plan.areaSlug}`}
+                  href={`/reports/quick?area=${plan.areaSlug}`}
                 >
                   情報提供
                 </Link>
@@ -145,7 +145,7 @@ export default function SocialPage() {
                 </Link>
                 <Link
                   className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
-                  href={`/reports/new?area=${area.slug}`}
+                  href={`/reports/quick?area=${area.slug}`}
                 >
                   情報提供
                 </Link>

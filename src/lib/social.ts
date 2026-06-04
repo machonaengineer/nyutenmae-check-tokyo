@@ -54,7 +54,7 @@ export const SOCIAL_OPERATION_PILLARS: SocialOperationPillar[] = [
 ];
 
 export const SOCIAL_WEEKLY_ROUTINE = [
-  "朝: 保存されやすい入店前チェックを1投稿",
+  "朝: 30秒で送れる情報提供募集を1投稿",
   "昼: エリア別ページまたは相談導線を1投稿",
   "夜: 情報提供募集または固定ポストへの返信を1投稿",
   "毎日: 返信は断定せず、個別店舗名が出たら公開フォームへ誘導",
@@ -90,13 +90,13 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
   const coreTemplates: SocialPostTemplate[] = [
     {
       title: "固定ポスト候補",
-      targetUrl: getAbsoluteSiteUrl("/"),
+      targetUrl: getAbsoluteSiteUrl("/reports/quick"),
       text: [
         `${SITE.name}を公開しました。`,
         "",
-        "キャッチについて行く前に見る、都内繁華街の注意マップです。",
-        "料金説明、会計確認、明細提示、退店時対応に関する情報を整理します。",
-        "入店前の料金確認、会計前の明細確認、困った時の相談先確認に使えます。",
+        "情報提供で育てる、都内繁華街の入店前チェックです。",
+        "店名が曖昧でも、住所、建物名、階数、料金説明、明細の有無を非公開で送れます。",
+        "投稿は自動公開されず、証拠画像や連絡先は公開ページに出しません。",
       ].join("\n"),
     },
     {
@@ -111,10 +111,10 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
     },
     {
       title: "情報提供募集",
-      targetUrl: getAbsoluteSiteUrl("/contribute"),
+      targetUrl: getAbsoluteSiteUrl("/reports/quick"),
       text: [
         "都内繁華街での入店前確認に役立つ情報提供を受け付けています。",
-        "料金説明と会計内容の不一致、明細提示、会計時対応など、具体的な経緯を非公開で送信できます。",
+        "住所、建物名、階数、料金説明、明細提示、会計時対応など、具体的な経緯を非公開で送信できます。",
         "連絡先や添付資料は公開ページに出しません。",
       ].join("\n"),
     },
@@ -164,7 +164,7 @@ export function buildSocialPostTemplates(): SocialPostTemplate[] {
 
   const areaTemplates = INITIAL_AREAS.map((area) => ({
     title: `${area.name}の情報提供募集`,
-    targetUrl: getAbsoluteSiteUrl(`/areas/${area.slug}`),
+    targetUrl: getAbsoluteSiteUrl(`/reports/quick?area=${area.slug}`),
     text: [
       `${area.name}周辺の入店前確認に役立つ情報を整理しています。`,
       "料金説明、会計確認、明細提示、退店時対応に関する具体的な報告を募集しています。",

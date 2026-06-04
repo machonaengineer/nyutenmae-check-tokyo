@@ -22,10 +22,10 @@ const guidePosts: SocialRecognitionPost[] = SEARCH_GUIDES.map((guide, index) => 
 const areaPosts: SocialRecognitionPost[] = INITIAL_AREAS.map((area, index) => ({
   day: index + 7,
   slot: "evening",
-  pillar: "area",
-  title: `${area.name}の入店前確認`,
-  body: `${area.name}周辺で入店前に確認したい項目を整理しています。料金説明、明細、建物名、階数を保存してから判断を。`,
-  targetPath: `/areas/${area.slug}`,
+  pillar: "contribution",
+  title: `${area.name}の手がかり募集`,
+  body: `${area.name}周辺の手がかりを募集しています。店名が曖昧でも、住所、建物名、階数、料金説明、明細の有無を非公開で送れます。`,
+  targetPath: `/reports/quick?area=${area.slug}`,
 }));
 
 const supportPosts: SocialRecognitionPost[] = [
@@ -81,7 +81,7 @@ const supportPosts: SocialRecognitionPost[] = [
     title: "場所の手がかり募集",
     body:
       "建物名、階数、入店前説明、会計時説明を分けて記録すると、審査時に確認しやすくなります。",
-    targetPath: "/contribute",
+    targetPath: "/reports/quick",
   },
   {
     day: 25,

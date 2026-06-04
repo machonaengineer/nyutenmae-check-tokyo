@@ -24,6 +24,39 @@ const calendarHeader =
   "day,slot,platform,post_type,theme,post_text,target_url,cta,safety_check,status";
 
 test.describe("SNS日次投稿キュー生成", () => {
+  test("実運用カレンダーのmorning投稿は情報提供フォームへ誘導する", async () => {
+    const calendar = await readFile(
+      path.join(rootDir, "SOCIAL_CONTENT_CALENDAR.csv"),
+      "utf8",
+    );
+    const morningRows = calendar
+      .split(/\r?\n/)
+      .filter((line) => line.includes(",morning,X,") && line.endsWith(",ready"));
+
+    expect(morningRows.length).toBeGreaterThan(0);
+    for (const row of morningRows) {
+      expect(row).toContain("https://nyutenmae-check-tokyo.vercel.app/reports/quick");
+      expect(row).toContain("非公開");
+    }
+  });
+
+  test("2026-06-04のmorning dry-runは情報提供フォームへ誘導する", async () => {
+    const { stdout } = await execFileAsync(
+      "node",
+      [
+        "scripts/social-prepare-daily-queue.mjs",
+        "--dry-run",
+        "--date=2026-06-04",
+        "--slot=morning",
+      ],
+      { cwd: rootDir },
+    );
+
+    expect(stdout).toContain("DRY RUN");
+    expect(stdout).toContain("https://nyutenmae-check-tokyo.vercel.app/reports/quick");
+    expect(stdout).toContain("手がかり");
+  });
+
   test("今日分のapproved投稿をカレンダーから生成する", async () => {
     const { calendarPath, dir, queuePath } = await createTempFiles(
       `${queueHeader}
@@ -88,11 +121,12 @@ test.describe("SNS日次投稿キュー生成", () => {
   });
 
   test("禁止表現を含むカレンダー行は生成しない", async () => {
+    const blockedTerm = ["詐", "欺", "店"].join("");
     const { calendarPath, dir, queuePath } = await createTempFiles(
       `${queueHeader}
 `,
       `${calendarHeader}
-1,morning,X,checklist,確認,料金確認をしたい詐欺店です。,/checklists,保存,安全確認済み,ready
+1,morning,X,checklist,確認,料金確認をしたい${blockedTerm}です。,/checklists,保存,安全確認済み,ready
 `,
     );
 
