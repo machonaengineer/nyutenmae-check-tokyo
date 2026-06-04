@@ -78,7 +78,7 @@ test.describe("公開ページ", () => {
       await expect(
         page.getByRole("heading", { name: route.heading, level: 1 }),
       ).toBeVisible();
-      await expect(page.getByRole("link", { name: "投稿する" }).first()).toBeVisible();
+      await expect(page.getByRole("link", { name: "情報提供" }).first()).toBeVisible();
     });
   }
 
@@ -90,6 +90,8 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("相談先につなげます")).toBeVisible();
     await expect(page.getByText("いま集めている情報")).toBeVisible();
     await expect(page.getByText("手がかりを送る")).toBeVisible();
+    await expect(page.getByText("情報提供を募集しています。")).toBeVisible();
+    await expect(page.getByRole("link", { name: "30秒で送る" })).toBeVisible();
     await expect(page.getByText("公式確認先")).toBeVisible();
     await expect(page.getByText("自治体、警察、消費生活相談")).toBeVisible();
   });
@@ -140,6 +142,16 @@ test.describe("公開ページ", () => {
     await expect(page.getByRole("button", { name: "非公開で送信する" })).toBeVisible();
   });
 
+  test("簡易情報提供フォームで店名以外の手がかりを案内する", async ({ page }) => {
+    await page.goto("/reports/quick");
+
+    await expect(page.getByText("店名がわからなくても送れる情報")).toBeVisible();
+    await expect(
+      page.getByText("店名が曖昧な場合は、住所、建物名、階数、入口表示"),
+    ).toBeVisible();
+    await expect(page.getByRole("button", { name: "非公開で送信する" })).toBeVisible();
+  });
+
   test("情報提供導線から投稿フォームを事前選択できる", async ({ page }) => {
     await page.goto("/reports/new?area=shinjuku-kabukicho&tag=price-billing-mismatch");
 
@@ -177,7 +189,7 @@ test.describe("公開ページ", () => {
       "チェック",
       "実用ガイド",
       "相談先",
-      "投稿する",
+      "情報提供",
     ]);
   });
 

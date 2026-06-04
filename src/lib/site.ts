@@ -14,7 +14,7 @@ export const NAV_ITEMS = [
   { href: "/checklists", label: "チェック", emphasis: false },
   { href: "/guides", label: "実用ガイド", emphasis: false },
   { href: "/support", label: "相談先", emphasis: false },
-  { href: "/reports/quick", label: "投稿する", emphasis: true },
+  { href: "/reports/quick", label: "情報提供", emphasis: true },
 ] as const;
 
 export const FOOTER_LINKS = [

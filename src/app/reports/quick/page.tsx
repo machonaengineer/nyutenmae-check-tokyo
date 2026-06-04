@@ -26,6 +26,12 @@ const quickRules = [
   "画像や詳細な時系列がある場合は、詳細フォームから送信してください。",
 ] as const;
 
+const quickSignalItems = [
+  "店名が曖昧な場合は、住所、建物名、階数、入口表示",
+  "入店前に説明された料金と、会計時に確認した金額",
+  "明細、領収書、カード利用控え、相談済み窓口の有無",
+] as const;
+
 export default async function QuickReportPage({
   searchParams,
 }: QuickReportPageProps) {
@@ -47,6 +53,13 @@ export default async function QuickReportPage({
         title="30秒で情報提供"
         description="店名が曖昧でも、住所、建物名、階数、料金説明、明細提示の手がかりを非公開で送れます。"
       />
+
+      <Section
+        title="店名がわからなくても送れる情報"
+        description="公開情報を増やすため、店舗名だけでなく、場所と説明内容の手がかりを重視しています。"
+      >
+        <SimpleList items={quickSignalItems} />
+      </Section>
 
       <Section title="簡易投稿フォーム">
         <QuickReportForm
