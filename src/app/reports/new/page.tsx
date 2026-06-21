@@ -13,6 +13,7 @@ export const metadata: Metadata = createPageMetadata({
     "料金説明、会計内容、明細提示、相談状況に関する情報を非公開で送信できます。証拠画像、連絡先、非公開メモは公開ページに出しません。",
   path: "/reports/new",
   imageLabel: "情報提供・証拠非公開・承認制",
+  index: false,
 });
 
 type NewReportPageProps = {

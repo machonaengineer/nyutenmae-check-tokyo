@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 import {
   getPublicationCandidateRows,
   PUBLICATION_CANDIDATE_STAGES,
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/coverage/candidates",
   },
+  robots: NOINDEX_FOLLOW_ROBOTS,
 };
 
 export default function PublicationCandidatesPage() {

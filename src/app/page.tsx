@@ -65,6 +65,27 @@ const servicePrinciples = [
   },
 ] as const;
 
+const originalValueItems = [
+  {
+    title: "公式情報を入口にする",
+    text: "自治体、警察、消費生活相談などの確認先を、出典URLと確認日付きで整理します。外部本文は転載せず、入店前確認に必要な要点へまとめます。",
+    href: "/sources",
+    label: "情報ソースを見る",
+  },
+  {
+    title: "実用ガイドとして読める",
+    text: "料金確認、明細保存、カード会社相談、188、#9110など、困った時に何を残し、どこへ相談するかを場面別に整理します。",
+    href: "/guides",
+    label: "実用ガイドを見る",
+  },
+  {
+    title: "公開前の審査を前提にする",
+    text: "投稿は自動公開せず、証拠画像や連絡先を一般公開しません。承認済みの公開サマリーだけを、断定を避けた表現で扱います。",
+    href: "/trust",
+    label: "掲載方針を見る",
+  },
+] as const;
+
 const wantedSignals = [
   {
     title: "場所の手がかり",
@@ -243,6 +264,29 @@ export default function Home() {
             <article key={principle.title} className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]">
               <h2 className="text-lg font-bold text-ink">{principle.title}</h2>
               <p className="mt-3 text-sm leading-7 text-muted">{principle.text}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="独自に整理していること"
+        description="口コミ評価ではなく、入店前の判断と相談準備に役立つ情報だけを、出典・確認日・公開範囲に分けて整理します。"
+      >
+        <div className="grid gap-4 md:grid-cols-3">
+          {originalValueItems.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+            >
+              <h2 className="text-lg font-bold text-ink">{item.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted">{item.text}</p>
+              <Link
+                className="mt-4 inline-flex text-sm font-semibold text-action no-underline"
+                href={item.href}
+              >
+                {item.label}
+              </Link>
             </article>
           ))}
         </div>

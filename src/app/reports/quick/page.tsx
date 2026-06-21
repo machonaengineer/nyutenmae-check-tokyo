@@ -11,6 +11,7 @@ export const metadata: Metadata = createPageMetadata({
     "場所の手がかり、料金説明、明細の有無、相談状況などを非公開で送信できます。投稿は確認後に公開可否を判断し、連絡先や添付資料は公開しません。",
   path: "/reports/quick",
   imageLabel: "情報提供・非公開受付・確認後掲載",
+  index: false,
 });
 
 type QuickReportPageProps = {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 import { SponsorInquiryForm } from "./sponsor-inquiry-form";
 
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/sponsor",
   },
+  robots: NOINDEX_FOLLOW_ROBOTS,
 };
 
 const sponsorRules = [

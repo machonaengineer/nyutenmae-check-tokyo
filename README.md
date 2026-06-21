@@ -43,6 +43,12 @@ npm run verify:production
 npm run test:e2e
 ```
 
+## AdSense再審査メモ
+
+AdSenseで `有用性の低いコンテンツ` が出た場合は、[ADSENSE_REVIEW_FIX_PLAN.md](./ADSENSE_REVIEW_FIX_PLAN.md) を確認してください。
+
+再審査前は、検索対象をトップ、エリア、汎用ガイド、公式ソース、相談導線、掲載方針に絞り、フォーム、SNS運用、スポンサー、内部ロードマップ、大量生成される派生ページをsitemapから外してnoindexにします。広告表示は審査通過前に有効化しないでください。
+
 ## Supabaseセットアップ
 
 1. Supabaseプロジェクトを作成する

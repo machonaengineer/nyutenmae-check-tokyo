@@ -9,6 +9,7 @@ import {
   getPublicAreaSummary,
   getPublicPlaceSummaries,
 } from "@/lib/public-data";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 import { INITIAL_AREAS } from "@/lib/site";
 import {
   getTopicGuide,
@@ -49,8 +50,9 @@ export async function generateMetadata({
     title: `${area.name}の${topic.title}`,
     description: `${area.name}周辺で${topic.title}に関して入店前に確認したい項目です。承認済みの注意報告がある場所だけを表示します。`,
     alternates: {
-      canonical: `/areas/${slug}/topics/${topicSlug}`,
+      canonical: `/topics/${topicSlug}`,
     },
+    robots: NOINDEX_FOLLOW_ROBOTS,
   };
 }
 

@@ -12,6 +12,7 @@ const requiredReleaseFiles = [
   "OPERATIONS_SOP.md",
   "LEGAL_REVIEW_NOTES.md",
   "CAPTCHA_FUTURE_NOTES.md",
+  "ADSENSE_REVIEW_FIX_PLAN.md",
   "supabase/migrations/0003_mvp_release_hardening.sql",
   "supabase/migrations/0004_submission_hardening.sql",
   "supabase/migrations/0005_browser_rate_limit_key.sql",
@@ -176,6 +177,39 @@ test.describe("リリース準備資料", () => {
     expect(readme).toContain("/roadmap");
     expect(readme).toContain("/coverage");
     expect(readme).toContain("/admin/quality");
+  });
+
+  test("AdSense再審査向けに薄い派生ページをsitemap対象から外している", async () => {
+    const sitemap = await readFile(path.join(rootDir, "src/app/sitemap.ts"), "utf8");
+    const areaGuidePage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/guides/[guideSlug]/page.tsx"),
+      "utf8",
+    );
+    const areaTopicPage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/topics/[topicSlug]/page.tsx"),
+      "utf8",
+    );
+    const quickReportPage = await readFile(
+      path.join(rootDir, "src/app/reports/quick/page.tsx"),
+      "utf8",
+    );
+    const newReportPage = await readFile(
+      path.join(rootDir, "src/app/reports/new/page.tsx"),
+      "utf8",
+    );
+
+    expect(sitemap).not.toContain('path: "/reports/new"');
+    expect(sitemap).not.toContain('path: "/reports/quick"');
+    expect(sitemap).not.toContain('path: "/roadmap"');
+    expect(sitemap).not.toContain('path: "/social"');
+    expect(sitemap).not.toContain('path: "/sponsor"');
+    expect(sitemap).not.toContain('path: "/coverage/candidates"');
+    expect(sitemap).not.toContain("/areas/${area.slug}/guides/${guide.slug}");
+    expect(sitemap).not.toContain("/areas/${area.slug}/topics/${topic.slug}");
+    expect(areaGuidePage).toContain("NOINDEX_FOLLOW_ROBOTS");
+    expect(areaTopicPage).toContain("NOINDEX_FOLLOW_ROBOTS");
+    expect(quickReportPage).toContain("index: false");
+    expect(newReportPage).toContain("index: false");
   });
 
   test("hardening migrationがRLSとStorage privateを強化している", async () => {

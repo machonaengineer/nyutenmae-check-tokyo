@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import { getAreaSearchGuide, SEARCH_GUIDES } from "@/lib/search-guides";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 import { INITIAL_AREAS } from "@/lib/site";
 
 type AreaGuidePageProps = {
@@ -34,8 +35,9 @@ export async function generateMetadata({
     title: content.title,
     description: content.description,
     alternates: {
-      canonical: `/areas/${slug}/guides/${guideSlug}`,
+      canonical: `/guides/${guideSlug}`,
     },
+    robots: NOINDEX_FOLLOW_ROBOTS,
   };
 }
 

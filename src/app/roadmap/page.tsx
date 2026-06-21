@@ -7,11 +7,16 @@ import {
   PHASE_ROADMAP_STATUS_LABELS,
   type PhaseRoadmapItem,
 } from "@/lib/phase-roadmap";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "改善ロードマップ",
   description:
     "入店前チェック東京のMVP公開後の改善予定と、公開情報の扱い方を説明します。",
+  alternates: {
+    canonical: "/roadmap",
+  },
+  robots: NOINDEX_FOLLOW_ROBOTS,
 };
 
 const principles = [

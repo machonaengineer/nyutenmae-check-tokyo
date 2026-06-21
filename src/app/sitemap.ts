@@ -15,17 +15,11 @@ const staticRoutes = [
   { path: "/contribute", priority: 0.7 },
   { path: "/sources", priority: 0.7 },
   { path: "/coverage", priority: 0.7 },
-  { path: "/coverage/candidates", priority: 0.65 },
   { path: "/trust", priority: 0.7 },
-  { path: "/social", priority: 0.7 },
-  { path: "/roadmap", priority: 0.6 },
-  { path: "/reports/new", priority: 0.7 },
-  { path: "/reports/quick", priority: 0.75 },
   { path: "/objection", priority: 0.6 },
   { path: "/support", priority: 0.6 },
   { path: "/guidelines", priority: 0.5 },
   { path: "/monetization-policy", priority: 0.4 },
-  { path: "/sponsor", priority: 0.4 },
   { path: "/terms", priority: 0.3 },
   { path: "/privacy", priority: 0.3 },
   { path: "/llms.txt", priority: 0.2 },
@@ -54,12 +48,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: `/guides/${guide.slug}`,
       priority: 0.7,
     })),
-    ...INITIAL_AREAS.flatMap((area) =>
-      SEARCH_GUIDES.map((guide) => ({
-        path: `/areas/${area.slug}/guides/${guide.slug}`,
-        priority: 0.65,
-      })),
-    ),
     ...TOPIC_GUIDES.map((topic) => ({
       path: `/topics/${topic.slug}`,
       priority: 0.6,
@@ -68,12 +56,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: `/sources/${source.id}`,
       priority: source.priority === "high" ? 0.65 : 0.55,
     })),
-    ...INITIAL_AREAS.flatMap((area) =>
-      TOPIC_GUIDES.map((topic) => ({
-        path: `/areas/${area.slug}/topics/${topic.slug}`,
-        priority: 0.6,
-      })),
-    ),
   ];
 
   return routes.map((route) => ({

@@ -9,6 +9,15 @@ type PageMetadataOptions = {
   index?: boolean;
 };
 
+export const NOINDEX_FOLLOW_ROBOTS: Metadata["robots"] = {
+  index: false,
+  follow: true,
+  googleBot: {
+    index: false,
+    follow: true,
+  },
+};
+
 export function getOgImagePath(title: string, label = "料金確認・明細確認・相談先確認") {
   const params = new URLSearchParams({
     title,
@@ -60,14 +69,7 @@ export function createPageMetadata({
           index: true,
           follow: true,
         }
-      : {
-          index: false,
-          follow: false,
-          googleBot: {
-            index: false,
-            follow: false,
-          },
-        },
+      : NOINDEX_FOLLOW_ROBOTS,
   };
 }
 

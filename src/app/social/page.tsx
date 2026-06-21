@@ -7,6 +7,7 @@ import {
   AREA_GROWTH_PRIORITY_LABELS,
   getPrioritySortedAreaGrowthPlans,
 } from "@/lib/area-growth";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 import { getSocialRecognitionPosts } from "@/lib/social-campaigns";
 import { getAbsoluteSiteUrl } from "@/lib/social";
 import { INITIAL_AREAS, SITE } from "@/lib/site";
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/social",
   },
+  robots: NOINDEX_FOLLOW_ROBOTS,
 };
 
 const shareRules = [
