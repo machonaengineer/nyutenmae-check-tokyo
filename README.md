@@ -47,7 +47,7 @@ npm run test:e2e
 
 AdSenseで `有用性の低いコンテンツ` が出た場合は、[ADSENSE_REVIEW_FIX_PLAN.md](./ADSENSE_REVIEW_FIX_PLAN.md) を確認してください。
 
-再審査前は、検索対象をトップ、エリア、汎用ガイド、公式ソース一覧、相談導線、掲載方針に絞ります。フォーム、SNS運用、スポンサー、内部ロードマップ、出典詳細、エリア別の派生ページはsitemapから外してnoindexにします。広告表示は審査通過前に有効化しないでください。
+再審査前は、検索対象をトップ、エリア、汎用ガイド、トピック別ガイド、FAQ、公式ソース一覧、相談導線、掲載方針に絞ります。フォーム、SNS運用、スポンサー、内部ロードマップ、出典詳細、エリア別の派生ページはsitemapから外してnoindexにします。広告表示は審査通過前に有効化しないでください。Search Consoleでは `/sitemap.xml` を再送信し、主要URLのURL検査後、数日から1週間程度クロール反映を待ってから再審査します。
 
 ## Supabaseセットアップ
 
@@ -224,7 +224,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - Vercel Analytics有効時だけCTAクリックを記録する `TrackedLink` を追加。デフォルトでは計測OFF
 - トップページでの掲載対象エリア数、公式確認先数、情報提供導線の表示
 - スポンサー問い合わせフォームと管理画面。問い合わせ内容は公開せず `admin_actions` で管理
-- WebSite/FAQ/CollectionPageの構造化データと、公開方針だけを載せる `/llms.txt`
+- WebSite/FAQ/CollectionPageの構造化データ、トピック詳細のFAQ構造化データ、公開方針だけを載せる `/llms.txt`
 - `npm run verify:production` による本番公開ページ、sitemap、robots、非公開情報マーカーの簡易スモーク確認
 
 ## DB設計

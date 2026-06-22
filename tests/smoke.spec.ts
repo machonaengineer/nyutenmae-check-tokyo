@@ -35,6 +35,7 @@ const publicRoutes = [
   },
   { path: "/topics", heading: "トラブル種別別ガイド" },
   { path: "/topics/price-confirmation", heading: "料金説明の確認" },
+  { path: "/topics/evidence-privacy", heading: "証拠画像と個人情報の扱い" },
   { path: "/contribute", heading: "情報提供のお願い" },
   { path: "/sources", heading: "情報ソース" },
   {
@@ -285,6 +286,18 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("支払い交渉より安全確保を優先")).toBeVisible();
   });
 
+  test("トピック詳細で実用本文と公開時の扱いを確認できる", async ({ page }) => {
+    await page.goto("/topics/evidence-privacy");
+
+    await expect(page.getByText("このテーマの使い方")).toBeVisible();
+    await expect(page.getByText("保存しておきたい情報")).toBeVisible();
+    await expect(page.getByText("公開時の扱い")).toBeVisible();
+    await expect(page.getByText("証拠画像URLは公開ページに表示しない")).toBeVisible();
+    await expect(
+      page.getByText("投稿者の申告に基づく情報です。事実確認中の情報を含みます。"),
+    ).toBeVisible();
+  });
+
   test("主要ページで横スクロールが発生しない", async ({ page }) => {
     for (const route of [
       "/",
@@ -383,6 +396,7 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/faq</loc>");
     expect(body).toContain("<loc>http://localhost:3000/topics</loc>");
     expect(body).toContain("<loc>http://localhost:3000/topics/price-confirmation</loc>");
+    expect(body).toContain("<loc>http://localhost:3000/topics/evidence-privacy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/contribute</loc>");
     expect(body).toContain("<loc>http://localhost:3000/sources</loc>");
     expect(body).toContain("<loc>http://localhost:3000/coverage</loc>");

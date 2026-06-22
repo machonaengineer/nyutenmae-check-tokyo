@@ -8,7 +8,7 @@
 - AdSenseのpublisher ID、client ID、ad slot IDはVercel環境変数で管理する。
 - 広告は投稿審査、公開順位、リスクタグ、証拠レベル、異議申立て対応に影響させない。
 - 広告枠には、投稿者メールアドレス、非公開メモ、証拠画像、Storage path、外部口コミ本文を含めない。
-- まずは `/checklists` と `/areas/[slug]/checklist` の情報整理ページだけを対象にする。
+- まずは `/checklists`、`/guides`、`/topics`、`/faq`、`/sources`、`/support` など、検索対象に残す実用ページだけを対象にする。
 - 管理画面、投稿フォーム、異議申立てフォーム、証拠画像確認画面には広告を出さない。
 
 ## 必要な環境変数
@@ -63,6 +63,8 @@ ADS_TXT_GOOGLE_PUBLISHER_ID=
 - 収益化枠は管理画面、投稿フォーム、異議申立てフォーム、証拠画像確認画面には表示しない。
 - AdSenseサイト審査が `Ready` になるまで、`NEXT_PUBLIC_ADSENSE_ENABLED=false` を維持する。所有権確認コードだけが必要な場合は `NEXT_PUBLIC_ADSENSE_VERIFICATION_ENABLED=true` を使う。
 - ads.txtはルートの `/ads.txt` でHTTP 200を返し、robots.txtでブロックしない。
+- Search Consoleで `/sitemap.xml` を再送信し、主要URLのURL検査を行う。クロール反映前に再申請を連打しない。
+- `/areas/*/checklist`、`/areas/*/guides/*`、`/areas/*/topics/*`、`/sources/*` などの派生ページは、再審査中はsitemap対象にしない。
 
 ## 公式確認先
 

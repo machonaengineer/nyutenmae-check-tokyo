@@ -1534,8 +1534,18 @@ test.describe("リリース準備資料", () => {
     expect(topicContent).toContain("料金説明の確認");
     expect(topicContent).toContain("明細提示の確認");
     expect(topicContent).toContain("客引き経由の来店前確認");
+    expect(topicContent).toContain("証拠画像と個人情報の扱い");
+    expect(topicContent).toContain("同一住所・同一建物の確認");
+    expect(topicContent).toContain("安全な情報提供の書き方");
     expect(topicContent).toContain("安全確保を優先");
+    expect(topicContent).toContain("howToUse");
+    expect(topicContent).toContain("saveItems");
+    expect(topicContent).toContain("publicDisplayNotes");
     expect(topicPage).toContain("事実を断定");
+    expect(topicPage).toContain("FAQPage");
+    expect(topicPage).toContain("このテーマの使い方");
+    expect(topicPage).toContain("保存しておきたい情報");
+    expect(topicPage).toContain("公開時の扱い");
     expect(topicPage).not.toContain("reporter_email");
     expect(topicPage).not.toContain("storage_path");
   });
