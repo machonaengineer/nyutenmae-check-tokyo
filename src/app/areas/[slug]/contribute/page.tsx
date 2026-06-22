@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import { getAreaDeepGuide } from "@/lib/area-content";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 import { INITIAL_AREAS } from "@/lib/site";
 
 type AreaContributePageProps = {
@@ -29,8 +30,9 @@ export async function generateMetadata({
     title: `${guide.name}の情報提供`,
     description: `${guide.name}周辺で入店前確認に役立つ情報を提供する際の粒度と注意点を整理します。`,
     alternates: {
-      canonical: `/areas/${slug}/contribute`,
+      canonical: `/areas/${slug}`,
     },
+    robots: NOINDEX_FOLLOW_ROBOTS,
   };
 }
 

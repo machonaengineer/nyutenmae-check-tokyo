@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MonetizationSlot } from "@/components/growth/monetization-slot";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import {
   CHECKOUT_CHECK_ITEMS,
@@ -37,6 +36,7 @@ export async function generateMetadata({
     description: `${area.name}周辺で入店前、会計前、退店後に確認したい料金説明、明細、記録保存のチェックリストです。`,
     path: `/areas/${slug}/checklist`,
     imageLabel: `${area.name}・チェックリスト・相談先`,
+    index: false,
   });
 }
 
@@ -109,9 +109,6 @@ export default async function AreaChecklistPage({ params }: AreaChecklistPagePro
           >
             注意報告を送る
           </Link>
-        </div>
-        <div className="mt-6">
-          <MonetizationSlot placement="area" />
         </div>
       </Section>
     </>

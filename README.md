@@ -47,7 +47,7 @@ npm run test:e2e
 
 AdSenseで `有用性の低いコンテンツ` が出た場合は、[ADSENSE_REVIEW_FIX_PLAN.md](./ADSENSE_REVIEW_FIX_PLAN.md) を確認してください。
 
-再審査前は、検索対象をトップ、エリア、汎用ガイド、公式ソース、相談導線、掲載方針に絞り、フォーム、SNS運用、スポンサー、内部ロードマップ、大量生成される派生ページをsitemapから外してnoindexにします。広告表示は審査通過前に有効化しないでください。
+再審査前は、検索対象をトップ、エリア、汎用ガイド、公式ソース一覧、相談導線、掲載方針に絞ります。フォーム、SNS運用、スポンサー、内部ロードマップ、出典詳細、エリア別の派生ページはsitemapから外してnoindexにします。広告表示は審査通過前に有効化しないでください。
 
 ## Supabaseセットアップ
 
@@ -160,7 +160,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 | `NEXT_PUBLIC_ADSENSE_ENABLED` | 任意。`true` の場合だけAdSense広告ユニットを表示する。審査通過前は必ず `false` |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | 任意。AdSenseの `ca-pub-...` 形式client ID。公開値だが、アカウントログイン情報は保存しない |
 | `NEXT_PUBLIC_ADSENSE_SLOT_CHECKLIST` | 任意。`/checklists` 用のAdSense ad slot ID |
-| `NEXT_PUBLIC_ADSENSE_SLOT_AREA` | 任意。`/areas/[slug]/checklist` 用のAdSense ad slot ID |
+| `NEXT_PUBLIC_ADSENSE_SLOT_AREA` | 任意。将来のエリアページ用AdSense ad slot ID |
 | `NEXT_PUBLIC_ADSENSE_SLOT_SUPPORT` | 任意。将来の支援ページ用AdSense ad slot ID |
 | `ADS_TXT_GOOGLE_PUBLISHER_ID` | 任意。`/ads.txt` で返す `pub-...` 形式publisher ID |
 | `INITIAL_DATA_CANDIDATES_CSV` | 任意。管理者限定の候補一括投入に使うサーバー専用CSV。実名入り候補CSVはGit管理しない |
@@ -196,7 +196,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - トラブル種別別のSEO向け安全確認ガイド
 - SNS共有ページ、共有ボタン、管理者向けSNS文面テンプレート、Open Graph画像、承認済みキューだけを対象にする公式API投稿スクリプト
 - 情報ソースページ、管理者向け調査キュー、`SOURCE_RESEARCH_QUEUE.csv`
-- `/sources/[id]` で、公的情報・報道などの実出典を、出典URL、確認日、独自要約、公開しない情報、次の確認に分けて表示。個別店舗の注意報告としては扱わず、Search Console向けの安全な内部ページとしてsitemapへ追加
+- `/sources` で、公的情報・報道などの実出典を、出典URL、確認日、独自要約、公開しない情報、次の確認に分けて表示。`/sources/[id]` は保持するが、AdSense再審査中は検索対象にせず、一覧ページに評価を集約
 - 情報蓄積状況ページで、調査ソース、公式・公的情報、報道、審査待ち候補、エリア別の次アクションを表示
 - エリア詳細ページでの公的・公式確認先表示
 - 検索結果ゼロ時の関連エリア、公式確認先表示

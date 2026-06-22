@@ -1,12 +1,10 @@
 import {
-  getResearchSourcePagePath,
   getResearchSourceIntakeStatus,
   RESEARCH_SOURCE_INTAKE_STATUS_LABELS,
   RESEARCH_SOURCE_PRIORITY_LABELS,
   RESEARCH_SOURCE_TYPE_LABELS,
   type ResearchSource,
 } from "@/lib/research-sources";
-import Link from "next/link";
 
 export function ResearchSourceCard({
   source,
@@ -31,23 +29,10 @@ export function ResearchSourceCard({
         </span>
         <span className="text-xs text-muted">確認日: {source.sourceCheckedAt}</span>
       </div>
-      <h2 className="mt-3 text-lg font-bold text-ink">
-        <Link
-          className="text-ink no-underline transition hover:text-action"
-          href={getResearchSourcePagePath(source)}
-        >
-          {source.sourceTitle}
-        </Link>
-      </h2>
+      <h2 className="mt-3 text-lg font-bold text-ink">{source.sourceTitle}</h2>
       <p className="mt-3 text-sm leading-7 text-muted">{source.publicSummary}</p>
       <p className="mt-3 text-sm leading-7 text-muted">{source.suggestedUse}</p>
       <div className="mt-4 flex flex-wrap gap-3">
-        <Link
-          className="inline-flex text-sm font-semibold text-action"
-          href={getResearchSourcePagePath(source)}
-        >
-          扱い方を見る
-        </Link>
         <a
           className="inline-flex text-sm font-semibold text-action"
           href={source.sourceUrl}

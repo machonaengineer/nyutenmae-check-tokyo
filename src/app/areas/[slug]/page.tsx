@@ -243,12 +243,12 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                 >
                   情報提供する
                 </Link>
-                <Link
-                  className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
-                  href={`/areas/${slug}/guides/before-entry-price-check`}
-                >
-                  料金確認ガイドを見る
-                </Link>
+              <Link
+                className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
+                href="/guides/before-entry-price-check"
+              >
+                料金確認ガイドを見る
+              </Link>
                 <Link
                   className="inline-flex h-10 items-center justify-center rounded-md border border-line bg-surface px-4 text-sm font-semibold text-ink no-underline transition hover:bg-paper"
                   href="/support"
@@ -345,7 +345,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           {SEARCH_GUIDES.map((guide) => (
             <Link
               className="rounded-md border border-line bg-white p-5 text-sm font-semibold text-ink no-underline shadow-[0_8px_22px_rgb(23_32_42/0.04)] transition hover:bg-paper"
-              href={`/areas/${slug}/guides/${guide.slug}`}
+              href={`/guides/${guide.slug}`}
               key={guide.slug}
             >
               {guide.shortTitle}
@@ -366,7 +366,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
             <Link
               key={topic.slug}
               className="rounded-md border border-line bg-white p-5 text-sm font-semibold text-ink no-underline shadow-[0_8px_22px_rgb(23_32_42/0.04)] transition hover:bg-paper"
-              href={`/areas/${slug}/topics/${topic.slug}`}
+              href={`/topics/${topic.slug}`}
             >
               {topic.title}
             </Link>

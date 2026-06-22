@@ -55,6 +55,7 @@ export async function generateMetadata({
     description: `${source.areaName}の入店前確認に使う出典情報です。${source.publicSummary}`,
     path: `/sources/${source.id}`,
     imageLabel: `${source.areaName}・出典確認・独自要約`,
+    index: false,
   });
 }
 

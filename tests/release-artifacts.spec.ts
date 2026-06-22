@@ -197,6 +197,26 @@ test.describe("リリース準備資料", () => {
       path.join(rootDir, "src/app/reports/new/page.tsx"),
       "utf8",
     );
+    const areaChecklistPage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/checklist/page.tsx"),
+      "utf8",
+    );
+    const areaEvidencePage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/evidence/page.tsx"),
+      "utf8",
+    );
+    const areaContributePage = await readFile(
+      path.join(rootDir, "src/app/areas/[slug]/contribute/page.tsx"),
+      "utf8",
+    );
+    const sourceDetailPage = await readFile(
+      path.join(rootDir, "src/app/sources/[id]/page.tsx"),
+      "utf8",
+    );
+    const sourceCard = await readFile(
+      path.join(rootDir, "src/components/research-source-card.tsx"),
+      "utf8",
+    );
 
     expect(sitemap).not.toContain('path: "/reports/new"');
     expect(sitemap).not.toContain('path: "/reports/quick"');
@@ -204,10 +224,20 @@ test.describe("リリース準備資料", () => {
     expect(sitemap).not.toContain('path: "/social"');
     expect(sitemap).not.toContain('path: "/sponsor"');
     expect(sitemap).not.toContain('path: "/coverage/candidates"');
+    expect(sitemap).not.toContain("/areas/${area.slug}/checklist");
+    expect(sitemap).not.toContain("/areas/${area.slug}/evidence");
+    expect(sitemap).not.toContain("/areas/${area.slug}/contribute");
     expect(sitemap).not.toContain("/areas/${area.slug}/guides/${guide.slug}");
     expect(sitemap).not.toContain("/areas/${area.slug}/topics/${topic.slug}");
+    expect(sitemap).not.toContain("/sources/${source.id}");
+    expect(sitemap).not.toContain("RESEARCH_SOURCES");
     expect(areaGuidePage).toContain("NOINDEX_FOLLOW_ROBOTS");
     expect(areaTopicPage).toContain("NOINDEX_FOLLOW_ROBOTS");
+    expect(areaChecklistPage).toContain("index: false");
+    expect(areaEvidencePage).toContain("NOINDEX_FOLLOW_ROBOTS");
+    expect(areaContributePage).toContain("NOINDEX_FOLLOW_ROBOTS");
+    expect(sourceDetailPage).toContain("index: false");
+    expect(sourceCard).not.toContain("getResearchSourcePagePath");
     expect(quickReportPage).toContain("index: false");
     expect(newReportPage).toContain("index: false");
   });
@@ -538,7 +568,7 @@ test.describe("リリース準備資料", () => {
     expect(sop).toContain("自動投稿キュー運用");
     expect(sop).toContain("返信案内キュー運用");
     expect(calendar).toContain("day,slot,platform,post_type");
-    expect(calendar).toContain("証拠画像と投稿者メールアドレスは一般公開しません");
+    expect(calendar).toContain("証拠画像と投稿者メールアドレスは一般公開せず");
     expect(calendar).not.toContain("reporter_email");
     expect(calendar).not.toContain("storage_path");
     expect(kpiLog).toContain("impressions,profile_clicks,link_clicks");
@@ -627,7 +657,7 @@ test.describe("リリース準備資料", () => {
     expect(researchLib).toContain("getResearchSourceCoverageMetrics");
   });
 
-  test("出典詳細ページは実データを転載せずSEO対象にする", async () => {
+  test("出典詳細ページは実データを転載せずnoindexで保持する", async () => {
     const sourcePage = await readFile(
       path.join(rootDir, "src/app/sources/[id]/page.tsx"),
       "utf8",
@@ -649,17 +679,18 @@ test.describe("リリース準備資料", () => {
 
     expect(sourcePage).toContain("generateStaticParams");
     expect(sourcePage).toContain("getResearchSourceById");
+    expect(sourcePage).toContain("index: false");
     expect(sourcePage).toContain("本文転載ではなく、確認日と独自要約");
     expect(sourcePage).toContain("個別店舗や個人について事実を断定するものではありません");
     expect(sourcePage).toContain("記事本文、口コミ本文、SNS本文、画像、スクリーンショットは転載しません");
     expect(sourcePage).not.toContain("reporter_email");
     expect(sourcePage).not.toContain("storage_path");
-    expect(sourceCard).toContain("getResearchSourcePagePath");
+    expect(sourceCard).not.toContain("getResearchSourcePagePath");
     expect(researchLib).toContain("getResearchSourceById");
-    expect(sitemap).toContain("RESEARCH_SOURCES");
-    expect(sitemap).toContain("/sources/${source.id}");
+    expect(sitemap).not.toContain("RESEARCH_SOURCES");
+    expect(sitemap).not.toContain("/sources/${source.id}");
     expect(structuredData).toContain("getResearchSourceStructuredData");
-    expect(readme).toContain("/sources/[id]");
+    expect(readme).toContain("/sources");
   });
 
   test("情報蓄積状況ページは公開情報だけでフェーズ21の進捗を表示する", async () => {
@@ -894,8 +925,8 @@ test.describe("リリース準備資料", () => {
     expect(areaPage).toContain(`/areas/${"${slug}"}/contribute`);
     expect(evidencePage).toContain("証拠画像は一般公開せず");
     expect(contributePage).toContain("pending / Hidden");
-    expect(sitemap).toContain(`/areas/${"${area.slug}"}/evidence`);
-    expect(sitemap).toContain(`/areas/${"${area.slug}"}/contribute`);
+    expect(sitemap).not.toContain(`/areas/${"${area.slug}"}/evidence`);
+    expect(sitemap).not.toContain(`/areas/${"${area.slug}"}/contribute`);
     expect(queue).toContain("official_source");
     expect(queue).toContain("building_review");
     expect(queue).toContain("content_depth");
@@ -1325,8 +1356,8 @@ test.describe("リリース準備資料", () => {
     expect(trackedLink).toContain("NEXT_PUBLIC_VERCEL_ANALYTICS_ENABLED");
     expect(trackedLink).toContain("track(eventName");
     expect(sitemap).toContain("/guides");
-    expect(sitemap).toContain("/reports/quick");
-    expect(sitemap).toContain("/coverage/candidates");
+    expect(sitemap).not.toContain("/reports/quick");
+    expect(sitemap).not.toContain("/coverage/candidates");
     expect(readme).toContain("PHASE_53_57_GROWTH_SPRINT.md");
     expect(readme).toContain("SOCIAL_POST_TEMPLATES.csv");
   });
@@ -1464,7 +1495,7 @@ test.describe("リリース準備資料", () => {
     expect(phaseRoadmap).toContain("phase: 50");
     expect(roadmapPage).toContain("同一運営や同一店舗であることを断定するものではありません");
     expect(roadmapPage).toContain("外部口コミやニュース本文は転載は禁止");
-    expect(sitemap).toContain("/roadmap");
+    expect(sitemap).not.toContain("/roadmap");
     expect(structuredData).toContain("Roadmap:");
     expect(roadmapPage).not.toContain("reporter_email");
     expect(roadmapPage).not.toContain("storage_path");

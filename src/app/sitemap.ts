@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { RESEARCH_SOURCES } from "@/lib/research-sources";
 import { INITIAL_AREAS, SITE } from "@/lib/site";
 import { SEARCH_GUIDES } from "@/lib/search-guides";
 import { TOPIC_GUIDES } from "@/lib/topic-content";
@@ -32,18 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: `/areas/${area.slug}`,
       priority: 0.7,
     })),
-    ...INITIAL_AREAS.map((area) => ({
-      path: `/areas/${area.slug}/checklist`,
-      priority: 0.7,
-    })),
-    ...INITIAL_AREAS.map((area) => ({
-      path: `/areas/${area.slug}/evidence`,
-      priority: 0.65,
-    })),
-    ...INITIAL_AREAS.map((area) => ({
-      path: `/areas/${area.slug}/contribute`,
-      priority: 0.65,
-    })),
     ...SEARCH_GUIDES.map((guide) => ({
       path: `/guides/${guide.slug}`,
       priority: 0.7,
@@ -51,10 +38,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TOPIC_GUIDES.map((topic) => ({
       path: `/topics/${topic.slug}`,
       priority: 0.6,
-    })),
-    ...RESEARCH_SOURCES.map((source) => ({
-      path: `/sources/${source.id}`,
-      priority: source.priority === "high" ? 0.65 : 0.55,
     })),
   ];
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import { getAreaDeepGuide } from "@/lib/area-content";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo";
 import { INITIAL_AREAS } from "@/lib/site";
 
 type AreaEvidencePageProps = {
@@ -29,8 +30,9 @@ export async function generateMetadata({
     title: `${guide.name}の記録保存ガイド`,
     description: `${guide.name}周辺で料金説明、会計内容、明細提示に不安があった場合に保存したい情報を整理します。`,
     alternates: {
-      canonical: `/areas/${slug}/evidence`,
+      canonical: `/areas/${slug}`,
     },
+    robots: NOINDEX_FOLLOW_ROBOTS,
   };
 }
 

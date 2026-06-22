@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
-import { PageHeader, PolicyNote, Section } from "@/components/page-blocks";
+import { PageHeader, PolicyNote, Section, SimpleList } from "@/components/page-blocks";
 import { ResearchSourceCard } from "@/components/research-source-card";
 import {
   getResearchSourcePipelineMetrics,
@@ -17,6 +17,46 @@ export const metadata: Metadata = {
     canonical: "/sources",
   },
 };
+
+const editorialPrinciples = [
+  "公的機関、自治体、警察、消費生活相談の公式情報を優先して確認します。",
+  "報道や記事は、本文や画像を転載せず、出典URL、確認日、独自要約、次に確認すべき点へ分けます。",
+  "外部口コミ、SNS投稿、ブログ本文は、公開ページへそのまま載せず、確認候補の背景情報として扱います。",
+  "個別店舗の注意報告に進める場合も、現在状況、住所、建物名、階数、異議申立て導線を別途確認します。",
+] as const;
+
+const publicValueItems = [
+  {
+    title: "利用者向けの価値",
+    text: "入店前に、料金説明、明細提示、支払い方法、相談先を確認するための入口にします。報道の刺激的な部分ではなく、実際に残すべき資料と相談先へ変換します。",
+  },
+  {
+    title: "審査担当向けの価値",
+    text: "出典の種類、確認日、公開可否、候補化の状態を分けることで、承認済み投稿と調査中の背景情報が混ざらないようにします。",
+  },
+  {
+    title: "店舗側・関係者向けの価値",
+    text: "断定的なラベル付けを避け、異議申立てや削除申請の導線を維持します。公開する場合も、必要最小限の概要に限定します。",
+  },
+] as const;
+
+const sourceReviewLanes = [
+  {
+    title: "公式・公的情報",
+    description:
+      "相談窓口、条例、行政の取組、警察の注意喚起などです。個別店舗の評価ではなく、入店前確認と相談導線の土台にします。",
+  },
+  {
+    title: "報道・記事",
+    description:
+      "複数出典、現在状況、住所や建物情報、公開表現を確認するまで、個別の注意報告としては扱いません。",
+  },
+  {
+    title: "自社タレコミ・投稿",
+    description:
+      "投稿は非公開デフォルトで受け付け、証拠画像や連絡先は管理者確認用に分離します。承認済みの概要だけが公開対象です。",
+  },
+] as const;
 
 export default function SourcesPage() {
   const metrics = getResearchSourcePipelineMetrics();
@@ -35,6 +75,44 @@ export default function SourcesPage() {
         <PolicyNote>
           掲載時は出典URL、確認日、独自要約を分けて扱います。本文、口コミ、画像、スクリーンショットは転載しません。
         </PolicyNote>
+      </Section>
+
+      <Section
+        title="編集基準"
+        description="このページはリンク集ではなく、公開前審査のために出典をどう読み替えるかを整理するページです。"
+      >
+        <SimpleList items={editorialPrinciples} />
+      </Section>
+
+      <Section
+        title="独自に付け加えている価値"
+        description="外部情報をそのまま並べるのではなく、入店前確認、非公開審査、相談導線へ接続します。"
+      >
+        <div className="grid gap-4 md:grid-cols-3">
+          {publicValueItems.map((item) => (
+            <article
+              className="rounded-md border border-line bg-white p-5 shadow-[0_8px_22px_rgb(23_32_42/0.04)]"
+              key={item.title}
+            >
+              <h2 className="text-lg font-bold text-ink">{item.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted">{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="出典の審査レーン"
+        description="情報の種類ごとに、公開までの扱いを分けます。"
+      >
+        <div className="grid gap-4 md:grid-cols-3">
+          {sourceReviewLanes.map((lane) => (
+            <article className="rounded-md border border-line bg-surface p-5" key={lane.title}>
+              <h2 className="text-lg font-bold text-ink">{lane.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted">{lane.description}</p>
+            </article>
+          ))}
+        </div>
       </Section>
 
       <Section title="調査ソースの状況">
@@ -58,7 +136,10 @@ export default function SourcesPage() {
         </Link>
       </Section>
 
-      <Section title="調査中の情報ソース">
+      <Section
+        title="調査中の情報ソース"
+        description="各カードには独自要約と使い道を記載します。個別の出典詳細ページへ誘導せず、この一覧内で扱い方を確認できるようにしています。"
+      >
         <div className="grid gap-4 md:grid-cols-2">
           {RESEARCH_SOURCES.map((source) => (
             <ResearchSourceCard key={source.id} source={source} />

@@ -93,7 +93,7 @@ test.describe("公開ページ", () => {
     await expect(page.getByText("情報提供を募集しています。")).toBeVisible();
     await expect(page.getByRole("link", { name: "30秒で送る" })).toBeVisible();
     await expect(page.getByText("公式確認先")).toBeVisible();
-    await expect(page.getByText("自治体、警察、消費生活相談")).toBeVisible();
+    await expect(page.getByText("自治体、警察、消費生活相談", { exact: true })).toBeVisible();
   });
 
   test("エリア一覧で情報提供募集導線を確認できる", async ({ page }) => {
@@ -387,24 +387,19 @@ test.describe("公開ページ", () => {
     expect(body).toContain("<loc>http://localhost:3000/sources</loc>");
     expect(body).toContain("<loc>http://localhost:3000/coverage</loc>");
     expect(body).toContain("<loc>http://localhost:3000/trust</loc>");
-    expect(body).toContain("<loc>http://localhost:3000/social</loc>");
-    expect(body).toContain("<loc>http://localhost:3000/sponsor</loc>");
-    expect(body).toContain("<loc>http://localhost:3000/roadmap</loc>");
     expect(body).toContain("<loc>http://localhost:3000/llms.txt</loc>");
     expect(body).toContain("<loc>http://localhost:3000/monetization-policy</loc>");
     expect(body).toContain("<loc>http://localhost:3000/areas/shinjuku-kabukicho</loc>");
-    expect(body).toContain(
-      "<loc>http://localhost:3000/areas/shinjuku-kabukicho/checklist</loc>",
-    );
-    expect(body).toContain(
-      "<loc>http://localhost:3000/areas/roppongi-azabujuban/evidence</loc>",
-    );
-    expect(body).toContain(
-      "<loc>http://localhost:3000/areas/roppongi-azabujuban/contribute</loc>",
-    );
-    expect(body).toContain(
-      "<loc>http://localhost:3000/areas/shinjuku-kabukicho/topics/price-confirmation</loc>",
-    );
+    expect(body).not.toContain("<loc>http://localhost:3000/social</loc>");
+    expect(body).not.toContain("<loc>http://localhost:3000/sponsor</loc>");
+    expect(body).not.toContain("<loc>http://localhost:3000/roadmap</loc>");
+    expect(body).not.toContain("/reports/quick");
+    expect(body).not.toContain("/coverage/candidates");
+    expect(body).not.toContain("/areas/shinjuku-kabukicho/checklist");
+    expect(body).not.toContain("/areas/roppongi-azabujuban/evidence");
+    expect(body).not.toContain("/areas/roppongi-azabujuban/contribute");
+    expect(body).not.toContain("/areas/shinjuku-kabukicho/topics/price-confirmation");
+    expect(body).not.toContain("/sources/shinjuku-consumer-high-billing-consultation");
     expect(body).not.toContain("/admin");
     expect(body).not.toContain("/reports/thanks");
     expect(body).not.toContain("/healthz");
