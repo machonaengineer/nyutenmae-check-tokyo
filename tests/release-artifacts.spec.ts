@@ -59,6 +59,9 @@ const requiredReleaseFiles = [
   "PHASE_53_57_GROWTH_SPRINT.md",
   "AREA_TRACTION_MATRIX.csv",
   "SOCIAL_POST_TEMPLATES.csv",
+  "PRODUCT_KGI_KPI.md",
+  "PRODUCT_KGI_KPI_SCORECARD.csv",
+  "PRODUCT_KPI_LOG_TEMPLATE.csv",
   "PRODUCT_GOAL_AND_ARCHITECTURE.md",
   "src/lib/phase-roadmap.ts",
   "src/lib/area-growth.ts",
@@ -87,6 +90,7 @@ const requiredReleaseFiles = [
   "scripts/social-prepare-daily-queue.mjs",
   "scripts/social-autopost.mjs",
   "scripts/social-reply.mjs",
+  "scripts/product-kpi-summary.mjs",
   "supabase/verification/phase28_official_seed_candidate_checks.sql",
 ] as const;
 
@@ -575,6 +579,37 @@ test.describe("リリース準備資料", () => {
     expect(kpiLog).toContain("safety_checked,next_action");
     expect(kpiLog).not.toContain("reporter_email");
     expect(kpiLog).not.toContain("storage_path");
+  });
+
+  test("KGI/KPI運用資料は安全KPIを上位に置いている", async () => {
+    const kgi = await readFile(path.join(rootDir, "PRODUCT_KGI_KPI.md"), "utf8");
+    const scorecard = await readFile(
+      path.join(rootDir, "PRODUCT_KGI_KPI_SCORECARD.csv"),
+      "utf8",
+    );
+    const logTemplate = await readFile(
+      path.join(rootDir, "PRODUCT_KPI_LOG_TEMPLATE.csv"),
+      "utf8",
+    );
+    const script = await readFile(
+      path.join(rootDir, "scripts/product-kpi-summary.mjs"),
+      "utf8",
+    );
+    const packageJson = await readFile(path.join(rootDir, "package.json"), "utf8");
+
+    expect(kgi).toContain("Safety KPI");
+    expect(kgi).toContain("重大な非公開情報漏えい0件");
+    expect(kgi).toContain("npm run kpi:summary");
+    expect(scorecard).toContain("safety_critical_leak");
+    expect(scorecard).toContain("pre_entry_sessions");
+    expect(scorecard).toContain("valid_submissions");
+    expect(scorecard).toContain("monthly_revenue");
+    expect(logTemplate).toContain("pre_entry_sessions,search_clicks");
+    expect(logTemplate).toContain("safety_incidents,next_focus");
+    expect(script).toContain("PRODUCT_KGI_KPI_SCORECARD.csv");
+    expect(script).toContain("SNS_AUTO_POST_QUEUE.csv");
+    expect(script).toContain("SOURCE_RESEARCH_QUEUE.csv");
+    expect(packageJson).toContain('"kpi:summary"');
   });
 
   test("スポンサー問い合わせは公開ページに出さず管理ログで確認する", async () => {

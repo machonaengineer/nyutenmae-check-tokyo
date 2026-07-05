@@ -170,6 +170,8 @@
 
 ## 定期点検
 
+- 毎日: `npm run kpi:summary` を実行し、SNS投稿、公式ソース確認、初期データ候補、エリア別作業の詰まりを確認する
+- 週1回: Search Console、Vercel/GA4、Supabase管理画面、SNS実績、スポンサー問い合わせを `PRODUCT_KPI_LOG_TEMPLATE.csv` に転記する
 - 週1回: `pending` と `needs_review` の滞留確認
 - 週1回: 異議申立て未対応確認
 - 週1回: `/healthz` が `status: ok` を返すこと、Vercel本番デプロイが `Ready` であることを確認する

@@ -20,6 +20,8 @@
 4. 異議申立て、削除依頼、非公開化、操作ログが運用に乗っている。
 5. SEO流入、SNS共有、投稿導線、収益化が、審査独立性を壊さず伸びる。
 
+具体的なKGI/KPIは `PRODUCT_KGI_KPI.md` と `PRODUCT_KGI_KPI_SCORECARD.csv` で管理する。成長や収益化よりも、非公開情報漏えい0件、未承認投稿の非公開維持、RLS/Storage privateの維持を上位KPIに置く。
+
 ## データライフサイクル
 
 1. 情報ソースを `/sources` と `/admin/research` で整理する。

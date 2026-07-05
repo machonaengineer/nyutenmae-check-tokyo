@@ -1,0 +1,15 @@
+metric_id,layer,kgi_or_kpi,metric_name,definition,target_30d,target_90d,target_180d,target_365d,current_baseline,source,owner,review_cadence,status,next_action
+safety_critical_leak,安全,KGI,重大な非公開情報漏えい,投稿者メール・証拠ファイル・非公開メモ・未承認投稿の公開事故数,0,0,0,0,0,手動監査・RLS確認SQL,Codex+管理者,weekly,green,月次でRLSと公開ページを確認する
+pre_entry_sessions,利用価値,KGI,入店前確認セッション,/map・areas・places・guides・checklists・supportの確認利用合計,1000,5000,20000,50000,要計測,Vercel Analytics・GA4・Search Console,Codex+管理者,weekly,yellow,Search ConsoleとVercel/GA4の値を週次ログへ転記する
+valid_submissions,情報供給,KGI,有効情報提供数,spam・重複・範囲外を除く新規pendingまたはneeds_review,10,20,60,100,要計測,Supabase reports,Codex+管理者,weekly,yellow,/reports/quickへの導線を増やす
+approved_public_assets,公開資産,KGI,承認済み公開情報数,審査済みで公開可能なreport/place/sourceの合計,10,30,80,150,要計測,Supabase公開ビュー,Codex+管理者,weekly,yellow,高優先度候補から出典確認を進める
+monthly_revenue,収益化,KGI,月次継続収益,AdSense・スポンサー・支援の合計。審査と順位には影響させない,0,0,10000,30000,0,AdSense・スポンサー管理,Codex+管理者,monthly,red,AdSense再審査より先に検索流入と独自コンテンツを増やす
+source_verified_candidates,情報供給,KPI,出典確認済み候補数,出典URL・確認日・独自要約がそろった候補数,5,20,60,120,要計測,INITIAL_DATA_REVIEW_QUEUE.csv・管理画面,Codex,weekly,yellow,high priority候補から確認する
+admin_review_sla,安全,KPI,72時間以内一次確認率,pendingまたはneeds_reviewの一次確認が72時間以内に行われた割合,80%,90%,95%,95%,要計測,Supabase reports・admin_actions,Codex+管理者,weekly,yellow,審査待ち件数を管理画面で確認する
+sns_posting_continuity,利用価値,KPI,SNS投稿継続率,直近30日で安全投稿がpostedになった日数,20,25,27,28,要自動集計,SNS_AUTO_POST_QUEUE.csv,Codex,daily,yellow,API投稿化またはブラウザ投稿の安定化を進める
+sns_link_clicks,利用価値,KPI,SNSリンククリック,SNS投稿からサイトへ遷移したクリック数,30,150,500,1000,要計測,SNS_KPI_LOG_TEMPLATE.csv,Codex,weekly,yellow,クリックが出た文面を翌週テンプレートへ反映する
+search_clicks,利用価値,KPI,Search Consoleクリック,Google検索からのクリック数,100,1000,8000,30000,要計測,Search Console,管理者,weekly,yellow,主要ページのURL検査と本文補強を続ける
+quick_report_visits,情報供給,KPI,30秒投稿フォーム到達数,/reports/quickへの到達数,100,500,2000,5000,要計測,Vercel Analytics・GA4,Codex,weekly,yellow,主要ページのCTAを短くする
+sponsor_inquiries,収益化,KPI,スポンサー・広告相談数,公開方針を読んだうえで送信された非公開問い合わせ数,0,2,5,10,0,Supabase admin_actions,Codex+管理者,monthly,red,信頼ページとスポンサー方針を整えた後に導線を強める
+adsense_ready,収益化,KPI,AdSense再審査準備,主要ページの独自性・sitemap・ads.txt・広告OFF条件がそろっているか,no,partial,ready,ready,partial,ADSENSE_REVIEW_FIX_PLAN.md,Codex+管理者,weekly,yellow,薄いページを増やさず主要ページを厚くする
+area_depth,利用価値,KPI,高優先度エリアの厚み,highest/highエリアで公式ソース・ガイド・投稿導線・候補審査がそろった数,2,4,6,12,要計測,AREA_TRACTION_MATRIX.csv・AREA_DATA_COLLECTION_QUEUE.csv,Codex,weekly,yellow,新宿・池袋・渋谷・上野を先に厚くする

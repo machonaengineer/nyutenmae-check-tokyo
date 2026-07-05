@@ -39,6 +39,7 @@ npm run lint
 npm run typecheck
 npm run check:sources:dry
 npm run check:official-seed
+npm run kpi:summary
 npm run verify:production
 npm run test:e2e
 ```
@@ -302,6 +303,9 @@ INITIAL_DATA_CANDIDATES_CSV=
 ## 運用資料
 
 - `PRODUCT_GOAL_AND_ARCHITECTURE.md`: 最終目標、非目標、データライフサイクル
+- `PRODUCT_KGI_KPI.md`: 12か月KGI、90日KGI、日次/週次KPI運用
+- `PRODUCT_KGI_KPI_SCORECARD.csv`: 安全、情報供給、利用、収益化のKGI/KPIスコアカード
+- `PRODUCT_KPI_LOG_TEMPLATE.csv`: Search Console、Supabase、SNS、収益化の週次実績ログテンプレート
 - `LAUNCH_CHECKLIST.md`: 本番公開前チェックリスト
 - `LAUNCH_PLAN.md`: MVPリリース手順とロールバック方針
 - `OPERATIONS_SOP.md`: 投稿審査、異議申立て、事故時対応
@@ -354,3 +358,15 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `PHASE_51_DEEP_REVIEW_WORKFLOW.md`: 審査済み候補だけを非公開デフォルトの投稿へ作成する管理導線
 - `PHASE_52_ZERO_TO_SIGNAL_PLAN.md`: 公開投稿が少ない段階でも価値を出すエリア別成長設計
 - `PHASE_53_57_GROWTH_SPRINT.md`: 認知不足とコンテンツ不足を補う成長スプリント
+
+## KGI / KPI運用
+
+最終ゴールは、入店前に確認される審査制の注意情報インフラにし、公開情報の安全性を壊さず月次収益化を成立させることです。
+
+日次の状態確認:
+
+```bash
+npm run kpi:summary
+```
+
+週次では、Search Console、Vercel/GA4、Supabase管理画面、SNS実績、スポンサー問い合わせを `PRODUCT_KPI_LOG_TEMPLATE.csv` に転記します。Safety KPIが赤の場合は、成長施策や収益化より先に公開停止、RLS、Storage、非公開情報混入の確認を優先します。
