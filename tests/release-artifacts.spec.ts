@@ -36,6 +36,7 @@ const requiredReleaseFiles = [
   "SNS_REPLY_QUEUE.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
   "SOURCE_LINK_CHECK_LOG_2026-07-05.md",
+  "INITIAL_CANDIDATE_REVIEW_LOG_2026-07-05.md",
   "MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv",
   "MEDIA_EVIDENCE_COLLECTION_2026-05-28.md",
   "AREA_DATA_COLLECTION_QUEUE.csv",
@@ -632,6 +633,45 @@ test.describe("リリース準備資料", () => {
     expect(sourceCard).toContain("リンク再確認中");
     expect(linkCheckLog).toContain("review: 1件");
     expect(linkCheckLog).toContain("404");
+  });
+
+  test("出典URLがない高優先度の初期候補は検証済みにしない", async () => {
+    const queue = await readFile(
+      path.join(rootDir, "INITIAL_DATA_REVIEW_QUEUE.csv"),
+      "utf8",
+    );
+    const candidateLib = await readFile(
+      path.join(rootDir, "src/lib/admin/initial-data-candidates.ts"),
+      "utf8",
+    );
+    const reviewLog = await readFile(
+      path.join(rootDir, "INITIAL_CANDIDATE_REVIEW_LOG_2026-07-05.md"),
+      "utf8",
+    );
+    const kpiScript = await readFile(
+      path.join(rootDir, "scripts/product-kpi-summary.mjs"),
+      "utf8",
+    );
+    const readme = await readFile(path.join(rootDir, "README.md"), "utf8");
+
+    for (const rowNumber of ["2", "3"]) {
+      expect(queue).toContain(
+        `private-candidates.csv,${rowNumber},high,,`,
+      );
+    }
+
+    expect(queue).toContain("blocked_missing_source");
+    expect(queue).toContain("source_verified=no");
+    expect(queue).toContain("needs_review");
+    expect(candidateLib).toContain("blocked_missing_source");
+    expect(candidateLib).toContain("source_verified=no");
+    expect(candidateLib).toContain("recommendedStatus");
+    expect(reviewLog).toContain("source_verified=no");
+    expect(reviewLog).toContain("recommended_status=needs_review");
+    expect(reviewLog).toContain("具体出典がない候補を承認済み公開情報へ変換しない");
+    expect(kpiScript).toContain("high priority missing source_url");
+    expect(kpiScript).toContain("source_urlが空のhigh priority初期候補");
+    expect(readme).toContain("INITIAL_CANDIDATE_REVIEW_LOG_2026-07-05.md");
   });
 
   test("スポンサー問い合わせは公開ページに出さず管理ログで確認する", async () => {

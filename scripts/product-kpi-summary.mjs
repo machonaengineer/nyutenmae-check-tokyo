@@ -132,6 +132,9 @@ function listTopActions({ sourceRows, reviewRows, snsRows }) {
   const unverifiedCandidates = reviewRows.filter(
     (row) => row.review_priority === "high" && row.source_verified !== "yes",
   );
+  const missingSourceUrlCandidates = unverifiedCandidates.filter(
+    (row) => !row.source_url,
+  );
   const blockedSns = snsRows.filter((row) => row.status === "blocked");
 
   if (blockedSns.length > 0) {
@@ -140,7 +143,9 @@ function listTopActions({ sourceRows, reviewRows, snsRows }) {
   if (highUnstartedSources.length > 0) {
     actions.push("high priorityの未確認ソースまたはリンク再確認対象を処理し、必要なら代替出典を探す");
   }
-  if (unverifiedCandidates.length > 0) {
+  if (missingSourceUrlCandidates.length > 0) {
+    actions.push("source_urlが空のhigh priority初期候補に、private候補CSVまたは出典URLを補完する");
+  } else if (unverifiedCandidates.length > 0) {
     actions.push("high priorityの初期データ候補を出典確認済みに進め、公開可否を判断する");
   }
   actions.push("Search ConsoleとSupabase管理画面の実数をPRODUCT_KPI_LOG_TEMPLATE.csvへ週次転記する");
@@ -174,6 +179,9 @@ async function main() {
   const highUnverifiedReview = highReview.filter(
     (row) => row.source_verified !== "yes",
   );
+  const highMissingSourceUrlReview = highUnverifiedReview.filter(
+    (row) => !row.source_url,
+  );
 
   const output = [
     `KPI summary for ${todayArg}`,
@@ -197,6 +205,7 @@ async function main() {
     "Initial data review",
     `- review candidates: ${initialReview.length}`,
     `- high priority unverified: ${highUnverifiedReview.length}`,
+    `- high priority missing source_url: ${highMissingSourceUrlReview.length}`,
     `- recommended status counts: ${formatCounts(
       countBy(initialReview, "recommended_status"),
     )}`,

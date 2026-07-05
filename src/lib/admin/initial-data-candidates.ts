@@ -4,8 +4,8 @@ import { parseCsv } from "@/lib/initial-data-validation";
 export const INITIAL_DATA_CANDIDATE_CSV_ENV = "INITIAL_DATA_CANDIDATES_CSV";
 
 export const INITIAL_DATA_REVIEW_QUEUE_CSV = `candidate_file,row_number,review_priority,source_url,observed_area,place_name,address_precision,building_name_status,floor_status,source_verified,public_summary_checked,legal_review_status,recommended_status,next_action
-private-candidates.csv,2,high,,新宿・歌舞伎町,店名または住所ありの候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,出典URLと現在状況を確認し、住所・建物名が確認できるまで公開承認しない
-private-candidates.csv,3,high,,池袋,同一住所または同一建物の候補,番地まで,要確認,未確認,no,no,not_started,needs_review,同一運営や同一店舗と断定せず、建物単位の注意情報として扱えるか確認する
+private-candidates.csv,2,high,,新宿・歌舞伎町,店名または住所ありの候補,町域または番地,未確認,未確認,no,no,blocked_missing_source,needs_review,private-candidates.csvの実ファイルまたは出典URLと店名・住所が未確認。具体情報がそろうまでsource_verified=noを維持する
+private-candidates.csv,3,high,,池袋,同一住所または同一建物の候補,番地まで,要確認,未確認,no,no,blocked_missing_source,needs_review,source_urlと建物名根拠が未確認。同一運営や同一店舗とは断定せず具体情報がそろうまでneeds_reviewを維持する
 private-candidates.csv,4,medium,,渋谷・道玄坂・宇田川町,店名未確認のエリア候補,町域まで,未確認,未確認,no,no,not_started,needs_review,個別店舗公開ではなくエリア注意喚起または相談導線改善の材料に回す
 private-candidates.csv,5,medium,,上野・御徒町・湯島,出典確認待ちの候補,町域まで,未確認,未確認,no,no,not_started,needs_review,追加出典、現在状況、異議申立て導線を確認してから投入可否を判断する
 private-candidates.csv,6,medium,,六本木・麻布十番,深夜帯の料金確認候補,町域または番地,未確認,未確認,no,no,not_started,needs_review,公開前に出典URL、現在状況、建物名、階数を確認する

@@ -327,6 +327,7 @@ INITIAL_DATA_CANDIDATES_CSV=
 - `SNS_KPI_LOG_TEMPLATE.csv`: SNS投稿の表示、クリック、保存、情報提供遷移を記録する日次ログテンプレート
 - `SOURCE_RESEARCH_QUEUE.csv`: 公的・公式ソースの調査キュー
 - `SOURCE_LINK_CHECK_LOG_2026-07-05.md`: 2026-07-05時点の情報ソースURL到達確認ログ
+- `INITIAL_CANDIDATE_REVIEW_LOG_2026-07-05.md`: high priority初期データ候補2件をsource_url不足で保留した審査ログ
 - `AREA_DATA_COLLECTION_QUEUE.csv`: 12エリア別の情報収集・建物確認・コンテンツ増強キュー
 - `OFFICIAL_SOURCE_SEED_CANDIDATES.csv`: 12エリア分の公式ソース由来の非公開審査候補CSV
 - `MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv`: 報道、記事、自治体公表から作成した非公開審査候補CSV
