@@ -33,14 +33,20 @@ export function ResearchSourceCard({
       <p className="mt-3 text-sm leading-7 text-muted">{source.publicSummary}</p>
       <p className="mt-3 text-sm leading-7 text-muted">{source.suggestedUse}</p>
       <div className="mt-4 flex flex-wrap gap-3">
-        <a
-          className="inline-flex text-sm font-semibold text-action"
-          href={source.sourceUrl}
-          rel="noreferrer"
-          target="_blank"
-        >
-          {source.sourceType === "news" ? "出典を確認する" : "公式情報を確認する"}
-        </a>
+        {source.linkStatus === "link_review" ? (
+          <span className="inline-flex text-sm font-semibold text-muted">
+            リンク再確認中
+          </span>
+        ) : (
+          <a
+            className="inline-flex text-sm font-semibold text-action"
+            href={source.sourceUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {source.sourceType === "news" ? "出典を確認する" : "公式情報を確認する"}
+          </a>
+        )}
       </div>
       {showNextAction ? (
         <div className="mt-4 rounded-md border border-line bg-surface p-3 text-sm leading-6 text-muted">

@@ -35,6 +35,7 @@ const requiredReleaseFiles = [
   "SNS_REPLY_OUTREACH_RUNBOOK.md",
   "SNS_REPLY_QUEUE.csv",
   "SOURCE_RESEARCH_QUEUE.csv",
+  "SOURCE_LINK_CHECK_LOG_2026-07-05.md",
   "MEDIA_EVIDENCE_CANDIDATES_2026-05-28.csv",
   "MEDIA_EVIDENCE_COLLECTION_2026-05-28.md",
   "AREA_DATA_COLLECTION_QUEUE.csv",
@@ -610,6 +611,27 @@ test.describe("リリース準備資料", () => {
     expect(script).toContain("SNS_AUTO_POST_QUEUE.csv");
     expect(script).toContain("SOURCE_RESEARCH_QUEUE.csv");
     expect(packageJson).toContain('"kpi:summary"');
+  });
+
+  test("リンク切れの調査ソースは通常の出典リンクとして誘導しない", async () => {
+    const sources = await readFile(
+      path.join(rootDir, "src/lib/research-sources.ts"),
+      "utf8",
+    );
+    const sourceCard = await readFile(
+      path.join(rootDir, "src/components/research-source-card.tsx"),
+      "utf8",
+    );
+    const linkCheckLog = await readFile(
+      path.join(rootDir, "SOURCE_LINK_CHECK_LOG_2026-07-05.md"),
+      "utf8",
+    );
+
+    expect(sources).toContain('linkStatus: "link_review"');
+    expect(sources).toContain("リンク再確認、追加出典、現在状況");
+    expect(sourceCard).toContain("リンク再確認中");
+    expect(linkCheckLog).toContain("review: 1件");
+    expect(linkCheckLog).toContain("404");
   });
 
   test("スポンサー問い合わせは公開ページに出さず管理ログで確認する", async () => {

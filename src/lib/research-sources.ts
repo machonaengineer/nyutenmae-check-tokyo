@@ -13,6 +13,7 @@ export type ResearchSource = {
   sourceTitle: string;
   sourceUrl: string;
   sourceCheckedAt: string;
+  linkStatus?: "active" | "link_review";
   priority: "high" | "medium" | "low";
   publicSummary: string;
   suggestedUse: string;
@@ -87,7 +88,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "新宿区の高額請求トラブル相談案内",
     sourceUrl: "https://www.city.shinjuku.lg.jp/seikatsu/shohi01_000300.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "新宿区が、飲食店利用後の高額請求に関する相談先を案内している公式ページです。",
@@ -104,7 +105,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "警視庁の新宿繁華街利用時の注意喚起",
     sourceUrl:
       "https://www.keishicho.metro.tokyo.lg.jp/about_mpd/shokai/ichiran/kankatsu/shinjuku/about_ps/safe_drinking.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "警視庁が、新宿周辺で飲食店を利用する際の注意点を案内しているページです。",
@@ -120,7 +121,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "consumer_center",
     sourceTitle: "東京都消費生活総合センターの相談案内",
     sourceUrl: "https://www.shouhiseikatu.metro.tokyo.lg.jp/sodan/sodan.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "東京都の消費生活相談窓口案内です。会計内容に不安がある場合の相談導線として扱います。",
@@ -185,7 +186,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "豊島区の安全・安心に関する取組",
     sourceUrl: "https://www.city.toshima.lg.jp/048/chian/1812031128.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "豊島区が、安全・安心に関する区の取組を案内している公式ページです。",
@@ -202,7 +203,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "渋谷区の客引きしない宣言店資料",
     sourceUrl:
       "https://files.city.shibuya.tokyo.jp/assets/12995aba8b194961be709ba879857f70/c5172093828b4b44b6d3b59d0875ceee/20240305kannkyoujyoukatennpo.pdf",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "渋谷区が公開する、客引き抑止に関する取組資料です。店舗一覧の転載は行いません。",
@@ -219,7 +220,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "台東区の客引き行為等の防止に関する案内",
     sourceUrl:
       "https://www.city.taito.lg.jp/bosai/bohantaisaku/anzentaisaku/kyakuhiki/kyakuhiki.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "台東区が、区内の客引き行為等の防止に関する取組を案内している公式ページです。",
@@ -235,7 +236,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "文京区の客引き行為等への対策",
     sourceUrl: "https://www.city.bunkyo.lg.jp/b009/p000184.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "文京区が、客引き行為等への対策を案内している公式ページです。湯島周辺の背景確認に使います。",
@@ -252,7 +253,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "東京都のホストクラブ等高額請求トラブル注意喚起",
     sourceUrl:
       "https://www.shouhiseikatu.metro.tokyo.lg.jp/hourei/oshirase/2024kougakuseikyu.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "東京都が、ホストクラブやコンセプトカフェ等での高額請求に関する相談事例と相談先を案内している公式ページです。",
@@ -269,7 +270,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "厚生労働省のホストクラブ関連相談支援情報",
     sourceUrl:
       "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kodomo/kodomo_kosodate/dv/index_00037.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "厚生労働省が、ホストクラブ利用に関連する支払困難や生活相談の支援先を案内しているページです。",
@@ -286,7 +287,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "警視庁の繁華街利用時の犯罪被害注意喚起",
     sourceUrl:
       "https://www.keishicho.metro.tokyo.lg.jp/kurashi/anzen/live_in_tokyo/hankagai.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "警視庁が、繁華街での客引き経由の来店やクレジットカード決済に関する注意点を案内しているページです。",
@@ -303,7 +304,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "警視庁の盛り場環境に関する注意喚起",
     sourceUrl:
       "https://www.keishicho.metro.tokyo.lg.jp/kurashi/anzen/sakaribasogo/sakariba2.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "警視庁が、盛り場での客引き行為や料金請求トラブルにつながる要因を説明しているページです。",
@@ -320,7 +321,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "警視庁の盛り場被害事例トピックス",
     sourceUrl:
       "https://www.keishicho.metro.tokyo.lg.jp/kurashi/anzen/sakaribasogo/sakaribatopics.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "警視庁が、盛り場でのトラブル事例や注意点を紹介しているページです。",
@@ -337,7 +338,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "警視庁の客引き等の相手方となるべき者を待つ行為の規制区域",
     sourceUrl:
       "https://www.keishicho.metro.tokyo.lg.jp/about_mpd/keiyaku_horei_kohyo/horei_jorei/kyaku_ku.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "警視庁が、東京都公安委員会の指定区域として、客引き等の相手方となるべき者を待つ行為の規制区域を案内しているページです。",
@@ -353,7 +354,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "港区の客引き行為等の防止に関する条例案内",
     sourceUrl: "https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "港区が、公共の場所における客引き行為等の防止に関する条例と取組を案内している公式ページです。",
@@ -369,7 +370,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "港区の赤坂地区を含む客引き行為等防止の取組",
     sourceUrl: "https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "港区の客引き行為等防止に関する公式情報です。赤坂周辺の背景確認に使います。",
@@ -385,7 +386,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "港区の新橋地区を含む客引き行為等防止の取組",
     sourceUrl: "https://www.city.minato.tokyo.jp/seikatsuanzen/kyakuhikiboushi.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "港区が、新橋を含む区内繁華街の客引き行為等防止に関する取組を案内している公式ページです。",
@@ -401,7 +402,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "千代田区の公共の場所における客引き行為等防止条例案内",
     sourceUrl: "https://www.city.chiyoda.lg.jp/koho/machizukuri/sekatsu/kyakuhiki.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "千代田区が、公共の場所における客引き行為等の防止に関する条例と取組を案内している公式ページです。",
@@ -417,7 +418,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "consumer_center",
     sourceTitle: "中央区消費生活センターの相談案内",
     sourceUrl: "https://www.city.chuo.lg.jp/consumercenter/index.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "中央区の消費生活センター公式ページです。銀座側の相談導線確認に使います。",
@@ -434,7 +435,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "墨田区の客引き行為等の防止に関する条例案内",
     sourceUrl:
       "https://www.city.sumida.lg.jp/anzen_anshin/kurasinoanzen_ansin/kyakuhiki-bousi/kyakuhikikaisei.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "墨田区が、客引き行為等の防止に関する条例と錦糸町駅周辺を含む取組を案内している公式ページです。",
@@ -451,7 +452,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "品川区の公共の場所における客引き行為等防止条例案内",
     sourceUrl:
       "https://www.city.shinagawa.tokyo.jp/PC/bosai/bosai-bohan/hpg000025697.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "品川区が、公共の場所における客引き行為等の防止に関する条例を案内している公式ページです。",
@@ -468,7 +469,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "立川市の安全・安心パトロール実施案内",
     sourceUrl:
       "https://www.city.tachikawa.lg.jp/bosai/bohan/1008438/1008446.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "立川市が、客引き、勧誘、客待ち、つきまとい等の迷惑行為防止とパトロールを案内している公式ページです。",
@@ -485,7 +486,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "町田市の町田駅周辺における客引き防止協働パトロール発表資料",
     sourceUrl:
       "https://www.city.machida.tokyo.jp/shisei/koho/faxrelease/2023/202307.files/103.pdf",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "町田市が、町田駅周辺での客引き防止協働パトロールに関する発表資料を公開しています。",
@@ -502,7 +503,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "武蔵野市の安全パトロール隊と客引き行為等規制案内",
     sourceUrl:
       "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/bosai_anzen/1040408/1040413.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "武蔵野市が、吉祥寺駅周辺を含む安全パトロール隊と客引き行為等への指導・警告を案内している公式ページです。",
@@ -518,7 +519,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町で既存チェーン関係者を装う客引き事案の報道",
     sourceUrl: "https://www.tokyo-sports.co.jp/articles/-/290541?page=1",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "報道では、既存チェーンの関係者を装う客引きと、別店舗への案内に関する事案が紹介されています。",
@@ -534,7 +535,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町で系列店案内後の会計差異に関する報道",
     sourceUrl: "https://mezamashi.media/articles/-/20624",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "報道では、系列店案内を受けた利用者が会計時に説明と異なる金額を確認したとの証言が紹介されています。",
@@ -550,14 +551,15 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "池袋で客引き経由の追加支払いに関する報道",
     sourceUrl: "https://news.tv-asahi.co.jp/news_society/articles/000246210.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
+    linkStatus: "link_review",
     priority: "high",
     publicSummary:
-      "報道では、豊島区西池袋の店舗について、客引き経由の来店と追加支払いに関する事案が紹介されています。",
+      "過去に参照候補として登録した報道です。2026-07-05時点のリンク確認では再確認が必要なため、個別公開には使いません。",
     suggestedUse:
       "池袋エリアの客引き経由来店、会計前確認、相談導線の強化に使います。",
     nextAction:
-      "店名未確認のため個別店舗として承認せず、追加出典が得られるまでneeds_reviewを維持する。",
+      "リンク再確認、追加出典、現在状況、住所、建物名、階数が確認できるまでneeds_reviewを維持する。",
   },
   {
     id: "news-kabukicho-host-billing-202311",
@@ -566,7 +568,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町ホストクラブ利用と高額支払いに関する報道",
     sourceUrl: "https://s.mxtv.jp/mxnews/article/chiiki/1etqjlg0fa1utasu2.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "報道では、歌舞伎町のホストクラブ利用をめぐる高額な支払い相談の文脈が紹介されています。",
@@ -582,7 +584,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町1丁目の飲み放題条件と会計対応に関する報道",
     sourceUrl: "https://www.asahi.com/articles/ASR5K76S8R5KUTIL007.html",
-    sourceCheckedAt: "2026-05-27",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "報道では、飲み放題条件や会計時対応について利用者側との認識差があった事案が紹介されています。",
@@ -598,7 +600,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町でチェーン系列店を装う客引き手口に関する報道",
     sourceUrl: "https://www.j-cast.com/2024/02/02477448.html?=p2",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "報道では、既存チェーンの関係者を装う案内、別店舗への誘導、料金説明と会計内容の確認が必要な事案が紹介されています。",
@@ -614,7 +616,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町で外国人観光客向け案内と料金上乗せに関する報道",
     sourceUrl: "https://japanese.joins.com/JArticle/314429?sectcode=A10&servcode=A00",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "報道では、外国人観光客が既存チェーンの系列店と誤認しやすい案内を受け、別店舗へ誘導された事案が紹介されています。",
@@ -630,7 +632,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町でチェーン系列店を名乗る客引きに関する外食業界記事",
     sourceUrl: "https://www.foodrink.co.jp/news/2024/01/3055839.html",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "外食業界向け記事では、既存チェーンの利用客に対する案内と別店舗への誘導が取り上げられています。",
@@ -646,7 +648,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町で大手チェーン利用客を狙う案内手口の詳細報道",
     sourceUrl: "https://shueisha.online/articles/-/194300",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "報道では、既存チェーン利用客への案内、席料やサービス料などの名目、会計時の確認点が紹介されています。",
@@ -662,7 +664,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "歌舞伎町ホストクラブ等の料金表示義務に関する報道",
     sourceUrl: "https://www.asahi.com/articles/ASRDM42NCRDMUTIL00K.html",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "報道では、警視庁の立入結果として、料金表示や従業員名簿に関する確認事項が紹介されています。",
@@ -678,7 +680,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "municipality",
     sourceTitle: "新宿区のホストクラブ等高額請求被害対策ページ",
     sourceUrl: "https://www.city.shinjuku.lg.jp/whatsnew/pub/2023/1117-01.html",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "新宿区が、歌舞伎町地区での高額請求被害対策と関係機関との連携方針を案内している公式ページです。",
@@ -694,7 +696,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "渋谷・道玄坂でマッチングアプリ経由の高額請求疑いに関する報道",
     sourceUrl: "https://news.livedoor.com/article/detail/28769638/",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "報道では、マッチングアプリで知り合った相手から飲食店へ誘導され、支払い前後の説明に関するトラブルが紹介されています。",
@@ -710,7 +712,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "渋谷区のバーで高額な支払い要求に関する共同通信配信記事",
     sourceUrl: "https://www.chiba-tv.com/plus/detail/202505224897",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "共同通信配信記事では、渋谷区のバーで高額な支払い要求に関する事案が紹介されています。",
@@ -727,7 +729,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceTitle: "渋谷区の客引き行為等に関する行政処分公表ページ",
     sourceUrl:
       "https://www.city.shibuya.tokyo.jp/bosai/bohan/bohan-torikumi/kyakuhikikouhyou.html",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "high",
     publicSummary:
       "渋谷区が、条例に基づく行政処分、規制区域、店舗等への立入調査件数を公表している公式ページです。",
@@ -743,7 +745,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "池袋の飲食店で明細内容に関する利用者投稿を扱った記事",
     sourceUrl: "https://getnews.jp/archives/2791173",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "記事では、客引き経由の案内、説明された条件、会計時の明細内容に関する利用者投稿が紹介されています。",
@@ -759,7 +761,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "池袋の飲食店で請求内訳が紹介された記事",
     sourceUrl: "https://gogotsu.com/archives/41472",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "記事では、西池袋周辺の飲食店について、料理点数、請求総額、席料等の内訳が紹介されています。",
@@ -775,7 +777,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "上野周辺の客引き取締り状況に関する取材記事",
     sourceUrl: "https://nikkan-spa.jp/1540583",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "取材記事では、上野周辺の客引き取締り、地域事情、警察対応の背景が紹介されています。",
@@ -791,7 +793,7 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
     sourceType: "news",
     sourceTitle: "国民生活センターの飲食店高額請求トラブル注意喚起を扱った記事",
     sourceUrl: "https://nlab.itmedia.co.jp/cont/articles/3253023/",
-    sourceCheckedAt: "2026-05-28",
+    sourceCheckedAt: "2026-07-05",
     priority: "medium",
     publicSummary:
       "記事では、国民生活センターの注意喚起として、客引き経由の来店、支払い、カード利用に関する相談事例が紹介されています。",

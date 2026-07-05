@@ -114,10 +114,20 @@ function recentRows(rows, dateKey, today, maxDays) {
   });
 }
 
+const completedSourceResearchStatuses = new Set([
+  "done",
+  "source_verified",
+  "imported_needs_review",
+]);
+
+function needsSourceResearch(row) {
+  return !completedSourceResearchStatuses.has(row.research_status);
+}
+
 function listTopActions({ sourceRows, reviewRows, snsRows }) {
   const actions = [];
   const highUnstartedSources = sourceRows.filter(
-    (row) => row.priority === "high" && row.research_status !== "done",
+    (row) => row.priority === "high" && needsSourceResearch(row),
   );
   const unverifiedCandidates = reviewRows.filter(
     (row) => row.review_priority === "high" && row.source_verified !== "yes",
@@ -128,7 +138,7 @@ function listTopActions({ sourceRows, reviewRows, snsRows }) {
     actions.push("SNS投稿のblocked原因を解消し、公式API投稿または本人確認済みブラウザ運用を安定化する");
   }
   if (highUnstartedSources.length > 0) {
-    actions.push("high priorityの公式ソースを確認し、確認日と独自要約を更新する");
+    actions.push("high priorityの未確認ソースまたはリンク再確認対象を処理し、必要なら代替出典を探す");
   }
   if (unverifiedCandidates.length > 0) {
     actions.push("high priorityの初期データ候補を出典確認済みに進め、公開可否を判断する");
@@ -159,9 +169,7 @@ async function main() {
   const recentPosted = recentSns.filter((row) => row.status === "posted");
   const recentBlocked = recentSns.filter((row) => row.status === "blocked");
   const highSources = sourceQueue.filter((row) => row.priority === "high");
-  const highUnstartedSources = highSources.filter(
-    (row) => row.research_status !== "done",
-  );
+  const highUnstartedSources = highSources.filter(needsSourceResearch);
   const highReview = initialReview.filter((row) => row.review_priority === "high");
   const highUnverifiedReview = highReview.filter(
     (row) => row.source_verified !== "yes",
@@ -183,7 +191,7 @@ async function main() {
     "",
     "Source research",
     `- total sources: ${sourceQueue.length}`,
-    `- high priority not done: ${highUnstartedSources.length}`,
+    `- high priority needing source or link review: ${highUnstartedSources.length}`,
     `- status counts: ${formatCounts(countBy(sourceQueue, "research_status"))}`,
     "",
     "Initial data review",

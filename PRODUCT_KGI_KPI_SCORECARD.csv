@@ -4,7 +4,7 @@ pre_entry_sessions,利用価値,KGI,入店前確認セッション,/map・areas�
 valid_submissions,情報供給,KGI,有効情報提供数,spam・重複・範囲外を除く新規pendingまたはneeds_review,10,20,60,100,要計測,Supabase reports,Codex+管理者,weekly,yellow,/reports/quickへの導線を増やす
 approved_public_assets,公開資産,KGI,承認済み公開情報数,審査済みで公開可能なreport/place/sourceの合計,10,30,80,150,要計測,Supabase公開ビュー,Codex+管理者,weekly,yellow,高優先度候補から出典確認を進める
 monthly_revenue,収益化,KGI,月次継続収益,AdSense・スポンサー・支援の合計。審査と順位には影響させない,0,0,10000,30000,0,AdSense・スポンサー管理,Codex+管理者,monthly,red,AdSense再審査より先に検索流入と独自コンテンツを増やす
-source_verified_candidates,情報供給,KPI,出典確認済み候補数,出典URL・確認日・独自要約がそろった候補数,5,20,60,120,要計測,INITIAL_DATA_REVIEW_QUEUE.csv・管理画面,Codex,weekly,yellow,high priority候補から確認する
+source_verified_candidates,情報供給,KPI,出典確認済み候補数,出典URL・確認日・独自要約がそろった候補数,5,20,60,120,公式・公的ソース15件は2026-07-05にURL到達確認済み。初期データ候補は未確認,SOURCE_RESEARCH_QUEUE.csv・INITIAL_DATA_REVIEW_QUEUE.csv・管理画面,Codex,weekly,yellow,link_review 1件とhigh priority初期候補2件から確認する
 admin_review_sla,安全,KPI,72時間以内一次確認率,pendingまたはneeds_reviewの一次確認が72時間以内に行われた割合,80%,90%,95%,95%,要計測,Supabase reports・admin_actions,Codex+管理者,weekly,yellow,審査待ち件数を管理画面で確認する
 sns_posting_continuity,利用価値,KPI,SNS投稿継続率,直近30日で安全投稿がpostedになった日数,20,25,27,28,要自動集計,SNS_AUTO_POST_QUEUE.csv,Codex,daily,yellow,API投稿化またはブラウザ投稿の安定化を進める
 sns_link_clicks,利用価値,KPI,SNSリンククリック,SNS投稿からサイトへ遷移したクリック数,30,150,500,1000,要計測,SNS_KPI_LOG_TEMPLATE.csv,Codex,weekly,yellow,クリックが出た文面を翌週テンプレートへ反映する
