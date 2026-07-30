@@ -24,7 +24,7 @@ const calendarHeader =
   "day,slot,platform,post_type,theme,post_text,target_url,cta,safety_check,status";
 
 test.describe("SNS日次投稿キュー生成", () => {
-  test("実運用カレンダーのmorning投稿は情報提供フォームへ誘導する", async () => {
+  test("実運用カレンダーのmorning投稿は14日間重複せず複数導線を回す", async () => {
     const calendar = await readFile(
       path.join(rootDir, "SOCIAL_CONTENT_CALENDAR.csv"),
       "utf8",
@@ -33,28 +33,32 @@ test.describe("SNS日次投稿キュー生成", () => {
       .split(/\r?\n/)
       .filter((line) => line.includes(",morning,X,") && line.endsWith(",ready"));
 
-    expect(morningRows.length).toBeGreaterThan(0);
-    for (const row of morningRows) {
-      expect(row).toContain("https://nyutenmae-check-tokyo.vercel.app/reports/quick");
-      expect(row).toContain("非公開");
-    }
+    expect(morningRows).toHaveLength(14);
+    expect(new Set(morningRows).size).toBe(morningRows.length);
+    expect(morningRows.join("\n")).toContain("/reports/quick");
+    expect(morningRows.join("\n")).toContain("/checklists");
+    expect(morningRows.join("\n")).toContain("/support");
+    expect(morningRows.join("\n")).toContain("/search");
+    expect(morningRows.join("\n")).toContain("/guidelines");
   });
 
-  test("2026-06-04のmorning dry-runは情報提供フォームへ誘導する", async () => {
+  test("calendar day 8のmorning dry-runは保存型チェックリストへ誘導する", async () => {
     const { stdout } = await execFileAsync(
       "node",
       [
         "scripts/social-prepare-daily-queue.mjs",
         "--dry-run",
-        "--date=2026-06-04",
+        "--date=2026-07-31",
         "--slot=morning",
+        "--calendar-day=8",
       ],
       { cwd: rootDir },
     );
 
     expect(stdout).toContain("DRY RUN");
-    expect(stdout).toContain("https://nyutenmae-check-tokyo.vercel.app/reports/quick");
-    expect(stdout).toContain("手がかり");
+    expect(stdout).toContain("https://nyutenmae-check-tokyo.vercel.app/checklists");
+    expect(stdout).toContain("保存用");
+    expect(stdout).toContain("入店前15秒チェック");
   });
 
   test("今日分のapproved投稿をカレンダーから生成する", async () => {
