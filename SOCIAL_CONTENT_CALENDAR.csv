@@ -8,7 +8,7 @@ day,slot,platform,post_type,theme,post_text,target_url,cta,safety_check,status
 3,morning,X,contribution,記憶が薄れる前に3場面で整理,"会計で「聞いていた話と違う」と感じた記憶は、時間がたつほど曖昧になります。今日のうちに①入店前 ②店内 ③会計時 の3場面へ分け、料金説明・明細・支払い方法をメモ。情報提供は非公開です。必要な時に見返せるよう保存してください。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"今日3場面で整理して保存する","非公開受付、投稿者申告、断定なし",ready
 3,noon,X,area,池袋,"池袋周辺の入店前確認ページを用意しています。西口、東口周辺の料金説明や会計確認に関する注意情報を、承認済み投稿だけで整理します。",https://nyutenmae-check-tokyo.vercel.app/areas/ikebukuro,"エリアページへ誘導","未承認情報なし",ready
 3,night,X,contribution,投稿方針,"投稿は自動公開されません。証拠画像と投稿者メールアドレスは一般公開せず、管理者が表現、個人情報、証拠レベルを確認してから公開判断します。",https://nyutenmae-check-tokyo.vercel.app/guidelines,"投稿前確認へ誘導","審査方針を明記",ready
-4,morning,X,contribution,明細の有無募集,"捨てる前に保存。明細、領収書、カード利用控え、料金表、説明を受けた日時は、後から経緯を確認する手がかりになります。画像や連絡先は一般公開しません。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"保存した資料の有無を送る","証拠画像非公開を明記",ready
+4,morning,X,contribution,会計後の5点保存,"「あとで確認したい」と思っても、明細を捨てると経緯を追いにくくなります。会計後は5点だけ保存。①明細 ②領収書 ③カード利用控え ④料金表 ⑤説明を受けた日時。画像や連絡先は一般公開しません。必要な時に見返せるよう、この投稿を保存してください。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"5点を保存して見返す","証拠画像・連絡先非公開、断定なし",ready
 4,noon,X,area,渋谷,"渋谷・道玄坂・宇田川町周辺の入店前確認ページを用意しています。料金説明と会計内容の確認に役立つ情報提供を募集しています。",https://nyutenmae-check-tokyo.vercel.app/areas/shibuya-dogenzaka-udagawacho,"エリアページへ誘導","募集表現に限定",ready
 4,night,X,search,検索導線,"店舗名や住所の手がかりで、承認済みの注意報告がある場所を検索できます。公開情報が少ない場合も、関連エリアや公式確認先を表示します。",https://nyutenmae-check-tokyo.vercel.app/search,"検索へ誘導","非公開情報なし",ready
 5,morning,X,contribution,案内経由の情報募集,"客引きや紹介経由なら、「案内時に聞いた内容」「店内での説明」「会計時の金額」を分けて記録してください。投稿者の申告として非公開で受け付け、確認後に扱います。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"3つの違いを送る","非公開受付、投稿者申告、断定なし",ready
