@@ -14,7 +14,7 @@ day,slot,platform,post_type,theme,post_text,target_url,cta,safety_check,status
 5,morning,X,contribution,説明の差を3段階で記録,"「聞いていた金額」と会計が違った時は、3つを混ぜずに残してください。①案内時に聞いた内容 ②店内での説明 ③会計時の金額。時間がたっても経緯を整理しやすくなります。情報提供は投稿者の申告として非公開で受け付け、確認後に扱います。必要な時に見返せるよう、この投稿を保存してください。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"3段階を記録して保存","非公開受付、投稿者申告、断定なし",ready
 5,noon,X,area,上野・御徒町・湯島,"上野・御徒町・湯島周辺の入店前確認ページを用意しています。退店時対応や明細提示に関する注意報告を、承認済み投稿だけで扱います。",https://nyutenmae-check-tokyo.vercel.app/areas/ueno-okachimachi-yushima,"エリアページへ誘導","承認済み限定を明記",ready
 5,night,X,support,保存するもの,"トラブル時に保存したいもの。レシート、明細、メニュー、客引き時の説明、日時、同行者情報、支払い控え。身の危険を感じた場合は支払い交渉より安全確保を優先してください。",https://nyutenmae-check-tokyo.vercel.app/support,"保存を促す","安全優先を明記",ready
-6,morning,X,trust,評価ではなく具体的な経緯,"口コミの星は集めません。確認したいのは、料金説明・明細・会計時対応の具体的な経緯です。情報提供は自動公開せず、管理者確認後に公開可否を判断します。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"具体的な経緯を送る","非公開受付、評価サイト化を避ける",ready
+6,morning,X,trust,口コミに書きにくい経緯を3点整理,"「口コミに書くのは不安」な時は、評価ではなく3つの経緯を整理してください。①入店前の料金説明 ②明細の有無 ③会計時の対応。情報提供は自動公開せず、管理者が内容を確認して公開可否を判断します。覚えている範囲を非公開フォームへ送れます。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"覚えている範囲を非公開フォームへ送る","非公開受付、管理者確認、評価サイト化を避ける",ready
 6,noon,X,contribution,情報提供募集,"公開できる注意情報を増やすため、具体的な経緯、明細の有無、相談状況などの情報提供を募集しています。投稿者の申告に基づく情報として管理者が確認します。",https://nyutenmae-check-tokyo.vercel.app/reports/new,"投稿フォームへ誘導","非公開送信",ready
 6,night,X,source,公式確認先,"公式確認先を増やしています。自治体や警察、消費生活相談の情報を、転載ではなく出典URLと確認日付きで整理します。",https://nyutenmae-check-tokyo.vercel.app/sources,"公式情報へ誘導","転載は禁止",ready
 7,morning,X,contribution,週末前の情報募集,"週末前に保存｜店名が不明でも、住所・建物名・階数・料金説明・明細の有無があれば手がかりになります。30秒フォームは非公開受付です。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"30秒で手がかりを送る","非公開受付、断定なし",ready
