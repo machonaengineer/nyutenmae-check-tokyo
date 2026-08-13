@@ -17,7 +17,7 @@ day,slot,platform,post_type,theme,post_text,target_url,cta,safety_check,status
 6,morning,X,trust,口コミに書きにくい経緯を3点整理,"「口コミに書くのは不安」な時は、評価ではなく3つの経緯を整理してください。①入店前の料金説明 ②明細の有無 ③会計時の対応。情報提供は自動公開せず、管理者が内容を確認して公開可否を判断します。覚えている範囲を非公開フォームへ送れます。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"覚えている範囲を非公開フォームへ送る","非公開受付、管理者確認、評価サイト化を避ける",ready
 6,noon,X,contribution,情報提供募集,"公開できる注意情報を増やすため、具体的な経緯、明細の有無、相談状況などの情報提供を募集しています。投稿者の申告に基づく情報として管理者が確認します。",https://nyutenmae-check-tokyo.vercel.app/reports/new,"投稿フォームへ誘導","非公開送信",ready
 6,night,X,source,公式確認先,"公式確認先を増やしています。自治体や警察、消費生活相談の情報を、転載ではなく出典URLと確認日付きで整理します。",https://nyutenmae-check-tokyo.vercel.app/sources,"公式情報へ誘導","転載は禁止",ready
-7,morning,X,contribution,週末前の情報募集,"週末前に保存｜店名が不明でも、住所・建物名・階数・料金説明・明細の有無があれば手がかりになります。30秒フォームは非公開受付です。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"30秒で手がかりを送る","非公開受付、断定なし",ready
+7,morning,X,contribution,店名を忘れても残せる5つの手がかり,"「店名を覚えていないから送れない」と諦めていませんか？ 確認の手がかりは店名以外にもあります。①駅や出口 ②建物名・階数 ③入店時刻 ④料金説明 ⑤明細の有無。1項目だけでも、後から経緯を整理しやすくなります。送信内容は自動公開されません。忘れる前に30秒で1項目を送れます。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"忘れる前に30秒で1項目送る","非公開受付、管理者確認、断定なし",ready
 7,noon,X,social,共有依頼,"都内繁華街での入店前確認に役立つ情報を広げています。断定や転載を避け、情報提供と相談導線につながる形で共有してください。",https://nyutenmae-check-tokyo.vercel.app/social,"共有へ誘導","共有ルール明記",ready
 7,night,X,recap,週間まとめ,"今週の入店前確認まとめ。星評価なし、自動公開なし、証拠画像と投稿者メールは一般公開なし。承認済み投稿だけを公開する注意マップとして運用します。",https://nyutenmae-check-tokyo.vercel.app,"トップへ誘導","公開方針中心",ready
 8,morning,X,checklist,入店前15秒チェック,"保存用｜入店前15秒チェック。①税込の総額 ②席料・サービス料 ③飲み放題の条件 ④追加料金 ⑤会計前に明細が出るか。入る前に確認すると認識違いを減らせます。",https://nyutenmae-check-tokyo.vercel.app/checklists,"保存して入店前に見返す","店舗名なし、断定なし",ready
