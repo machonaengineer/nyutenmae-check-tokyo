@@ -1,5 +1,5 @@
 day,slot,platform,post_type,theme,post_text,target_url,cta,safety_check,status
-1,morning,X,contribution,店名不明でも情報提供,"店名が分からない＝送れない、ではありません。住所、建物名、階数、入口の表示、料金説明、明細の有無。そのうち1つでも手がかりになります。送信内容は自動公開されません。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"1つだけでも送る","非公開デフォルト、断定なし、個人情報なし",ready
+1,morning,X,contribution,店名不明でも残せる5つの手がかり,"店名が出てこない。でも、場所や料金の記憶は残っている。そんな時は、分かる1項目だけ残してください。①駅・出口 ②建物名・階数 ③入口の表示 ④案内時の料金 ⑤明細の有無。店名がなくても、後から経緯を整理する手がかりになります。送信内容は自動公開せず、個人情報や断定表現を管理者が確認。忘れる前に30秒フォームへ送れます。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"忘れる前に分かる1項目を30秒で送る","非公開受付、個人情報・断定表現を確認、店舗名なし",ready
 1,noon,X,checklist,入店前確認,"入店前に確認したいこと。料金表、税込/税別、席料、サービス料、飲み放題条件、会計前の明細提示。不安がある時は、入店前の料金確認を推奨します。",https://nyutenmae-check-tokyo.vercel.app/checklists,"保存を促す","店舗名なし、断定なし",ready
 1,night,X,contribution,情報提供募集,"都内繁華街での入店前確認に役立つ情報提供を受け付けています。料金説明と会計内容の不一致、明細提示、会計時対応など、具体的な経緯を非公開で送信できます。",https://nyutenmae-check-tokyo.vercel.app/contribute,"情報提供へ誘導","非公開デフォルトを明記",ready
 2,morning,X,contribution,店名が分からなくても送れる,"「店名が分からないから送れない」と諦めなくて大丈夫です。覚えている範囲で、①案内された場所 ②実際に入った住所・建物名・階数 を分けて送ると確認しやすくなります。情報提供は非公開。後で必要になった時のため、この投稿を保存してください。",https://nyutenmae-check-tokyo.vercel.app/reports/quick,"非公開で手がかりを送る・保存する","非公開受付、断定なし",ready
